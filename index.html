@@ -57,7 +57,13 @@ input:focus-visible{border-color:var(--acc)}
 @keyframes bgin{from{opacity:0}to{opacity:1}}
 body.bgf::before,body.bgf .card::before,#cbg.sw{animation:bgin .7s ease}
 .card{transition:border-color .5s,box-shadow .5s}
-@media (prefers-reduced-motion:reduce){body.bgf::before,body.bgf .card::before,#cbg.sw{animation:none}.card{transition:none}}
+/* caixinha roxa deslizante nas abas */
+.tabs.sl{position:relative}
+.tabs.sl button{position:relative;z-index:1;transition:color .3s}
+.tabs.sl button.on{background:none;color:#fff}
+.tabs .pill{position:absolute;top:4px;bottom:4px;left:0;width:0;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));z-index:0;pointer-events:none;transition:transform .4s cubic-bezier(.4,0,.2,1),width .4s cubic-bezier(.4,0,.2,1)}
+.tabs.sl.init .pill{transition:none}
+@media (prefers-reduced-motion:reduce){body.bgf::before,body.bgf .card::before,#cbg.sw{animation:none}.card{transition:none}.tabs .pill{transition:none}}
 select{max-width:100%}
 .ldd{position:relative}
 .ldbtn{display:flex;align-items:center;gap:8px;background:var(--cell);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font:500 14px 'DM Sans';cursor:pointer;text-align:left}
@@ -512,9 +518,9 @@ function buildCed(){const l=$('cedlist'),b=$('cedbtn'),all=CED.size==CYEARS.leng
 const row=(v,ic,t,on)=>`<button type="button" role="option" data-v="${v}" aria-selected="${on}"><span class="ck${on?' on':''}"></span>${ic}<span>${esc(t)}</span></button>`;
 l.innerHTML=`<div class="lghint${CED.size?'':' warn'}">${CED.size?'Marque uma ou mais Copas':'Selecione ao menos uma Copa'}</div>`
 +(CYEARS.length>1?row('*','<span class="lgl">🌍</span>','Todas as Copas',all):'')
-+CYEARS.map(y=>row(y,copaIcon(y),'Copa '+y,CED.has(y))).join('')
++CYEARS.map(y=>row(y,copaIcon(y),String(y),CED.has(y))).join('')
 +`<div class="lgfoot"><button type="button" data-apply${CED.size?'':' disabled'}>${CED.size?'Aplicar'+(all?'':' ('+CED.size+')'):'Selecione uma Copa'}</button></div>`;
-b.innerHTML=!CED.size?'<span class="lgl">🌍</span><span>Nenhuma Copa</span>':CED.size==1?copaIcon([...CED][0])+'<span>Copa '+[...CED][0]+'</span>':all?'<span class="lgl">🌍</span><span>Todas as Copas</span>':'<span class="lgl">🌍</span><span>'+CED.size+' Copas</span>'}
+b.innerHTML=!CED.size?'<span class="lgl">🌍</span><span>Nenhuma Copa</span>':CED.size==1?copaIcon([...CED][0])+'<span>'+[...CED][0]+'</span>':all?'<span class="lgl">🌍</span><span>Todas as Copas</span>':'<span class="lgl">🌍</span><span>'+CED.size+' Copas</span>'}
 (()=>{const b=$('cedbtn'),l=$('cedlist');
 const close=()=>{if(l.classList.contains('hide'))return;l.classList.add('hide');b.setAttribute('aria-expanded','false');
 if(cedDirty){cedDirty=false;if(!CED.size){CED=new Set(CEDAPP);buildCed()}else{CEDAPP=new Set(CED);fillSel();startCopa()}}};
@@ -657,6 +663,7 @@ $('t0').classList.toggle('on',g=='j');$('t2').classList.toggle('on',g=='c');$('m
 if(g=='j'){setCopaArt(null);['cedwrap','cselwrap'].forEach(i=>$(i).classList.add('hide'));$('diffwrap').classList.remove('two');
 $('hd').innerHTML=HD0;$('hd').style.cssText='';setMode(mode);return}
 ['ligawrap','clubwrap'].forEach(i=>$(i).classList.add('hide'));
+$('m0').classList.remove('on');$('m2').classList.add('on');
 $('rows').innerHTML='';$('end').classList.add('hide');
 $('hd').innerHTML='<span>Seleção</span><span>Copa</span><span>Posição</span><span>Idade</span><span>Número</span><span>Clube</span>';$('hd').style.cssText='--n:6;--m:3';
 if(!(await loadCopa())){const e=$('end');e.classList.remove('hide');$('q').disabled=true;
@@ -666,6 +673,17 @@ if(cmode!=2)cDefaultsTeam();fillSel();setCMode(2)}
 $('csel').onchange=()=>{cTheme();startCopa()};
 $('t0').onclick=()=>{if(game!='j')setGame('j')};$('t2').onclick=()=>{if(game!='c')setGame('c')};
 
+// ---------- caixinha roxa deslizante (abas) ----------
+function slidePill(t){const on=t.querySelector('button.on');let p=t.querySelector('.pill');
+if(!p){p=document.createElement('span');p.className='pill';p.setAttribute('aria-hidden','true');t.prepend(p)}
+if(!on){p.style.width='0px';return}
+p.style.width=on.offsetWidth+'px';p.style.transform='translateX('+on.offsetLeft+'px)'}
+function initPill(id){const t=$(id);t.classList.add('sl','init');let q=0;
+const upd=()=>{cancelAnimationFrame(q);q=requestAnimationFrame(()=>slidePill(t))};
+new MutationObserver(upd).observe(t,{subtree:true,attributes:true,attributeFilter:['class'],childList:true,characterData:true});
+addEventListener('resize',upd);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{t.classList.add('init');slidePill(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.remove('init')))});
+slidePill(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.remove('init')))}
+initPill('modos');
 setMode(0);
 </script>
 </body>
