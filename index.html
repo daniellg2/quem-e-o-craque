@@ -163,7 +163,7 @@ main>.tabs{margin-right:8px}#modos button{padding:7px 14px;font-weight:500}.tabs
 <main>
 <h1>Quem é o craque?</h1>
 <p class="sub" id="sub">Descubra o jogador secreto em 8 chutes. Verde acertou, amarelo chegou perto, vermelho errou.</p>
-<div class="tabs" id="tipos" role="tablist" aria-label="Tipo de jogo"><button id="t0" class="on">Clubes</button><button id="t1" disabled title="Em breve">Técnicos</button><button id="t2">🏆 Copa</button></div>
+<div class="tabs" id="tipos" role="tablist" aria-label="Tipo de jogo"><button id="t0" class="on">Clubes</button><button id="t2">🏆 Copa</button></div>
 <div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on">Diário</button><button id="m2">Escolher Clubes</button></div>
 <section class="card">
 <div class="bar">
@@ -190,7 +190,7 @@ main>.tabs{margin-right:8px}#modos button{padding:7px 14px;font-weight:500}.tabs
 // nome,clube,pos,idade,num,valor(mi €)
 const short=c=>c.replace(/^(SE|CR|SC|EC|CA|AA|AD|CS|SER|RB|FC|AC|AS|SS|SSC|US|CF|UD|RC|SV|VfB|VfL) /,'').replace(/ (FC|EC|SC)$/,'');
 // código: [nome completo, nome curto, país]
-const LIGAS={BRA1:['Brasileirão Série A','Série A','Brasil'],BRA2:['Brasileirão Série B','Série B','Brasil'],GB1:['Premier League','Premier League','Inglaterra'],ES1:['La Liga','La Liga','Espanha'],IT1:['Serie A (Itália)','Serie A','Itália'],L1:['Bundesliga','Bundesliga','Alemanha'],FR1:['Ligue 1','Ligue 1','França'],PO1:['Liga Portugal','Liga Portugal','Portugal'],NL1:['Eredivisie','Eredivisie','Holanda'],AR1N:['Liga Profesional (Argentina)','Liga Profesional','Argentina'],MLS1:['MLS','MLS','EUA'],SA1:['Saudi Pro League','Saudi Pro League','Arábia Saudita'],TR1:['Süper Lig (Turquia)','Süper Lig','Turquia'],CSL:['Superliga Chinesa','Superliga Chinesa','China'],BE1:['Pro League (Bélgica)','Pro League','Bélgica'],SC1:['Scottish Premiership','Scottish Premiership','Escócia'],GB2:['Championship (Inglaterra)','Championship','Inglaterra'],GR1:['Super League (Grécia)','Super League','Grécia'],JAP1:['J1 League (Japão)','J1 League','Japão'],DK1:['Superliga (Dinamarca)','Superliga','Dinamarca']};
+const LIGAS={BRA1:['Brasileirão Série A','Série A','Brasil'],BRA2:['Brasileirão Série B','Série B','Brasil'],GB1:['Premier League','Premier League','Inglaterra'],ES1:['La Liga','La Liga','Espanha'],IT1:['Serie A (Itália)','Serie A','Itália'],L1:['Bundesliga','Bundesliga','Alemanha'],FR1:['Ligue 1','Ligue 1','França'],PO1:['Liga Portugal','Liga Portugal','Portugal'],NL1:['Eredivisie','Eredivisie','Holanda'],AR1N:['Liga Profesional (Argentina)','Liga Profesional','Argentina'],MLS1:['MLS','MLS','EUA'],SA1:['Saudi Pro League','Saudi Pro League','Arábia Saudita'],TR1:['Süper Lig (Turquia)','Süper Lig','Turquia'],CSL:['Superliga Chinesa','Superliga Chinesa','China'],BE1:['Pro League (Bélgica)','Pro League','Bélgica'],SC1:['Scottish Premiership','Scottish Premiership','Escócia'],GB2:['Championship (Inglaterra)','Championship','Inglaterra'],GR1:['Super League (Grécia)','Super League','Grécia'],JAP1:['J1 League (Japão)','J1 League','Japão'],DK1:['Superliga (Dinamarca)','Superliga','Dinamarca'],BRA3:['Brasileirão Série C','Série C','Brasil'],MEXA:['Liga MX (México)','Liga MX','México'],COLP:['Liga Colombiana','Liga Colombiana','Colômbia'],URU1:['Primera División (Uruguai)','Primera División','Uruguai'],RU1:['Premier Liga (Rússia)','Premier Liga','Rússia'],QSL:['Qatar Stars League','Qatar Stars League','Catar']};
 const LI=l=>LIGAS[l]||[l,l,''];
 const CDN_L='https://tmssl.akamaized.net/images/logo/normal/';
 const LOGOS_DATA=typeof LOGOS!=='undefined'?LOGOS:(window.LOGOS||{});
@@ -204,7 +204,30 @@ const clubIcon=(l,c,w)=>av('cr',crest(l,c),c,w);
 const lgIcon=(l,w)=>{const n=esc(LI(l)[1]);return `<span class="lgi" title="${esc(LI(l)[0])}" data-n="${n}" style="width:${w}px;height:${w}px"><img src="${lgUrl(l)}" alt="${n}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('fb');this.remove()"></span>`};
 const P=RAW_DATA.split(';').map(s=>s.trim().split(',')).filter(a=>a.length>=6).map(a=>({n:a[0],c:short(a[1]),p:a[2],a:+a[3],u:+a[4],v:+a[5],l:a[6]||'BRA1',i:a[7]||'',f:a[8]||'',k:a[9]||'',z:a[10]||'',b:a[11]||''}));
 const HASNAC=P.some(p=>p.z);
-const LORD=Object.keys(LIGAS);
+// Ordem das ligas no seletor: Brasil no topo (A, B, C); depois as ligas mais conhecidas/fortes, da melhor para a pior. Para reordenar, edite esta lista.
+const LORD=['BRA1','BRA2','BRA3',            // Brasil
+'GB1','GB2',                                 // Premier League e Championship
+'ES1',                                       // La Liga
+'IT1',                                       // Serie A (Itália)
+'L1',                                        // Bundesliga
+'FR1',                                       // Ligue 1
+'PO1',                                       // Liga Portugal
+'NL1',                                       // Eredivisie
+'AR1N',                                      // Argentina
+'MEXA',                                      // Liga MX
+'BE1',                                       // Bélgica
+'TR1',                                       // Turquia
+'MLS1',                                      // MLS
+'SA1',                                       // Arábia Saudita
+'SC1',                                       // Escócia
+'RU1',                                       // Rússia
+'COLP',                                      // Colômbia
+'URU1',                                      // Uruguai
+'GR1',                                       // Grécia
+'DK1',                                       // Dinamarca
+'JAP1',                                      // Japão
+'CSL',                                       // China
+'QSL'];                                      // Catar                                      // China (fora do top 60)
 const LG=[...new Set(P.map(p=>p.l))].sort((a,b)=>{const x=LORD.indexOf(a),y=LORD.indexOf(b);return (x<0?99:x)-(y<0?99:y)});
 // linha do campo (amarelo = mesma linha). LAT/ATA ficam para dados antigos.
 const NACID={};P.forEach(p=>{if(p.z&&p.b&&!NACID[p.z])NACID[p.z]=p.b});
@@ -245,7 +268,7 @@ const SEL=new Set([LG.includes('BRA1')?'BRA1':LG[0]]);let ligaDirty=false,APPLIE
 const sole=()=>SEL.size==1?[...SEL][0]:null;
 // cores da bandeira de cada país (3 cores, na ordem em que aparecem no fundo e na faixa do cartão)
 const W='#e5e7eb';
-const FLAGC={'Brasil':['#16a34a','#facc15','#1d4ed8'],'Inglaterra':['#dc2626',W,'#dc2626'],'Espanha':['#dc2626','#facc15','#dc2626'],'Itália':['#16a34a',W,'#dc2626'],'Alemanha':['#475569','#dc2626','#facc15'],'França':['#2563eb',W,'#dc2626'],'Portugal':['#16a34a','#dc2626','#facc15'],'Holanda':['#f97316',W,'#1d4ed8'],'Argentina':['#38bdf8',W,'#38bdf8'],'EUA':['#1d4ed8',W,'#dc2626'],'Arábia Saudita':['#16a34a',W,'#16a34a'],'Turquia':['#dc2626',W,'#dc2626'],'China':['#dc2626','#facc15','#dc2626'],'Bélgica':['#475569','#facc15','#dc2626'],'Escócia':['#2563eb',W,'#2563eb'],'Grécia':['#2563eb',W,'#2563eb'],'Japão':['#e11d48',W,'#e11d48'],'Dinamarca':['#dc2626',W,'#dc2626']};
+const FLAGC={'Brasil':['#16a34a','#facc15','#1d4ed8'],'Inglaterra':['#dc2626',W,'#dc2626'],'Espanha':['#dc2626','#facc15','#dc2626'],'Itália':['#16a34a',W,'#dc2626'],'Alemanha':['#475569','#dc2626','#facc15'],'França':['#2563eb',W,'#dc2626'],'Portugal':['#16a34a','#dc2626','#facc15'],'Holanda':['#f97316',W,'#1d4ed8'],'Argentina':['#38bdf8',W,'#38bdf8'],'EUA':['#1d4ed8',W,'#dc2626'],'Arábia Saudita':['#16a34a',W,'#16a34a'],'Turquia':['#dc2626',W,'#dc2626'],'China':['#dc2626','#facc15','#dc2626'],'Bélgica':['#475569','#facc15','#dc2626'],'Escócia':['#2563eb',W,'#2563eb'],'Grécia':['#2563eb',W,'#2563eb'],'Japão':['#e11d48',W,'#e11d48'],'Dinamarca':['#dc2626',W,'#dc2626'],'México':['#16a34a',W,'#dc2626'],'Colômbia':['#facc15','#1d4ed8','#dc2626'],'Uruguai':['#38bdf8',W,'#38bdf8'],'Rússia':[W,'#1d4ed8','#dc2626'],'Catar':['#8a1538',W,'#8a1538']};
 // Tema do "Escolher time": bandeira quando há um único país (ex.: BRA1+BRA2, Premier+Championship);
 // com países diferentes ou "Todas as ligas", usa o visual "mundo" (roxo + rosa + azul), diferente do Diário.
 const MUNDO=['#7c3aed','#ec4899','#06b6d4'];
@@ -359,8 +382,8 @@ $('q').onkeydown=e=>{if(e.key=='Enter'){const b=$('list').querySelector('button[
 const DIFF={facil:{n:'Fácil',t:7,d:'Só craques de grandes clubes.'},medio:{n:'Médio',t:10,d:'Clubes menos badalados das principais ligas.'},dificil:{n:'Difícil',t:12,d:'Jogadores relevantes das ligas de 1ª divisão.'},insano:{n:'Insano',t:15,d:'Qualquer jogador das 20 ligas.'}};
 const DORD=['facil','medio','dificil','insano'];
 const FACIL_IDS=new Set(['418','131','13','281','985','31','11','631','148','762','583','27','16','15','46','5','506','6195','12','720','294','336','610','614','1023','199','585','221','2462','978','537','210','6600','330','609','189','209','1114','69261']);
-const MEDIO_L=new Set(['GB1','ES1','IT1','L1','FR1','BRA1','PO1','AR1N','NL1','TR1','BE1','SA1','MLS1']);
-const SEG_DIV=new Set(['BRA2','GB2']);
+const MEDIO_L=new Set(['GB1','ES1','IT1','L1','FR1','BRA1','PO1','AR1N','NL1','TR1','BE1','SA1','MLS1','MEXA']);
+const SEG_DIV=new Set(['BRA2','BRA3','GB2']);
 const ls={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const pkey=p=>p.l+'|'+p.c+'|'+p.n;
 const PK=new Map(P.map(p=>[pkey(p),p]));
