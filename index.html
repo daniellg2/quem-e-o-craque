@@ -598,7 +598,7 @@ CHIST.push([sc,yc,pc,ac,nc,cc]);
 const d=document.createElement('div');d.className='att';d.style.marginTop='14px';
 d.innerHTML=`<div class="n who">${av('pl',ph(p),p.n,36,48)}<span>${esc(p.n)}</span>${same?'<small style="color:var(--near);font:700 12px DM Sans">mesmo jogador, outra Copa!</small>':''}</div><div class="row" style="--n:6;--m:3">`
 +cell(sc,av('fl',cflag(p),p.s,34,24)+`<span class="cn">${esc(p.s)}</span>`)
-+cell(yc,p.y,arrow(p.y,t.y))+cell(pc,p.p)+cell(ac,p.a,arrow(p.a,t.a))+cell(nc,p.u||'—',nn?'':arrow(p.u,t.u))
++cell(yc,p.y,arrow(p.y,t.y))+cell(pc,p.p)+cell(ac,p.a,arrow(p.a,t.a))+cell(nc,p.u?'#'+p.u:'#—',nn?'':arrow(p.u,t.u))
 +cell(cc,av('cr',ccrest(p.k),p.c,34)+`<span class="cn">${esc(p.c)}</span>`)+'</div>';
 $('rows').prepend(d);$('q').value='';$('list').classList.add('hide');cTent();
 if(cmode==0&&!silent)ls.set('qc:cd:'+CDAY+':'+cdiff,CG.map(cKey));
