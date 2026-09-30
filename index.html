@@ -438,7 +438,7 @@ try{await navigator.clipboard.writeText(txt);$('share').textContent='Copiado!'}c
 // ---------- modos ----------
 function setMode(m){mode=m;clearInterval(cdT);document.querySelector('.bar').classList.toggle('dly',m==0);$('m0').classList.toggle('on',m==0);$('m2').classList.toggle('on',m==2);
 $('diffwrap').classList.toggle('hide',m!=0);$('ligawrap').classList.toggle('hide',m==0);$('clubwrap').classList.toggle('hide',m==0);
-if(m!=0){$('sub').textContent='Descubra o jogador secreto em 8 chutes. Verde acertou, amarelo chegou perto, vermelho errou.';$('score').textContent=`Acertos: ${wins}/${played}`;fillTeams()}else applyTheme();
+if(m!=0){$('sub').textContent='Descubra o jogador secreto em 8 chutes. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.';$('score').textContent=`Acertos: ${wins}/${played}`;fillTeams()}else applyTheme();
 start()}
 $('m0').onclick=()=>{if(game=='j')setMode(0);else setCMode(0)};$('m2').onclick=()=>{if(game=='c'){if(cmode!=2)cDefaultsTeam();setCMode(2)}else setMode(2)};
 
@@ -463,6 +463,7 @@ const loadJs=src=>new Promise(ok=>{const s=document.createElement('script');s.sr
 const ISO={'Alemanha':'de','Argentina':'ar','Brasil':'br','Holanda':'nl','Bélgica':'be','Colômbia':'co','Costa Rica':'cr','França':'fr','Argélia':'dz','Chile':'cl','Estados Unidos':'us','Grécia':'gr','México':'mx','Nigéria':'ng','Suíça':'ch','Uruguai':'uy','Austrália':'au','Bósnia-Herzegovina':'ba','Camarões':'cm','Coreia do Sul':'kr','Costa do Marfim':'ci','Croácia':'hr','Equador':'ec','Espanha':'es','Gana':'gh','Honduras':'hn','Inglaterra':'gb-eng','Irã':'ir','Itália':'it','Japão':'jp','Portugal':'pt','Rússia':'ru','Polônia':'pl','Suécia':'se','Dinamarca':'dk','Sérvia':'rs','Senegal':'sn','Marrocos':'ma','Tunísia':'tn','Egito':'eg','Peru':'pe','Islândia':'is','Panamá':'pa','Arábia Saudita':'sa','Catar':'qa','Canadá':'ca','País de Gales':'gb-wls','Escócia':'gb-sct','Irlanda':'ie','Turquia':'tr','Paraguai':'py','Áustria':'at','Noruega':'no','Hungria':'hu','Romênia':'ro','Ucrânia':'ua','República Tcheca':'cz','Eslováquia':'sk','Eslovênia':'si','África do Sul':'za','Angola':'ao','Togo':'tg','Jamaica':'jm','Coreia do Norte':'kp','Nova Zelândia':'nz','Bolívia':'bo','Venezuela':'ve','Curaçao':'cw','Rep. Dem. do Congo':'cd','Tchéquia':'cz','Cabo Verde':'cv','Haiti':'ht','Iraque':'iq','Jordânia':'jo','Uzbequistão':'uz'};
 const cflagBy=s=>flag(NACID[s])||(ISO[s]?'https://flagcdn.com/w80/'+ISO[s]+'.png':'');
 const cflag=p=>cflagBy(p.s);
+const CONT={};'Alemanha,Bélgica,Holanda,França,Grécia,Suíça,Bósnia-Herzegovina,Croácia,Espanha,Inglaterra,Itália,Portugal,Rússia,Polônia,Suécia,Dinamarca,Sérvia,Islândia,País de Gales,Escócia,Irlanda,Turquia,Áustria,Noruega,Hungria,Romênia,Ucrânia,República Tcheca,Tchéquia,Eslováquia,Eslovênia,Irlanda do Norte,Bulgária,Tchecoslováquia,Iugoslávia,Sérvia e Montenegro,União Soviética,URSS,Alemanha Ocidental,Alemanha Oriental,Finlândia,Albânia,Macedônia do Norte,Geórgia'.split(',').forEach(n=>CONT[n]='Europa');'Coreia do Sul,Irã,Japão,Arábia Saudita,Catar,Coreia do Norte,Iraque,Jordânia,Uzbequistão,China,Kuwait,Emirados Árabes Unidos,Israel,Indonésia,Índias Orientais Holandesas'.split(',').forEach(n=>CONT[n]='Ásia');'Argélia,Nigéria,Camarões,Costa do Marfim,Gana,Senegal,Marrocos,Tunísia,Egito,África do Sul,Angola,Togo,Rep. Dem. do Congo,Zaire,Cabo Verde'.split(',').forEach(n=>CONT[n]='África');'Costa Rica,Estados Unidos,México,Honduras,Panamá,Canadá,Jamaica,Curaçao,Haiti,Cuba,El Salvador,Trinidad e Tobago'.split(',').forEach(n=>CONT[n]='América do Norte/Central');'Argentina,Brasil,Colômbia,Chile,Uruguai,Equador,Peru,Paraguai,Bolívia,Venezuela'.split(',').forEach(n=>CONT[n]='América do Sul');'Austrália,Nova Zelândia'.split(',').forEach(n=>CONT[n]='Oceania');
 const cfIcon=s=>s=='*'?'<span class="lgl">🌍</span>':av('fl',cflagBy(s),s,24,17);
 
 // ----- escudos: casa o nome do clube da Copa com o clube do banco de jogadores -----
@@ -584,13 +585,13 @@ function cReset(){cover=false;CG=[];CHIST=[];$('rows').innerHTML='';const e=$('e
 $('q').value='';$('q').disabled=false;$('list').classList.add('hide')}
 function startCopa(){clearInterval(cdT);CMAX=8;const pl=cPool();if(!pl.length)return;const c=pl.filter(p=>p.u>0),src=c.length?c:pl;
 CT=src[Math.floor(Math.random()*src.length)];cReset();$('pool').textContent=pl.length+' jogadores';$('score').textContent=`Acertos: ${cw}/${cp}`;
-$('sub').textContent='Descubra o jogador e a Copa em 8 chutes. Verde acertou, amarelo chegou perto, vermelho errou.';cTent()}
+$('sub').textContent='Descubra o jogador e a Copa em 8 chutes. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.';cTent()}
 function cInput(e){const v=norm(e.target.value.trim()),L=$('list');if(!v||cover||!COPA){L.classList.add('hide');return}
 const used=new Set(CG.map(cKey)),src=cmode==0?COPA:cPool(),m=src.filter(p=>!used.has(cKey(p))&&norm(p.n).includes(v)).slice(0,8);
 L.innerHTML=m.map((p,i)=>`<button data-i="${i}"><span class="li">${av('pl',ph(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('fl',cflag(p),p.s,20,14)}${esc(p.s)} ${p.y} · ${p.p}</small></button>`).join('')||'<button disabled><small>Nenhum jogador encontrado</small></button>';
 L.classList.remove('hide');L.onclick=ev=>{const b=ev.target.closest('button[data-i]');if(b&&m[+b.dataset.i])cGuess(m[+b.dataset.i])}}
 function cGuess(p,silent){if(cover||!p)return;CG.push(p);const t=CT;
-const sc=p.s==t.s?'ok':'bad',dy=p.y-t.y,yc=!dy?'ok':Math.abs(dy)<=4?'near':'bad';
+const sc=p.s==t.s?'ok':(CONT[p.s]&&CONT[p.s]==CONT[t.s])?'near':'bad',dy=p.y-t.y,yc=!dy?'ok':Math.abs(dy)<=4?'near':'bad';
 const pc=p.p==t.p?'ok':GRP[p.p]==GRP[t.p]?'near':'bad',ac=p.a==t.a?'ok':Math.abs(p.a-t.a)<=2?'near':'bad';
 const nn=!p.u||!t.u,nc=nn?'na':p.u==t.u?'ok':Math.abs(p.u-t.u)<=5?'near':'bad';
 const cc=p.c==t.c?'ok':'bad',same=p!==t&&((p.i&&p.i==t.i)||p.n==t.n);
