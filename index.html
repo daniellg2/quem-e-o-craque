@@ -103,7 +103,7 @@ select{max-width:100%}
 .btn:focus-visible{outline:3px solid #fde68a;outline-offset:2px}
 @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
-@media(max-width:480px){.row,.hd{grid-template-columns:repeat(var(--m,var(--n,5)),1fr)}.endcard .av.big{width:84px!important;height:112px!important}}
+@media(max-width:480px){.row,.hd{grid-template-columns:repeat(var(--m,var(--n,5)),1fr)}.row{display:flex;flex-wrap:wrap;justify-content:center}.row>.c{flex:0 0 calc((100% - (var(--m,var(--n,5)) - 1)*8px)/var(--m,var(--n,5)));min-width:0;box-sizing:border-box}.endcard .av.big{width:84px!important;height:112px!important}}
 .hide{display:none}
 .note{color:var(--mut);font-size:12px;margin-top:16px}
 @media(max-width:480px){.c{font-size:15px;min-height:64px}}
