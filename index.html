@@ -172,8 +172,7 @@ h1{background:linear-gradient(90deg,var(--ink) 30%,var(--acc),var(--acc2));-webk
 .ib button:hover{border-color:var(--acc);transform:translateY(-2px)}
 .ib button:focus-visible,.dbtn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 .c{position:relative}
-.c.ok::after,.c.near::after,.c.bad::after{position:absolute;top:3px;right:5px;font:800 10px 'DM Sans';opacity:.8}
-.c.ok::after{content:'✓';color:var(--ok)}.c.near::after{content:'≈';color:var(--near)}.c.bad::after{content:'✕';color:var(--bad)}
+/* marcas ✓ ≈ ✕ no canto das células removidas: a cor já indica o resultado */
 .list button.act{background:var(--cell)}
 .hintw{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:13px;color:var(--mut)}
 .hintw img{width:54px;height:72px;object-fit:cover;border-radius:12px;background:var(--cell);transition:filter .5s;flex:none}
