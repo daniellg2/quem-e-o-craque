@@ -2,15 +2,16 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#7c3aed">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Quem é o craque?</title>
-<meta name="description" content="Descubra o jogador secreto em 8 chutes. Jogo diário de futebol com modo Copa do Mundo.">
-<meta property="og:title" content="Quem é o craque?">
-<meta property="og:description" content="Descubra o jogador secreto em 8 chutes. Jogo diário de futebol com modo Copa do Mundo.">
+<title>Quem é o Craque?</title>
+<meta name="description" content="Descubra o craque secreto do dia. Jogo diário de futebol com modo Copa do Mundo.">
+<meta property="og:title" content="Quem é o Craque?">
+<meta property="og:description" content="Descubra o craque secreto do dia. Jogo diário de futebol com modo Copa do Mundo.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&family=Lobster&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f4f2ff;--panel:#fff;--ink:#181430;--mut:#6d6890;--line:#e2def7;--acc:#7c3aed;--acc2:#c026d3;--ok:#16a34a;--near:#d97706;--bad:#dc2626;--cell:#f0edff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -135,7 +136,7 @@ main>.tabs{display:flex}main>.tabs button{flex:1}
 .bar{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .bar>*{min-width:0}
 .bar #ligawrap,.bar #clubwrap{grid-column:span 3}
-.bar .diffs{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr)}.diffs button{padding:8px 2px;font-size:13px}
+.bar .diffs{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr)}.diffs button{padding:8px 2px;font-size:13px}
 .bar #score,.bar #pool{grid-column:span 3}
 .bar.dly #score{grid-column:span 4}.bar.dly #pool{grid-column:span 2}
 .bar .chip{text-align:center;padding:9px 4px;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -151,7 +152,7 @@ main>.tabs{margin-right:8px}#modos button{padding:7px 14px;font-weight:500}.tabs
 /* ---- Copa: seletores com bandeira, dificuldade e tema ---- */
 #cedwrap,#cselwrap{min-width:0}
 #cselwrap .ldd{flex:1;min-width:0}
-.bar .diffs.two{grid-template-columns:repeat(2,1fr)}
+.bar .diffs.two{grid-template-columns:repeat(3,1fr)}.diffs button:disabled{opacity:.5;cursor:not-allowed}
 .ldlist .lgl{font-size:16px}
 .cn2{font:700 12px 'DM Sans';color:var(--mut)}
 @media(max-width:600px){.bar #cedwrap,.bar #cselwrap{grid-column:span 3}#csellist{left:auto;right:0}}
@@ -163,14 +164,139 @@ main>.tabs{margin-right:8px}#modos button{padding:7px 14px;font-weight:500}.tabs
 #cbg .cy{right:2vw;top:8px;width:min(62vw,460px);height:auto}
 .cfs{display:inline-flex;align-items:center;gap:3px;flex:none}
 .ldlist .cfs{min-width:57px}
+.row>.c:nth-child(1){animation-delay:0.00s}.row>.c:nth-child(2){animation-delay:0.11s}.row>.c:nth-child(3){animation-delay:0.22s}.row>.c:nth-child(4){animation-delay:0.33s}.row>.c:nth-child(5){animation-delay:0.44s}.row>.c:nth-child(6){animation-delay:0.55s}.row>.c:nth-child(7){animation-delay:0.66s}
+h1{background:linear-gradient(90deg,var(--ink) 30%,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ib{display:flex;gap:8px}
+.ib button{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:800 17px 'DM Sans';cursor:pointer;transition:transform .15s,border-color .15s}
+.ib button:hover{border-color:var(--acc);transform:translateY(-2px)}
+.ib button:focus-visible,.dbtn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.c{position:relative}
+.c.ok::after,.c.near::after,.c.bad::after{position:absolute;top:3px;right:5px;font:800 10px 'DM Sans';opacity:.8}
+.c.ok::after{content:'✓';color:var(--ok)}.c.near::after{content:'≈';color:var(--near)}.c.bad::after{content:'✕';color:var(--bad)}
+.list button.act{background:var(--cell)}
+.hintw{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:13px;color:var(--mut)}
+.hintw img{width:54px;height:72px;object-fit:cover;border-radius:12px;background:var(--cell);transition:filter .5s;flex:none}
+dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--ink);padding:22px;width:min(440px,92vw);box-shadow:0 30px 80px #0006}
+dialog::backdrop{background:#0009;backdrop-filter:blur(3px)}
+dialog h2{font:800 26px 'Bricolage Grotesque';margin:0 0 10px}
+dialog h3{font:700 14px 'DM Sans';color:var(--acc);margin:16px 0 6px}
+dialog p,dialog li{margin:6px 0;line-height:1.45}dialog ul{padding-left:18px;margin:0}
+.dbtn{display:block;width:100%;margin-top:18px;border:0;border-radius:14px;padding:13px;font:700 15px 'DM Sans';color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.sr{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.4fr;gap:6px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sr.hd2{color:var(--mut);font-size:12px;font-weight:700}
+.ex .c{min-height:56px;font-size:15px}
+.hbox{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:relative}
+.hbtn,.hmenu button{border:1px dashed var(--acc);background:var(--cell);color:var(--ink);border-radius:12px;padding:8px 12px;font:700 13px 'DM Sans';cursor:pointer}
+.hbtn small{color:var(--mut);font-weight:500}.hbtn:disabled{opacity:.45;cursor:not-allowed}
+.hmenu{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.hchip{background:var(--cell);border:1px solid var(--line);border-radius:12px;padding:7px 11px;font-size:13px}
+#who{margin-top:14px}.clues{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.clue{background:var(--cell);border:2px solid var(--ok);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;animation:pop .35s both}
+.clue span{font-size:12px;color:var(--mut);font-weight:700}.clue b{font:800 17px 'Bricolage Grotesque'}
+.clue.lock{border-color:var(--line);border-style:dashed;animation:none;opacity:.6}
+.wrong{margin-top:10px;font-size:13px;color:var(--mut)}
+.calh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 10px}
+.calh button{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--cell);color:var(--ink);font:800 18px 'DM Sans';cursor:pointer}
+.calh b{text-transform:capitalize;font-size:15px}
+.calg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.calg.wk{font-size:11px;color:var(--mut);font-weight:700;margin-bottom:4px}
+.cd{border-radius:10px;padding:4px 0 5px;background:var(--cell);border:1px solid var(--line);font:700 13px 'DM Sans';display:flex;flex-direction:column;align-items:center;gap:3px}
+.cd{cursor:pointer;color:inherit;margin:0;min-width:0}.cd:disabled{cursor:default}.cd.sel{background:color-mix(in srgb,var(--acc) 24%,var(--cell))}.cd:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+#dcal{max-height:92vh;overflow:auto}.chead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.chead h2{margin:0}
+#bstat{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:var(--cell);color:var(--ink);font-size:19px;cursor:pointer;flex:none}#bstat:hover{border-color:var(--acc)}#bstat:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+#cdetail{background:var(--cell);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px}
+.cdh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}.cdh b{font:800 17px 'Bricolage Grotesque'}.cdh span{font-size:12px;color:var(--mut);font-weight:700}
+.cgr{margin-top:8px}.cgr small{display:block;font-size:12px;color:var(--mut);font-weight:700;margin-bottom:5px}
+.cch{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px}
+.chp{border:2px solid var(--line);border-radius:12px;padding:7px 4px;text-align:center;background:var(--panel);color:var(--ink);font:inherit;display:flex;flex-direction:column;gap:2px;align-items:center}
+.chp b{font:800 13px 'Bricolage Grotesque'}.chp span{font-size:11px;font-weight:700;color:var(--mut)}
+.chp.w{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--panel))}.chp.w span{color:var(--ok)}
+.chp.l{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--panel))}.chp.l span{color:var(--bad)}
+.chp.p{border-color:var(--near)}.chp.p span{color:var(--near)}
+.chp:not(.w):not(.l):not(.p){border-style:dashed}
+button.chp.go{cursor:pointer;border-color:var(--acc)}button.chp.go span{color:var(--acc)}button.chp.go:hover{transform:translateY(-1px)}button.chp:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.cleg{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;font-size:12px;color:var(--mut);margin:8px 0}.cleg span{display:inline-flex;align-items:center;gap:5px}.cleg .dt{width:8px;height:8px}
+.cd.w{border-color:var(--ok)}.cd.l{border-color:var(--bad)}.cd.p{border-color:var(--near)}.cd.td{outline:2px solid var(--acc)}.cd.fu{opacity:.35}
+.cd i{display:flex;gap:2px}.dt{width:5px;height:5px;border-radius:50%;background:var(--line);display:block}.dt.w{background:var(--ok)}.dt.l{background:var(--bad)}.dt.p{background:var(--near)}
+#csum,.cdn{font-size:13px;color:var(--mut);text-align:center}
+
+/* hints roguelike, compartilhar */
+.ib button svg{display:block;margin:auto}
+@media(max-width:480px){.ib{gap:5px}.ib button{width:36px;height:36px;font-size:15px;border-radius:11px}}
+.hbox{margin:0 0 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px}
+.hbox::-webkit-scrollbar{display:none}
+.hbtn{display:inline-flex;align-items:center;gap:8px;flex:none;white-space:nowrap;border:0;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 6px 16px -8px var(--acc);transition:transform .15s}
+.hbtn:hover:not(:disabled){transform:translateY(-1px)}
+.hcost{background:#ffffff30;border-radius:8px;padding:2px 7px;font-size:12px}
+.hchip{flex:none;white-space:nowrap}
+.hcards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.hcard{border:2px solid var(--acc);border-radius:18px;background:var(--cell);color:var(--ink);padding:24px 8px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;font:700 15px 'DM Sans';animation:deal .45s cubic-bezier(.2,1.2,.4,1) both;transition:transform .15s,box-shadow .15s}
+.hcard:nth-child(2){animation-delay:.12s}
+.hcard:hover,.hcard:focus-visible{transform:translateY(-5px) rotate(-1.5deg);box-shadow:0 14px 28px -14px var(--acc);outline:none}
+.hcard .hi{font-size:36px;line-height:1}
+.hcard small{color:var(--mut);font-weight:500}
+@keyframes deal{from{transform:translateY(26px) rotate(-7deg);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.hcard{animation:none}}
+.dgh{background:var(--cell)!important;color:var(--ink)!important;border:1px solid var(--line)}
+.list.st{position:static;margin-top:8px;box-shadow:none;max-height:240px}
+#pidl.list.st{max-height:128px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.shc{display:flex;align-items:center;gap:12px;margin:14px 0 10px}
+.shc b{font:800 18px 'Bricolage Grotesque'}.shc small{display:block;color:var(--mut)}
+.shl{font-size:13px;padding:11px 14px}
+.shb{display:flex;gap:8px;margin-top:10px}#pidq{padding:11px 14px;font-size:15px;border-radius:12px}#pidc .shc{margin:10px 0 0}#pidc .shc .x{margin-left:auto;border:1px solid var(--line);background:var(--cell);color:var(--mut);border-radius:10px;padding:7px 11px;font:700 12px 'DM Sans';cursor:pointer}#pidc .shc>div{min-width:0}#pidc .shc>div b,#pidc .shc>div small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.shb .dbtn{margin:0}
+#shtabs{margin:12px 0 10px}
+.hide{display:none!important}
+.fc{font-family:'Lobster','Bricolage Grotesque',cursive;font-weight:400;font-size:1.3em;line-height:.8;letter-spacing:0;padding-right:.03em}
+.bar .myrow{grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr;gap:8px}.bar .myrow.one{grid-template-columns:1fr}
+.myb{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;border:1px solid var(--line);background:var(--cell);color:var(--ink);border-radius:12px;padding:9px 12px;font:700 13px 'DM Sans';cursor:pointer}
+.myb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.myb:disabled{opacity:.5;cursor:not-allowed}.myb.on{border-color:var(--acc)}
+#dprof select{display:block;width:100%;margin-top:8px;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--cell);color:var(--ink);font:600 14px 'DM Sans'}
+#rndbtn{width:100%;justify-content:center;padding-left:6px;padding-right:6px}#rndbtn::after{content:none}#rndbtn .rtx{display:none;flex:none}
+#dprof .ldd{display:block;margin-top:8px}#dprof .ldbtn{width:100%}#dprof .ldlist{position:static;margin-top:6px;max-height:220px;box-shadow:none}
+.bar.fc{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px}
+.bar.fc>*{min-width:0;margin:0}
+.bar.fc{align-items:stretch}.bar.fc>.ldd,.bar.fc>.clubwrap,.bar.fc .clubwrap>.ldd{display:flex}.bar.fc .ldd>.ldbtn{flex:1}
+.bar.fc #diffwrap{order:1;grid-column:span 12;display:grid;grid-template-columns:repeat(4,1fr);padding:3px;gap:2px}.bar.fc #diffwrap button{padding:8px 0;font-size:12px}
+@media(max-width:480px){.bar.fc #diffwrap button{font-size:11px;letter-spacing:-.2px}}
+.bar.fc #score,.bar.fc #pool,.bar.fc .ldbtn{font:500 12px 'DM Sans',system-ui,sans-serif;letter-spacing:0;color:var(--ink)}
+.bar.fc #score{order:2;grid-column:span 8;padding:9px 2px;display:flex;align-items:center;justify-content:center}
+.bar.fc #myrow{order:3;grid-column:span 4}
+.bar.fc #ligawrap,.bar.fc #cedwrap{order:4;grid-column:span 4}
+.bar.fc #clubwrap,.bar.fc #cselwrap{order:5;grid-column:span 4}
+.bar.fc #pool{order:6;grid-column:span 4;padding:9px 2px;display:flex;align-items:center;justify-content:center}
+.bar.fc.nc #ligawrap,.bar.fc.nc #pool{grid-column:span 6}
+.bar.fc .ldbtn{justify-content:center;text-align:center;padding:9px 7px;gap:6px}
+.bar.fc .ldbtn>span:last-child{flex:0 1 auto}.bar.fc .ldbtn::after{margin-left:2px}
+.bar.fc #rndbtn::after{content:none}
+@media(max-width:600px){.bar.fc #cedbtn .cfs{display:none}.bar.fc .ldbtn::after{display:none}}
+@media(min-width:601px){.bar.fc #diffwrap{grid-column:span 12}.bar.fc #diffwrap button{font-size:13px;padding:8px 2px}.bar.fc #score{grid-column:span 6}.bar.fc #myrow{grid-column:span 6}#rndbtn .rtx{display:inline}.bar.fc #score,.bar.fc #pool,.bar.fc .ldbtn{font-size:14px}.bar.fc .ldbtn{padding:9px 12px}.bar.fc.nc #ligawrap,.bar.fc.nc #pool{grid-column:span 6}}
+/* placar e botão Hoje/jogadores iguais aos do Modo Livre (Diário, Quem sou eu e Livre): mesma fonte, mesmo tamanho e linha completa */
+.bar #score,.bar #pool{font:500 12px 'DM Sans',system-ui,sans-serif;letter-spacing:0;color:var(--ink);padding:9px 2px;min-height:40px;display:flex;align-items:center;justify-content:center}
+.bar.dly,.bar.who{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px;align-items:stretch}
+.bar.dly>*,.bar.who>*{min-width:0;margin:0}
+.bar.dly #diffwrap{order:1;grid-column:span 12;display:grid;grid-template-columns:repeat(3,1fr);padding:3px;gap:2px}
+.bar.dly #diffwrap button{padding:8px 0;font-size:12px}
+.bar.dly #score,.bar.who #score{order:2;grid-column:span 6}
+.bar.dly #pool,.bar.who #pool{order:3;grid-column:span 6}
+@media(min-width:601px){.bar #score,.bar #pool{font-size:14px}.bar.dly #diffwrap{grid-column:span 12}.bar.dly #diffwrap button{font-size:13px;padding:8px 2px}.bar.dly #score{grid-column:span 6}.bar.dly #pool{grid-column:span 6}}
+#pool.hoje{cursor:pointer;border-radius:12px;transition:background .15s}#pool.hoje:hover,#pool.hoje:focus-visible{background:var(--cell);outline:none}#pool.hoje:active{transform:scale(.97)}
+#diffwrap button{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:visible}
+#diffwrap button .dm{font-style:normal;flex:0 0 auto;line-height:1}#diffwrap button span{min-width:0}
+@media(max-width:480px){.bar.dly #diffwrap button{font-size:11px;gap:3px}}
+@media(max-width:480px){.bar.dly #diffwrap button,.bar #diffwrap.two button{font-size:12px;letter-spacing:-.2px;padding:8px 0}}
+@media(max-width:380px){.bar #diffwrap button{font-size:11px}}
+#hd [data-tip]{cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
+#tip{position:fixed;z-index:60;max-width:220px;padding:8px 11px;border-radius:10px;background:var(--ink);color:var(--panel);font:500 12px/1.35 'DM Sans',system-ui,sans-serif;text-align:center;box-shadow:0 8px 24px #0005;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .12s}
+#tip.on{opacity:1;visibility:visible}
+#tip::before{content:"";position:absolute;top:-5px;left:var(--ax,50%);width:10px;height:10px;background:inherit;transform:translateX(-50%) rotate(45deg)}
 </style>
 </head>
 <body>
 <main>
-<h1>Quem é o craque?</h1>
+<div class="top"><h1>Quem é o <span class="fc">C</span>raque?</h1><div class="ib"><button id="bprof" aria-label="Perfil: time, seleção e ídolo" title="Perfil: time, seleção e ídolo">👤</button><button id="bmute" aria-label="Som e vibração" title="Som e vibração">🔊</button><button id="bshare" aria-label="Criar desafio para um amigo" title="Criar desafio para um amigo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button><button id="bcal" aria-label="Histórico" title="Histórico">📅</button><button id="bhelp" aria-label="Como jogar" title="Como jogar">?</button></div></div>
 <p class="sub" id="sub">Descubra o jogador secreto em 8 chutes. Verde acertou, amarelo chegou perto, vermelho errou.</p>
 <div class="tabs" id="tipos" role="tablist" aria-label="Tipo de jogo"><button id="t0" class="on">Clubes</button><button id="t2">🏆 Copa</button></div>
-<div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on">Diário</button><button id="m2">Escolher Clubes</button></div>
+<div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on">Diário</button><button id="m2">Modo Livre</button><button id="m3">🕵️ Quem sou eu?</button></div>
 <section class="card">
 <div class="bar">
 <span class="tabs diffs hide" id="diffwrap" role="group" aria-label="Dificuldade"></span>
@@ -178,18 +304,55 @@ main>.tabs{margin-right:8px}#modos button{padding:7px 14px;font-weight:500}.tabs
 <span id="clubwrap" class="clubwrap hide"><span class="ldd"><select id="team" aria-label="Clube" class="hide"></select><button type="button" id="teambtn" class="ldbtn" aria-haspopup="listbox" aria-expanded="false"></button><div id="teamlist" class="ldlist hide" role="listbox" aria-label="Clube"></div></span></span>
 <span class="ldd hide" id="cedwrap"><button type="button" id="cedbtn" class="ldbtn" aria-haspopup="listbox" aria-expanded="false"></button><div id="cedlist" class="ldlist hide" role="listbox" aria-label="Copa"></div></span>
 <span id="cselwrap" class="clubwrap hide"><span class="ldd"><select id="csel" aria-label="Seleção" class="hide"></select><button type="button" id="cselbtn" class="ldbtn" aria-haspopup="listbox" aria-expanded="false"></button><div id="csellist" class="ldlist hide" role="listbox" aria-label="Seleção"></div></span></span>
-<span class="chip" id="score">Acertos: 0/0</span>
+<span id="myrow" class="myrow one hide"><button type="button" id="rndbtn" class="ldbtn" title="Sortear liga e clube (ou Copa e seleção)" aria-label="Aleatório: sortear liga e clube, ou Copa e seleção">🎲<span class="rtx"> Aleatório</span></button></span>
+<span class="chip" id="score" title="Sequência · Vitórias · Derrotas">🔥0 🏆0 ❌0</span>
 <span class="chip" id="pool"></span>
 </div>
 <p class="q">Qual jogador está sendo procurado?</p>
-<div class="sw"><input id="q" placeholder="Digite o nome do jogador" autocomplete="off"><div id="list" class="list hide"></div></div>
-<div id="end" class="hide" role="status"></div>
+<div id="hbox" class="hbox hide"><button id="hbtn" class="hbtn" type="button"></button><span id="hchips" style="display:contents"></span></div>
+<div class="sw"><input id="q" aria-label="Nome do jogador" placeholder="Digite o nome do jogador" autocomplete="off"><div id="list" class="list hide"></div></div>
+<div id="hintw" class="hintw hide"><img id="hint" alt=""><span>Pista: a foto do craque fica mais nítida a cada erro.</span></div>
+<div id="who" class="hide"></div>
+<div id="end" class="hide" role="status" aria-live="polite"></div>
 <div class="att"><h3 id="tent">Tentativa 1/8</h3>
-<div id="hd" class="hd"><span id="hn" class="hide">Nac.</span><span id="hl" class="hide">Liga</span><span>Clube</span><span>Posição</span><span>Idade</span><span>Número</span><span>Valor</span></div>
+<div id="hd" class="hd"><span id="hn" class="hide">Nac.</span><span id="hl" class="hide">Liga</span><span>Clube</span><span data-tip="Amarelo se a posição for da mesma linha (ex.: zagueiro e lateral)">Posição</span><span data-tip="Amarelo para margem de erro de ±2 anos">Idade</span><span data-tip="Amarelo para diferença de ±5 números da camisa">Número</span><span data-tip="Amarelo se o valor estiver entre 60% e 160% do alvo">Valor</span></div>
 <div id="rows"></div></div>
-<p class="note">Dados, fotos e escudos do Transfermarkt. Valores de mercado podem estar um pouco desatualizados.<br>Posições: GOL goleiro · ZAG zagueiro · LD/LE lateral direito/esquerdo · VOL volante · MC meia central · MEI meia ofensivo · PD/PE ponta direita/esquerda · SA segundo atacante · CA centroavante.</p>
+<p class="note">Dados e fotos: Transfermarkt e ogol.com.br. Os valores podem estar desatualizados.</p>
 </section>
 </main>
+<dialog id="dhelp"><h2>Como jogar</h2>
+<p>Descubra o jogador secreto. Cada palpite mostra como ele se compara ao craque.</p>
+<div class="ex"><div class="row" style="--n:3"><div class="c ok">CA</div><div class="c near">27<span class="ar">↑</span></div><div class="c bad">€80 mi<span class="ar">↓</span></div></div></div>
+<h3>Cores e setas</h3>
+<ul><li>🟢 <b>Verde ✓</b>: igual.</li><li>🟡 <b>Amarelo ≈</b>: próximo. Toque (ou passe o mouse) no título de uma coluna para ver a regra.</li><li>🔴 <b>Vermelho ✕</b>: distante.</li><li><b>↑ ↓</b>: o craque tem valor maior ou menor.</li></ul>
+<p><b>Modo Copa</b>: continente, posição e Copa ±4 anos também podem dar amarelo.</p>
+<p>Posições: GOL · ZAG · LD/LE · VOL · MC · MEI · PD/PE · CA</p>
+<h3>💡 Dicas</h3>
+<ul><li>Toque em <b>Dica</b> para escolher entre 2 cartas sorteadas.</li><li>As cartas podem revelar: inicial, país, liga, posição, idade, camisa, valor ou time.</li><li>Na Copa: seleção, Copa e clube também.</li><li>Custo: 1ª dica = grátis · 2ª = 1 tentativa · 3ª = 2 · 4ª = 3...</li></ul>
+<h3>📅 Diário</h3>
+<ul><li>Fácil → Médio → Especialista.</li><li>O próximo nível é liberado após concluir o anterior, acertando ou errando.</li><li>Isso vale para Clubes e Copa.</li></ul>
+<h3>🎮 Modo Livre</h3>
+<ul><li>Escolha o recorte e a dificuldade.</li><li><b>Fácil</b>: craques mais famosos/valiosos.</li><li><b>Médio</b>: todo o recorte, com poucos jogadores da base.</li><li><b>Especialista</b>: maior chance de reservas e jogadores da base.</li><li><b>Todos</b>: qualquer jogador do time/liga selecionado pode ser sorteado, com a mesma chance.</li><li><b>👤</b> Personalize clube, seleção e ídolo.</li><li><b>🎲</b> Sorteie liga/clube ou Copa/seleção.</li><li>Sequência e recorde são separados por nível.</li></ul>
+<h3>🕹️ Extras</h3>
+<ul><li><b>🕵️ Quem sou eu?</b> — Descubra pela foto e pelas dicas.</li><li><b>🔗 Criar desafio</b> — Escolha o craque e envie o link.</li><li><b>🤝 Desafiar amigo</b> — Jogue o mesmo desafio.</li><li><b>📅</b> Histórico · <b>🔊</b> Som e vibração.</li></ul>
+<button class="dbtn" data-close>Entendi, vamos jogar</button></dialog>
+<dialog id="dcal"><div class="chead"><h2>Histórico</h2><button id="bstat" type="button" aria-label="Estatísticas" title="Estatísticas">📊</button></div>
+<div id="cdetail"></div>
+<div class="calh"><button id="cprev" aria-label="Mês anterior">‹</button><b id="cmon"></b><button id="cnext" aria-label="Próximo mês">›</button></div><div class="calg wk"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div><div class="calg" id="cgrid"></div><p id="csum"></p>
+<div class="cleg"><span><i class="dt w"></i>Acertou</span><span><i class="dt l"></i>Perdeu</span><span><i class="dt p"></i>Em andamento</span><span><i class="dt"></i>Não jogou</span></div>
+<p class="cdn">Próximo craque em <b id="ccd"></b></p><button class="dbtn" data-close>Fechar</button></dialog>
+<dialog id="dstat"><h2>Suas estatísticas</h2><div id="stbody"></div><button class="dbtn" data-close>Fechar</button></dialog>
+<dialog id="dhint"><h2>Escolha uma dica</h2><p id="hsub"></p><div class="hcards" id="hcards"></div><button class="dbtn dgh" data-close>Agora não</button></dialog>
+<dialog id="dprof"><h2>Meu perfil</h2><p>Escolha seu time do coração e sua seleção para jogar no Modo Livre e guarde também seu ídolo.</p>
+<h3>⚽ Time do coração</h3><span class="ldd"><select id="pl" class="hide" aria-label="Liga"></select><button type="button" id="plbtn" class="ldbtn" aria-haspopup="listbox" aria-expanded="false"></button><div id="pllist" class="ldlist hide" role="listbox" aria-label="Liga"></div></span><span class="ldd"><select id="pt" class="hide" aria-label="Clube"></select><button type="button" id="ptbtn" class="ldbtn" aria-haspopup="listbox" aria-expanded="false"></button><div id="ptlist" class="ldlist hide" role="listbox" aria-label="Clube"></div></span>
+<h3>🏆 Seleção</h3><span class="ldd"><select id="ps" class="hide" aria-label="Seleção"></select><button type="button" id="psbtn" class="ldbtn" aria-haspopup="listbox" aria-expanded="false"></button><div id="pslist" class="ldlist hide" role="listbox" aria-label="Seleção"></div></span>
+<h3>⭐ Ídolo</h3><div class="sw"><input id="pidq" aria-label="Buscar ídolo" placeholder="Digite o nome do seu ídolo" autocomplete="off"><div id="pidl" class="list st hide"></div></div><div id="pidc"></div>
+<div class="shb"><button class="dbtn" id="pgc" type="button">Jogar com meu time</button><button class="dbtn" id="pgs" type="button">Jogar com minha seleção</button></div>
+<button class="dbtn dgh" id="pfc" data-close>Configurar depois</button></dialog>
+<dialog id="dshare"><h2>Criar desafio</h2><p>Escolha um craque e envie o link para um amigo tentar adivinhar.</p>
+<div class="tabs" id="shtabs"><button id="sh0" class="on" type="button">Clubes</button><button id="sh1" type="button">🏆 Copa</button></div>
+<div class="sw"><input id="sq" aria-label="Nome do jogador" placeholder="Digite o nome do jogador" autocomplete="off"><div id="sl" class="list st hide"></div></div>
+<div id="sres"></div><button class="dbtn dgh" data-close>Fechar</button></dialog>
 <canvas id="confetti" aria-hidden="true"></canvas>
 <script src="dados.js"></script>
 <script>
@@ -253,7 +416,7 @@ const ini=s=>{const w=s.split(/\s+/).filter(Boolean);return esc((w.length>1?w[0]
 function av(kind,src,label,w,h){h=h||w;
 return `<span class="av ${kind}${src?'':' fb'}" style="width:${w}px;height:${h}px;--h:${hue(label)}" data-ini="${ini(label)}">${src?`<img src="${src}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('fb');this.remove()">`:''}</span>`}
 
-let MAXT=8,mode=0,target,guesses,over,wins=0,played=0,streak=0,six=false,NCOLS=5,MCOLS=5;
+let MAXT=8,mode=0,target,guesses,over,wins=0,played=0,streak=0,six=false,NCOLS=5,MCOLS=5,hintN=0,hintUsed=[],CHAL=null;
 const money=v=>'€'+(v>=1?v.toString().replace('.',',')+' mi':Math.round(v*1000)+' mil');
 
 // ---------- seletores de liga e clube ----------
@@ -301,24 +464,24 @@ else if(SEL.has(v))SEL.delete(v);else SEL.add(v);
 ligaDirty=true;buildLiga();applyTheme()};
 document.addEventListener('click',e=>{if(!e.target.closest('#ligawrap'))close()},true);
 document.addEventListener('keydown',e=>{if(e.key=='Escape')close()})})();
-function fillTeams(){const l=sole();buildLiga();$('clubwrap').classList.toggle('hide',!l);$('ligawrap').style.gridColumn=l?'':'1/-1';
+function fillTeams(){const l=sole();buildLiga();$('clubwrap').classList.toggle('hide',!l);$('ligawrap').style.gridColumn='';document.querySelector('.bar').classList.toggle('nc',!l);
 const cs=l?[...new Set(P.filter(p=>p.l==l).map(p=>p.c))].sort((a,b)=>a.localeCompare(b,'pt')):[];
 $('team').innerHTML='<option value="*">Todos os clubes</option>'+cs.map(c=>`<option>${esc(c)}</option>`).join('');
 if(cs.length)$('team').selectedIndex=1;crestSel();applyTheme()}
 function crestSel(){buildTD()}
 
-function pool(){if(mode==0)return P;let pl=P.filter(p=>SEL.has(p.l));if(sole()&&$('team').value!='*')pl=pl.filter(p=>p.c==$('team').value);return pl}
-function start(){if(mode==0)return startDaily();MAXT=8;clearInterval(cdT);HIST=[];const pl=pool();if(!pl.length)return;
-const cand=pl.filter(p=>p.u>0&&p.v>0),src=cand.length?cand:pl;target=src[Math.floor(Math.random()*src.length)];guesses=[];over=false;six=SEL.size>1;
+function pool(){if(mode==0||mode==3)return P;let pl=P.filter(p=>SEL.has(p.l));if(sole()&&$('team').value!='*')pl=pl.filter(p=>p.c==$('team').value);return pl}
+function start(){if(mode==3)return whoStart();if(mode==0)return startDaily();clearInterval(cdT);HIST=[];const pl=pool();if(!pl.length)return;MAXT=fMax(pl.length,'j');
+const cand=pl.filter(p=>p.u>0&&p.v>0),src=cand.length?cand:pl;target=CHAL||fPick(src,p=>p.v);CHAL=null;guesses=[];resetHints();over=false;six=SEL.size>1;
 $('rows').innerHTML='';const e=$('end');e.classList.add('hide');e.innerHTML='';
 $('q').value='';$('q').disabled=false;$('list').classList.add('hide');
-$('pool').textContent=pl.length+' jogadores';
+$('pool').textContent=pl.length+' jogadores';fSig();$('score').textContent=fScore('j');$('sub').textContent=fSub(pl.length,MAXT,'Descubra o jogador secreto. Verde acertou, amarelo chegou perto, vermelho errou.');renderFDiffs();renderMy();document.querySelector('.bar').classList.add('fc');
 NCOLS=5+(six?1:0)+(HASNAC?1:0);MCOLS=NCOLS>5?(NCOLS==6?3:4):5;
 $('hd').style.cssText=`--n:${NCOLS};--m:${MCOLS}`;$('hn').classList.toggle('hide',!HASNAC);$('hl').classList.toggle('hide',!six);tent()}
-function tent(){$('tent').textContent='Tentativa '+Math.min(guesses.length+1,MAXT)+'/'+MAXT}
+function tent(){updHint();$('tent').textContent=(mode==3?'Dica ':'Tentativa ')+Math.min(guesses.length+hintN+1,MAXT)+'/'+MAXT}
 function arrow(g,t){return g<t?'↑':g>t?'↓':''}
 function cell(cls,txt,ar){return `<div class="c ${cls}">${txt}${ar?`<span class="ar">${ar}</span>`:''}</div>`}
-function guess(p,silent){if(over||!p)return;guesses.push(p);const t=target;
+function guess(p,silent){if(mode==3)return whoGuess(p,silent);if(over||!p)return;guesses.push(p);const t=target;
 const pc=p.p==t.p?'ok':GRP[p.p]==GRP[t.p]?'near':'bad';
 const ac=p.a==t.a?'ok':Math.abs(p.a-t.a)<=2?'near':'bad';
 const nn=!p.u||!t.u,nc=nn?'na':p.u==t.u?'ok':Math.abs(p.u-t.u)<=5?'near':'bad';
@@ -332,14 +495,14 @@ const d=document.createElement('div');d.className='att';d.style.marginTop='14px'
 d.innerHTML=`<div class="n who">${av('pl',photo(p),p.n,36,48)}<span>${esc(p.n)}</span></div><div class="row" style="--n:${NCOLS};--m:${MCOLS}">${ncell}${lcell}${ccell}${cell(pc,p.p)}${cell(ac,p.a,arrow(p.a,t.a))}${cell(nc,p.u?'#'+p.u:'#—',nn?'':arrow(p.u,t.u))}${cell(vc,p.v?money(p.v):'€—',vn?'':arrow(p.v,t.v))}</div>`;
 $('rows').prepend(d);$('q').value='';$('list').classList.add('hide');tent();
 if(mode==0&&!silent)ls.set('qc:d:'+DAY+':'+diff,guesses.map(pkey));
-if(p===t||(p.n==t.n&&p.c==t.c&&p.l==t.l))end(true,silent);else if(guesses.length>=MAXT)end(false,silent)}
+if(p===t||(p.n==t.n&&p.c==t.c&&p.l==t.l))end(true,silent);else if(guesses.length+hintN>=MAXT)end(false,silent);else if(!silent)fx([pc,ac,nc,vc,same?'ok':''].includes('ok')?'near':'bad')}
 
-function end(w,silent){over=true;
-if(mode==0){if(!silent)recordDaily(w);updScore()}else{played++;if(w){wins++;streak++}else streak=0;$('score').textContent=`Acertos: ${wins}/${played}`}
+function end(w,silent){over=true;updHint();
+if(mode==0){if(!silent)recordDaily(w);updScore()}else{nrec=false;played++;if(w)wins++;const o=lvAdd(mode==2?'j:'+fdiff:'q',w);streak=o.s;if(mode==2){fs=o.s;nrec=w&&fBump('j',fs)}if(mode==2)$('score').textContent=fScore('j');else qScore()}
 $('q').disabled=true;
 const t=target,n=guesses.length;
-let msg;const sk=mode==0?stat().s:streak;
-if(w){msg=n==1?'Acertou de primeira!':n<=3?`Palpite certeiro: só ${n} tentativas.`:`Acertou na tentativa ${n} de ${MAXT}.`;if(sk>1)msg+=` Sequência de ${sk} acertos.`}
+let msg;const sk=mode==0?stat().s:mode==2?fs:streak;
+if(w){msg=n==1?'Acertou de primeira!':n<=3?`Palpite certeiro: só ${n} tentativas.`:`Acertou na tentativa ${n} de ${MAXT}.`;if(sk>1)msg+=` Sequência de ${sk} acertos.`;if(mode==2&&nrec)msg+=' Novo recorde!'}
 else msg=mode==0?'Volte amanhã para um novo craque.':`Placar da sessão: ${wins} acerto${wins==1?'':'s'} em ${played}.`;
 const star='<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><path fill="#fde047" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 const href=t.i?`https://www.transfermarkt.com.br/-/profil/spieler/${t.i}`:`https://www.transfermarkt.com.br/schnellsuche/ergebnis/schnellsuche?query=${encodeURIComponent(t.n)}`;
@@ -354,7 +517,7 @@ e.innerHTML=`<div class="endcard ${w?'win':'lose'}">
 <div class="ea">${mode==0?'<button class="btn pri" id="share">Compartilhar</button><span class="chip" id="cd"></span>':'<button class="btn pri" id="again">Jogar de novo <span aria-hidden="true">→</span></button>'}<a class="btn sec" href="${href}" target="_blank" rel="noopener">Ver perfil</a></div>
 </div>`;
 if(mode==0)dailyEnd(w);else $('again').onclick=()=>{start();$('q').focus()};
-if(!silent){e.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'nearest'});if(w)confetti()}}
+endX(w,silent);if(!silent){e.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'nearest'});if(w)confetti()}}
 
 // ---------- confete ----------
 const reduce=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -382,42 +545,113 @@ const used=new Set(guesses.filter(Boolean).map(g=>g.l+g.n+g.c));
 const m=pool().filter(p=>!used.has(p.l+p.n+p.c)&&norm(p.n).includes(v)).slice(0,8);
 L.innerHTML=m.map((p,i)=>`<button data-i="${i}"><span class="li">${av('pl',photo(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('cr',crest(p.l,p.c),p.c,18)}${p.p} · ${esc(p.c)}</small></button>`).join('')||'<button disabled><small>Nenhum jogador encontrado</small></button>';
 L.classList.remove('hide');L.onclick=ev=>{const b=ev.target.closest('button[data-i]');if(b&&m[+b.dataset.i])guess(m[+b.dataset.i])}};
-$('q').onkeydown=e=>{if(e.key=='Enter'){const b=$('list').querySelector('button[data-i]');if(b)b.click()}};
+$('q').onkeydown=e=>{const bs=[...$('list').querySelectorAll('button[data-i]')];if(!bs.length)return;let i=bs.findIndex(b=>b.classList.contains('act'));
+if(e.key=='ArrowDown'||e.key=='ArrowUp'){e.preventDefault();bs.forEach(b=>b.classList.remove('act'));i=(i+(e.key=='ArrowDown'?1:-1)+bs.length)%bs.length;bs[i].classList.add('act');bs[i].scrollIntoView({block:'nearest'})}
+else if(e.key=='Enter')(bs[i]||bs[0]).click()};
 
 // ---------- modo diário ----------
-const DIFF={facil:{n:'Fácil',t:7,d:'Só craques de grandes clubes.'},medio:{n:'Médio',t:10,d:'Clubes menos badalados das principais ligas.'},dificil:{n:'Difícil',t:12,d:'Jogadores relevantes das ligas de 1ª divisão.'},insano:{n:'Insano',t:15,d:'Qualquer jogador das 20 ligas.'}};
-const DORD=['facil','medio','dificil','insano'];
+const DIFF={facil:{n:'Fácil',t:6,d:'Só craques de grandes clubes.'},medio:{n:'Médio',t:8,d:'Clubes menos badalados das principais ligas.'},craque:{n:'Especialista',t:10,d:'Jogadores relevantes das ligas de 1ª divisão.'}};
+const DORD=['facil','medio','craque'];
 const FACIL_IDS=new Set(['418','131','13','281','985','31','11','631','148','762','583','27','16','15','46','5','506','6195','12','720','294','336','610','614','1023','199','585','221','2462','978','537','210','6600','330','609','189','209','1114','69261']);
 const MEDIO_L=new Set(['GB1','ES1','IT1','L1','FR1','BRA1','PO1','AR1N','NL1','TR1','BE1','SA1','MLS1','MEXA']);
 const SEG_DIV=new Set(['BRA2','BRA3','GB2']);
+const ls0=(()=>{try{['qc:stats','qc:cstats'].forEach(k=>{const a=JSON.parse(localStorage.getItem(k)||'null');if(a&&a.dificil&&!a.craque){a.craque=a.dificil;delete a.dificil;localStorage.setItem(k,JSON.stringify(a))}})}catch(e){}})();
 const ls={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const pkey=p=>p.l+'|'+p.c+'|'+p.n;
 const PK=new Map(P.map(p=>[pkey(p),p]));
 const dayKey=()=>new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});
 const prevDay=k=>{const d=new Date(k+'T12:00:00Z');d.setUTCDate(d.getUTCDate()-1);return d.toISOString().slice(0,10)};
 let diff=ls.get('qc:diff'),DAY='',HIST=[],cdT=0;if(!DIFF[diff])diff='facil';
+// ---------- Modo Livre: dificuldade, tentativas automáticas, Meu time e recorde ----------
+const FLV={facil:{n:'Fácil',dt:-1,d:'Só os mais valiosos e famosos do recorte.'},medio:{n:'Médio',dt:0,d:'O recorte todo, com bem menos jogadores da base e de baixo valor.'},craque:{n:'Especialista',dt:2,d:'Jogadores obscuros: quase sempre reservas e base, de menor valor.'},todos:{n:'Todos',dt:1,d:'Qualquer jogador do recorte pode ser sorteado, com a mesma chance.'}};
+const FORD=['facil','medio','craque','todos'];let fdiff=ls.get('qc:fdiff');if(!FLV[fdiff])fdiff='medio';
+let fs=0,cfs=0,nrec=false,_fs='';
+// peso do sorteio pela posição no recorte (r=0 mais valioso/famoso ... r=1 menos): Médio reduz a base, Especialista quase só sorteia a base
+const FW={medio:r=>r<.6?1:1-.88*(r-.6)/.4,craque:r=>r<.35?.01:r<.5?.01+.99*(r-.35)/.15:1};
+const FACN=n=>Math.min(n,Math.round(11+.06*Math.max(0,n-25)));
+function fPick(src,val){const a=src.slice().sort((x,y)=>val(y)-val(x)),n=a.length;
+if(fdiff=='facil')return a[Math.floor(Math.random()*FACN(n))];
+if(fdiff=='todos')return a[Math.floor(Math.random()*n)];
+const w=a.map((_,i)=>FW[fdiff](n>1?i/(n-1):0));let x=Math.random()*w.reduce((u,v)=>u+v,0);
+for(let i=0;i<n;i++){x-=w[i];if(x<=0)return a[i]}return a[n-1]}
+const fMax=(n,g)=>fdiff=='todos'?8:Math.max(g=='c'?6:5,(g=='c'?(n<=60?8:n<=1500?10:12):(n<=40?6:n<=1500?8:10))+FLV[fdiff].dt);
+const cFame=p=>(CFAM.has(kn(p.n))?4:0)+(p.k?1.5:0)+(p.u&&p.u<=11?1:0)+(hue(cKey(p))%100)/300;
+const fSub=(n,m,i)=>`${i} ${FLV[fdiff].n}: ${FLV[fdiff].d} Você tem ${m} tentativas.`+(n<=15?' Recorte pequeno: poucos jogadores para sortear.':'');
+const FR=()=>ls.get('qc:frec')||{};
+function fBump(g,v){const a=FR(),k=g+':'+fdiff;if(v>(a[k]||0)){a[k]=v;ls.set('qc:frec',a);return v>1}return false}
+const SCT='Sequência · Vitórias · Derrotas';
+function sc3(q,w,l){$('score').title=SCT;$('score').textContent=`🔥${q}\u2002🏆${w}\u2002❌${l}`}
+const lvGet=k=>Object.assign({s:0,w:0,l:0},(ls.get('qc:live')||{})[k]);
+function lvAdd(k,w){const a=ls.get('qc:live')||{},o=Object.assign({s:0,w:0,l:0},a[k]);if(w){o.w++;o.s++}else{o.l++;o.s=0}a[k]=o;ls.set('qc:live',a);return o}
+function qScore(){const o=lvGet('q');sc3(o.s,o.w,o.l)}
+function fScore(g){const o=lvGet(g+':'+fdiff);$('score').title=SCT;return `🔥${o.s}\u2002🏆${o.w}\u2002❌${o.l}`}
+function fSig(){fs=lvGet('j:'+fdiff).s;cfs=lvGet('c:'+fdiff).s}
+function renderFDiffs(){$('diffwrap').innerHTML=FORD.map(d=>`<button type="button" data-d="${d}" class="${d==fdiff?'on':''}" title="${esc(FLV[d].d)}">${FLV[d].n}</button>`).join('')}
+function setFDiff(d){if(d==fdiff)return;fdiff=d;ls.set('qc:fdiff',d);game=='c'?startCopa():start()}
+function renderMy(){$('myrow').classList.remove('hide')}
+const rint=n=>Math.floor(Math.random()*n);
+// Aleatório: sorteia liga/Copa e, junto, clube/seleção (nunca cai em "Todos")
+$('rndbtn').onclick=()=>{
+if(game=='c'){const y=CYEARS[rint(CYEARS.length)];CED=new Set([y]);CEDAPP=new Set(CED);cedDirty=false;fillSel();buildCed();
+const o=$('csel').options;if(o.length>1)$('csel').selectedIndex=1+rint(o.length-1);buildCS();cTheme();startCopa();return}
+SEL.clear();SEL.add(LG[rint(LG.length)]);APPLIED=new Set(SEL);ligaDirty=false;fillTeams();
+const t=$('team');if(t.options.length>1)t.selectedIndex=1+rint(t.options.length-1);crestSel();applyTheme();start()};
+// ---------- perfil: time e seleção do coração ----------
+const pL=$('pl'),pT=$('pt'),pS=$('ps');
+const buildPL=mkDD('pl',v=>v?lflag(v):'<span class="lgl">🌍</span>'),buildPT=mkDD('pt',v=>v?av('cr',crest(pL.value,v),v,24):'<span class="lgl">⚽</span>'),buildPS=mkDD('ps',v=>v?cfIcon(v):'<span class="lgl">🏆</span>');
+function pClubs(l,v){pT.innerHTML='<option value="">Escolha o clube</option>'+[...new Set(P.filter(p=>p.l==l).map(p=>p.c))].sort((a,b)=>a.localeCompare(b,'pt')).map(c=>`<option${c==v?' selected':''}>${esc(c)}</option>`).join('');buildPT()}
+// ídolo: guarda {t:'j'|'c',k:chave}; 'j' = jogador do banco de clubes, 'c' = jogador de uma Copa
+const idolP=()=>{const v=ls.get('qc:myidol');if(!v)return null;const p=v.t=='c'?(COPA?CPK.get(v.k):null):PK.get(v.k);return p?{t:v.t,p}:null};
+function renderIdol(){const v=ls.get('qc:myidol'),x=idolP(),b=$('pidc');
+if(!v){b.innerHTML='';return}
+if(!x){b.innerHTML=`<div class="shc"><div><b>Ídolo salvo</b><small>${v.t=='c'?'Carregando dados da Copa…':'Jogador não encontrado'}</small></div><button type="button" class="x" id="pidx">Remover</button></div>`}
+else{const p=x.p,c=x.t=='c';b.innerHTML=`<div class="shc">${av('pl',c?ph(p):photo(p),p.n,48,64)}<div><b>${esc(p.n)}</b><small>${c?esc(p.s)+' · Copa '+p.y:esc(p.c)+' · '+p.p}</small></div><button type="button" class="x" id="pidx">Remover</button></div>`}
+$('pidx').onclick=()=>{ls.set('qc:myidol',null);renderIdol();pBtns()}}
+function pBtns(){$('pgc').disabled=!ls.get('qc:myteam');$('pgs').disabled=!ls.get('qc:myteamc');$('pfc').textContent=(ls.get('qc:myteam')||ls.get('qc:myteamc')||ls.get('qc:myidol'))?'Fechar':'Configurar depois'}
+$('pidq').oninput=()=>{const v=norm($('pidq').value.trim()),L=$('pidl');if(!v){L.classList.add('hide');return}
+const a=P.filter(p=>norm(p.n).includes(v)).slice(0,4).map(p=>({t:'j',p})),b=(COPA||[]).filter(p=>norm(p.n).includes(v)).slice(0,4).map(p=>({t:'c',p})),m=a.concat(b);
+L.innerHTML=m.map((o,i)=>{const p=o.p;return o.t=='j'?`<button data-i="${i}"><span class="li">${av('pl',photo(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('cr',crest(p.l,p.c),p.c,18)}⚽ ${p.p} · ${esc(p.c)}</small></button>`:`<button data-i="${i}"><span class="li">${av('pl',ph(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('fl',cflag(p),p.s,20,14)}🏆 ${esc(p.s)} ${p.y} · ${p.p}</small></button>`}).join('')||'<button disabled><small>Nenhum jogador encontrado</small></button>';
+L.classList.remove('hide');L.onclick=ev=>{const b=ev.target.closest('button[data-i]');if(!b||!m[+b.dataset.i])return;const o=m[+b.dataset.i];
+ls.set('qc:myidol',{t:o.t,k:o.t=='c'?cKey(o.p):pkey(o.p)});$('pidq').value='';L.classList.add('hide');renderIdol();pBtns()}};
+$('bprof').onclick=async()=>{const sv=ls.get('qc:myteam'),sc=ls.get('qc:myteamc');
+pL.innerHTML='<option value="">Escolha a liga</option>'+LG.map(l=>`<option value="${l}"${sv&&sv.l==l?' selected':''}>${esc(LI(l)[0])}</option>`).join('');pClubs(sv?sv.l:'',sv?sv.c:'');buildPL();ls.set('qc:seenp',1);
+$('dprof').showModal();$('pidq').value='';$('pidl').classList.add('hide');renderIdol();
+if(await loadCopa()){renderIdol();pS.disabled=false;pS.innerHTML='<option value="">Escolha a seleção</option>'+[...new Set(COPA.map(p=>p.s))].sort((a,b)=>a.localeCompare(b,'pt')).map(x=>`<option${x==sc?' selected':''}>${esc(x)}</option>`).join('')}else{pS.disabled=true;pS.innerHTML='<option>Dados da Copa indisponíveis</option>'}buildPS();pBtns()};
+pL.onchange=()=>{pClubs(pL.value,'');ls.set('qc:myteam',null);pBtns()};
+pT.onchange=()=>{ls.set('qc:myteam',pT.value&&pL.value?{l:pL.value,c:pT.value}:null);pBtns()};
+pS.onchange=()=>{ls.set('qc:myteamc',pS.value||null);pBtns()};
+async function playMy(c){const sv=ls.get(c?'qc:myteamc':'qc:myteam');if(!sv)return;$('dprof').close();
+if(c){if(game!='c')await setGame('c');if(game!='c')return;if(!COPA.some(p=>p.s==sv&&CEDAPP.has(p.y))){CED=new Set(CYEARS);CEDAPP=new Set(CED)}cmode=2;cLayout();fillSel();$('csel').value=sv;buildCS();cTheme();startCopa();return}
+if(game!='j')await setGame('j');if(mode!=2)setMode(2);if(!LG.includes(sv.l))return;SEL.clear();SEL.add(sv.l);APPLIED=new Set(SEL);ligaDirty=false;fillTeams();$('team').value=sv.c;if($('team').selectedIndex<0)$('team').selectedIndex=1;crestSel();applyTheme();start()}
+$('pgc').onclick=()=>playMy(false);$('pgs').onclick=()=>playMy(true);
+
 function rng(seed){let h=1779033703^seed.length;for(let i=0;i<seed.length;i++){h=Math.imul(h^seed.charCodeAt(i),3432918353);h=h<<13|h>>>19}
 const nx=()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return(h^=h>>>16)>>>0};nx();return nx()/4294967296}
 function dailyPool(d){const ok=p=>p.u>0&&p.v>0;let f;
 if(d=='facil')f=p=>FACIL_IDS.has(p.k)&&p.v>=5;
 else if(d=='medio')f=p=>MEDIO_L.has(p.l)&&!FACIL_IDS.has(p.k)&&p.v>=2;
-else if(d=='dificil')f=p=>!SEG_DIV.has(p.l)&&p.v>=1&&!(p.a<=21&&p.v<3)&&!(p.p=='GOL'&&p.v<2);
+else if(d=='craque')f=p=>!SEG_DIV.has(p.l)&&p.v>=1&&!(p.a<=21&&p.v<3)&&!(p.p=='GOL'&&p.v<2);
 else f=()=>true;
 const pl=P.filter(p=>ok(p)&&f(p));return pl.length?pl:P.filter(ok)}
 const TCACHE={};
 function dailyTarget(d,day){const k=day+'|'+d;if(!TCACHE[k]){const pl=dailyPool(d).sort((a,b)=>pkey(a)<pkey(b)?-1:1);TCACHE[k]=pl[Math.floor(rng(k)*pl.length)]}return TCACHE[k]}
-function dailyState(d){const g=ls.get('qc:d:'+DAY+':'+d)||[];if(!g.length)return '';const t=dailyTarget(d,DAY);
-if(g.some(k=>PK.get(k)===t))return 'w';return g.length>=DIFF[d].t?'l':'p'}
+function dailyState(d){return dState(DAY||dayKey(),d)}
+const dDone=st=>st=='w'||st=='l';
+/* escadinha: o nível só abre depois de concluir (acertar OU errar) o anterior */
+const dLocked=(d,day)=>{const i=DORD.indexOf(d);return i>0&&!dDone(dState(day||dayKey(),DORD[i-1]))};
+const cLocked=(d,day)=>{const i=CDORD.indexOf(d);return i>0&&!dDone(cState(day||dayKey(),CDORD[i-1]))};
+const dOpen=()=>DORD.find(d=>!dDone(dState(dayKey(),d)))||DORD[DORD.length-1];
+const cOpen=()=>CDORD.find(d=>!dDone(cState(dayKey(),d)))||CDORD[CDORD.length-1];
 const stat=()=>{const a=ls.get('qc:stats')||{};return a[diff]||{p:0,w:0,s:0,ms:0,lw:''}};
 function recordDaily(w){const a=ls.get('qc:stats')||{};const s=a[diff]||{p:0,w:0,s:0,ms:0,lw:''};s.p++;
 if(w){s.w++;s.s=(s.lw&&s.lw==prevDay(DAY))?s.s+1:1;s.ms=Math.max(s.ms,s.s);s.lw=DAY}else s.s=0;a[diff]=s;ls.set('qc:stats',a)}
-function updScore(){const s=stat();$('score').textContent=`Sequência: ${s.s} · Vitórias: ${s.w}/${s.p}`}
+function updScore(){const s=stat();sc3(s.s,s.w,s.p-s.w)}
 function renderDiffs(){$('diffwrap').innerHTML=DORD.map(d=>{const s=dailyState(d);
-return `<button type="button" data-d="${d}" class="${d==diff?'on':''}" title="${DIFF[d].t} tentativas">${DIFF[d].n}${s=='w'?' ✓':s=='l'?' ✗':''}</button>`}).join('')}
-$('diffwrap').onclick=e=>{const b=e.target.closest('button[data-d]');if(!b)return;if(game=='c'){if(b.dataset.d!=cdiff)cSetDiff(b.dataset.d);return}if(b.dataset.d==diff)return;diff=b.dataset.d;ls.set('qc:diff',diff);startDaily()};
-function startDaily(){MAXT=DIFF[diff].t;DAY=dayKey();clearInterval(cdT);
+const lk=dLocked(d);return `<button type="button" data-d="${d}" class="${d==diff?'on':''}" ${lk?'disabled':''} title="${lk?'Conclua o nível anterior para liberar':DIFF[d].t+' tentativas'}">${lk?'<i class="dm">🔒</i>':''}<span>${DIFF[d].n}</span>${s=='w'?'<i class="dm">✓</i>':s=='l'?'<i class="dm">✗</i>':''}</button>`}).join('')}
+$('diffwrap').onclick=e=>{const b=e.target.closest('button[data-d]');if(!b)return;if(b.disabled)return;if((game=='c'?cmode:mode)==2){setFDiff(b.dataset.d);return}if(game=='c'){if(b.dataset.d!=cdiff)cSetDiff(b.dataset.d);return}if(b.dataset.d==diff)return;diff=b.dataset.d;ls.set('qc:diff',diff);startDaily()};
+function startDaily(){DAY=dayKey();if(dLocked(diff,DAY))diff=dOpen();MAXT=DIFF[diff].t;clearInterval(cdT);
 const t=dailyTarget(diff,DAY);if(!t)return;
-target=t;guesses=[];HIST=[];over=false;six=true;
+target=t;guesses=[];HIST=[];over=false;six=true;resetHints();
 $('rows').innerHTML='';const e=$('end');e.classList.add('hide');e.innerHTML='';
 $('q').value='';$('q').disabled=false;$('list').classList.add('hide');
 $('pool').textContent='Hoje · '+DAY.slice(8)+'/'+DAY.slice(5,7);
@@ -432,15 +666,15 @@ const tick=()=>{const el=$('cd');if(!el){clearInterval(cdT);return}if(dayKey()!=
 const s=secs();el.textContent='Próximo craque em '+[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
 tick();clearInterval(cdT);cdT=setInterval(tick,1000);
 $('share').onclick=async()=>{const em={ok:'🟩',near:'🟨',bad:'🟥',na:'⬜'};
-const txt=`Quem é o craque? ${DAY.slice(8)}/${DAY.slice(5,7)} · ${DIFF[diff].n}\n${w?'✅ '+guesses.length:'❌ X'}/${MAXT}\n`+HIST.map(r=>r.map(c=>em[c]||'⬜').join('')).join('\n');
-try{await navigator.clipboard.writeText(txt);$('share').textContent='Copiado!'}catch(_){prompt('Copie o resultado:',txt)}}}
+const txt=`Quem é o Craque? ${DAY.slice(8)}/${DAY.slice(5,7)} · ${DIFF[diff].n}\n${w?'✅ '+guesses.length:'❌ X'}/${MAXT}\n`+HIST.map(r=>r.map(c=>em[c]||'⬜').join('')).join('\n');
+await shareOut(txt)}}
 
 // ---------- modos ----------
-function setMode(m){mode=m;clearInterval(cdT);document.querySelector('.bar').classList.toggle('dly',m==0);$('m0').classList.toggle('on',m==0);$('m2').classList.toggle('on',m==2);
-$('diffwrap').classList.toggle('hide',m!=0);$('ligawrap').classList.toggle('hide',m==0);$('clubwrap').classList.toggle('hide',m==0);
-if(m!=0){$('sub').textContent='Descubra o jogador secreto em 8 chutes. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.';$('score').textContent=`Acertos: ${wins}/${played}`;fillTeams()}else applyTheme();
+function setMode(m){mode=m;clearInterval(cdT);document.querySelector('.bar').classList.toggle('dly',m==0);document.querySelector('.bar').classList.toggle('who',m==3);$('m0').classList.toggle('on',m==0);$('m2').classList.toggle('on',m==2);$('m3').classList.toggle('on',m==3);$('hd').classList.remove('hide');$('who').classList.add('hide');
+$('diffwrap').classList.toggle('hide',m==3);$('myrow').classList.add('hide');document.querySelector('.bar').classList.remove('fj','fc','nc');$('score').removeAttribute('title');$('ligawrap').classList.toggle('hide',m==0||m==3);$('clubwrap').classList.toggle('hide',m==0||m==3);
+if(m==3){$('sub').textContent='Quem sou eu? Comece só com uma dica. Cada chute errado revela mais uma. Menos dicas, mais glória!';streak=lvGet('q').s;qScore();applyTheme()}else if(m!=0){$('sub').textContent='Descubra o jogador secreto em 8 chutes. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.';$('score').textContent=fScore('j');fillTeams()}else applyTheme();
 start()}
-$('m0').onclick=()=>{if(game=='j')setMode(0);else setCMode(0)};$('m2').onclick=()=>{if(game=='c'){if(cmode!=2)cDefaultsTeam();setCMode(2)}else setMode(2)};
+$('m3').onclick=()=>{if(game=='j')setMode(3)};$('m0').onclick=()=>{if(game=='j')setMode(0);else setCMode(0)};$('m2').onclick=()=>{if(game=='c'){if(cmode!=2)cDefaultsTeam();setCMode(2)}else setMode(2)};
 
 $('team').onchange=()=>{crestSel();start()};
 
@@ -448,12 +682,12 @@ $('team').onchange=()=>{crestSel();start()};
 // Dados em copas.js (gerado por pegar_copas.py), carregado só quando a aba Copa é aberta.
 // Linha: [nome, seleção, ano, pos, idade na Copa, nº, clube, idJogador, foto, idClube, idBandeira]
 // Escudos: casados pelo NOME do clube com o banco de jogadores (dados.js). Bandeiras: as mesmas das seleções do banco.
-let game='j',COPA=null,CT,CG=[],cover=false,cw=0,cp=0,cmode=0,CDAY='',CMAX=8,CHIST=[],CPK=new Map();
+let CHALC=null,game='j',COPA=null,CT,CG=[],cover=false,cw=0,cp=0,cmode=0,CDAY='',CMAX=8,CHIST=[],CPK=new Map();
 let CED=new Set(),CEDAPP=new Set(),CYEARS=[],cedDirty=false,cdiff=ls.get('qc:cdiff');
 const HD0=$('hd').innerHTML;
-const CDIFF={facil:{n:'Fácil',t:7,d:'Só os craques e as seleções mais conhecidos.'},dificil:{n:'Difícil',t:10,d:'Todos os jogadores de todas as seleções.'}};
+const CDIFF={facil:{n:'Fácil',t:10,d:'Só os craques e as seleções mais conhecidos.'},medio:{n:'Médio',t:12,d:'Jogadores das Copas mais recentes, sem os mais famosos.'},craque:{n:'Especialista',t:15,d:'Todos os jogadores de todas as seleções.'}};
 if(!CDIFF[cdiff])cdiff='facil';
-const CDORD=['facil','dificil'];
+const CDORD=['facil','medio','craque'];
 const CDN_O='https://cdn-img.staticzz.com/img/',CDN_W='https://www.ogol.com.br/img/';
 const ph=p=>p.f?(p.f.includes('/')?(p.f.startsWith('jogadores/')?CDN_W:CDN_O):CDN_P)+p.f:'';
 const ccrest=k=>k?(CRESTS_DATA[k]||CDN_C+k+'.png'):'';
@@ -580,12 +814,11 @@ st.setProperty('--stripe',`linear-gradient(90deg,${sp[0]} 0 33.4%,${sp[1]} 0 66.
 bgFade(t.join()+'|'+y+'|'+sp.join());setCopaArt(y)}
 
 // ----- jogo -----
-const cTent=()=>{$('tent').textContent='Tentativa '+Math.min(CG.length+1,CMAX)+'/'+CMAX};
-function cReset(){cover=false;CG=[];CHIST=[];$('rows').innerHTML='';const e=$('end');e.classList.add('hide');e.innerHTML='';
+const cTent=()=>{updHint();$('tent').textContent='Tentativa '+Math.min(CG.length+hintN+1,CMAX)+'/'+CMAX};
+function cReset(){cover=false;CG=[];resetHints();CHIST=[];$('rows').innerHTML='';const e=$('end');e.classList.add('hide');e.innerHTML='';
 $('q').value='';$('q').disabled=false;$('list').classList.add('hide')}
-function startCopa(){clearInterval(cdT);CMAX=8;const pl=cPool();if(!pl.length)return;const c=pl.filter(p=>p.u>0),src=c.length?c:pl;
-CT=src[Math.floor(Math.random()*src.length)];cReset();$('pool').textContent=pl.length+' jogadores';$('score').textContent=`Acertos: ${cw}/${cp}`;
-$('sub').textContent='Descubra o jogador e a Copa em 8 chutes. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.';cTent()}
+function startCopa(){clearInterval(cdT);const pl=cPool();if(!pl.length)return;CMAX=fMax(pl.length,'c');const c=pl.filter(p=>p.u>0),src=c.length?c:pl;
+CT=CHALC||fPick(src,cFame);CHALC=null;cReset();$('pool').textContent=pl.length+' jogadores';fSig();$('score').textContent=fScore('c');$('sub').textContent=fSub(pl.length,CMAX,'Descubra o jogador e a Copa. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.');renderFDiffs();renderMy();cTent()}
 function cInput(e){const v=norm(e.target.value.trim()),L=$('list');if(!v||cover||!COPA){L.classList.add('hide');return}
 const used=new Set(CG.map(cKey)),src=cmode==0?COPA:cPool(),m=src.filter(p=>!used.has(cKey(p))&&norm(p.n).includes(v)).slice(0,8);
 L.innerHTML=m.map((p,i)=>`<button data-i="${i}"><span class="li">${av('pl',ph(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('fl',cflag(p),p.s,20,14)}${esc(p.s)} ${p.y} · ${p.p}</small></button>`).join('')||'<button disabled><small>Nenhum jogador encontrado</small></button>';
@@ -603,12 +836,12 @@ d.innerHTML=`<div class="n who">${av('pl',ph(p),p.n,36,48)}<span>${esc(p.n)}</sp
 +cell(cc,av('cr',ccrest(p.k),p.c,34)+`<span class="cn">${esc(p.c)}</span>`)+'</div>';
 $('rows').prepend(d);$('q').value='';$('list').classList.add('hide');cTent();
 if(cmode==0&&!silent)ls.set('qc:cd:'+CDAY+':'+cdiff,CG.map(cKey));
-if(p===t||cKey(p)==cKey(t))cEnd(true,silent);else if(CG.length>=CMAX)cEnd(false,silent)}
-function cEnd(w,silent){cover=true;$('q').disabled=true;
-if(cmode==0){if(!silent)cRecord(w);cUpd()}else{cp++;if(w)cw++;$('score').textContent=`Acertos: ${cw}/${cp}`}
+if(p===t||cKey(p)==cKey(t))cEnd(true,silent);else if(CG.length+hintN>=CMAX)cEnd(false,silent);else if(!silent)fx([sc,yc,pc,ac,nc,cc].includes('ok')?'near':'bad')}
+function cEnd(w,silent){cover=true;updHint();$('q').disabled=true;
+if(cmode==0){if(!silent)cRecord(w);cUpd()}else{cp++;if(w)cw++;cfs=lvAdd('c:'+fdiff,w).s;nrec=w&&fBump('c',cfs);$('score').textContent=fScore('c')}
 const t=CT,n=CG.length,e=$('end');e.classList.remove('hide');
-const sk=cmode==0?cStat().s:0;let msg=w?(n==1?'Acertou de primeira!':n<=3?`Palpite certeiro: só ${n} tentativas.`:`Acertou na tentativa ${n} de ${CMAX}.`):(cmode==0?'Volte amanhã para um novo craque.':`Placar da sessão: ${cw} acerto${cw==1?'':'s'} em ${cp}.`);
-if(w&&sk>1)msg+=` Sequência de ${sk} acertos.`;
+const sk=cmode==0?cStat().s:cfs;let msg=w?(n==1?'Acertou de primeira!':n<=3?`Palpite certeiro: só ${n} tentativas.`:`Acertou na tentativa ${n} de ${CMAX}.`):(cmode==0?'Volte amanhã para um novo craque.':`Placar da sessão: ${cw} acerto${cw==1?'':'s'} em ${cp}.`);
+if(w&&sk>1)msg+=` Sequência de ${sk} acertos.`;if(w&&cmode==2&&nrec)msg+=' Novo recorde!';
 const star='<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><path fill="#fde047" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 const href=`https://www.transfermarkt.com.br/schnellsuche/ergebnis/schnellsuche?query=${encodeURIComponent(t.n)}`;
 e.innerHTML=`<div class="endcard ${w?'win':'lose'}"><div>${av('pl big',ph(t),t.n,104,139)}</div><div><div class="tag">Fim de jogo</div><h2>${w?'Muito bem!':'Não foi dessa vez'}</h2>
@@ -617,24 +850,24 @@ e.innerHTML=`<div class="endcard ${w?'win':'lose'}"><div>${av('pl big',ph(t),t.n
 <div class="club">${av('cr',ccrest(t.k),t.c,24)}<span>${esc(t.c)} · ${t.p} · camisa ${t.u||'—'}</span></div></div>
 <div class="ea">${cmode==0?'<button class="btn pri" id="share">Compartilhar</button><span class="chip" id="cd"></span>':'<button class="btn pri" id="again">Jogar de novo <span aria-hidden="true">→</span></button>'}<a class="btn sec" href="${href}" target="_blank" rel="noopener">Ver perfil</a></div></div>`;
 if(cmode==0)cDailyEnd(w);else $('again').onclick=()=>{startCopa();$('q').focus()};
-if(!silent){e.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'nearest'});if(w)confetti()}}
+endX(w,silent);if(!silent){e.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'nearest'});if(w)confetti()}}
 
-// ----- modo diário da Copa (Fácil / Difícil) -----
+// ----- modo diário da Copa (Fácil / Médio / Especialista) -----
 function cDailyPool(d){let pl=COPA.filter(p=>p.u>0);
 if(d=='facil'){const f=pl.filter(p=>CFAM.has(kn(p.n)));if(f.length)pl=f}
+else if(d=='medio'){const f=pl.filter(p=>p.y>=2018&&!CFAM.has(kn(p.n)));if(f.length>=50)pl=f}
 return pl.length?pl:COPA}
 const CTC={};
 function cDailyTarget(d,day){const k='copa|'+day+'|'+d;if(!CTC[k]){const pl=cDailyPool(d).slice().sort((a,b)=>cKey(a)<cKey(b)?-1:1);CTC[k]=pl[Math.floor(rng(k)*pl.length)]}return CTC[k]}
-function cDState(d){const g=ls.get('qc:cd:'+CDAY+':'+d)||[];if(!g.length)return '';const t=cDailyTarget(d,CDAY);
-if(g.some(k=>CPK.get(k)===t))return 'w';return g.length>=CDIFF[d].t?'l':'p'}
+function cDState(d){return cState(CDAY||dayKey(),d)}
 const cStat=()=>{const a=ls.get('qc:cstats')||{};return a[cdiff]||{p:0,w:0,s:0,ms:0,lw:''}};
 function cRecord(w){const a=ls.get('qc:cstats')||{};const s=a[cdiff]||{p:0,w:0,s:0,ms:0,lw:''};s.p++;
 if(w){s.w++;s.s=(s.lw&&s.lw==prevDay(CDAY))?s.s+1:1;s.ms=Math.max(s.ms,s.s);s.lw=CDAY}else s.s=0;a[cdiff]=s;ls.set('qc:cstats',a)}
-function cUpd(){const s=cStat();$('score').textContent=`Sequência: ${s.s} · Vitórias: ${s.w}/${s.p}`}
+function cUpd(){const s=cStat();sc3(s.s,s.w,s.p-s.w)}
 function renderCDiffs(){$('diffwrap').innerHTML=CDORD.map(d=>{const s=cDState(d);
-return `<button type="button" data-d="${d}" class="${d==cdiff?'on':''}" title="${CDIFF[d].t} tentativas">${CDIFF[d].n}${s=='w'?' ✓':s=='l'?' ✗':''}</button>`}).join('')}
+const lk=cLocked(d);return `<button type="button" data-d="${d}" class="${d==cdiff?'on':''}" ${lk?'disabled':''} title="${lk?'Conclua o nível anterior para liberar':CDIFF[d].t+' tentativas'}">${lk?'<i class="dm">🔒</i>':''}<span>${CDIFF[d].n}</span>${s=='w'?'<i class="dm">✓</i>':s=='l'?'<i class="dm">✗</i>':''}</button>`}).join('')}
 function cSetDiff(d){cdiff=d;ls.set('qc:cdiff',d);startCDaily()}
-function startCDaily(){CMAX=CDIFF[cdiff].t;CDAY=dayKey();clearInterval(cdT);
+function startCDaily(){CDAY=dayKey();if(cLocked(cdiff,CDAY))cdiff=cOpen();CMAX=CDIFF[cdiff].t;clearInterval(cdT);
 CT=cDailyTarget(cdiff,CDAY);if(!CT)return;cReset();
 $('pool').textContent='Hoje · '+CDAY.slice(8)+'/'+CDAY.slice(5,7);
 $('sub').textContent=`Um jogador de Copa novo por dia, igual para todo mundo. ${CDIFF[cdiff].d} Você tem ${CMAX} tentativas.`;
@@ -646,33 +879,164 @@ const tick=()=>{const el=$('cd');if(!el){clearInterval(cdT);return}if(dayKey()!=
 const s=secs();el.textContent='Próximo craque em '+[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
 tick();clearInterval(cdT);cdT=setInterval(tick,1000);
 $('share').onclick=async()=>{const em={ok:'🟩',near:'🟨',bad:'🟥',na:'⬜'};
-const txt=`Quem é o craque? Copa · ${CDAY.slice(8)}/${CDAY.slice(5,7)} · ${CDIFF[cdiff].n}\n${w?'✅ '+CG.length:'❌ X'}/${CMAX}\n`+CHIST.map(r=>r.map(c=>em[c]||'⬜').join('')).join('\n');
-try{await navigator.clipboard.writeText(txt);$('share').textContent='Copiado!'}catch(_){prompt('Copie o resultado:',txt)}}}
+const txt=`Quem é o Craque? Copa · ${CDAY.slice(8)}/${CDAY.slice(5,7)} · ${CDIFF[cdiff].n}\n${w?'✅ '+CG.length:'❌ X'}/${CMAX}\n`+CHIST.map(r=>r.map(c=>em[c]||'⬜').join('')).join('\n');
+await shareOut(txt)}}
 
 // ----- modos e abas -----
 function cLayout(){const d=cmode==0;
 $('m0').classList.toggle('on',d);$('m2').classList.toggle('on',!d);
-$('diffwrap').classList.toggle('hide',!d);$('diffwrap').classList.add('two');
+$('diffwrap').classList.remove('hide');$('diffwrap').classList.add('two');$('myrow').classList.add('hide');document.querySelector('.bar').classList.remove('fj');$('score').removeAttribute('title');
 $('cedwrap').classList.toggle('hide',d);$('cselwrap').classList.toggle('hide',d);
-document.querySelector('.bar').classList.toggle('dly',d);
+document.querySelector('.bar').classList.toggle('dly',d);document.querySelector('.bar').classList.remove('who');document.querySelector('.bar').classList.toggle('fc',!d);document.querySelector('.bar').classList.remove('nc');
 buildCed();buildCS();cTheme()}
 // Ao entrar em "Escolher time": Copa de 2026 e todas as seleções (se não houver 2026, usa a Copa mais recente)
 function cDefaultsTeam(){if(!COPA)return;CED=new Set([CYEARS.includes(2026)?2026:CYEARS[0]]);CEDAPP=new Set(CED);cedDirty=false;fillSel()}
 function setCMode(m){if(!COPA)return;cmode=m;clearInterval(cdT);cLayout();if(m==0)startCDaily();else startCopa()}
 async function setGame(g){game=g;clearInterval(cdT);
-$('t0').classList.toggle('on',g=='j');$('t2').classList.toggle('on',g=='c');$('m2').textContent=g=='c'?'Escolher Copa':'Escolher Clubes';
-if(g=='j'){setCopaArt(null);['cedwrap','cselwrap'].forEach(i=>$(i).classList.add('hide'));$('diffwrap').classList.remove('two');
+$('t0').classList.toggle('on',g=='j');$('t2').classList.toggle('on',g=='c');
+/* 1ª vez na Copa: carrega os dados ANTES de mexer nos botões de modo, senão o seletor Diário/Livre pula pro Livre e volta */
+if(g=='c'&&!COPA){await loadCopa();if(game!='c')return}
+$('m3').classList.toggle('hide',g=='c');$('who').classList.add('hide');$('hd').classList.remove('hide');$('m2').textContent='Modo Livre';
+if(g=='j'){setCopaArt(null);document.querySelector('.bar').classList.remove('fc');['cedwrap','cselwrap'].forEach(i=>$(i).classList.add('hide'));$('diffwrap').classList.remove('two');
 $('hd').innerHTML=HD0;$('hd').style.cssText='';setMode(mode);return}
 ['ligawrap','clubwrap'].forEach(i=>$(i).classList.add('hide'));
 $('m0').classList.remove('on');$('m2').classList.add('on');
 $('rows').innerHTML='';$('end').classList.add('hide');
-$('hd').innerHTML='<span>Seleção</span><span>Copa</span><span>Posição</span><span>Idade</span><span>Número</span><span>Clube</span>';$('hd').style.cssText='--n:6;--m:3';
+$('hd').innerHTML='<span data-tip="Amarelo para seleção do mesmo continente">Seleção</span><span data-tip="Amarelo para variação de ±4 anos na edição da Copa">Copa</span><span data-tip="Amarelo se a posição for da mesma linha (ex.: zagueiro e lateral)">Posição</span><span data-tip="Amarelo para margem de erro de ±2 anos">Idade</span><span data-tip="Amarelo para diferença de ±5 números da camisa">Número</span><span>Clube</span>';$('hd').style.cssText='--n:6;--m:3';
 if(!(await loadCopa())){const e=$('end');e.classList.remove('hide');$('q').disabled=true;
 e.innerHTML='<div class="endcard lose"><div><div class="tag">Modo Copa</div><h2>Dados não encontrados</h2><p>Coloque o arquivo <b>copas.js</b> (gerado por pegar_copas.py) na mesma pasta do index.html. No Netlify, arraste a pasta inteira.</p></div></div>';return}
 if(game!='c')return;
-if(cmode!=2)cDefaultsTeam();fillSel();setCMode(2)}
+if(CHALC){if(cmode!=2)cDefaultsTeam();fillSel();setCMode(2)}else setCMode(cmode)}
 $('csel').onchange=()=>{cTheme();startCopa()};
 $('t0').onclick=()=>{if(game!='j')setGame('j')};$('t2').onclick=()=>{if(game!='c')setGame('c')};
+
+// ---------- som, vibração e mensagens de torcida ----------
+const SND={on:ls.get('qc:snd')!==0};let AC;
+const setSnd=()=>{$('bmute').textContent=SND.on?'🔊':'🔇';$('bmute').setAttribute('aria-pressed',String(SND.on))};
+function fx(k){if(!SND.on)return;try{navigator.vibrate&&navigator.vibrate({bad:[120],near:[40],win:[50,40,50,40,160],lose:[200,80,200]}[k])}catch(e){}
+try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=='suspended')AC.resume();const T=AC.currentTime;
+const q={bad:[[220,0,.12,'square'],[160,.1,.16,'square']],near:[[560,0,.14,'triangle']],win:[[523,0,.12],[659,.11,.12],[784,.22,.12],[1047,.33,.3]],lose:[[330,0,.18,'sawtooth'],[262,.17,.18,'sawtooth'],[196,.34,.32,'sawtooth']]}[k];
+q.forEach(([f,t,d,ty])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=ty||'sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,T+t);g.gain.exponentialRampToValueAtTime(.16,T+t+.02);g.gain.exponentialRampToValueAtTime(.0001,T+t+d);o.connect(g);g.connect(AC.destination);o.start(T+t);o.stop(T+t+d+.03)})}catch(e){}}
+$('bmute').onclick=()=>{SND.on=!SND.on;ls.set('qc:snd',SND.on?1:0);setSnd();if(SND.on)fx('near')};setSnd();
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const cheer=(w,n)=>w?(n==1?pick(['GOLAÇO! De primeira! 🎯','É craque, é craque! De primeira! 🔥']):n<=3?pick(['Que lindo! A torcida vai à loucura! ⚽','Joga muito! Faltou só a taça! 🏆']):pick(['Venceu no sufoco, mas venceu! 🔥','Gol nos acréscimos! 👏','Garra de campeão! 💪'])):pick(['Quase! Na próxima o gol sai. 💪','Faz parte, a torcida continua com você! 👏','Bola na trave! Volte mais forte! ⚽']);
+function endX(w,silent){const c=game=='c',e=$('end'),n=(c?CG:guesses).length;
+if(mode==3&&!c)renderWho();
+const bs=e.querySelector('.badge span');if(bs)bs.textContent=cheer(w,n)+' '+bs.textContent;
+if(!c){const ea=e.querySelector('.ea');if(ea){const b=document.createElement('button');b.className='btn sec';b.textContent='🤝 Desafiar amigo';b.onclick=()=>challenge(w,b);ea.appendChild(b)}}
+if(!silent)fx(w?'win':'lose')}
+// ---------- dicas estilo rogue-like: 2 cartas, custo crescente (1ª=1, 2ª=2, 3ª=3 tentativas) ----------
+const HL={inicial:['🔤','Inicial'],pais:['🌎','País'],liga:['🏟️','Liga'],pos:['📍','Posição'],idade:['🎂','Idade'],num:['👕','Número'],valor:['💰','Valor'],time:['🛡️','Time atual'],copa:['🏆','Copa']};
+const HKEYS=c=>c?['inicial','pais','copa','pos','idade','num','time']:['inicial','pais','liga','pos','idade','num','valor','time'];
+const hcost=n=>n*(n-1)/2; // 1ª dica grátis; 2ª custa 1, 3ª custa 2...
+const hStep=n=>n-1;let hintOffer=[];
+const hintVal=(k,t,c)=>({pais:c?t.s:(t.z||LI(t.l)[2]||'—'),time:t.c,inicial:'começa com "'+t.n.trim()[0].toUpperCase()+'"',liga:c?'':LI(t.l)[0],pos:t.p,idade:t.a+' anos',num:t.u?'#'+t.u:'sem número',valor:c?'':money(t.v),copa:String(t.y)})[k];
+const hintKey=()=>game=='c'?(cmode==0?'qc:ch:'+CDAY+':'+cdiff:null):(mode==0?'qc:h:'+DAY+':'+diff:null);
+function resetHints(){const k=hintKey();hintUsed=k?(ls.get(k)||[]):[];hintN=hcost(hintUsed.length);hintOffer=k?(ls.get(k+':o')||[]):[];if($('dhint').open)$('dhint').close()}
+function renderHints(){const c=game=='c',t=c?CT:target,b=$('hbox');
+const on=t&&!(c?cover:over)&&(c||mode!=3);b.classList.toggle('hide',!on);if(!on)return;
+const nx=hintUsed.length+1,free=HKEYS(c).filter(k=>!hintUsed.includes(k)),can=free.length&&(c?CG:guesses).length+hintN+hStep(nx)<=(c?CMAX:MAXT)-1,hb=$('hbtn');
+$('hchips').innerHTML=hintUsed.map(k=>HL[k]?`<span class="hchip">${HL[k][0]} ${HL[k][1]}: <b>${esc(hintVal(k,t,c))}</b></span>`:'').join('');
+hb.classList.toggle('hide',!free.length);hb.disabled=!can;
+const cs=hStep(nx);hb.innerHTML=`<span>💡 Dica</span><b class="hcost">${cs?'−'+cs+' Tentativa'+(cs>1?'s':''):'Grátis'}</b>`;
+hb.title=can?(cs?`Escolha 1 de 2 cartas. Custa ${cs} Tentativa${cs>1?'s':''}.`:'Escolha 1 de 2 cartas. A 1ª dica é grátis.'):'Tentativas insuficientes para outra dica'}
+$('hbtn').onclick=()=>{const c=game=='c',free=HKEYS(c).filter(k=>!hintUsed.includes(k));
+if(!hintOffer.length||hintOffer.some(k=>!free.includes(k))){hintOffer=free.slice().sort(()=>Math.random()-.5).slice(0,2);const k=hintKey();if(k)ls.set(k+':o',hintOffer)}
+const nx=hintUsed.length+1;
+$('hsub').textContent=`${nx}ª Dica: ${nx>1?'custa '+(nx-1)+' Tentativa'+(nx>2?'s':''):'grátis'}. Escolha uma carta.`;
+$('hcards').innerHTML=hintOffer.map(k=>`<button type="button" class="hcard" data-k="${k}"><span class="hi">${HL[k][0]}</span><b>${HL[k][1]}</b><small>Revelar</small></button>`).join('');
+$('dhint').showModal()};
+$('hcards').onclick=e=>{const b=e.target.closest('button[data-k]');if(!b)return;hintUsed.push(b.dataset.k);hintN=hcost(hintUsed.length);hintOffer=[];
+const k=hintKey();if(k){ls.set(k,hintUsed);ls.set(k+':o',[])}$('dhint').close();fx('near');game=='c'?cTent():tent()};
+// ---------- modo "Quem sou eu?" ----------
+function whoStart(){MAXT=6;clearInterval(cdT);HIST=[];guesses=[];over=false;six=true;hintUsed=[];hintN=0;
+const c=P.filter(p=>p.u>0&&p.v>=1);target=pick(c.length?c:P);
+$('rows').innerHTML='';const e=$('end');e.classList.add('hide');e.innerHTML='';$('q').value='';$('q').disabled=false;$('list').classList.add('hide');
+$('pool').textContent=P.length+' jogadores';$('hd').classList.add('hide');$('who').classList.remove('hide');renderWho();tent()}
+function renderWho(){const t=target,k=over?6:Math.min(guesses.length+1,6),n=HASNAC?1:0,N=5+n,M=N==6?3:4;
+// ordem de revelação: Posição, Nac., Idade, Número, Liga, Clube (mesmas colunas do modo Clubes)
+const rev={p:0,z:1,a:2,u:3,l:4,c:5},li=LI(t.l),lock=(h)=>`<div class="c na" style="opacity:.6">🔒</div>`;
+const cols=[];
+if(HASNAC)cols.push(['Nac.',rev.z,()=>cell('ok',(t.b?av('fl',flag(t.b),t.z,34,24):'')+`<span class="cn">${esc(t.z||'—')}</span>`)]);
+cols.push(['Liga',rev.l,()=>cell('ok',lgIcon(t.l,38)+'<span class="cn">'+esc(li[1])+'</span>')]);
+cols.push(['Clube',rev.c,()=>cell('ok',av('cr',crest(t.l,t.c),t.c,34)+`<span class="cn">${esc(t.c)}</span>`)]);
+cols.push(['Posição',rev.p,()=>cell('ok',esc(t.p))]);
+cols.push(['Idade',rev.a,()=>cell('ok',esc(String(t.a)))]);
+cols.push(['Número',rev.u,()=>cell('ok',t.u?'#'+t.u:'#—')]);
+const st=`--n:${cols.length};--m:${cols.length==6?3:4}`;
+$('who').innerHTML=`<div class="hd" style="${st}">${cols.map(c=>`<span>${c[0]}</span>`).join('')}</div><div class="row" style="${st}">${cols.map(c=>c[1]<k?c[2]():lock()).join('')}</div>`+(guesses.length?'<div class="wrong">❌ '+guesses.filter(g=>g!==t).map(g=>esc(g.n)).join(' · ')+'</div>':'')}
+function whoGuess(p,silent){if(over||!p)return;guesses.push(p);const t=target,hit=p===t||(p.n==t.n&&p.c==t.c&&p.l==t.l);
+$('q').value='';$('list').classList.add('hide');if(hit)guesses[guesses.length-1]=t;renderWho();tent();
+if(hit)end(true,silent);else if(guesses.length>=MAXT)end(false,silent);else if(!silent)fx(p.p==t.p||p.c==t.c||p.l==t.l?'near':'bad')}
+// ---------- desafio entre amigos ----------
+async function challenge(w,b){const t=target,n=guesses.length,dly=mode==0,base=location.href.split(/[?#]/)[0],
+u=dly?base+'?dd='+diff:base+'?c='+encodeURIComponent(btoa(unescape(encodeURIComponent(pkey(t))))),
+txt=(dly?(w?`Descobri o craque do diário (${DIFF[diff].n}) em ${n} tentativa${n>1?'s':''}! Consegue me superar? 🤝`:`O craque do diário (${DIFF[diff].n}) me derrotou! Consegue acertar? 🤝`):(w?`Descobri o craque em ${n} tentativa${n>1?'s':''}! Consegue me superar? 🤝`:'Esse craque me derrotou! Consegue acertar? 🤝'))+'\n'+u;
+try{if(navigator.share&&matchMedia('(pointer:coarse)').matches)await navigator.share({text:txt});else{await navigator.clipboard.writeText(txt);b.textContent='Link copiado!'}}catch(e){if(!e||e.name!='AbortError')prompt('Copie o desafio:',txt)}}
+// ---------- criar desafio (escolher qualquer craque) ----------
+let shT='j';
+const b64=x=>encodeURIComponent(btoa(unescape(encodeURIComponent(x))));
+function shReset(){$('sq').value='';$('sl').classList.add('hide');$('sres').innerHTML=''}
+async function shTab(t){shT=t;$('sh0').classList.toggle('on',t=='j');$('sh1').classList.toggle('on',t=='c');shReset();
+if(t=='c'&&!COPA&&!(await loadCopa()))$('sres').innerHTML='<p>Dados da Copa não encontrados (copas.js).</p>'}
+$('sh0').onclick=()=>shTab('j');$('sh1').onclick=()=>shTab('c');
+$('bshare').onclick=()=>{shTab(shT);$('dshare').showModal();$('sq').focus()};
+$('sq').oninput=()=>{const v=norm($('sq').value.trim()),L=$('sl');if(!v||(shT=='c'&&!COPA)){L.classList.add('hide');return}
+const m=(shT=='j'?P:COPA).filter(p=>norm(p.n).includes(v)).slice(0,8);
+L.innerHTML=m.map((p,i)=>shT=='j'?`<button data-i="${i}"><span class="li">${av('pl',photo(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('cr',crest(p.l,p.c),p.c,18)}${p.p} · ${esc(p.c)}</small></button>`:`<button data-i="${i}"><span class="li">${av('pl',ph(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('fl',cflag(p),p.s,20,14)}${esc(p.s)} ${p.y} · ${p.p}</small></button>`).join('')||'<button disabled><small>Nenhum jogador encontrado</small></button>';
+L.classList.remove('hide');L.onclick=ev=>{const b=ev.target.closest('button[data-i]');if(b&&m[+b.dataset.i])shPick(m[+b.dataset.i])}};
+function shPick(p){const c=shT=='c',u=location.href.split(/[?#]/)[0]+(c?'?cc=':'?c=')+b64(c?cKey(p):pkey(p)),txt='Consegue descobrir o craque que eu escolhi? 🤝\n'+u;
+$('sl').classList.add('hide');$('sq').value=p.n;
+$('sres').innerHTML=`<div class="shc">${av('pl',c?ph(p):photo(p),p.n,48,64)}<div><b>${esc(p.n)}</b><small>${c?esc(p.s)+' · Copa '+p.y:esc(p.c)+' · '+p.p}</small></div></div><input class="shl" id="shu" readonly value="${esc(u)}" aria-label="Link do desafio"><div class="shb"><button class="dbtn" id="shcp" type="button">Copiar link</button><button class="dbtn" id="shsd" type="button">Enviar</button></div>`;
+$('shu').onclick=()=>$('shu').select();
+$('shcp').onclick=async()=>{try{await navigator.clipboard.writeText(txt);$('shcp').textContent='Link copiado!'}catch(e){$('shu').select();$('shcp').textContent='Selecione e copie'}};
+$('shsd').onclick=async()=>{try{if(navigator.share)await navigator.share({text:txt});else{await navigator.clipboard.writeText(txt);$('shsd').textContent='Copiado!'}}catch(e){}}}
+// ---------- calendário de histórico ----------
+let calM=null,calT=0,calSel=null;
+function dState(day,d){const g=ls.get('qc:d:'+day+':'+d)||[];if(!g.length)return '';const t=dailyTarget(d,day);if(g.some(k=>PK.get(k)===t))return 'w';return g.length+hcost((ls.get('qc:h:'+day+':'+d)||[]).length)>=DIFF[d].t?'l':'p'}
+function cState(day,d){const g=ls.get('qc:cd:'+day+':'+d)||[];if(!g.length)return '';if(!COPA)return 'p';const t=cDailyTarget(d,day);if(g.some(k=>CPK.get(k)===t))return 'w';return g.length+hcost((ls.get('qc:ch:'+day+':'+d)||[]).length)>=CDIFF[d].t?'l':'p'}
+const nextSecs=()=>{const sp=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Sao_Paulo'}));return Math.max(0,Math.round((new Date(sp.getFullYear(),sp.getMonth(),sp.getDate()+1)-sp)/1000))};
+const dayStates=day=>({j:DORD.map(d=>dState(day,d)),c:CDORD.map(d=>cState(day,d))});
+const STL={w:['✓','Acertou'],l:['✗','Perdeu'],p:['●','Em andamento'],'':['○','Não jogou']};
+function calDetail(){const now=dayKey(),day=calSel,fut=day>now,isT=day==now,S=dayStates(day),all=[...S.j,...S.c],
+done=all.filter(x=>x=='w'||x=='l').length,wins=all.filter(x=>x=='w').length,
+title=isT?'Hoje':new Date(day+'T12:00:00Z').toLocaleDateString('pt-BR',{day:'numeric',month:'long',timeZone:'UTC'}),
+MODES=[['j','⚽ Clubes',DORD,DIFF],['c','🏆 Copa',CDORD,CDIFF]];
+let h=`<div class="cdh"><b>${title}</b><span>${fut?'Ainda não disponível':`${done}/${all.length} concluídos · ${wins} acerto${wins==1?'':'s'}`}</span></div>`;
+if(!fut)h+=MODES.map(([g,nm,ord,N])=>`<div class="cgr"><small>${nm}</small><div class="cch">${ord.map((d,i)=>{const st=S[g][i],lk=isT&&i>0&&!['w','l'].includes(S[g][i-1]),can=isT&&st!='w'&&st!='l'&&!lk,tg=can?`button type="button" data-g="${g}" data-d="${d}"`:'div';
+return `<${tg} class="chp ${st}${can?' go':''}"><b>${N[d].n}</b><span>${lk?'🔒 Bloqueado':can?(st=='p'?'Continuar →':'Jogar →'):STL[st][0]+' '+STL[st][1]}</span></${can?'button':'div'}>`}).join('')}</div></div>`).join('');
+$('cdetail').innerHTML=h}
+async function goPlay(g,d){$('dcal').close();
+if(g=='j'){if(game!='j')await setGame('j');if(mode!=0)setMode(0);if(diff!=d){diff=d;ls.set('qc:diff',d);startDaily()}}
+else{await setGame('c');if(game!='c')return;if(cmode!=0)setCMode(0);if(cdiff!=d)cSetDiff(d)}
+window.scrollTo({top:0,behavior:'smooth'})}
+function showCal(dm){const now=dayKey();if(!calM||dm===0){calM={y:+now.slice(0,4),m:+now.slice(5,7)-1};if(dm===0||!calSel)calSel=now}else{calM.m+=dm;if(calM.m<0){calM.m=11;calM.y--}if(calM.m>11){calM.m=0;calM.y++}}
+if(!COPA&&ls.get('qc:cstats')&&!showCal.ld){showCal.ld=1;loadCopa().then(ok=>{showCal.ld=0;if(ok&&$('dcal').open)showCal()}).catch(()=>{showCal.ld=0})}
+const{y,m}=calM,first=new Date(Date.UTC(y,m,1)).getUTCDay(),nd=new Date(Date.UTC(y,m+1,0)).getUTCDate();let pl=0,w=0,pf=0,h='<span></span>'.repeat(first);
+for(let d=1;d<=nd;d++){const day=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,fut=day>now,S=fut?{j:DORD.map(()=>''),c:CDORD.map(()=>'')}:dayStates(day),all=[...S.j,...S.c],
+nw=all.filter(x=>x=='w').length,any=all.some(Boolean),perfect=nw==all.length;if(nw)w++;if(any)pl++;if(perfect)pf++;
+const cls=perfect?'w':(nw||all.includes('p'))?'p':any?'l':'';
+h+=`<button type="button" class="cd ${cls}${day==now?' td':''}${fut?' fu':''}${day==calSel?' sel':''}" data-day="${day}"${fut?' disabled':''} aria-label="${d}/${m+1}: ${nw} de ${all.length} acertos">${d}<i>${S.j.map(x=>`<b class="dt ${x}"></b>`).join('')}</i><i>${S.c.map(x=>`<b class="dt ${x}"></b>`).join('')}</i></button>`}
+$('cgrid').innerHTML=h;$('cmon').textContent=new Date(Date.UTC(y,m,1)).toLocaleDateString('pt-BR',{month:'long',year:'numeric',timeZone:'UTC'});
+$('csum').textContent=`Dias jogados: ${pl} · Com vitória: ${w} · Completos (6/6): ${pf}`;calDetail();
+const tk=()=>{const s=nextSecs();$('ccd').textContent=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
+if(!$('dcal').open){$('dcal').showModal();tk();clearInterval(calT);calT=setInterval(tk,1000)}}
+$('dcal').addEventListener('close',()=>clearInterval(calT));
+$('cgrid').onclick=e=>{const b=e.target.closest('button[data-day]');if(!b||b.disabled)return;calSel=b.dataset.day;showCal()};
+$('cdetail').onclick=e=>{const b=e.target.closest('button[data-g]');if(b)goPlay(b.dataset.g,b.dataset.d)};
+$('bcal').onclick=()=>showCal(0);
+(function(){const tip=document.createElement('div');tip.id='tip';tip.setAttribute('role','tooltip');document.body.appendChild(tip);let cur=null;
+const hide=()=>{tip.classList.remove('on');cur=null};
+const show=el=>{cur=el;tip.textContent=el.dataset.tip;const r=el.getBoundingClientRect(),w=tip.offsetWidth,cx=r.left+r.width/2;let x=Math.max(8,Math.min(cx-w/2,innerWidth-w-8));tip.style.left=x+'px';tip.style.top=(r.bottom+8)+'px';tip.style.setProperty('--ax',Math.max(12,Math.min(cx-x,w-12))+'px');tip.classList.add('on')};
+const hd=$('hd'),t=e=>e.target.closest&&e.target.closest('[data-tip]');
+hd.addEventListener('mouseover',e=>{if(!matchMedia('(hover:hover)').matches)return;const el=t(e);if(el)show(el)});
+hd.addEventListener('mouseout',e=>{if(matchMedia('(hover:hover)').matches&&t(e))hide()});
+hd.addEventListener('click',e=>{const el=t(e);if(!el)return;e.stopPropagation();cur===el?hide():show(el)});
+document.addEventListener('click',hide);window.addEventListener('scroll',hide,{passive:true});window.addEventListener('resize',hide)})();
+(function(){const pl=$('pool'),isH=()=>pl.textContent.startsWith('Hoje ·');
+const sync=()=>{const h=isH();pl.classList.toggle('hoje',h);if(h){pl.setAttribute('role','button');pl.tabIndex=0;pl.title='Abrir histórico'}else{pl.removeAttribute('role');pl.removeAttribute('tabindex');pl.removeAttribute('title')}};
+new MutationObserver(sync).observe(pl,{childList:true,characterData:true,subtree:true});sync();
+const go=()=>{if(isH())showCal(0)};pl.addEventListener('click',go);pl.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})})();$('cprev').onclick=()=>showCal(-1);$('cnext').onclick=()=>showCal(1);
 
 // ---------- caixinha roxa deslizante (abas) ----------
 function slidePill(t){const on=t.querySelector('button.on');let p=t.querySelector('.pill');
@@ -684,8 +1048,39 @@ const upd=()=>{cancelAnimationFrame(q);q=requestAnimationFrame(()=>slidePill(t))
 new MutationObserver(upd).observe(t,{subtree:true,attributes:true,attributeFilter:['class'],childList:true,characterData:true});
 addEventListener('resize',upd);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{t.classList.add('init');slidePill(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.remove('init')))});
 slidePill(t);requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.remove('init')))}
+// ---------- pista (foto que clareia), compartilhar, ajuda e estatísticas ----------
+function updHint(){renderHints();const c=game=='c',t=c?CT:target,w=$('hintw'),i=$('hint');
+if(!t||c||mode!=3||over){w.classList.add('hide');return}
+const src=photo(t);if(!src){w.classList.add('hide');return}
+const n=(c?CG:guesses).length+hintN,m=c?CMAX:MAXT;
+const clr=c?(cmode==0&&cdiff=='facil'):(mode==0&&(diff=='facil'||diff=='medio')),last=n>=m-1;
+const bl=Math.round(26*(1-n/(m-1))),flt='blur('+(clr?(last?0:Math.max(3,bl)):Math.max(6,bl))+'px)';
+if(i.dataset.s!=src){
+/* foto nova: aplica o borrão ANTES de carregar e sem transição (evita ver a foto nítida ao trocar de aba) */
+i.style.transition='none';i.style.filter=flt;i.dataset.s=src;i.onerror=()=>{w.classList.add('hide');i.dataset.s=''};i.src=src;
+void i.offsetWidth;i.style.transition=''}
+else i.style.filter=flt;
+w.classList.remove('hide')}
+async function shareOut(txt){const full=txt+'\nJogue: '+location.href.split('#')[0].split('?')[0],b=$('share');
+try{if(navigator.share&&matchMedia('(pointer:coarse)').matches){await navigator.share({text:full});return}
+await navigator.clipboard.writeText(full);b.textContent='Copiado!'}catch(e){if(!e||e.name!='AbortError')prompt('Copie o resultado:',full)}}
+function showStats(){const a=ls.get('qc:stats')||{},b=ls.get('qc:cstats')||{};
+const blk=(t,o,N)=>'<h3>'+t+'</h3><div class="sr hd2"><span></span><span>🔥 Seq.</span><span>🏆 Recorde</span><span>Vitórias</span></div>'+Object.keys(N).map(k=>{const s=o[k]||{p:0,w:0,s:0,ms:0};
+return `<div class="sr"><b>${N[k].n}</b><span>${s.s}</span><span>${s.ms}</span><span>${s.w}/${s.p} (${s.p?Math.round(100*s.w/s.p):0}%)</span></div>`}).join('');
+$('stbody').innerHTML=blk('Clubes (diário)',a,DIFF)+blk('Copa (diário)',b,CDIFF);$('dstat').showModal()}
+$('bhelp').onclick=()=>$('dhelp').showModal();$('bstat').onclick=showStats;
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))d.close()}));
+if(!ls.get('qc:seen')){ls.set('qc:seen',1);setTimeout(()=>$('dhelp').showModal(),600)};
+(()=>{const e=$('sub'),R=/^.*?[.!?](?=\s|$)/,f=()=>{const t=e.textContent.trim(),m=t.match(R);if(!m)return;let r=m[0];if(r.length<20){const n=t.slice(r.length).trim().match(R);if(n)r+=' '+n[0]}if(r!==t)e.textContent=r};new MutationObserver(f).observe(e,{childList:true,characterData:true,subtree:true});f()})();
 initPill('modos');
-setMode(0);
+(()=>{let ok=false;try{const c=new URLSearchParams(location.search).get('c'),cc=new URLSearchParams(location.search).get('cc'),dd=new URLSearchParams(location.search).get('dd');
+if(cc){ok=true;(async()=>{try{if(await loadCopa()){const p=CPK.get(decodeURIComponent(escape(atob(cc))));if(p){CHALC=p;cmode=2;CED=new Set(CYEARS);CEDAPP=new Set(CED);await setGame('c');
+$('sub').textContent='🤝 Um amigo te desafiou! Descubra o mesmo craque que ele escolheu.';history.replaceState(null,'',location.href.split('?')[0]);return}}}catch(e){}setMode(0)})()}
+else if(dd&&DIFF[dd]){diff=dd;setMode(0);ok=true;$('sub').textContent='🤝 Um amigo te desafiou no diário! '+$('sub').textContent;history.replaceState(null,'',location.href.split('?')[0])}
+else if(c){const p=PK.get(decodeURIComponent(escape(atob(c))));
+if(p){CHAL=p;SEL.clear();LG.forEach(l=>SEL.add(l));APPLIED=new Set(SEL);setMode(2);ok=true;
+$('sub').textContent='🤝 Um amigo te desafiou! Descubra o mesmo craque que ele jogou.';history.replaceState(null,'',location.href.split('?')[0])}}}catch(e){}
+if(!ok)setMode(0)})();
 </script>
 </body>
 </html>
