@@ -285,8 +285,9 @@ button.chp.go{cursor:pointer;border-color:var(--acc)}button.chp.go span{color:va
 @media(max-width:480px){.bar.dly #diffwrap button{font-size:11px;gap:3px}}
 @media(max-width:480px){.bar.dly #diffwrap button,.bar #diffwrap.two button{font-size:12px;letter-spacing:-.2px;padding:8px 0}}
 @media(max-width:380px){.bar #diffwrap button{font-size:11px}}
+#score{cursor:help}
 #hd [data-tip]{cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
-#tip{position:fixed;z-index:60;max-width:220px;padding:8px 11px;border-radius:10px;background:var(--ink);color:var(--panel);font:500 12px/1.35 'DM Sans',system-ui,sans-serif;text-align:center;box-shadow:0 8px 24px #0005;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .12s}
+#tip{position:fixed;z-index:60;max-width:280px;padding:8px 11px;border-radius:10px;background:var(--ink);color:var(--panel);font:500 12px/1.35 'DM Sans',system-ui,sans-serif;text-align:center;box-shadow:0 8px 24px #0005;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .12s}
 #tip.on{opacity:1;visibility:visible}
 #tip::before{content:"";position:absolute;top:-5px;left:var(--ax,50%);width:10px;height:10px;background:inherit;transform:translateX(-50%) rotate(45deg)}
 dialog{max-height:90vh;max-height:90dvh;overflow-y:auto;overscroll-behavior:contain}
@@ -580,7 +581,7 @@ const cFame=p=>(CFAM.has(kn(p.n))?4:0)+(p.k?1.5:0)+(p.u&&p.u<=11?1:0)+(hue(cKey(
 const fSub=(n,m,i)=>`${i} ${FLV[fdiff].n}: ${FLV[fdiff].d} Você tem ${m} tentativas.`+(n<=15?' Recorte pequeno: poucos jogadores para sortear.':'');
 const FR=()=>ls.get('qc:frec')||{};
 function fBump(g,v){const a=FR(),k=g+':'+fdiff;if(v>(a[k]||0)){a[k]=v;ls.set('qc:frec',a);return v>1}return false}
-const SCT='Sequência · Vitórias · Derrotas';
+const SCT=''; // o balão (tooltip) do placar substitui o title nativo
 function sc3(q,w,l){$('score').title=SCT;$('score').textContent=`🔥${q}\u2002🏆${w}\u2002❌${l}`}
 const lvGet=k=>Object.assign({s:0,w:0,l:0},(ls.get('qc:live')||{})[k]);
 function lvAdd(k,w){const a=ls.get('qc:live')||{},o=Object.assign({s:0,w:0,l:0},a[k]);if(w){o.w++;o.s++}else{o.l++;o.s=0}a[k]=o;ls.set('qc:live',a);return o}
@@ -1028,11 +1029,12 @@ $('cdetail').onclick=e=>{const b=e.target.closest('button[data-g]');if(b)goPlay(
 $('bcal').onclick=()=>showCal(0);
 (function(){const tip=document.createElement('div');tip.id='tip';tip.setAttribute('role','tooltip');document.body.appendChild(tip);let cur=null;
 const hide=()=>{tip.classList.remove('on');cur=null};
-const show=el=>{cur=el;tip.textContent=el.dataset.tip;const r=el.getBoundingClientRect(),w=tip.offsetWidth,cx=r.left+r.width/2;let x=Math.max(8,Math.min(cx-w/2,innerWidth-w-8));tip.style.left=x+'px';tip.style.top=(r.bottom+8)+'px';tip.style.setProperty('--ax',Math.max(12,Math.min(cx-x,w-12))+'px');tip.classList.add('on')};
+const show=el=>{cur=el;if(el.id=='score'){const m=el.textContent.match(/🔥\s*(\d+)\D+?🏆\s*(\d+)\D+?❌\s*(\d+)/);if(!m)return;tip.textContent=`Sequência (${m[1]}) · Vitórias (${m[2]}) · Derrotas (${m[3]})`}else tip.textContent=el.dataset.tip;const r=el.getBoundingClientRect(),w=tip.offsetWidth,cx=r.left+r.width/2;let x=Math.max(8,Math.min(cx-w/2,innerWidth-w-8));tip.style.left=x+'px';tip.style.top=(r.bottom+8)+'px';tip.style.setProperty('--ax',Math.max(12,Math.min(cx-x,w-12))+'px');tip.classList.add('on')};
 const hd=$('hd'),t=e=>e.target.closest&&e.target.closest('[data-tip]');
 hd.addEventListener('mouseover',e=>{if(!matchMedia('(hover:hover)').matches)return;const el=t(e);if(el)show(el)});
 hd.addEventListener('mouseout',e=>{if(matchMedia('(hover:hover)').matches&&t(e))hide()});
 hd.addEventListener('click',e=>{const el=t(e);if(!el)return;e.stopPropagation();cur===el?hide():show(el)});
+const sc=$('score'),hov=()=>matchMedia('(hover:hover)').matches;sc.addEventListener('mouseover',()=>{if(hov())show(sc)});sc.addEventListener('mouseout',()=>{if(hov())hide()});sc.addEventListener('click',e=>{e.stopPropagation();cur===sc?hide():show(sc)});
 document.addEventListener('click',hide);window.addEventListener('scroll',hide,{passive:true});window.addEventListener('resize',hide)})();
 (function(){const pl=$('pool'),isH=()=>pl.textContent.startsWith('Hoje ·');
 const sync=()=>{const h=isH();pl.classList.toggle('hoje',h);if(h){pl.setAttribute('role','button');pl.tabIndex=0;pl.title='Abrir histórico'}else{pl.removeAttribute('role');pl.removeAttribute('tabindex');pl.removeAttribute('title')}};
