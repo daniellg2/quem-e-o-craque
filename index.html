@@ -289,6 +289,7 @@ button.chp.go{cursor:pointer;border-color:var(--acc)}button.chp.go span{color:va
 #tip{position:fixed;z-index:60;max-width:220px;padding:8px 11px;border-radius:10px;background:var(--ink);color:var(--panel);font:500 12px/1.35 'DM Sans',system-ui,sans-serif;text-align:center;box-shadow:0 8px 24px #0005;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .12s}
 #tip.on{opacity:1;visibility:visible}
 #tip::before{content:"";position:absolute;top:-5px;left:var(--ax,50%);width:10px;height:10px;background:inherit;transform:translateX(-50%) rotate(45deg)}
+dialog{max-height:90vh;max-height:90dvh;overflow-y:auto;overscroll-behavior:contain}
 </style>
 </head>
 <body>
@@ -1068,6 +1069,8 @@ function showStats(){const a=ls.get('qc:stats')||{},b=ls.get('qc:cstats')||{};
 const blk=(t,o,N)=>'<h3>'+t+'</h3><div class="sr hd2"><span></span><span>🔥 Seq.</span><span>🏆 Recorde</span><span>Vitórias</span></div>'+Object.keys(N).map(k=>{const s=o[k]||{p:0,w:0,s:0,ms:0};
 return `<div class="sr"><b>${N[k].n}</b><span>${s.s}</span><span>${s.ms}</span><span>${s.w}/${s.p} (${s.p?Math.round(100*s.w/s.p):0}%)</span></div>`}).join('');
 $('stbody').innerHTML=blk('Clubes (diário)',a,DIFF)+blk('Copa (diário)',b,CDIFF);$('dstat').showModal()}
+/* ao abrir qualquer diálogo, o foco inicial ia pro último botão e rolava o conteúdo pra baixo: volta pro topo */
+(function(){const sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){sm.call(this);const d=this,top=()=>{d.scrollTop=0};top();requestAnimationFrame(top)}})();
 $('bhelp').onclick=()=>$('dhelp').showModal();$('bstat').onclick=showStats;
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))d.close()}));
 if(!ls.get('qc:seen')){ls.set('qc:seen',1);setTimeout(()=>$('dhelp').showModal(),600)};
