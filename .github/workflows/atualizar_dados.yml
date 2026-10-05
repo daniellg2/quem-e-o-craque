@@ -2,9 +2,9 @@ name: Atualizar Base de Dados de Clubes (Transfermarkt)
 
 on:
   schedule:
-    # Roda toda segunda-feira às 03:00 da manhã (horário de Brasília)
-    - cron: '0 6 * * 1'
-  workflow_dispatch: # Permite que você clique em um botão para rodar manualmente quando quiser
+    # 40 = minuto, 2 = hora UTC (23:40 BRT), 1 = segunda-feira UTC (domingo BRT)
+    - cron: '40 2 * * 1'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Executar o script de atualização
         run: |
-          # Atualiza todas as ligas e atualiza o arquivo index.html (ou o arquivo que você usa)
+          # Executa o script que embute os escudos e dados no HTML
           python pegar_dados.py --html index.html --embutir-imagens
 
       - name: Salvar e publicar as alterações no repositório
@@ -34,4 +34,4 @@ jobs:
           git config --global user.name "Bot de Atualização"
           git config --global user.email "bot@github.com"
           git add .
-          git diff --quiet && git diff --staged --quiet || (git commit -m "bot: atualização automática dos dados de clubes" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "bot: atualização semanal automática" && git push)
