@@ -1,0 +1,37 @@
+name: Atualizar Base de Dados de Clubes (Transfermarkt)
+
+on:
+  schedule:
+    # Roda toda segunda-feira às 03:00 da manhã (horário de Brasília)
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # Permite que você clique em um botão para rodar manualmente quando quiser
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar bibliotecas necessárias
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Executar o script de atualização
+        run: |
+          # Atualiza todas as ligas e atualiza o arquivo index.html (ou o arquivo que você usa)
+          python pegar_dados.py --html index.html --embutir-imagens
+
+      - name: Salvar e publicar as alterações no repositório
+        run: |
+          git config --global user.name "Bot de Atualização"
+          git config --global user.email "bot@github.com"
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "bot: atualização automática dos dados de clubes" && git push)
