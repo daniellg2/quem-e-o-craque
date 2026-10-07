@@ -790,6 +790,23 @@ html[data-cw="2014"] #tipos .pill,html[data-cw="2014"] #tipos button.on,html[dat
 .adb button#ad_cp:hover,.adb button#ad_csv:hover,.adb button#ad_rs:hover,.adb button#ad_ro:hover{border-color:var(--acc);box-shadow:none}
 .admx{border-radius:999px;padding:9px 16px;box-shadow:0 4px 14px #0003;transition:transform .12s,filter .15s}.admx:hover{filter:brightness(1.08)}.admx:active{transform:scale(.97)}
 #ad_out .sr{padding:10px 12px;margin:6px 0;border:1px solid var(--line);border-radius:14px}
+
+/* listas de ligas/clubes/Copas no celular: 3 itens por rolagem */
+@media(max-width:600px){
+.ldlist{--lr:54px;max-height:calc(var(--lr)*3 + 2px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:y proximity;scroll-padding:0}
+.ldlist:has(.lgfoot){max-height:calc(var(--lr)*3 + 2px + 64px)}
+.ldlist button{min-height:var(--lr);box-sizing:border-box;padding-top:6px;padding-bottom:6px;scroll-snap-align:start}
+.ldlist .lgfoot button{min-height:0;padding:11px 14px;scroll-snap-align:none}
+.ldlist .lghint{padding:6px 14px 4px}
+#dprof .ldlist{max-height:calc(54px*3 + 2px)}
+}
+/* cartas de dica: 2 cartas, sem sobrepor no celular */
+.hcards.two{max-width:68%;margin-left:auto;margin-right:auto}
+@media(max-width:600px){
+.hcards.two{max-width:none}
+.hcards{padding:26px 6px 30px;gap:10px}
+.hcards .hcard{min-height:0;min-width:0;width:100%}
+}
 </style>
 </head>
 <body>
@@ -1474,7 +1491,7 @@ if(!hintOffer.length||hintOffer.length>2||hintOffer.some(k=>!free.includes(k))){
 const nx=hintUsed.length+1;
 $('hsub').textContent=`${nx>1?nx+'ª dica · CUSTA '+(nx-1)+' CHUTE'+(nx>2?'S':''):'Primeira dica · GRÁTIS'}. Escolha uma das cartas.`;
 $('hcards').innerHTML=hintOffer.map((k,i)=>`<button type="button" class="hcard" data-k="${k}" style="--i:${i+(3-hintOffer.length)/2}"><span class="htl"><span class="hin">${[0,1,2,3,4,5].map(n=>`<span class="hz" style="--k:${n}"></span>`).join('')}<span class="hf hback"><span class="hbi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5l3.8 2.8-1.4 4.4H9.6l-1.4-4.4zM12 7.5V2.600M15.800 10.300l4.600-1.500M14.400 14.700l2.800 4M9.600 14.700l-2.800 4M8.200 10.300L3.600 8.800"/></svg></span></span><span class="hf hfront"><span class="hshine"></span><span class="hi">${HL[k][0]}</span><b>${HL[k][1]}</b><small>${nx>1?'Custa '+(nx-1)+' chute'+(nx>2?'s':''):'Grátis'}</small></span></span></span></button>`).join('');
-$('hcards').style.gridTemplateColumns=`repeat(${hintOffer.length},minmax(0,1fr))`;$('hcards').style.maxWidth=hintOffer.length<3?'68%':'';$('hcards').style.margin=hintOffer.length<3?'0 auto':'';delete $('hcards').dataset.busy;$('hcards').querySelectorAll('.hcard').forEach(c=>tiltOn(c,26,c.firstChild));
+$('hcards').style.gridTemplateColumns=`repeat(${hintOffer.length},minmax(0,1fr))`;$('hcards').classList.toggle('two',hintOffer.length<3);delete $('hcards').dataset.busy;$('hcards').querySelectorAll('.hcard').forEach(c=>tiltOn(c,26,c.firstChild));
 $('dhint').showModal()};
 // carta escolhida gira e sobe; as outras caem. Depois a dica é aplicada.
 $('hcards').onclick=e=>{const b=e.target.closest('button[data-k]'),H=$('hcards');if(!b||H.dataset.busy)return;H.dataset.busy=1;
