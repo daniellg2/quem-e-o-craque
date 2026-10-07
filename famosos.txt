@@ -1,0 +1,200 @@
+# famosos.txt — jogadores "estrela" que a fórmula de fama costuma subestimar (veteranos, lendas, ídolos).
+# Formato: um ID do Transfermarkt por linha (o número no final da URL do jogador). Tudo depois de # é comentário.
+# Use SEMPRE o ID e nunca o nome: só na base há 8 "Paulinho" e 5 "Dudu".
+# Quem está aqui recebe fama mínima de 92 e conta como "sinal forte" para entrar no Fácil.
+# Linhas marcadas com CONFIRA tinham mais de um jogador com o mesmo nome: confira se o escolhido é o certo.
+
+68290     # Neymar (Santos FC, BRA1)
+244275    # Gabriel Barbosa (Santos FC, BRA1)
+80562     # Hulk (Fluminense FC, BRA1)
+50144     # Cássio (Cruzeiro EC, BRA1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+22415     # Fábio (Fluminense FC, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+29241     # Thiago Silva (Fluminense FC, BRA1)
+16306     # Casemiro (Inter Miami CF, MLS1)
+731004    # Marcelo (AD Confiança, BRA3)
+401475    # Oscar (Al-Taawoun FC, SA1)
+191614    # Fred (Atlético Mineiro, BRA1)
+52896     # Everton Ribeiro (EC Bahia, BRA1)
+80444     # Philippe Coutinho (Santos FC, BRA1)
+248410    # Giorgian de Arrascaeta (CR Flamengo, BRA1)
+432895    # Pedro (CR Flamengo, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+353108    # Bruno Henrique (CR Flamengo, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+341705    # Gerson (Cruzeiro EC, BRA1)
+444523    # Lucas Paquetá (CR Flamengo, BRA1)
+371998    # Vinicius Junior (Real Madrid CF, ES1)
+412363    # Rodrygo (Real Madrid CF, ES1)
+971570    # Endrick (Real Madrid CF, ES1)
+411295    # Raphinha (FC Barcelona, ES1)
+1056993   # Estêvão (Chelsea FC, GB1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+815558    # Martinelli (Fluminense FC, BRA1)
+363205    # Gabriel Jesus (FC Barcelona, ES1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+378710    # Richarlison (Tottenham Hotspur, GB1)
+105470    # Alisson (FC Liverpool, GB1)  # CONFIRA: 4 jogadores com esse nome, escolhido o de maior valor
+607854    # Éderson (Atalanta BC, IT1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+181767    # Marquinhos (Paris Saint-Germain, FR1)  # CONFIRA: 5 jogadores com esse nome, escolhido o de maior valor
+401530    # Éder Militão (Real Madrid CF, ES1)
+520624    # Bruno Guimarães (FC Arsenal, GB1)
+517894    # Matheus Cunha (Manchester United FC, GB1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+602105    # Antony (Real Betis Balompié, ES1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+808509    # Danilo (Botafogo FR, BRA1)  # CONFIRA: 4 jogadores com esse nome, escolhido o de maior valor
+79960     # Alex Sandro (CR Flamengo, BRA1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+442818    # Fernandinho (Mirassol FC, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+69400     # Weverton (Grêmio FBPA, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+1004728   # Dudu (Athletico Paranaense, BRA1)  # CONFIRA: 9 jogadores com esse nome, escolhido o de maior valor
+489893    # Yuri Alberto (SC Corinthians, BRA1)
+67920     # Ganso (Fluminense FC, BRA1)
+800175    # Luiz Henrique (Zenit São Petersburgo, RU1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+626724    # João Pedro (Chelsea FC, GB1)  # CONFIRA: 10 jogadores com esse nome, escolhido o de maior valor
+77100     # Lucas Moura (São Paulo FC, BRA1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+131789    # Roberto Firmino (Al-Sadd SC, QSL)
+546212    # Diego Costa (PAOK Thessaloniki, GR1)
+76028     # Taison (PAOK Thessaloniki, GR1)
+362842    # Arthur Melo (Santos FC, BRA1)
+225693    # Fabinho (Trabzonspor, TR1)  # CONFIRA: 5 jogadores com esse nome, escolhido o de maior valor
+288431    # Léo Pereira (CR Flamengo, BRA1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+943837    # Vitor Roque (SE Palmeiras, BRA1)
+735570    # João Gomes (Aston Villa FC, GB1)
+203394    # Andreas Pereira (SE Palmeiras, BRA1)
+432953    # Raphael Veiga (CF América, MEXA)
+371009    # Rony (Santos FC, BRA1)
+588989    # Jhon Arias (SE Palmeiras, BRA1)
+54590     # Germán Cano (Fluminense FC, BRA1)
+223560    # Luciano (São Paulo FC, BRA1)
+28003     # Lionel Messi (Inter Miami CF, MLS1)
+45320     # Ángel Di María (CA Rosario Central, AR1N)
+406625    # Lautaro Martínez (Inter de Milão, IT1)
+576024    # Julián Alvarez (Atlético de Madrid, ES1)
+648195    # Enzo Fernández (Manchester City FC, GB1)
+534033    # Alexis Mac Allister (FC Liverpool, GB1)
+111873    # Emiliano Martínez (Chelsea FC, GB1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+355915    # Cristian Romero (Atlético de Madrid, ES1)
+54781     # Nicolás Otamendi (CA River Plate, AR1N)
+206050    # Paulo Dybala (AS Roma, IT1)
+255901    # Rodrigo De Paul (Inter Miami CF, MLS1)
+166237    # Leandro Paredes (CA Boca Juniors, AR1N)
+480762    # Lisandro Martínez (Manchester United FC, GB1)
+1057316   # Franco Mastantuono (ACF Fiorentina, IT1)
+576028    # Thiago Almada (CA River Plate, AR1N)
+348795    # Giovani Lo Celso (Real Betis Balompié, ES1)
+131225    # Nicolás Tagliafico (Olympique Lyon, FR1)
+60410     # Marcos Acuña (CA River Plate, AR1N)
+402733    # Gonzalo Montiel (CA River Plate, AR1N)
+424042    # Nahuel Molina (AS Roma, IT1)
+401578    # Exequiel Palacios (Ipswich Town FC, GB1)
+424784    # Luis Suárez (Sporting CP, PO1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+369081    # Federico Valverde (Real Madrid CF, ES1)
+546543    # Darwin Núñez (Al-Diriyah FC, SA1)
+480267    # Ronald Araujo (FC Liverpool, GB1)
+354362    # Rodrigo Bentancur (Tottenham Hotspur, GB1)
+250845    # José María Giménez (Deportivo A Coruña, ES1)
+58088     # Fernando Muslera (Club Estudiantes de La Plata, AR1N)
+397458    # Nicolás de la Cruz (CR Flamengo, BRA1)
+476701    # Manuel Ugarte (Manchester United FC, GB1)
+88103     # James Rodríguez (Atlético Nacional, COLP)
+480692    # Luis Díaz (FC Bayern Munique, L1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+91970     # Juan Cuadrado (Millonarios Bogotá, COLP)
+341429    # Davinson Sánchez (Galatasaray, TR1)
+649317    # Jhon Durán (SL Benfica, PO1)
+8198      # Cristiano Ronaldo (Al-Nassr FC, SA1)
+27992     # Luka Modrić (AC Milan, IT1)
+17259     # Manuel Neuer (FC Bayern Munique, L1)
+38253     # Robert Lewandowski (Chicago Fire FC, MLS1)
+225083    # N'Golo Kanté (Fenerbahce, TR1)
+342229    # Kylian Mbappé (Real Madrid CF, ES1)
+418560    # Erling Haaland (Manchester City FC, GB1)
+148455    # Mohamed Salah (Trabzonspor, TR1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+88755     # Kevin De Bruyne (Napoli, IT1)
+132098    # Harry Kane (FC Bayern Munique, L1)
+581678    # Jude Bellingham (Real Madrid CF, ES1)
+937958    # Lamine Yamal (FC Barcelona, ES1)
+683840    # Pedri (FC Barcelona, ES1)
+646740    # Gavi (FC Barcelona, ES1)
+357565    # Rodri (FC Barcelona, ES1)
+406635    # Phil Foden (Manchester City FC, GB1)
+433177    # Bukayo Saka (FC Arsenal, GB1)
+357662    # Declan Rice (FC Arsenal, GB1)
+139208    # Virgil van Dijk (FC Liverpool, GB1)
+108390    # Thibaut Courtois (Real Madrid CF, ES1)
+125781    # Antoine Griezmann (Orlando City SC, MLS1)
+288230    # Ousmane Dembélé (Paris Saint-Germain, FR1)
+241641    # Bernardo Silva (Real Madrid CF, ES1)
+240306    # Bruno Fernandes (Manchester United FC, GB1)
+258004    # Rúben Dias (Manchester City FC, GB1)
+462250    # João Félix (Al-Nassr FC, SA1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+357164    # Rafael Leão (Galatasaray, TR1)
+487469    # Vitinha (Paris Saint-Germain, FR1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+161056    # Joshua Kimmich (FC Bayern Munique, L1)
+580195    # Jamal Musiala (FC Bayern Munique, L1)
+598577    # Florian Wirtz (FC Liverpool, GB1)
+121483    # Jan Oblak (Atlético de Madrid, ES1)
+61651     # Jordan Henderson (Chelsea FC, GB1)
+197838    # Jamie Vardy (FC Burnley, GB2)
+58358     # Thomas Müller (Vancouver Whitecaps FC, MLS1)
+167850    # Memphis Depay (SC Corinthians, BRA1)
+315858    # Gianluigi Donnarumma (Manchester City FC, GB1)
+255942    # Nicolò Barella (Inter de Milão, IT1)
+341092    # Federico Chiesa (FC Liverpool, GB1)
+102558    # Marco Verratti (Al-Duhail SC, QSL)
+398073    # Achraf Hakimi (Paris Saint-Germain, FR1)
+401923    # Victor Osimhen (Galatasaray, TR1)
+200512    # Sadio Mané (Al-Nassr FC, SA1)
+111455    # Granit Xhaka (AFC Sunderland, GB1)
+40433     # Alexis Sánchez (CF Montréal, MLS1)
+316889    # Hirving Lozano (Los Angeles Galaxy, MLS1)
+315779    # Christian Pulisic (AC Milan, IT1)
+332697    # Weston McKennie (Juventus FC, IT1)
+42460     # Ivan Perisic (PSV Eindhoven, NL1)
+28396     # Edin Dzeko (Schalke 04, L1)
+182712    # João Cancelo (FC Barcelona, ES1)
+520662    # Pepê (FC Porto, PO1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+17965     # Hugo Lloris (Los Angeles FC, MLS1)
+82442     # Olivier Giroud (LOSC Lille, FR1)
+53622     # İlkay Gündoğan (Galatasaray, TR1)
+192565    # Leroy Sané (Galatasaray, TR1)
+309400    # Kai Havertz (FC Arsenal, GB1)
+86202     # Antonio Rüdiger (Real Madrid CF, ES1)
+357498    # Dušan Vlahović (Besiktas JK, TR1)
+79422     # Keylor Navas (UNAM Pumas, MEXA)
+119228    # Luis Muriel (Junior FC, COLP)
+73794     # Duván Zapata (Torino FC, IT1)
+
+# --- nomes procurados e NÃO encontrados na base atual (talvez estejam em liga que o script não cobre) ---
+# Willian
+# Gabriel Magalhães
+# Savinho
+# David Luiz
+# Dani Alves
+# Douglas Costa
+# Hernanes
+# Gabigol
+# Everton Cebolinha
+# Arias
+# Ricardo Goulart
+# Calleri
+# Edinson Cavani
+# David Ospina
+# Radamel Falcao
+# Karim Benzema
+# Son Heung-min
+# Marc-André ter Stegen
+# Sergio Ramos
+# Sergio Busquets
+# Jordi Alba
+# Ciro Immobile
+# Riyad Mahrez
+# Mats Hummels
+# Xherdan Shaqiri
+# Arturo Vidal
+# Guillermo Ochoa
+# Ivan Rakitić
+# Mesut Özil
+# Nani
+# Paul Pogba
+# Raphaël Varane
+# Toni Kroos
+# Rafael Márquez
+# Javier Hernández
+# Andrés Guardado
+# Mario Mandzukic
+# Wesley Sneijder
+# Arjen Robben

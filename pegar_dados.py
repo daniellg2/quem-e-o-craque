@@ -2,8 +2,9 @@
 Baixa os elencos do Transfermarkt (várias ligas) e gera o bloco DATA do jogo.
 
 Posições (campo "pos"): GOL ZAG LD LE VOL MC MEI PD PE SA CA.
-Cada linha gerada tem 12 campos:
-  nome,clube,pos,idade,num,valor(mi €),liga,idJogador,arquivoFoto,idClube,nacionalidade,idBandeira
+Cada linha gerada tem 13 campos:
+  nome,clube,pos,idade,num,valor(mi €),liga,idJogador,arquivoFoto,idClube,nacionalidade,idBandeira,fama(0-100)
+A fama usa famosos.txt (IDs de estrelas), copas.json (historico de Copas) e, se existir, ajustes_fama.json.
 
 Fotos dos jogadores: o jogo monta a URL e o navegador carrega direto do Transfermarkt.
 Escudos e bandeiras: com --embutir-imagens o script baixa cada imagem uma vez e grava
@@ -16,6 +17,8 @@ Uso:
   python pegar_dados.py --html quem-e-o-craque.html --embutir-imagens   # + escudos e bandeiras no HTML
   python pegar_dados.py --ligas BRA1 GB1 ES1             # só algumas ligas (CUIDADO: o DATA fica só com elas)
   python pegar_dados.py --ligas BRA3 MEXA --html dados.js --embutir-imagens --acrescentar   # adiciona ligas sem perder as outras
+  python pegar_dados.py --so-fama --html dados.js       # so recalcula a fama (13o campo), sem baixar nada
+  python pegar_dados.py --so-fama --relatorio-fama fama.csv   # + CSV para conferir a nota de cada jogador
   python pegar_dados.py --lista-ligas                    # mostra os códigos disponíveis
   python pegar_dados.py --temporada 2026 --min-valor 0.5
 
@@ -24,7 +27,7 @@ o site. Use --sem-cache para forçar novo download.
 Para adicionar uma liga, inclua uma linha em LIGAS (o código é o final da URL da liga
 no Transfermarkt, ex.: .../wettbewerb/GB1).
 """
-import argparse, base64, hashlib, json, os, re, sys, time, unicodedata
+import argparse, base64, hashlib, json, math, os, re, sys, time, unicodedata
 from collections import Counter
 import requests
 from bs4 import BeautifulSoup
@@ -370,6 +373,204 @@ def trocar_bloco(html, nome, dados):
     return re.subn(rf"const {nome}=\{{.*?\}};", lambda _: f"const {nome}={js};", html, count=1, flags=re.S)
 
 
+# ======================================================================
+#  FAMA (0-100) = "chance de um brasileiro que acompanha futebol reconhecer o jogador".
+#  Vira o 13º campo de cada linha do DATA. O jogo usa essa nota para decidir QUEM PODE
+#  aparecer em cada dificuldade:  Fácil >= 78 | Médio 60-77 | Especialista 44-59 | < 44 nunca.
+#  (Os três cortes abaixo precisam ser iguais a FAMA.facil / FAMA.medio / FAMA.craque no index.html.)
+#
+#  TETO DO FÁCIL: ninguém chega a 78+ só com valor + clube + nacionalidade. É preciso ao menos
+#  um SINAL FORTE: estrela manual (famosos.txt), Copa 2018/2022/2026 por seleção de grande alcance
+#  (copas.json; nacionalidade com peso >= 8), clube de enorme alcance (CLUBES_S, jogador entre os 5
+#  mais valiosos do clube), ou valor de elite (>= 40 mi). Sem isso a
+#  nota é travada em 77 (vira Médio).
+# ======================================================================
+FAMA_FACIL_MIN = 78
+FAMA_MEDIO_MIN = 60
+FAMA_CORTE = 44
+VALOR_ELITE = 40.0          # mi €: a partir daqui o valor sozinho já é sinal forte
+
+# 39 clubes de alcance grande (os mesmos FACIL_IDS do jogo): dão 25 pts de clube
+CLUBES_A = set("418 131 13 281 985 31 11 631 148 762 583 27 16 15 46 5 506 6195 12 720 294 336 610 614 1023 199 585 221 2462 978 537 210 6600 330 609 189 209 1114 69261".split())
+# clubes de ENORME alcance no Brasil (sinal forte). Santos, Grêmio, Inter etc. ficam fora de propósito.
+CLUBES_S = set("418 131 281 985 31 11 631 583 27 506 46 5 13 614 199 1023 585 189 209".split())
+# clubes conhecidos de nível B (20 pts de clube). Além destes, a força do elenco (soma dos 14 maiores
+# valores) é calculada sozinha a cada rodada, então subidas/descidas de clube se ajustam sozinhas.
+CLUBES_B = {'24': 'SG Eintracht Frankfurt', '29': 'FC Everton', '36': 'Fenerbahce', '114': 'Besiktas JK', '141': 'Galatasaray', '150': 'Real Betis Balompié', '162': 'AS Monaco', '234': 'Feyenoord', '244': 'Olympique Marselha', '288': 'Club Estudiantes de La Plata', '368': 'Sevilla FC', '371': 'Celtic FC', '379': 'West Ham United', '383': 'PSV Eindhoven', '398': 'SS Lazio', '405': 'Aston Villa FC', '430': 'ACF Fiorentina', '621': 'Athletic Bilbao', '681': 'Real Sociedad', '703': 'Nottingham Forest', '800': 'Atalanta BC', '861': 'CA Peñarol', '866': 'Club Nacional', '873': 'Crystal Palace FC', '1025': 'Bologna', '1041': 'Olympique Lyon', '1049': 'Valencia CF', '1050': 'FC Villarreal', '1061': 'Los Angeles Galaxy', '1082': 'LOSC Lille', '1234': 'CA Independiente', '1237': 'Brighton & Hove Albion', '1444': 'Racing Club', '1775': 'CA San Lorenzo de Almagro', '2282': 'Club Brugge', '2407': 'CF Monterrey', '3631': 'CF América', '3711': 'CD Cruz Azul', '8023': 'Al-Ittihad Club', '18487': 'Al-Ahli SFC', '18544': 'Al-Nassr FC', '23826': 'RB Leipzig', '51828': 'Los Angeles FC'}
+
+PESO_LIGA = {"GB1": 10, "ES1": 10, "IT1": 10, "L1": 10, "FR1": 10, "BRA1": 11, "PO1": 7, "AR1N": 6, "NL1": 5, "SA1": 5,
+             "TR1": 4, "MLS1": 4, "MEXA": 4, "BRA2": 4, "BE1": 3, "GB2": 3, "URU1": 2, "COLP": 2, "SC1": 2, "JAP1": 2,
+             "GR1": 2, "BRA3": 2, "RU1": 1, "DK1": 1, "CSL": 1, "QSL": 1}
+PESO_NAC = {"Brasil": 13, "Argentina": 12, "Uruguai": 10, "Portugal": 10, "França": 10, "Espanha": 10, "Inglaterra": 10,
+            "Alemanha": 10, "Itália": 10, "Holanda": 9, "Colômbia": 8, "Bélgica": 8, "Croácia": 7, "México": 6,
+            "Paraguai": 6, "Chile": 6, "Estados Unidos": 5, "Equador": 5, "Marrocos": 5, "Senegal": 5, "Nigéria": 4,
+            "Japão": 4, "Coreia do Sul": 4, "Dinamarca": 4, "Suiça": 4, "Suíça": 4, "Polónia": 4, "Sérvia": 4,
+            "Noruega": 4, "Costa do Marfim": 4, "Camarões": 4, "Gana": 4, "Egito": 4, "Venezuela": 4, "Peru": 4}
+# o oGol (copas.json) e o Transfermarkt escrevem alguns países de formas diferentes
+ALIAS_PAIS = {"irao": "ira", "republica tcheca": "tchequia", "turquia": "turquia", "polonia": "polonia"}
+
+
+def _norm(t):
+    t = unicodedata.normalize("NFD", (t or "").lower()).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9 ]", "", t).strip()
+
+
+def _pais(p):
+    n = _norm(p)
+    return ALIAS_PAIS.get(n, n)
+
+
+def _f(x, padrao=0.0):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return padrao
+
+
+def _clamp(x, a=0.0, b=1.0):
+    return max(a, min(b, x))
+
+
+def faixa_fama(f):
+    return "Fácil" if f >= FAMA_FACIL_MIN else "Médio" if f >= FAMA_MEDIO_MIN else "Especialista" if f >= FAMA_CORTE else "Fora"
+
+
+def carregar_famosos(caminho):
+    """IDs do Transfermarkt (um por linha, # = comentário). Sempre ID, nunca nome: há vários 'Paulinho'."""
+    ids = set()
+    try:
+        with open(caminho, encoding="utf-8") as f:
+            for linha in f:
+                m = re.match(r"\s*(\d+)\b", linha)
+                if m:
+                    ids.add(m.group(1))
+    except OSError:
+        print(f"  ! {caminho} nao encontrado: a fama fica sem as estrelas manuais (qualidade menor no Facil).")
+    return ids
+
+
+def carregar_copas(caminho):
+    """(nome, pais) normalizados -> ano da Copa mais recente em que o jogador esteve (de copas.json)."""
+    mapa = {}
+    try:
+        with open(caminho, encoding="utf-8") as f:
+            rows = json.load(f)["rows"]
+    except (OSError, ValueError, KeyError):
+        print(f"  ! {caminho} nao encontrado/ilegivel: a fama fica sem o sinal de Copa.")
+        return mapa
+    for r in rows:
+        try:
+            ano = int(r[2])
+        except (TypeError, ValueError, IndexError):
+            continue
+        k = (_norm(r[0]), _pais(r[1]))
+        if ano > mapa.get(k, 0):
+            mapa[k] = ano
+    return mapa
+
+
+def carregar_ajustes(caminho):
+    """Opcional. {"idJogador": pontos}: ajuste vindo do feedback dos jogadores (ex.: -8 ou +5)."""
+    try:
+        with open(caminho, encoding="utf-8") as f:
+            d = json.load(f)
+        return {str(k): _f(v) for k, v in d.items()}
+    except (OSError, ValueError, AttributeError):
+        return {}
+
+
+def calcular_fama(campos, famosos, copas, ajustes):
+    """campos: listas com os 12 campos de cada jogador. Devolve [(fama, sinais, travado)] na mesma ordem."""
+    por_clube = {}
+    for i, c in enumerate(campos):
+        por_clube.setdefault(c[9] or c[1], []).append(i)
+    forca, rank = {}, {}
+    for k, idxs in por_clube.items():
+        idxs.sort(key=lambda i: -_f(campos[i][5]))
+        forca[k] = sum(_f(campos[i][5]) for i in idxs[:14])      # força do elenco (14 maiores valores)
+        for pos, i in enumerate(idxs, 1):
+            rank[i] = pos                                         # 1 = jogador mais valioso do clube
+    saida = []
+    for i, c in enumerate(campos):
+        nome, clube, _, idade, num, valor, liga, pid, _, idc, nac = c[:11]
+        v, idade, n, r = _f(valor), int(_f(idade, 25)), (int(num) if str(num).isdigit() else 0), rank[i]
+        ve = v * 1.25 if liga == "BRA1" else v                    # mercado brasileiro é subavaliado frente à fama
+        pts_valor = 40 * _clamp(math.log10(max(ve, 0.05) * 20) / math.log10(2000))
+        dyn = _clamp(math.log10(max(forca[idc or clube], 1) / 20) / math.log10(900 / 20))
+        base_clube = max(20 * dyn, 25 if idc in CLUBES_A else 0, 20 if idc in CLUBES_B else 0, 9 if liga == "BRA1" else 0)
+        rel = 1 if r <= 3 else .75 if r <= 7 else .5 if r <= 11 else .25   # reserva de clube grande vale menos
+        pts_tit = (7 if r <= 3 else 5 if r <= 11 else 2 if r <= 16 else 0) + \
+                  (3 if n in (1, 7, 9, 10, 11) else 2 if 2 <= n <= 8 else 1 if 12 <= n <= 25 else 0)
+        f = pts_valor + base_clube * rel + PESO_LIGA.get(liga, 1) + PESO_NAC.get(nac, 3) + pts_tit
+        if idade <= 20 and v < 10:
+            f -= 6
+        elif idade <= 22 and v < 5:
+            f -= 3
+        ano_copa = copas.get((_norm(nome), _pais(nac)), 0)
+        f += 10 if ano_copa >= 2026 else 8 if ano_copa >= 2022 else 5 if ano_copa >= 2018 else 2 if ano_copa >= 2014 else 0
+        sinais = []
+        if pid in famosos:
+            sinais.append("estrela")
+            f = max(f, 92)
+        if ano_copa >= 2018 and PESO_NAC.get(nac, 3) >= 8:        # Copa só conta como sinal forte para seleções de grande alcance
+            sinais.append(f"copa{ano_copa}")
+        if idc in CLUBES_S and r <= 5:
+            sinais.append("clube")
+        if v >= VALOR_ELITE:
+            sinais.append("valor")
+        f = int(round(_clamp(f + ajustes.get(pid, 0), 0, 100)))
+        travado = False
+        if f >= FAMA_FACIL_MIN and not sinais:                    # o teto: sem sinal forte, não entra no Fácil
+            f, travado = FAMA_FACIL_MIN - 1, True
+        saida.append((f, sinais, travado))
+    return saida
+
+
+def relatorio_fama(campos, res, famosos, caminho_csv=None):
+    cont = Counter(faixa_fama(f) for f, _, _ in res)
+    print("\nFama calculada:")
+    for nome in ("Fácil", "Médio", "Especialista", "Fora"):
+        print(f"  {nome:13} {cont.get(nome, 0):6}")
+    travados = [(c, f) for c, (f, _, t) in zip(campos, res) if t]
+    print(f"  {len(travados)} jogadores seriam Fácil mas foram travados em {FAMA_FACIL_MIN - 1} (sem sinal forte). Exemplos:")
+    for c, _ in sorted(travados, key=lambda x: -_f(x[0][5]))[:8]:
+        print(f"     {c[0]} ({c[1]}, {c[5]} mi)")
+    por_sinal = Counter(s.rstrip("0123456789") for f, sig, _ in res if f >= FAMA_FACIL_MIN for s in sig)
+    print("  Sinais fortes dos jogadores do Fácil:", dict(por_sinal))
+    ids_base = {c[7] for c in campos}
+    fora = sum(1 for i in famosos if i not in ids_base)
+    if fora:
+        print(f"  ({fora} IDs de famosos.txt nao estao na base atual: jogam fora das ligas coletadas, nao tem problema)")
+    if caminho_csv:
+        with open(caminho_csv, "w", encoding="utf-8-sig") as f:
+            f.write("nome;clube;liga;valor_mi;nacionalidade;fama;faixa;sinais;travado\n")
+            for c, (fm, sig, t) in sorted(zip(campos, res), key=lambda x: -x[1][0]):
+                f.write(";".join([c[0], c[1], c[6], c[5], c[10], str(fm), faixa_fama(fm), "+".join(sig), "sim" if t else ""]) + "\n")
+        print(f"  Relatorio completo: {caminho_csv}")
+
+
+def aplicar_fama(linhas, args):
+    """Recalcula a fama de TODAS as linhas (descarta qualquer 13º campo antigo) e devolve linhas com 13 campos."""
+    campos = []
+    for l in linhas:
+        c = l.split(",")[:12]
+        campos.append(c + [""] * (12 - len(c)))
+    famosos = carregar_famosos(args.famosos)
+    res = calcular_fama(campos, famosos, carregar_copas(args.copas_json), carregar_ajustes(args.ajustes_fama))
+    relatorio_fama(campos, res, famosos, args.relatorio_fama)
+    return [",".join(c + [str(f)]) for c, (f, _, _) in zip(campos, res)]
+
+
+def ler_linhas_dados(fonte):
+    """Lê as linhas de jogadores de um dados.txt ou de um .js/.html com 'const DATA=`...`;'."""
+    with open(fonte, encoding="utf-8") as f:
+        txt = f.read()
+    m = re.search(r"const DATA=`(.*?)`;", txt, re.S)
+    corpo = m.group(1) if m else txt
+    return [l.strip() for l in corpo.split(";") if l.strip() and len(l.split(",")) > 6]
+
+
+
 def main():
     global USAR_CACHE, USOU_REDE
     ap = argparse.ArgumentParser()
@@ -388,6 +589,12 @@ def main():
     ap.add_argument("--sem-cache", action="store_true", help="ignora a pasta cache/ e baixa tudo de novo")
     ap.add_argument("--acrescentar", action="store_true",
                     help="mantém os jogadores das outras ligas que já estão no --html (ou dados.txt) e só troca/adiciona as ligas de --ligas")
+    ap.add_argument("--so-fama", action="store_true",
+                    help="NAO baixa nada: so recalcula a fama (13o campo) do --html (ou dados.txt) e regrava")
+    ap.add_argument("--famosos", default="famosos.txt", help="IDs de jogadores estrela (padrao: famosos.txt)")
+    ap.add_argument("--copas-json", default="copas.json", help="Copas (gerado por pegar_copas.py), sinal de historico internacional")
+    ap.add_argument("--ajustes-fama", default="ajustes_fama.json", help="opcional: {idJogador: pontos} vindo do feedback")
+    ap.add_argument("--relatorio-fama", metavar="ARQ.csv", help="grava um CSV com a fama de cada jogador para conferir")
     args = ap.parse_args()
 
     if args.lista_ligas:
@@ -398,6 +605,13 @@ def main():
     if desconhecidas:
         sys.exit(f"Liga(s) desconhecida(s): {', '.join(desconhecidas)}. Use --lista-ligas.")
     USAR_CACHE = not args.sem_cache
+
+    if args.so_fama:
+        fonte = args.html or "dados.txt"
+        linhas = ler_linhas_dados(fonte)
+        print(f"--so-fama: {len(linhas)} jogadores lidos de {fonte}")
+        gravar(aplicar_fama(linhas, args), args)
+        return
 
     linhas = []
     for cod in args.ligas:
@@ -449,6 +663,10 @@ def main():
         print(f"\n--acrescentar: {len(mantidas)} jogadores de outras ligas mantidos de {fonte}")
         linhas = mantidas + linhas
 
+    gravar(aplicar_fama(linhas, args), args)
+
+
+def gravar(linhas, args):
     bloco = ";\n".join(linhas)
     with open("dados.txt", "w", encoding="utf-8") as f:
         f.write(bloco)
