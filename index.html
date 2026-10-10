@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="theme-color" content="#09140e">
+<meta name="theme-color" content="#1b7238" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#07200f" media="(prefers-color-scheme: dark)">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Quem é o Craque?</title>
 <meta name="description" content="Descubra o craque secreto do dia. Jogo diário de futebol com modo Copa do Mundo.">
@@ -11,7 +12,8 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2315803d%22/%3E%3Cpath d=%22M10 58C10 44 19.500 38 32 38C44.500 38 54 44 54 58Z%22 fill=%22%23f1efe4%22/%3E%3Ccircle cx=%2232%22 cy=%2222%22 r=%2214%22 fill=%22%23f1efe4%22/%3E%3Cpath d=%22M32 15.500L38.200 20L35.800 27.300H28.200L25.800 20Z%22 fill=%22%2311261a%22/%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&family=Lobster&family=Marcellus&family=Readex+Pro:wght@500;700&family=Bagel+Fat+One&family=Anton&family=Londrina+Solid:wght@400;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&family=Lobster&family=Marcellus&family=Readex+Pro:wght@500;700&family=Bagel+Fat+One&family=Anton&family=Londrina+Solid:wght@400;900&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+<script>(function(){var t='dark';try{var v=JSON.parse(localStorage.getItem('qc:theme'));if(v==='light'||v==='dark')t=v}catch(e){}document.documentElement.setAttribute('data-theme',t);var c=t==='dark'?'#07200f':'#1b7238';document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('meta[name=theme-color]').forEach(function(m){m.setAttribute('content',c);m.removeAttribute('media')})})})();</script>
 <style>
 :root{--bg:#f4f2ff;--panel:#fff;--ink:#181430;--mut:#6d6890;--line:#e2def7;--acc:#7c3aed;--acc2:#c026d3;--ok:#16a34a;--near:#d97706;--bad:#dc2626;--cell:#f0edff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -633,6 +635,10 @@ button.chp.go{background:linear-gradient(135deg,var(--acc),var(--acc2));border-c
 .bar.closing>*:not(#fsum):not(#myrow){opacity:0!important;transform:translateY(-8px)!important;transition:opacity .16s ease,transform .16s ease!important}
 @media(prefers-reduced-motion:reduce){.bar.opening>*{animation:none!important}}
 @media(max-width:600px){.card>#modos button{font-size:15px!important;letter-spacing:0}}
+/* ===== UI v6 "Figurinha" verde e amarelo: tokens (antes dos temas de Copa) ===== */
+:root{--bg:#1b7238;--g1:#1e7c3d;--g2:#197035;--pl:rgba(255,255,255,.4);--panel:#fffef5;--ink:#0d2b17;--mut:#4f6b57;--line:#cfe3c3;--acc:#0b7a35;--acc2:#0b7a35;--cell:#eef7e0;--ok:#16a34a;--okt:#fff;--near:#f5a524;--bad:#e5384c;--ol:#0d2b17;--sh:#0d2b17;--sun:#ffd21f;--chalk:transparent;--grass:transparent}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07200f;--g1:#0b2d16;--g2:#08260f;--pl:rgba(255,255,255,.2);--panel:#12301c;--ink:#f3f7e8;--mut:#9fc0a8;--line:#2a5a3a;--acc:#178a47;--acc2:#178a47;--cell:#1a4026;--ol:#cfe27a;--sh:#02100a;--ok:#3ddc84;--okt:#04210f;--near:#ffc233;--bad:#ff6b6b;--chalk:transparent;--grass:transparent}}
+:root[data-theme="dark"]{--bg:#07200f;--g1:#0b2d16;--g2:#08260f;--pl:rgba(255,255,255,.2);--panel:#12301c;--ink:#f3f7e8;--mut:#9fc0a8;--line:#2a5a3a;--acc:#178a47;--acc2:#178a47;--cell:#1a4026;--ol:#cfe27a;--sh:#02100a;--ok:#3ddc84;--okt:#04210f;--near:#ffc233;--bad:#ff6b6b;--chalk:transparent;--grass:transparent}
 /* ===== TEMAS POR COPA (álbuns) ===== */
 :root[data-cw="2010"]{--bg:#fcebc8;--panel:#fff9ea;--ink:#3b1d06;--mut:#8a5a2b;--line:#f1cf8f;--acc:#e4570d;--acc2:#f2a900;--cell:#fff0cf;--chalk:rgba(228,87,13,.16);--grass:rgba(46,156,58,.12);--fd:"Barlow Condensed";--fn:"Barlow Condensed";--rad:10px}
 @media (prefers-color-scheme:dark){:root[data-cw="2010"]:not([data-theme="light"]){--bg:#14230c;--panel:#1e3010;--ink:#fff2cf;--mut:#c9b27a;--line:#3f5c1f;--acc:#f5a300;--acc2:#ff6a13;--cell:#263a14;--chalk:rgba(245,163,0,.14);--grass:rgba(120,200,60,.08);}}
@@ -807,14 +813,435 @@ html[data-cw="2014"] #tipos .pill,html[data-cw="2014"] #tipos button.on,html[dat
 .hcards{padding:26px 6px 30px;gap:10px}
 .hcards .hcard{min-height:0;min-width:0;width:100%}
 }
+
+/* ===== UI v6 "Figurinha": adesivos com contorno grosso e sombra dura ===== */
+body{background:var(--bg)}
+html:not([data-cw]) body{background:repeating-linear-gradient(90deg,var(--g1) 0 90px,var(--g2) 90px 180px)}
+/* gramado: listras de corte + círculo central, linha do meio e marca do centro */
+html:not([data-cw]) body::after{background:radial-gradient(circle at 50% 40%,var(--pl) 0 6px,transparent 7px),radial-gradient(circle at 50% 40%,transparent 0 118px,var(--pl) 119px 122px,transparent 123px),linear-gradient(var(--pl),var(--pl)) 0 0/100% 4px no-repeat,linear-gradient(var(--pl),var(--pl)) 0 100%/100% 4px no-repeat}
+main{max-width:1060px;padding:18px 16px 56px}
+.top{margin-bottom:14px;align-items:center}
+h1{display:inline-block;background:var(--sun);-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:#12123a;color:#12123a;border:2.5px solid var(--ol);border-radius:14px;padding:9px 14px 8px;box-shadow:4px 4px 0 var(--sh);transform:rotate(-1.5deg);font:800 clamp(17px,4.6vw,28px)/1 'Unbounded','Bricolage Grotesque',sans-serif;letter-spacing:-.03em;margin:0}
+.ib{gap:10px}
+.ib button{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ol);background:var(--panel);box-shadow:3px 3px 0 var(--sh)}
+.ib button:hover{border-color:var(--ol);background:var(--sun);color:#12123a;transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--sh)}
+.ib button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--sh)}
+@media(max-width:480px){.ib{gap:6px}.ib button{width:38px;height:38px}}
+
+/* 1) Tipo de jogo */
+#tipos{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:6px;padding:5px;margin:0 0 18px;background:var(--panel);border:2.5px solid var(--ol);border-radius:18px;box-shadow:4px 4px 0 var(--sh)}
+#tipos button{font:800 14px 'Unbounded',sans-serif;letter-spacing:-.01em;padding:13px 8px;border-radius:12px;color:var(--ink)}
+#tipos button.on{color:#fff;background:var(--acc);box-shadow:none}
+.tabs .pill{display:none}
+
+/* 2) Painel (esquerda) e campo de jogo (direita) */
+.card{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;background:none;border:0;box-shadow:none;border-radius:0;padding:0}
+.side,.stage{position:relative;min-width:0;background:var(--panel);border:2.5px solid var(--ol);border-radius:24px;padding:16px;box-shadow:5px 5px 0 var(--sh)}
+.side{z-index:3}
+@media(min-width:900px){.card{grid-template-columns:330px minmax(0,1fr);gap:24px;align-items:start}.side{position:sticky;top:16px}.stage{padding:24px}}
+
+/* modos: Craque do dia em destaque, os outros dois logo abaixo (flex, sem depender de grid) */
+.side>#modos{display:flex!important;flex-wrap:wrap;align-items:flex-start;height:auto!important;gap:10px;width:100%;max-width:100%;margin:0 0 14px;padding:0;background:none;border:0;border-radius:0;overflow:visible}
+.side>#modos button{flex:1 1 calc(50% - 5px);min-width:0;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;padding:12px 8px!important;border:2.5px solid var(--ol);border-radius:14px;background:var(--cell);color:var(--ink);font:800 14px/1.15 'DM Sans',sans-serif;box-shadow:0 3px 0 var(--sh);white-space:normal}
+.side>#modos button.on{background:var(--acc)!important;color:#fff!important;box-shadow:none;transform:translateY(3px)}
+.side>#modos button:not(.on):hover{background:var(--sun);color:#12123a}
+.side>#modos button svg{flex:none;width:16px;height:16px}
+.side>#modos #m0{flex:1 1 100%!important;display:block!important;height:auto!important;min-height:104px;overflow:visible;text-align:left;padding:14px 16px 16px!important;border-radius:18px;background:var(--sun);color:#12123a;box-shadow:0 4px 0 var(--sh)}
+.side>#modos #m0 .mt{display:block;margin:0 0 6px;font:800 clamp(16px,2.4vw,19px)/1.15 'Unbounded',sans-serif;letter-spacing:-.03em;white-space:normal}
+.side>#modos #m0 small{display:block;font:600 12.5px/1.35 'DM Sans',sans-serif;opacity:.85;white-space:normal}
+.side>#modos #m0.on{background:var(--acc)!important;color:#fff!important;transform:translateY(4px)}
+.side>#modos #m0:not(.on):hover{background:#ffe066}
+.side>#modos #m0::after{display:none!important}
+.side>#modos #m0::before{display:inline-block!important;content:'Jogar hoje';width:auto!important;height:auto!important;margin:0 0 9px!important;padding:5px 10px;border-radius:99px;border:2px solid #12123a;background:var(--acc);color:#fff;font:800 11px/1 'DM Sans',sans-serif;text-align:center;vertical-align:baseline;box-shadow:none!important;animation:none!important}
+.side>#modos #m0.on::before{background:#12123a;color:var(--sun)}
+.side>#modos #m0.dd::before{content:'✓ Concluído';background:var(--ok);color:var(--okt)}
+.sub{margin:0 0 12px}
+.nudge{background:var(--sun);color:#12123a;border:2.5px solid var(--ol);box-shadow:3px 3px 0 var(--sh)}
+.nudge b{font-family:'DM Sans'}
+.nudge button{background:#12123a;color:#fff;border:0;border-radius:10px;font:800 13px 'DM Sans'}
+
+/* filtros e níveis */
+.side .bar.fc:not(.fold){border:0;background:none;padding:0}
+.side .bar{margin-bottom:0}
+.ldbtn,.chip,.bar #score,.bar #pool.hoje{border:2px solid var(--ol)!important;border-radius:12px;background:var(--cell);color:var(--ink)}
+.bar.fc #pool{border:0!important}
+#diffwrap{background:var(--cell);border:2px solid var(--ol);border-radius:14px}
+#diffwrap button{font-family:'DM Sans',sans-serif!important;font-weight:800;border-radius:10px}
+.side #diffwrap button{font-size:13px!important;letter-spacing:0}
+#diffwrap button.on{background:var(--acc);color:#fff;box-shadow:none}
+.ldlist,.list{border:2.5px solid var(--ol);border-radius:14px;box-shadow:5px 5px 0 var(--sh)}
+.ldlist button:hover,.ldlist button:focus-visible,.ldlist button[aria-selected=true],.list button:hover,.list button.act{background:color-mix(in srgb,var(--sun) 55%,var(--panel));color:var(--ink)}
+
+/* 3) Pergunta + busca (ação principal) */
+.stage>.qrow{margin-bottom:12px}
+.q{font:800 clamp(14px,3.4vw,18px)/1.25 'Unbounded','Bricolage Grotesque',sans-serif;letter-spacing:-.02em;color:var(--ink)}
+.mhelp{border:2px solid var(--ol);background:var(--panel)}
+#q,#sq,#pidq{border:2.5px solid var(--ol);border-radius:16px;background:var(--cell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%237a9a82' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M16 16l4.5 4.5'/%3E%3C/svg%3E") no-repeat 15px center;padding:15px 16px 15px 46px;font-weight:600}
+#q{box-shadow:4px 4px 0 var(--sh);font-size:17px}
+#q:focus-visible,#sq:focus-visible{border-color:var(--acc);box-shadow:4px 4px 0 var(--acc)}
+.stage .ask #hbtn{background:var(--sun);color:#12123a;border:2.5px solid var(--ol);border-radius:16px;box-shadow:4px 4px 0 var(--sh)}
+.stage .ask #hbtn .hcost{background:#12123a;color:#fff}
+.stage .ask #hbtn:disabled{background:var(--cell);color:var(--mut);box-shadow:none}
+.hchip{border:2px solid var(--ol);background:var(--panel)}
+.hintw img{border:2px solid var(--ol)}
+@media(max-width:899px){.stage>.ask{position:sticky;bottom:0;top:8px;z-index:30;background:var(--panel);padding:8px 0;margin:-8px 0;box-shadow:none}.stage>.ask .sw.up .list{top:auto;bottom:calc(100% + 6px);max-height:min(40dvh,260px)}}
+
+/* 4) Chutes: peças com resultado em cor sólida */
+.att{margin-top:22px}
+.att h3{display:inline-block;background:var(--ink);color:var(--panel);padding:7px 14px;border-radius:99px;font:700 12px 'Unbounded',sans-serif;letter-spacing:0;margin:0 0 12px}
+.hd{font:800 11px 'DM Sans',sans-serif;color:var(--mut)}
+.c{background:var(--panel);border:2.5px solid var(--ol);border-radius:14px;box-shadow:0 3px 0 var(--sh);font:800 17px 'DM Sans',sans-serif;margin-bottom:3px}
+.c.ok{background:var(--ok);border-color:var(--ol);color:var(--okt)}
+.c.near{background:var(--near);border-color:var(--ol);color:#2a1800}
+.c.bad{background:color-mix(in srgb,var(--bad) 16%,var(--panel));border-color:var(--ol);color:var(--ink)}
+.c.na{border-color:var(--ol);opacity:.85}
+.c small,.c .cn,.c .cn2{color:inherit;opacity:.85}
+.row{margin-bottom:8px}
+.note{margin-top:20px}
+
+/* fim de jogo, atalhos e diálogos */
+.endcard{background:var(--ok);color:var(--okt);border:2.5px solid var(--ol);box-shadow:5px 5px 0 var(--sh)}
+.endcard.lose{background:#1d3b2a;color:#fff}
+.endcard .tag,.endcard h2,.endcard p,.endcard .club{color:inherit}
+.endcard h2{font:800 clamp(20px,5vw,26px)/1.1 'Unbounded',sans-serif;letter-spacing:-.03em}
+.extras{gap:14px;margin-top:20px}
+.tile{border:2.5px solid var(--ol);border-radius:18px;background:var(--panel);box-shadow:4px 4px 0 var(--sh)}
+.tile:hover{border-color:var(--ol);background:var(--sun);color:#12123a;transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--sh)}
+.tile:hover small{color:#12123a}
+.tile b{font:800 14px 'Unbounded',sans-serif;letter-spacing:-.02em}
+dialog{border:2.5px solid var(--ol);border-radius:24px;box-shadow:8px 8px 0 var(--sh)}
+dialog h2,#dprof h2,#dshare h2{font:800 22px/1.1 'Unbounded',sans-serif;letter-spacing:-.03em;text-transform:none}
+dialog h3{font:800 14px 'DM Sans',sans-serif;color:var(--acc)}
+.dbtn,.btn,.hbtn{font:800 13px 'Unbounded',sans-serif;letter-spacing:0;border:2.5px solid var(--ol);box-shadow:4px 4px 0 var(--sh)}
+.dbtn{background:var(--acc);color:#fff;border-radius:14px}
+.dbtn:active,.tile:active,.stage .ask #hbtn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--sh)}
+.btn{box-shadow:none;border-color:currentColor}
+@media(prefers-reduced-motion:reduce){h1{transform:none}}
+
+/* cartas de dica no mesmo estilo de figurinha */
+#dhint{background:var(--panel)}
+#dhint .hz{background:var(--ol)}
+#dhint .hfront{border:3px solid var(--ol);color:var(--ink);background:var(--panel);box-shadow:5px 5px 0 var(--sh)}
+#dhint .hfront::before{inset:8px;border:2px dashed var(--line);border-radius:11px;background:none}
+#dhint .hfront b{color:var(--ink);font:800 clamp(14px,3.6vw,19px)/1.1 'Unbounded',sans-serif;letter-spacing:-.03em;text-align:center}
+#dhint .hfront .hi{background:var(--sun);color:#12123a;border:2.5px solid var(--ol);box-shadow:3px 3px 0 var(--sh)}
+#dhint .hfront .hi svg{color:#12123a}
+#dhint .hfront small{background:var(--acc);color:#fff;border:2px solid var(--ol);font:800 11px 'DM Sans',sans-serif}
+#dhint .hback{border:3px solid var(--ol);background:radial-gradient(circle at 50% 50%,transparent 0 26px,rgba(255,255,255,.45) 27px 29px,transparent 30px),linear-gradient(rgba(255,255,255,.45),rgba(255,255,255,.45)) 0 50%/100% 2px no-repeat,repeating-linear-gradient(90deg,#1e7c3d 0 16px,#197035 16px 32px)!important}
+#dhint .hbi svg{color:var(--sun);filter:drop-shadow(0 2px 0 #0d2b17)}
+#dhint .hcards .hcard.pick .hfront{box-shadow:0 0 0 4px var(--sun),5px 5px 0 var(--sh)}
+
+/* ===== correções: classe .fc colidia com o "C" do título; listas dos filtros ===== */
+.fc{-webkit-text-fill-color:currentColor;color:inherit}
+h1 .fc{-webkit-text-fill-color:var(--acc);color:var(--acc)}
+.side .ldlist{width:max(100%,250px);max-width:min(310px,calc(100vw - 56px));left:0;right:auto}
+.side .bar.fc #clubwrap .ldlist,.side .bar.fc #cselwrap .ldlist{left:auto;right:0}
+
+/* ===== Quem sou eu? como card de jogador ===== */
+.wcard{border:3px solid var(--ol);border-radius:22px;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--acc) 12%,var(--cell)) 0 14px,var(--cell) 14px 28px);box-shadow:5px 5px 0 var(--sh);overflow:hidden}
+.wtop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:var(--sun);color:#12123a;border-bottom:3px solid var(--ol)}
+.wnm{font:800 clamp(15px,3.2vw,21px)/1.1 'Unbounded',sans-serif;letter-spacing:-.03em;min-width:0;overflow-wrap:anywhere}
+.wtag{flex:none;font:800 11px 'DM Sans',sans-serif;background:#12123a;color:var(--sun);padding:5px 10px;border-radius:99px}
+.wcard .wh{padding:16px}
+.wcard .wpc{border:3px solid var(--ol);box-shadow:4px 4px 0 var(--sh)}
+.wcard .wm{color:var(--ink)}
+.wcard .kc .kb{border:2.5px dashed var(--ol);color:var(--mut)}
+.wcard .kc .kv{border:2.5px solid var(--ol);background:var(--panel)}
+.wcard:has(.wph.win){background:linear-gradient(115deg,#ffe780,#ffd21f 40%,#fff3b0 55%,#ffd21f 70%);background-size:250% 100%;animation:foil 3.5s linear infinite;color:#12123a}
+.wcard:has(.wph.win) .wtag{background:var(--ok);color:var(--okt)}
+.wcard:has(.wph.lose) .wtop{background:var(--bad);color:#fff}
+@keyframes foil{from{background-position:150% 0}to{background-position:-100% 0}}
+@media(prefers-reduced-motion:reduce){.wcard:has(.wph.win),.fig.r-3::after{animation:none}}
+.wpips{margin-top:16px}
+
+/* ===== Coleção ===== */
+.tabrow{display:grid;grid-template-columns:1fr auto;gap:12px;margin:0 0 18px}
+.tabrow #tipos{margin:0}
+#tcol{display:flex;align-items:center;gap:8px;background:var(--sun);color:#12123a;border:2.5px solid var(--ol);border-radius:18px;box-shadow:4px 4px 0 var(--sh);padding:0 18px;font:800 14px 'Unbounded',sans-serif;letter-spacing:-.02em;cursor:pointer}
+#tcol svg{width:22px;height:22px;flex:none}
+#tcol b{background:#12123a;color:var(--sun);border-radius:99px;padding:3px 9px;font:800 12px 'DM Sans',sans-serif}
+#tcol.on{background:var(--acc);color:#fff}#tcol.on b{background:#fff;color:var(--acc)}
+#tcol:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--sh)}
+@media(max-width:520px){#tcol span{display:none}#tcol{padding:0 14px}}
+#colview{display:none;background:var(--panel);border:2.5px solid var(--ol);border-radius:24px;box-shadow:5px 5px 0 var(--sh);padding:20px}
+body.colon #colview{display:block}
+body.colon .card,body.colon .extras{display:none}
+.colhd{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.colhd h2{margin:0;font:800 clamp(18px,4vw,24px)/1.1 'Unbounded',sans-serif;letter-spacing:-.03em}
+.colback{border:2.5px solid var(--ol);background:var(--cell);color:var(--ink);border-radius:12px;padding:9px 14px;font:800 13px 'DM Sans',sans-serif;cursor:pointer;box-shadow:3px 3px 0 var(--sh)}
+.colbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.colf{display:flex;gap:6px}
+.colf button{border:2px solid var(--ol);background:var(--cell);color:var(--ink);border-radius:99px;padding:8px 14px;font:800 13px 'DM Sans',sans-serif;cursor:pointer}
+.colf button.on{background:var(--acc);color:#fff}
+.colrar{margin-left:auto;display:flex;gap:6px;font:800 12px 'DM Sans',sans-serif}
+.colrar span{border:2px solid var(--ol);border-radius:99px;padding:5px 10px;background:var(--cell)}
+.colrar .g{background:#ffd21f;color:#12123a}.colrar .s{background:#c9d1dc;color:#12123a}.colrar .b{background:#d99a5b;color:#12123a}
+.colgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:18px}
+.cbtn{background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .15s}
+.cbtn:hover,.cbtn:focus-visible{transform:translateY(-4px) rotate(-1deg);outline:none}
+.colempty{grid-column:1/-1;text-align:center;padding:34px 12px;border:2.5px dashed var(--ol);border-radius:18px;color:var(--mut)}
+.colempty b{display:block;color:var(--ink);font:800 16px 'Unbounded',sans-serif;margin-bottom:6px}
+.fig{--rc:#d99a5b;position:relative;display:flex;flex-direction:column;gap:8px;padding:10px;border:3px solid var(--ol);border-radius:18px;background:var(--panel);box-shadow:4px 4px 0 var(--sh);overflow:hidden;color:var(--ink)}
+.fig.r-2{--rc:#c9d1dc}.fig.r-3{--rc:#ffd21f}
+.fig::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,color-mix(in srgb,var(--rc) 42%,transparent),transparent 58%);pointer-events:none}
+.fig.r-3::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.6) 48%,transparent 62%);background-size:250% 100%;animation:foil 3.2s linear infinite;mix-blend-mode:overlay;pointer-events:none}
+.fig>*{position:relative;z-index:1}
+.fig-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.fig-pos{font:800 11px 'DM Sans',sans-serif;background:#12123a;color:#fff;border-radius:8px;padding:4px 8px}
+.fig-rar{font:800 10px 'DM Sans',sans-serif;background:var(--rc);color:#12123a;border:2px solid var(--ol);border-radius:99px;padding:3px 8px}
+.fig-img{position:relative;aspect-ratio:3/4;border:2.5px solid var(--ol);border-radius:12px;overflow:hidden;background:repeating-linear-gradient(90deg,#1e7c3d 0 14px,#197035 14px 28px)}
+.fig-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.fig-ini{position:absolute;inset:0;display:grid;place-items:center;font:800 40px 'Unbounded',sans-serif;color:rgba(255,255,255,.7)}
+.fig-name{font:800 14px/1.1 'Unbounded',sans-serif;letter-spacing:-.03em;overflow-wrap:anywhere}
+.fig-sub{font:700 12px/1.25 'DM Sans',sans-serif;color:var(--mut);margin-top:-4px}
+.fig-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.fig-stats span{background:var(--cell);border:2px solid var(--ol);border-radius:10px;padding:5px 2px;text-align:center;min-width:0}
+.fig-stats small{display:block;font:700 9px 'DM Sans',sans-serif;color:var(--mut)}
+.fig-stats b{font:800 12px 'DM Sans',sans-serif;overflow-wrap:anywhere}
+#dnew{width:min(360px,92vw);text-align:center}
+#dnew #dnewt{margin:0}
+#dnew p{color:var(--mut);margin:4px 0 0}
+#dnew .fig{max-width:260px;margin:18px auto 4px;text-align:left;animation:newcard .8s cubic-bezier(.2,1.2,.4,1) both}
+#dnew .fig-name{font-size:17px}
+@keyframes newcard{from{transform:perspective(600px) rotateY(100deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+.dgh2{display:flex;gap:10px;margin-top:6px}.dgh2 .dbtn{margin-top:12px}
+
+/* ===== ajustes v7: cores do card, grid, placar, cartas ===== */
+.nudge{display:none!important}
+/* card vencedor: borda e faixa verdes, sem fundo dourado (mantém tudo legível) */
+.wcard:has(.wph.win){background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ok) 16%,var(--cell)) 0 14px,var(--cell) 14px 28px);animation:none;color:var(--ink)}
+.wcard:has(.wph.win) .wtop{background:var(--ok);color:var(--okt)}
+.wcard:has(.wph.win) .wtag{background:#12123a;color:var(--sun)}
+.wcard:has(.wph.lose) .wtop{background:var(--bad);color:#fff}
+.wcard .wm,.wcard .wm b{color:var(--ink)}
+.wcard .kc .kv{background:var(--panel);color:var(--ink)}
+.wcard .kc .kv small,.wcard .kc .kv b{color:var(--mut)}
+.wcard .kc .kv{font-weight:800}
+.wcard .kc .kb{background:repeating-linear-gradient(45deg,var(--cell) 0 6px,color-mix(in srgb,var(--acc) 12%,var(--cell)) 6px 12px)}
+/* grid de chutes: vermelho = errado, verde claro = certo, amarelo = quase */
+.c.ok{background:#7fe3a3;color:#08331a;border-color:var(--ol)}
+.c.near{background:#f5c912;color:#2a1f00;border-color:var(--ol)}
+.c.bad{background:#e53838;color:#fff;border-color:var(--ol)}
+.c.na{background:var(--panel);color:var(--ink)}
+.c.ok small,.c.ok .cn,.c.near small,.c.near .cn,.c.bad small,.c.bad .cn{color:inherit}
+#dhelp .sq.ok{background:#7fe3a3;border-color:var(--ol)}
+#dhelp .sq.near{background:#f5c912;border-color:var(--ol)}
+#dhelp .sq.bad{background:#e53838;border-color:var(--ol)}
+/* placar (sequência, vitórias, derrotas) em destaque */
+.bar #score{background:var(--sun)!important;color:#12123a!important;border:2.5px solid var(--ol)!important;box-shadow:3px 3px 0 var(--sh);min-height:76px!important;padding:8px 4px!important}
+.bar #score .st+.st{border-left:2px solid rgba(18,18,58,.25)}
+.bar #score .sv{font:800 32px/1 'Unbounded','DM Sans',sans-serif;letter-spacing:-.04em;gap:6px;color:#12123a}
+.bar #score .sv svg{width:20px;height:20px}
+.bar #score .st:nth-child(1) svg{color:#d9480f}.bar #score .st:nth-child(2) svg{color:#0b7a35}.bar #score .st:nth-child(3) svg{color:#c92a2a}
+.bar #score small{font:800 12px 'DM Sans',sans-serif;color:#12123a}
+/* bolinha amarela centralizada nas cartas de dica */
+#dhint .hback{display:grid;place-items:center;padding:0}
+#dhint .hbi{display:grid;place-items:center;width:52px;height:52px;line-height:0;margin:0}
+#dhint .hbi svg{display:block;width:46px;height:46px}
+
+/* ===== ajustes v8 ===== */
+.card::before{display:none!important}
+/* painel do jogo à esquerda, modos e filtros à direita (computador) */
+@media(min-width:900px){.card{grid-template-columns:minmax(0,1fr) 330px}.side{grid-column:2;grid-row:1}.stage{grid-column:1;grid-row:1}}
+/* listas de liga, clube, Copa e seleção: 4 itens por rolagem em todos os modos */
+.ldlist{--lr:46px;max-height:calc(var(--lr)*4 + 2px)!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:y proximity}
+.ldlist:has(.lgfoot){max-height:calc(var(--lr)*4 + 2px + 64px)!important}
+.ldlist button{min-height:var(--lr);box-sizing:border-box;padding-top:6px;padding-bottom:6px;scroll-snap-align:start}
+.ldlist .lgfoot button{min-height:0;scroll-snap-align:none}
+#dprof .ldlist{max-height:calc(var(--lr)*4 + 2px)!important}
+/* placar sempre em linha própria, sem textos amontoados */
+.bar #score,.bar #pool{grid-column:1/-1!important}
+.bar #score .st{min-width:0;padding:0 2px}
+.bar #score .sv{font-size:clamp(22px,7vw,32px)}
+.bar #score small{font-size:clamp(10px,2.8vw,12px);letter-spacing:-.01em}
+/* vermelho de "errado" mais quente, combinando com a interface */
+.c.bad{background:#dd5a3a;color:#fff}
+#dhelp .sq.bad{background:#dd5a3a}
+/* cards da coleção: fundo branco, como figurinha de Copa */
+.fig{--panel:#fffdf3;--ink:#12123a;--mut:#55624d;--cell:#eef3dd;--ol:#12123a;--sh:#02100a;background:#fffdf3;color:#12123a}
+.fig-stats b{white-space:nowrap;font-size:11.5px}
+.fig-img{border-width:3px}
+
+/* ===== ajustes v9 ===== */
+
+/* ---------- CORES DOS ACERTOS E ERROS DO GRID (edite aqui) ----------
+   -bg = cor de fundo da célula | -fg = cor do texto/setas */
+:root{
+  --hit-bg:#7fe3a3;   --hit-fg:#08331a;   /* acerto (igual)  */
+  --close-bg:#f5c912; --close-fg:#2a1f00; /* quase (amarelo) */
+  --miss-bg:#e53838;  --miss-fg:#ffffff; /* erro            */
+}
+.c.ok{background:var(--hit-bg);color:var(--hit-fg)}
+.c.near{background:var(--close-bg);color:var(--close-fg)}
+.c.bad{background:var(--miss-bg);color:var(--miss-fg)}
+.c.ok small,.c.ok .cn,.c.ok .ar{color:inherit}
+.c.near small,.c.near .cn,.c.near .ar{color:inherit}
+.c.bad small,.c.bad .cn,.c.bad .ar{color:inherit}
+#dhelp .sq.ok{background:var(--hit-bg)}
+#dhelp .sq.near{background:var(--close-bg)}
+#dhelp .sq.bad{background:var(--miss-bg)}
+
+/* ---------- placar (Sequência / Vitórias / Derrotas): nada de textos colados ----------
+   os tamanhos acompanham a largura do próprio placar (cqw) */
+.bar #score{container-type:inline-size;width:100%;flex:1 1 100%}
+.bar #score .st{min-width:0;overflow:hidden;padding:0 1px}
+.bar #score .sv{font-size:clamp(19px,10.5cqw,32px);gap:clamp(3px,1.8cqw,6px)}
+.bar #score .sv svg{width:clamp(13px,5.8cqw,20px);height:clamp(13px,5.8cqw,20px)}
+.bar #score small{font-size:clamp(8px,4.4cqw,12px);letter-spacing:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- listas de liga/clube/Copa/seleção: exatamente 4 itens por rolagem ---------- */
+.ldlist{--lr:46px;max-height:calc(var(--lr)*4 + 5px)!important}
+.ldlist:has(.lgfoot){max-height:calc(var(--lr)*4 + 5px + 64px)!important}
+#dprof .ldlist{max-height:calc(var(--lr)*4 + 5px)!important}
+
+/* ---------- cards da coleção: figurinha de Copa (fundo branco também no escuro) ---------- */
+.fig{--rc:#d99a5b;--ol:#12123a;--sh:#02100a;--mut:#5d6a55;
+  gap:0;padding:11px 11px 10px;background:#fff;color:#12123a;
+  border:3px solid #12123a;border-radius:16px;
+  box-shadow:inset 0 0 0 3px var(--rc),4px 4px 0 var(--sh)}
+.fig.r-2{--rc:#b7c0cc}.fig.r-3{--rc:#ffc400}
+.fig::before{display:none}
+.fig.r-3::after{background:linear-gradient(115deg,transparent 30%,rgba(255,214,64,.45) 48%,transparent 62%);background-size:250% 100%;mix-blend-mode:normal}
+/* posição e raridade viram selos em cima da foto */
+.fig-top{position:absolute;top:19px;left:19px;right:19px;z-index:3;pointer-events:none}
+.fig-pos{background:#12123a;color:#fff;border-radius:7px;padding:3px 7px;font:800 10.5px 'DM Sans',sans-serif}
+.fig-rar{background:var(--rc);color:#12123a;border:2px solid #12123a;padding:2px 8px;font:800 10px 'DM Sans',sans-serif}
+/* foto emoldurada com fundo na cor da raridade */
+.fig-img{aspect-ratio:4/5;border:3px solid #12123a;border-radius:10px;
+  background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--rc) 45%,#fff),color-mix(in srgb,var(--rc) 80%,#12123a))}
+.fig-ini{color:rgba(255,255,255,.85)}
+/* faixa do nome sobre a base da foto, como nas figurinhas */
+.fig-name{position:relative;z-index:2;margin:-15px 5px 0;padding:6px 6px 5px;text-align:center;text-transform:uppercase;
+  background:var(--rc);color:#12123a;border:3px solid #12123a;border-radius:9px;box-shadow:2px 2px 0 var(--sh);
+  font:800 12.5px/1.1 'Unbounded','DM Sans',sans-serif;letter-spacing:-.02em;overflow-wrap:anywhere}
+.fig-sub{margin:7px 0 0;text-align:center;color:#5d6a55;font:700 11.5px/1.25 'DM Sans',sans-serif}
+/* estatísticas em uma linha só, separadas por filetes */
+.fig-stats{gap:0;margin-top:8px;padding-top:7px;border-top:2px dashed #c9d3bd}
+.fig-stats span{background:none;border:0;border-radius:0;padding:0 2px}
+.fig-stats span+span{border-left:2px solid #e2e8d6}
+.fig-stats small{color:#5d6a55;text-transform:uppercase;letter-spacing:.04em;font-size:8.5px}
+.fig-stats b{color:#12123a;font-size:11.5px;white-space:nowrap}
+
+/* ===== ajustes v10 ===== */
+/* botão de tema: mostra a lua no escuro e o sol no claro */
+#btheme .i-sun{display:none}
+:root[data-theme="light"] #btheme .i-sun{display:block}
+:root[data-theme="light"] #btheme .i-moon{display:none}
+
+/* Copas sem fundo especial: mesmo gramado do modo normal */
+#cbg{display:none!important}
+html[data-cw] body{background:repeating-linear-gradient(90deg,var(--g1) 0 90px,var(--g2) 90px 180px)!important}
+html[data-cw] body::before{display:none!important}
+html[data-cw] body::after{background:radial-gradient(circle at 50% 40%,var(--pl) 0 6px,transparent 7px),radial-gradient(circle at 50% 40%,transparent 0 118px,var(--pl) 119px 122px,transparent 123px),linear-gradient(var(--pl),var(--pl)) 0 0/100% 4px no-repeat,linear-gradient(var(--pl),var(--pl)) 0 100%/100% 4px no-repeat!important}
+
+/* tela de fim de jogo (vitória): texto escuro e botões legíveis sobre o verde */
+.endcard:not(.lose){color:#06260f}
+.endcard:not(.lose) .tag{opacity:1;font-weight:800}
+.endcard:not(.lose) p{color:#06260f}
+.endcard:not(.lose) .badge{background:#fff;color:#06260f;border:2px solid #06260f}
+.endcard:not(.lose) .club{opacity:1;font-weight:600;color:#06260f}
+.endcard:not(.lose) .btn{border-color:#06260f}
+.endcard:not(.lose) .btn.pri{background:#06260f;color:#fff}
+.endcard:not(.lose) .btn.sec{background:#fff;color:#06260f}
+.endcard:not(.lose) .btn:focus-visible{outline-color:#06260f}
+.endcard.lose .badge{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4);color:#fff}
+.endcard.lose .btn.sec{color:#fff;border-color:#fff}
+
+/* card: bandeira ao lado do nome e escudo ao lado do clube */
+.fig-name{display:flex;align-items:center;justify-content:center;gap:7px}
+.fig-name>span:not(.av){min-width:0}
+.fig-name .av.fl{box-shadow:0 0 0 2px #12123a;border-radius:3px;flex:none}
+.fig-sub{display:flex;align-items:center;justify-content:center;gap:6px}
+.fig-sub .av{flex:none}
+.fig-sub .av.fl{box-shadow:0 0 0 1.5px #12123a;border-radius:3px}
+.fig-sub .av.cr img{filter:none}
+
+/* seta do seletor de Copa: branca, sempre visível e sem ser cortada */
+.bar.fc #cedbtn{gap:6px}
+.bar.fc #cedbtn>span:last-child{flex:0 1 auto;min-width:0;overflow:hidden}
+.bar.fc #cedbtn::after{border-color:#fff!important;border-width:0 2.5px 2.5px 0;flex:none;margin-left:auto;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}
+.bar.fc #cedbtn[aria-expanded="true"]{border-color:#fff!important}
+
+/* ===== Histórico no estilo figurinha (igual ao resto da interface) ===== */
+#dcal{width:min(460px,94vw)}
+#dcal .chead{margin-bottom:14px}
+#dcal .chead h2{display:inline-block;background:var(--sun);color:#12123a;border:2.5px solid var(--ol);border-radius:12px;padding:8px 13px 7px;box-shadow:3px 3px 0 var(--sh);transform:rotate(-1.5deg);font-size:18px}
+#dcal #bstat{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ol);background:var(--panel);color:var(--ink);box-shadow:3px 3px 0 var(--sh);display:grid;place-items:center;padding:0;cursor:pointer;flex:none;transition:transform .15s,box-shadow .15s,background-color .15s}
+#dcal #bstat:hover{background:var(--sun);color:#12123a;transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--sh)}
+#dcal #bstat:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--sh)}
+#dcal #cdetail{background:var(--cell);border:2.5px solid var(--ol);border-radius:18px;box-shadow:4px 4px 0 var(--sh);padding:14px;margin-bottom:16px}
+#dcal .cdh b{font:800 14px/1.2 'Unbounded',sans-serif;letter-spacing:-.03em}
+#dcal .cdh span{font:700 12px 'DM Sans',sans-serif;color:var(--mut)}
+#dcal .cdh span em{font-style:normal;color:var(--ink);font-weight:800}
+#dcal .cpr{height:12px;border:2.5px solid var(--ol);border-radius:99px;background:var(--panel);margin:0 0 12px}
+#dcal .cpr i{background:var(--ok);border-radius:0}
+#dcal .cgr{margin-top:12px}
+#dcal .cgr small{display:inline-flex;background:var(--ink);color:var(--panel);padding:4px 11px;border-radius:99px;font:800 10px 'DM Sans',sans-serif;letter-spacing:.1em;margin-bottom:8px}
+#dcal .cch{gap:8px}
+#dcal .chp{border:2.5px solid var(--ol);border-radius:14px;background:var(--panel);box-shadow:0 3px 0 var(--sh);padding:10px 4px;gap:3px}
+#dcal .chp b{font:800 12px 'Unbounded',sans-serif;letter-spacing:-.03em;color:var(--ink)}
+#dcal .chp span{font:800 11px 'DM Sans',sans-serif;color:var(--mut)}
+#dcal .chp.w{background:var(--ok);border-color:var(--ol)}#dcal .chp.w b,#dcal .chp.w span{color:var(--okt)}
+#dcal .chp.l{background:color-mix(in srgb,var(--bad) 18%,var(--panel));border-color:var(--ol)}#dcal .chp.l span{color:var(--ink)}
+#dcal .chp.p{background:var(--near);border-color:var(--ol)}#dcal .chp.p b,#dcal .chp.p span{color:#2a1800}
+#dcal .chp:not(.w):not(.l):not(.p){border-style:dashed;box-shadow:none}
+#dcal .chp.lk{opacity:.55}
+#dcal button.chp.go{background:var(--sun);border:2.5px solid var(--ol);border-style:solid;box-shadow:3px 3px 0 var(--sh);cursor:pointer;transition:transform .15s,box-shadow .15s}
+#dcal button.chp.go b,#dcal button.chp.go span{color:#12123a}
+#dcal button.chp.go:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--sh)}
+#dcal button.chp.go:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--sh)}
+#dcal .calh{margin:4px 0 12px}
+#dcal .calh b{font:800 15px 'Unbounded',sans-serif;letter-spacing:-.03em;text-transform:none}
+#dcal .calg{gap:6px}
+#dcal .calg.wk{font:800 12px 'DM Sans',sans-serif;color:var(--mut);margin-bottom:8px}
+#dcal .cd{position:relative;min-height:56px;justify-content:center;gap:5px;padding:6px 0;border:2px solid transparent;border-radius:12px;background:color-mix(in srgb,var(--ink) 7%,var(--panel));color:var(--ink);font:800 16px 'DM Sans',sans-serif;transition:transform .12s,box-shadow .12s}
+#dcal .cd .dd{display:flex;flex-direction:column;align-items:center;gap:4px}
+#dcal .cd i{display:flex;gap:4px;min-height:8px}
+#dcal .dt{width:8px;height:8px;box-shadow:0 0 0 1.5px var(--ink);background:transparent}
+#dcal .dt.w{background:var(--ok)}#dcal .dt.l{background:var(--bad)}#dcal .dt.p{background:var(--near)}
+#dcal .cd.w{background:color-mix(in srgb,var(--ok) 45%,var(--panel));border-color:var(--ol)}
+#dcal .cd.p{background:color-mix(in srgb,var(--near) 45%,var(--panel));border-color:var(--ol)}
+#dcal .cd.l{background:color-mix(in srgb,var(--bad) 30%,var(--panel));border-color:var(--ol)}
+#dcal .cd.fu{opacity:.3;background:none;border-color:transparent}
+#dcal .cd.fu i{display:none}
+#dcal .cd:not(:disabled):hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--sh)}
+#dcal .cd.td{box-shadow:0 0 0 2px var(--panel),0 0 0 4.5px var(--ink)}
+#dcal .cd.sel{background:var(--sun);color:#12123a;border-color:var(--ol);transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--sh)}
+#dcal .cd.sel.td{box-shadow:0 0 0 2px var(--panel),0 0 0 4.5px var(--ink),3px 3px 0 4.5px var(--sh)}
+#dcal .cleg{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin:16px 0 4px}
+#dcal .cleg span{border:0;padding:0;background:none;color:var(--ink);font:700 12px 'DM Sans',sans-serif;gap:6px}
+#dcal .cleg .dt{width:10px;height:10px}
+#dcal .clh{text-align:center;font:600 11px 'DM Sans',sans-serif;color:var(--mut);margin:0 0 4px}
+#dcal #csum{font:700 12px 'DM Sans',sans-serif;margin:14px 0 0;color:var(--ink)}
+#dcal .cdn{border:2.5px dashed var(--ol);border-radius:14px;padding:9px 10px;margin:12px 0 0;color:var(--mut);font:700 12px 'DM Sans',sans-serif}
+#dcal .cdn b{font:800 13px 'Unbounded',sans-serif;letter-spacing:-.02em;color:var(--ink);margin-left:2px}
+
+/* ===== Cartas de dica (2 cartas): entram pelos lados, viram e o duelo se resolve no centro ===== */
+.hcards .hcard{--s:calc((var(--i) - 1)*2);animation-duration:.85s;animation-timing-function:cubic-bezier(.2,1,.3,1);animation-delay:calc((var(--s) + 1)*.1s)}
+.hcards .hcard:not(.pick):not(.toss){animation-name:hdeal3}
+@keyframes hdeal3{
+0%{transform:translateX(calc(var(--s)*135%)) translateY(-26px) rotate(calc(var(--s)*26deg)) scale(.7);opacity:0}
+55%{transform:translateX(calc(var(--s)*-5%)) translateY(4px) rotate(calc(var(--s)*-3deg)) scale(1.04);opacity:1}
+100%{transform:rotate(calc(var(--s)*2.5deg));opacity:1}}
+.hcards .hin{animation-delay:calc(.75s + (var(--s) + 1)*.14s)}
+.hcards .hcard.pick{z-index:4;animation:hpick3 1s cubic-bezier(.3,1.2,.5,1) both}
+@keyframes hpick3{
+0%{transform:rotate(calc(var(--s)*2.5deg))}
+40%{transform:translateX(calc(var(--s)*-53%)) translateY(-30px) scale(1.2) rotate(0deg)}
+100%{transform:translateX(calc(var(--s)*-53%)) translateY(-14px) scale(1.14)}}
+.hcards .hcard.toss{pointer-events:none;animation:htoss3 .6s cubic-bezier(.6,0,.9,.4) both}
+@keyframes htoss3{
+from{transform:rotate(calc(var(--s)*2.5deg));opacity:1}
+to{transform:translateX(calc(var(--s)*140%)) translateY(24px) rotate(calc(var(--s)*28deg)) scale(.7);opacity:0}}
+@media(prefers-reduced-motion:reduce){.hcards .hcard,.hcards .hcard:not(.pick):not(.toss),.hcards .hin{animation:none!important}}
 </style>
 </head>
 <body>
 <main>
-<div class="top"><h1>Quem é o <span class="fc">C</span>raque?</h1><div class="ib"><button id="bprof" aria-label="Perfil: time, seleção e ídolo" title="Perfil: time, seleção e ídolo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button><button id="bmute" aria-label="Som e vibração" title="Som e vibração"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg></button><button id="bshare" aria-label="Criar desafio para um amigo" title="Criar desafio para um amigo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button><button id="bcal" aria-label="Histórico" title="Histórico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></button><button id="bhelp" aria-label="Como jogar" title="Como jogar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg></button></div></div>
-<div class="tabs" id="tipos" role="tablist" aria-label="Tipo de jogo"><button id="t0" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M12 8v6M9 11h6"/></svg>Clubes</button><button id="t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v4M8 21h8M9 18h6"/></svg>Copa</button></div>
-<section class="card">
-<div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on">Craque do dia</button><button id="m3"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Quem sou eu?</button><button id="m2">Personalizado</button></div>
+<div class="top"><h1>Quem é o <span class="fc">C</span>raque?</h1><div class="ib"><button id="btheme" type="button" aria-label="Alternar modo claro/escuro" title="Alternar modo claro/escuro"><svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><button id="bprof" aria-label="Perfil: time, seleção e ídolo" title="Perfil: time, seleção e ídolo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button><button id="bmute" aria-label="Som e vibração" title="Som e vibração"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg></button><button id="bshare" aria-label="Criar desafio para um amigo" title="Criar desafio para um amigo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button><button id="bcal" aria-label="Histórico" title="Histórico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></button><button id="bhelp" aria-label="Como jogar" title="Como jogar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg></button></div></div>
+<div class="tabrow"><div class="tabs" id="tipos" role="tablist" aria-label="Tipo de jogo"><button id="t0" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M12 8v6M9 11h6"/></svg>Clubes</button><button id="t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v4M8 21h8M9 18h6"/></svg>Copa</button></div><button type="button" id="tcol" aria-label="Coleção de cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="11" height="15" rx="2.5"/><path d="M8 6l1-2.5a2 2 0 012.600-1l7.800 2.800a2 2 0 011.200 2.500L18 16"/></svg><span>Coleção</span><b id="ccnt">0</b></button></div>
+<section class="card"><aside class="side">
+<div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on"><span class="mt">Craque do dia</span><small>Um craque novo todo dia, igual para todos.</small></button><button id="m3"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Quem sou eu?</button><button id="m2">Personalizado</button></div>
 <p class="sub" id="sub">Descubra o jogador secreto em 8 chutes.</p>
 <div id="nudge" class="nudge hide"></div>
 <div class="bar">
@@ -828,6 +1255,7 @@ html[data-cw="2014"] #tipos .pill,html[data-cw="2014"] #tipos button.on,html[dat
 <span class="chip" id="score" title="Sequência · Vitórias · Derrotas">🔥0 🏆0 ❌0</span>
 <span class="chip" id="pool"></span>
 </div>
+</aside><div class="stage">
 <div class="qrow"><p class="q" id="qq">Qual jogador está sendo procurado?</p><button type="button" id="mhelp" class="mhelp" aria-label="Como funciona este modo" title="Como funciona este modo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg></button></div>
 <div class="ask"><div class="sw"><input id="q" aria-label="Nome do jogador" placeholder="Digite o nome do jogador" autocomplete="off"><div id="list" class="list hide"></div></div><button id="hbtn" class="hbtn" type="button"></button></div>
 <div id="hbox" class="hbox hide"><span id="hchips" style="display:contents"></span></div>
@@ -838,8 +1266,11 @@ html[data-cw="2014"] #tipos .pill,html[data-cw="2014"] #tipos button.on,html[dat
 <div id="hd" class="hd"><span id="hn" class="hide">Nac.</span><span id="hl" class="hide">Liga</span><span>Clube</span><span data-tip="Amarelo: mesma linha (ex.: zagueiro e lateral)">Posição</span><span data-tip="Amarelo: ±2 anos">Idade</span><span data-tip="Amarelo: ±5 números">Número</span><span data-tip="Amarelo: 60% a 160% do valor">Valor</span></div>
 <div id="rows"></div></div>
 <p class="note">Dados e fotos: Transfermarkt e ogol.com.br. Os valores podem estar desatualizados.</p>
-</section>
+</div></section>
 <div class="extras"><button type="button" class="tile" id="tshare"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span><b>Desafie um amigo</b><small>Escolha um craque e mande o link.</small></span></button><button type="button" class="tile" id="twho"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span><b>Quem sou eu?</b><small>Adivinhe pela foto que vai clareando.</small></span></button></div>
+<section id="colview" aria-label="Coleção de cards"><div class="colhd"><h2>Minha coleção</h2><button type="button" class="colback" id="colback">Voltar ao jogo</button></div>
+<div class="colbar"><div class="colf" id="colf"><button type="button" data-f="all" class="on">Todos</button><button type="button" data-f="j">Clubes</button><button type="button" data-f="c">Copa</button></div><div class="colrar" id="colrar"></div></div>
+<div class="colgrid" id="colgrid"></div></section>
 </main>
 <dialog id="dhelp"><h2>Como jogar</h2>
 <p>Descubra o craque secreto. Chute um nome e veja o que ele tem em comum com o alvo.</p>
@@ -860,7 +1291,7 @@ html[data-cw="2014"] #tipos .pill,html[data-cw="2014"] #tipos button.on,html[dat
 <dialog id="dcal"><div class="chead"><h2>Histórico</h2><button id="bstat" type="button" aria-label="Estatísticas" title="Estatísticas"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></button></div>
 <div id="cdetail"></div>
 <div class="calh"><button id="cprev" aria-label="Mês anterior">‹</button><b id="cmon"></b><button id="cnext" aria-label="Próximo mês">›</button></div><div class="calg wk"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div><div class="calg" id="cgrid"></div><p id="csum"></p>
-<div class="cleg"><span><i class="dt w"></i>Acertou</span><span><i class="dt l"></i>Perdeu</span><span><i class="dt p"></i>Em andamento</span><span><i class="dt"></i>Não jogou</span></div>
+<div class="cleg"><span><i class="dt w"></i>Acertou</span><span><i class="dt l"></i>Perdeu</span><span><i class="dt p"></i>Em andamento</span><span><i class="dt"></i>Não jogou</span></div><p class="clh">Bolinhas: linha de cima = Clubes · linha de baixo = Copa</p>
 <p class="cdn">Próximo craque em <b id="ccd"></b></p><button class="dbtn" data-close>Fechar</button></dialog>
 <dialog id="dadm"><div class="admhd"><h2>Admin · Sorteio</h2><button type="button" class="admx" data-close aria-label="Fechar painel">✕ Fechar</button></div><div id="admbody"></div><button class="dbtn" data-close>Fechar</button></dialog>
 <dialog id="dstat"><h2>Suas estatísticas</h2><div id="stbody"></div><button class="dbtn" data-close>Fechar</button></dialog>
@@ -876,6 +1307,7 @@ html[data-cw="2014"] #tipos .pill,html[data-cw="2014"] #tipos button.on,html[dat
 <div class="sw"><input id="sq" aria-label="Nome do jogador" placeholder="Digite o nome do jogador" autocomplete="off"><div id="sl" class="list st hide"></div></div>
 <div id="sres"></div><button class="dbtn dgh" data-close>Fechar</button></dialog>
 <dialog id="dmode"><h2 id="dmt"></h2><p id="dmd"></p><button class="dbtn" data-close>Entendi</button></dialog>
+<dialog id="dnew"><h2 id="dnewt"></h2><p id="dnews"></p><div id="dnewc"></div><button class="dbtn" data-close>Continuar</button><button class="dbtn dgh" type="button" onclick="document.getElementById('dnew').close();document.getElementById('tcol').click()">Ver minha coleção</button></dialog>
 <canvas id="confetti" aria-hidden="true"></canvas>
 <script src="dados.js"></script>
 <script>
@@ -1240,7 +1672,7 @@ $('team').onchange=()=>{crestSel();start()};
 let CHALC=null,game='j',COPA=null,CT,CG=[],cover=false,cw=0,cp=0,cmode=0,CDAY='',CMAX=8,CHIST=[],CPK=new Map();
 let CED=new Set(),CEDAPP=new Set(),CYEARS=[],cedDirty=false,cdiff=ls.get('qc:cdiff');
 const HD0=$('hd').innerHTML;
-const CDIFF={facil:{n:'Fácil',t:10,d:'Só os craques e as seleções mais conhecidos.'},medio:{n:'Médio',t:12,d:'Jogadores das Copas mais recentes, sem os mais famosos.'},craque:{n:'Especialista',t:15,d:'Todas as seleções, mas dedutível pelas pistas.'}};
+const CDIFF={facil:{n:'Fácil',t:10,d:'Só os craques e as seleções mais conhecidos.'},medio:{n:'Médio',t:12,d:'Nomes conhecidos, mas não os mais famosos.'},craque:{n:'Especialista',t:15,d:'Todas as seleções, mas dedutível pelas pistas.'}};
 if(!CDIFF[cdiff])cdiff='facil';
 const CDORD=['facil','medio','craque'];
 const CDN_O='https://cdn-img.staticzz.com/img/',CDN_W='https://www.ogol.com.br/img/';
@@ -1296,8 +1728,11 @@ let rows=null;
 if(await loadJs('copas.js?'+Date.now())&&window.COPAS_DATA)rows=window.COPAS_DATA.rows;
 else{try{const r=await fetch('copas.json');if(r.ok)rows=(await r.json()).rows}catch(_){}}
 if(!rows||!rows.length)return false;
-COPA=rows.map(a=>({n:a[0],s:a[1],y:+a[2],p:a[3],a:+a[4],u:+a[5],c:a[6],i:a[7]||'',f:a[8]||'',k:a[9]||clubKey(a[6]),b:a[10]||''}));
+COPA=rows.map(a=>({n:a[0],s:a[1],y:+a[2],p:a[3],a:+a[4],u:+a[5],c:a[6],i:a[7]||'',f:a[8]||'',k:a[9]||clubKey(a[6]),b:a[10]||'',tm:a[11]||'',fs:(a[22]!=null&&a[22]!=='')?+a[22]:null,v:0}));
 COPA.forEach(p=>CPK.set(cKey(p),p));
+// fama do Transfermarkt (campo 13 do dados.js) pelo mesmo ID; quem não casou fica com fm=null (usa a lista de reserva)
+const FTM=new Map(P.filter(p=>p.i).map(p=>[p.i,p.fm]));
+COPA.forEach(p=>{const f=p.tm?FTM.get(p.tm):null;p.fm=(f>0)?f:(p.fs>0?p.fs:null)});
 CYEARS=[...new Set(COPA.map(p=>p.y))].sort((a,b)=>b-a);CED=new Set(CYEARS);CEDAPP=new Set(CED);
 return true}
 const cKey=p=>p.n+'|'+p.s+'|'+p.y;
@@ -1355,15 +1790,16 @@ h:`<g fill="#d40000" opacity=".42"><path d="M326 236L329 118H331L334 236Z"/><ell
 };
 function copaArt(y){const a=COPA_ART[y],t=COPA_INFO[y].t;
 return `<svg class="cp">${a.p}</svg><svg class="ch" viewBox="0 0 1600 260" preserveAspectRatio="xMidYMax slice">${a.h}</svg>`}
-function setCopaArt(y){let el=$('cbg');const R=document.documentElement;if(y&&COPA_ART[y])R.dataset.cw=y;else delete R.dataset.cw;
-if(!y||!COPA_ART[y]){if(el)el.classList.remove('on');return}
+function setCopaArt(y){/* temas por Copa desativados: sempre o visual padrão */const el=$('cbg');delete document.documentElement.dataset.cw;if(el)el.remove();return;
+if(!y||!COPA_ART[y]){return}
 if(!el){el=document.createElement('div');el.id='cbg';el.setAttribute('aria-hidden','true');document.body.prepend(el)}
 if(el.dataset.y!=y){const had=el.dataset.y&&el.classList.contains('on');el.dataset.y=y;el.innerHTML=copaArt(y);if(had&&!reduce()){el.classList.remove('sw');void el.offsetWidth;el.classList.add('sw')}}
 requestAnimationFrame(()=>el.classList.add('on'))}
 
 // ----- tema (cores da bandeira da seleção escolhida) -----
 const COPA_T=['#eab308','#16a34a','#2563eb'];
-function cTheme(){let t=COPA_T,y=0;
+function cTheme(){/* aba Copa: mesmo fundo do Brasileirão/Brasil (gramado + cores da bandeira) */{const t=FLAGC['Brasil'],st=document.documentElement.style;bgFade(t.join()+'|copa');st.setProperty('--t1',t[0]);st.setProperty('--t2',t[1]);st.setProperty('--t3',t[2]);st.setProperty('--ta','40%');st.setProperty('--tb','32%');st.setProperty('--tc','24%');st.setProperty('--stripe',`linear-gradient(90deg,${t[0]} 0 33.4%,${t[1]} 0 66.7%,${t[2]} 0)`);setCopaArt(0);return}
+let t=COPA_T,y=0;
 if(cmode==2&&CEDAPP.size==1){const k=[...CEDAPP][0];if(COPA_INFO[k]){t=COPA_INFO[k].t;y=k}}
 const s=cmode==2?$('csel').value:'*',ft=s!='*'&&FLAGC[s]?FLAGC[s]:null;
 if(!y&&ft)t=ft;
@@ -1376,7 +1812,7 @@ const cTent=()=>{updHint();$('tent').textContent=(cmode==3?'Revelação ':'Chute
 function cReset(){cover=false;CG=[];resetHints();CHIST=[];$('rows').innerHTML='';const e=$('end');e.classList.add('hide');e.innerHTML='';
 $('q').value='';$('q').disabled=false;$('list').classList.add('hide')}
 function startCopa(){clearInterval(cdT);const pl=cPool();if(!pl.length)return;CMAX=fMax(pl.length,'c');const c=pl.filter(p=>p.u>0),src=c.length?c:pl;
-CT=CHALC||fPick(src,cFame);CHALC=null;cReset();$('pool').textContent=pl.length+' jogadores';fSig();$('score').textContent=fScore('c');$('sub').textContent=fSub(pl.length,CMAX,'Descubra o jogador e a Copa. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.');renderFDiffs();renderMy();cTent()}
+CT=CHALC||(HAS_FAMA&&src.some(p=>p.fm!=null)?fPickFama(src):fPick(src,cFame));CHALC=null;cReset();$('pool').textContent=pl.length+' jogadores';fSig();$('score').textContent=fScore('c');$('sub').textContent=fSub(pl.length,CMAX,'Descubra o jogador e a Copa. Verde acertou, amarelo chegou perto (na seleção, mesmo continente), vermelho errou.');renderFDiffs();renderMy();cTent()}
 function cInput(e){const v=norm(e.target.value.trim()),L=$('list');if(!v||cover||!COPA){L.classList.add('hide');return}
 const used=new Set(CG.map(cKey)),src=cmode==3?wCUniq():cmode==0?COPA:cPool(),m=src.filter(p=>!used.has(cKey(p))&&norm(p.n).includes(v)).slice(0,8);
 L.innerHTML=m.map((p,i)=>`<button data-i="${i}"><span class="li">${av('pl',ph(p),p.n,30,40)}<b>${esc(p.n)}</b></span><small class="li">${av('fl',cflag(p),p.s,20,14)}${esc(p.s)} ${p.y} · ${p.p}</small></button>`).join('')||'<button disabled><small>Nenhum jogador encontrado</small></button>';
@@ -1411,12 +1847,20 @@ if(cmode==0)cDailyEnd(w);else $('again').onclick=()=>{cmode==3?cWhoStart():start
 endX(w,silent);if(!silent){e.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'nearest'});if(w)confetti()}}
 
 // ----- modo diário da Copa (Fácil / Médio / Especialista) -----
+// Copa: mesma faixa de fama do Clubes (78/60/44). Sem fama do Transfermarkt (aposentados e ligas fora da base),
+// usa a lista de reserva CFAM e as Copas recentes, como antes.
+function cFamaBand(p,d){if(HAS_FAMA&&p.fm!=null)return famaBand(p,d);if(d=='facil')return CFAM.has(kn(p.n));if(d=='medio')return p.y>=2018&&!CFAM.has(kn(p.n));return true}
 function cDailyPool(d){let pl=COPA.filter(p=>p.u>0);
+if(HAS_FAMA){const f=pl.filter(p=>cFamaBand(p,d));if(f.length>=30)return f}
 if(d=='facil'){const f=pl.filter(p=>CFAM.has(kn(p.n)));if(f.length)pl=f}
 else if(d=='medio'){const f=pl.filter(p=>p.y>=2018&&!CFAM.has(kn(p.n)));if(f.length>=50)pl=f}
 return pl.length?pl:COPA}
 const CTC={};
-function cDailyTarget(d,day){const k='copa|'+day+'|'+d+(dSalt(day)?'|r'+dSalt(day):'');if(!CTC[k]){const pl=cDailyPool(d).slice().sort((a,b)=>cKey(a)<cKey(b)?-1:1);CTC[k]=pl[Math.floor(rng(k)*pl.length)]}return CTC[k]}
+function cDailyTarget(d,day){const k='copa|'+day+'|'+d+(dSalt(day)?'|r'+dSalt(day):'');if(!CTC[k]){
+  // 1) sorteia o JOGADOR (uma pessoa, mesmo que apareça em várias Copas); 2) sorteia uma das Copas dele
+  const gid=p=>p.tm||('i'+p.i)||p.n+'|'+p.s;const G=new Map();cDailyPool(d).forEach(p=>{const g=gid(p);if(!G.has(g))G.set(g,[]);G.get(g).push(p)});
+  const ids=[...G.keys()].sort();const jog=G.get(ids[Math.floor(rng(k+'|j')*ids.length)]).slice().sort((a,b)=>a.y-b.y);
+  CTC[k]=jog[Math.floor(rng(k+'|v')*jog.length)]}return CTC[k]}
 function cDState(d){return cState(CDAY||dayKey(),d)}
 const cStat=()=>{const a=ls.get('qc:cstats')||{};return a[cdiff]||{p:0,w:0,s:0,ms:0,lw:''}};
 function cRecord(w){const a=ls.get('qc:cstats')||{};const s=a[cdiff]||{p:0,w:0,s:0,ms:0,lw:''};s.p++;
@@ -1453,6 +1897,7 @@ function setCMode(m){if(!COPA)return;cmode=m;clearInterval(cdT);cLayout();if(m==
 async function setGame(g){game=g;clearInterval(cdT);
 $('t0').classList.toggle('on',g=='j');$('t2').classList.toggle('on',g=='c');
 /* 1ª vez na Copa: carrega os dados ANTES de mexer nos botões de modo, senão o seletor Diário/Livre pula pro Personalizado e volta */
+if(g=='c')cTheme();
 if(g=='c'&&!COPA){await loadCopa();if(game!='c')return}
 $('m3').classList.remove('hide');$('qq').textContent='Qual jogador está sendo procurado?';$('who').classList.add('hide');$('hd').classList.remove('hide');$('m2').textContent='Personalizado';
 if(g=='j'){setCopaArt(null);document.querySelector('.bar').classList.remove('fc');['cedwrap','cselwrap'].forEach(i=>$(i).classList.add('hide'));$('diffwrap').classList.remove('two');
@@ -1487,7 +1932,8 @@ if(!silent)fx(w?'win':'lose')}
 // ---------- dicas estilo rogue-like: 2 cartas, custo crescente (1ª=1, 2ª=2, 3ª=3 chutes) ----------
 const ICN={inicial:'<path d="M6 19L12 5l6 14M8.5 14h7"/>',pais:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.500 3 3.500 15 0 18M12 3c-3.500 3-3.500 15 0 18"/>',liga:'<path d="M4 20h16M6 20V9l6-5 6 5v11M10 20v-5h4v5"/>',pos:'<path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.500"/>',idade:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>',num:'<path d="M8 4L3 7l2 4 3-1v10h8V10l3 1 2-4-5-3c-1 2-5 2-6 0z"/>',valor:'<circle cx="12" cy="12" r="9"/><path d="M14.500 9.500C14 8.600 13.100 8 12 8c-1.400 0-2.500.8-2.500 2s1.100 1.700 2.500 2 2.500.8 2.500 2-1.100 2-2.500 2c-1.100 0-2-.6-2.500-1.500M12 6v2M12 16v2"/>',time:'<path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/>',copa:'<path d="M8 4h8v5a4 4 0 01-8 0zM8 6H4c0 3 1 4 4 4M16 6h4c0 3-1 4-4 4M12 13v4M8.500 20h7M10 17h4"/>',bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.500c.7.700 1 1.500 1 2.500h6c0-1 .3-1.800 1-2.500A6 6 0 0012 3z"/>',ball:'<circle cx="12" cy="12" r="9"/><path d="M12 7.500l3.800 2.800-1.400 4.400H9.600l-1.400-4.400zM12 7.500V3M15.800 10.300l4.300-1.400M14.400 14.700l2.600 3.600M9.600 14.700l-2.600 3.600M8.200 10.300L3.900 8.900"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2.500"/><path d="M8 11V8a4 4 0 018 0v3"/>',arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',dot:'<circle cx="12" cy="12" r="4" fill="currentColor"/>',ring:'<circle cx="12" cy="12" r="7"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.600 5.600L7 7M17 17l1.400 1.400M18.400 5.600L17 7M7 17l-1.400 1.400"/>',plus:'<path d="M12 5v14M5 12h14"/>'};
 const IC=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICN[k]||k}</svg>`;
-const HL={inicial:[IC('inicial'),'Inicial'],pais:[IC('pais'),'País'],liga:[IC('liga'),'Liga'],pos:[IC('pos'),'Posição'],idade:[IC('idade'),'Idade'],num:[IC('num'),'Número'],valor:[IC('valor'),'Valor'],time:[IC('time'),'Time atual'],copa:[IC('copa'),'Copa']};
+const HL={inicial:[IC('inicial'),'Inicial'],pais:[IC('pais'),'Nacionalidade'],liga:[IC('liga'),'Liga'],pos:[IC('pos'),'Posição'],idade:[IC('idade'),'Idade'],num:[IC('num'),'Número'],valor:[IC('valor'),'Valor'],time:[IC('time'),'Time atual'],copa:[IC('copa'),'Copa']};
+const hLbl=k=>(k=='time'&&game=='c')?'Clube da época':HL[k][1];
 const HKEYS=c=>c?['inicial','pais','copa','pos','idade','num','time']:['inicial','pais','liga','pos','idade','num','valor','time'];
 const hKnown=(k,c)=>{const t=c?CT:target;if(!t)return false;return(c?CG:guesses).some(p=>({pais:c?p.s==t.s:!!(p.z&&p.z==t.z),liga:p.l==t.l,time:c?p.c==t.c:(p.l==t.l&&p.c==t.c),pos:p.p==t.p,idade:p.a==t.a,num:!!(p.u&&t.u&&p.u==t.u),valor:!c&&!!(p.v&&t.v&&p.v==t.v),copa:c&&p.y==t.y})[k])};
 const hFree=c=>HKEYS(c).filter(k=>!hintUsed.includes(k)&&!hKnown(k,c));
@@ -1499,7 +1945,7 @@ function resetHints(){const k=hintKey();hintUsed=k?(ls.get(k)||[]):[];hintN=hcos
 function renderHints(){const c=game=='c',t=c?CT:target,b=$('hbox');
 const on=t&&!(c?cover:over)&&(c?cmode!=3:mode!=3);b.classList.toggle('hide',!on);if(!on)return;
 const nx=hintUsed.length+1,free=hFree(c),can=free.length&&(c?CG:guesses).length+hintN+hStep(nx)<=(c?CMAX:MAXT)-1,hb=$('hbtn');
-$('hchips').innerHTML=hintUsed.map(k=>HL[k]?`<span class="hchip${k==hintJust?' new':''}">${HL[k][0]} ${HL[k][1]}: <b>${esc(hintVal(k,t,c))}</b></span>`:'').join('');
+$('hchips').innerHTML=hintUsed.map(k=>HL[k]?`<span class="hchip${k==hintJust?' new':''}">${HL[k][0]} ${hLbl(k)}: <b>${esc(hintVal(k,t,c))}</b></span>`:'').join('');
 hb.classList.toggle('hide',!free.length);hb.disabled=!can;
 const cs=hStep(nx);hb.innerHTML=`<span class="hi">${IC('bulb')}</span><span class="ht">Dica</span><b class="hcost">${cs?'−'+cs+(cs>1?' chutes':' chute'):'Grátis'}</b>`;
 hb.title=can?(cs?`Custa ${cs} chute${cs>1?'s':''}`:'1ª dica grátis'):'Chutes insuficientes para outra dica'}
@@ -1507,7 +1953,7 @@ $('hbtn').onclick=()=>{const c=game=='c',free=hFree(c);
 if(!hintOffer.length||hintOffer.length>2||hintOffer.some(k=>!free.includes(k))){hintOffer=free.slice().sort(()=>Math.random()-.5).slice(0,2);const k=hintKey();if(k)ls.set(k+':o',hintOffer)}
 const nx=hintUsed.length+1;
 $('hsub').textContent=`${nx>1?nx+'ª dica · CUSTA '+(nx-1)+' CHUTE'+(nx>2?'S':''):'Primeira dica · GRÁTIS'}. Escolha uma das cartas.`;
-$('hcards').innerHTML=hintOffer.map((k,i)=>`<button type="button" class="hcard" data-k="${k}" style="--i:${i+(3-hintOffer.length)/2}"><span class="htl"><span class="hin">${[0,1,2,3,4,5].map(n=>`<span class="hz" style="--k:${n}"></span>`).join('')}<span class="hf hback"><span class="hbi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5l3.8 2.8-1.4 4.4H9.6l-1.4-4.4zM12 7.5V2.600M15.800 10.300l4.600-1.500M14.400 14.700l2.800 4M9.600 14.700l-2.800 4M8.200 10.300L3.600 8.800"/></svg></span></span><span class="hf hfront"><span class="hshine"></span><span class="hi">${HL[k][0]}</span><b>${HL[k][1]}</b><small>${nx>1?'Custa '+(nx-1)+' chute'+(nx>2?'s':''):'Grátis'}</small></span></span></span></button>`).join('');
+$('hcards').innerHTML=hintOffer.map((k,i)=>`<button type="button" class="hcard" data-k="${k}" style="--i:${i+(3-hintOffer.length)/2}"><span class="htl"><span class="hin">${[0,1,2,3,4,5].map(n=>`<span class="hz" style="--k:${n}"></span>`).join('')}<span class="hf hback"><span class="hbi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5l3.8 2.8-1.4 4.4H9.6l-1.4-4.4zM12 7.5V2.600M15.800 10.300l4.600-1.500M14.400 14.700l2.800 4M9.600 14.700l-2.800 4M8.200 10.300L3.600 8.800"/></svg></span></span><span class="hf hfront"><span class="hshine"></span><span class="hi">${HL[k][0]}</span><b>${hLbl(k)}</b><small>${nx>1?'Custa '+(nx-1)+' chute'+(nx>2?'s':''):'Grátis'}</small></span></span></span></button>`).join('');
 $('hcards').style.gridTemplateColumns=`repeat(${hintOffer.length},minmax(0,1fr))`;$('hcards').classList.toggle('two',hintOffer.length<3);delete $('hcards').dataset.busy;$('hcards').querySelectorAll('.hcard').forEach(c=>tiltOn(c,26,c.firstChild));
 $('dhint').showModal()};
 // carta escolhida gira e sobe; as outras caem. Depois a dica é aplicada.
@@ -1516,6 +1962,11 @@ const go=()=>{delete H.dataset.busy;hintUsed.push(b.dataset.k);hintJust=b.datase
 const k=hintKey();if(k){ls.set(k,hintUsed);ls.set(k+':o',[])}$('dhint').close();game=='c'?cTent():tent();setTimeout(()=>{hintJust=''},900)};
 if(reduce())return go();
 b.classList.add('pick');[...H.children].forEach(x=>{if(x!==b)x.classList.add('toss')});fx('win');setTimeout(go,950)};
+// dica de fama: 1 a 5 estrelas e uma frase, pela nota de fama do jogador (Clubes e Copa)
+function wFamaHtml(t){const f=fFam(t)||0;
+  const n=f>=90?5:f>=78?4:f>=60?3:f>=44?2:1;
+  const txt=['','Um nome pouco conhecido no futebol','Um nome para quem acompanha de perto','Um nome conhecido por quem acompanha futebol','Um nome muito conhecido no futebol','Um dos nomes mais conhecidos do futebol'][n];
+  return `<div style="text-align:center;font-size:17px;letter-spacing:2px;color:#ffd84d;line-height:1">${'★'.repeat(n)}<span style="color:rgba(255,216,77,.28)">${'★'.repeat(5-n)}</span></div><p style="margin:5px 0 0;text-align:center;font-size:13px;color:#e8f5e0;font-style:italic">“${txt}”</p>`}
 // ---------- modo "Quem sou eu?" (Clubes e Copa compartilham o mesmo motor) ----------
 // Pergunta própria: "consigo reconhecer este jogador antes que o jogo entregue a resposta?"
 // c = % da imagem revelada em cada etapa (0..5, uma por erro) · r = informações liberadas em cada etapa.
@@ -1580,6 +2031,8 @@ if(r.length<10)r=c.length?c:P;let t=pick(r);if(t===wLast&&r.length>1)t=pick(r);w
 const CHAMP={1930:'Uruguai',1934:'Itália',1938:'Itália',1950:'Uruguai',1954:'Alemanha',1958:'Brasil',1962:'Brasil',1966:'Inglaterra',1970:'Brasil',1974:'Alemanha',1978:'Argentina',1982:'Itália',1986:'Argentina',1990:'Alemanha',1994:'Brasil',1998:'França',2002:'Brasil',2006:'Itália',2010:'Espanha',2014:'Alemanha',2018:'França',2022:'Argentina'};
 const wChamp=p=>{const c=CHAMP[p.y];return !!c&&String(p.s).startsWith(c)};
 const wFam=p=>CFAM.has(kn(p.n));
+// Quem sou eu (Copa): faixa de fama, mesma regra do modo diário. wFam só entra se o jogador não tiver fama.
+const wFaixa=(p,d)=>p.fm!=null?famaBand(p,d):(d=='facil'?wFam(p):d=='medio'?(!wFam(p)&&p.y>=1998):!wFam(p));
 let WCB=null,WCU=null,WCPool={};
 // base: participou de Copa, tem foto e tem os dados usados nas dicas (posição, idade, camisa, clube, continente)
 function wCBase(){if(WCB)return WCB;const KL={},cnt={},pk=p=>p.i||p.n+'|'+p.s;
@@ -1588,10 +2041,10 @@ COPA.forEach(p=>{(cnt[pk(p)]=cnt[pk(p)]||new Set()).add(p.y)});
 WCB=COPA.filter(p=>ph(p)&&p.u>0&&p.a>0&&p.c&&p.p&&CONT[p.s]);
 WCB.forEach(p=>{p.nc=cnt[pk(p)].size;p.kl=KL[p.k]||''});return WCB}
 const WCP={
-facil:p=>wFam(p)||(wChamp(p)&&p.y>=1994&&FACIL_IDS.has(p.k)),
-medio:p=>!wFam(p)&&p.y>=1998&&MEDIO_L.has(p.kl)&&!(wChamp(p)&&FACIL_IDS.has(p.k)),
-craque:p=>!WCP.facil(p)&&!WCP.medio(p)&&(p.nc>=2||MEDIO_L.has(p.kl)||FACIL_IDS.has(p.k))};
-const WCFB={facil:p=>wFam(p)||(wChamp(p)&&p.y>=1994),medio:p=>!wFam(p)&&p.y>=1998,craque:p=>!wFam(p)};
+facil:p=>wFaixa(p,'facil')||(wChamp(p)&&p.y>=1994&&FACIL_IDS.has(p.k)),
+medio:p=>wFaixa(p,'medio')&&p.y>=1998&&MEDIO_L.has(p.kl)&&!(wChamp(p)&&FACIL_IDS.has(p.k)),
+craque:p=>!WCP.facil(p)&&!WCP.medio(p)&&wFaixa(p,'craque')&&(p.nc>=2||MEDIO_L.has(p.kl)||FACIL_IDS.has(p.k))};
+const WCFB={facil:p=>wFaixa(p,'facil')||(wChamp(p)&&p.y>=1994),medio:p=>wFaixa(p,'medio')&&p.y>=1998,craque:p=>wFaixa(p,'craque')};
 function wCPool(){const d=wdiffC;if(WCPool[d])return WCPool[d];const B=wCBase();let r=B.filter(WCP[d]);if(r.length<25)r=B.filter(WCFB[d]);if(r.length<10)r=B;return WCPool[d]=r}
 function wPickC(){const r=wCPool();let t=pick(r);if(t===wLastC&&r.length>1)t=pick(r);wLastC=t;return t}
 // busca do modo: um item por jogador (edição mais recente), para não repetir o mesmo nome em várias Copas
@@ -1611,12 +2064,12 @@ $('sub').textContent='Descubra o jogador antes que a foto fique nítida e que ap
 $('pool').textContent=wCBase().length+' jogadores';$('hd').classList.add('hide');$('who').classList.remove('hide');renderWDiffs();qScore();renderWho();cTent()}
 function renderWho(){const t=target;if(!t)return;const W=wCfg(),ks=wKeys(),el=$('who'),ov=wOver();
 if(el.dataset.id!=wid){el.dataset.id=wid;
-el.innerHTML=`<p class="wsub">${wC()?'Descubra um jogador pelo rosto e pelas informações relacionadas à sua participação em Copas do Mundo.':'Descubra um jogador pelo rosto e pelas informações relacionadas à sua carreira.'}</p><div class="wh"><div><div class="wph" id="wph"><div class="wpc" id="wpc"><canvas id="wimg" width="336" height="448" role="img" aria-label="Foto do jogador"></canvas><div class="wq0" id="wq0">?</div></div></div><div class="wm">🔍 Imagem revelada: <b id="wpct">0%</b><div class="wmb"><i id="wbar"></i></div></div></div><div class="wcl" id="wcl">${ks.map(k=>`<div class="kc" data-k="${k}"><div class="ki"><div class="kf kb"><b>?</b>${(wC()?WNC:WN)[k]}</div><div class="kf kv"></div></div></div>`).join('')}</div></div><div class="wpips" id="wpips">${'<i></i>'.repeat(6)}</div><div class="wrong" id="wwr"></div>`;
+el.innerHTML=`<p class="wsub">${wC()?'Descubra um jogador pelo rosto e pelas informações relacionadas à sua participação em Copas do Mundo.':'Descubra um jogador pelo rosto e pelas informações relacionadas à sua carreira.'}</p><div class="wcard"><div class="wtop"><b id="wnm" class="wnm">? ? ?</b><span class="wtag">Quem sou eu?</span></div><div class="wh"><div><div class="wph" id="wph"><div class="wpc" id="wpc"><canvas id="wimg" width="336" height="448" role="img" aria-label="Foto do jogador"></canvas><div class="wq0" id="wq0">?</div></div></div><div class="wm">🔍 Imagem revelada: <b id="wpct">0%</b><div class="wmb"><i id="wbar"></i></div><div class="wfama" id="wfama" style="text-align:center;width:100%"></div></div></div><div class="wcl" id="wcl">${ks.map(k=>`<div class="kc" data-k="${k}"><div class="ki"><div class="kf kb"><b>?</b>${(wC()?WNC:WN)[k]}</div><div class="kf kv"></div></div></div>`).join('')}</div></div></div><div class="wpips" id="wpips">${'<i></i>'.repeat(6)}</div><div class="wrong" id="wwr"></div>`;
 tiltOn($('wpc'),18);void el.offsetWidth}
 const miss=guesses.filter(g=>g!==t).length,s=Math.min(miss,5),win=guesses.includes(t),c=ov?100:W.c[s],src=wPhoto(t);
 wImg($('wimg'),src,c>=100?0:wBlur(c));
 $('wpc').classList.toggle('ok',ov);$('wph').classList.toggle('win',ov&&win);$('wph').classList.toggle('lose',ov&&!win);
-$('wq0').style.opacity=ov?0:Math.max(0,1-c/55);$('wpct').textContent=c+'%';$('wbar').style.width=c+'%';
+$('wq0').style.opacity=ov?0:Math.max(0,1-c/55);$('wpct').textContent=c+'%';$('wnm').textContent=ov?t.n:'? ? ?';$('wbar').style.width=c+'%';$('wfama').innerHTML=wFamaHtml(t);
 const rv=new Set();for(let i=0;i<=s;i++)W.r[i].forEach(k=>rv.add(k));if(ov)ks.forEach(k=>rv.add(k));
 const d=wDef(t);let n=0;
 $('wcl').querySelectorAll('.kc').forEach(e=>{const k=e.dataset.k;if(!rv.has(k)||e.classList.contains('rv'))return;
@@ -1677,8 +2130,8 @@ const{y,m}=calM,first=new Date(Date.UTC(y,m,1)).getUTCDay(),nd=new Date(Date.UTC
 for(let d=1;d<=nd;d++){const day=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,fut=day>now,S=fut?{j:DORD.map(()=>''),c:CDORD.map(()=>'')}:dayStates(day),all=[...S.j,...S.c],
 nw=all.filter(x=>x=='w').length,any=all.some(Boolean),perfect=nw==all.length;if(nw)w++;if(any)pl++;if(perfect)pf++;
 const cls=perfect?'w':(nw||all.includes('p'))?'p':any?'l':'';
-h+=`<button type="button" class="cd ${cls}${day==now?' td':''}${fut?' fu':''}${day==calSel?' sel':''}" data-day="${day}"${fut?' disabled':''} aria-label="${d}/${m+1}: ${nw} de ${all.length} acertos">${d}<i>${S.j.map(x=>`<b class="dt ${x}"></b>`).join('')}</i><i>${S.c.map(x=>`<b class="dt ${x}"></b>`).join('')}</i></button>`}
-$('cgrid').innerHTML=h;$('cmon').textContent=new Date(Date.UTC(y,m,1)).toLocaleDateString('pt-BR',{month:'long',year:'numeric',timeZone:'UTC'});
+h+=`<button type="button" class="cd ${cls}${day==now?' td':''}${fut?' fu':''}${day==calSel?' sel':''}" data-day="${day}"${fut?' disabled':''} aria-label="${d}/${m+1}: ${nw} de ${all.length} acertos">${d}${any?`<span class="dd"><i>${S.j.map(x=>`<b class="dt ${x}"></b>`).join('')}</i><i>${S.c.map(x=>`<b class="dt ${x}"></b>`).join('')}</i></span>`:''}</button>`}
+$('cgrid').innerHTML=h;$('cmon').textContent=(t=>t.charAt(0).toUpperCase()+t.slice(1))(new Date(Date.UTC(y,m,1)).toLocaleDateString('pt-BR',{month:'long',year:'numeric',timeZone:'UTC'}));
 $('csum').textContent=`Dias jogados: ${pl} · Com vitória: ${w} · Completos (6/6): ${pf}`;calDetail();
 const tk=()=>{const s=nextSecs();$('ccd').textContent=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
 if(!$('dcal').open){$('dcal').showModal();tk();clearInterval(calT);calT=setInterval(tk,1000)}}
@@ -1900,6 +2353,49 @@ if(v){bar.classList.add('closing');setTimeout(()=>{bar.classList.remove('closing
 else{fold=false;refresh();bar.classList.add('opening');grow(h0);setTimeout(()=>bar.classList.remove('opening'),600)}}
 const closeF=()=>{if(!fold&&bar.classList.contains('fc'))setFold(true)};$('q').addEventListener('input',closeF);
 fs.onclick=()=>{const nv=!fold;ls.set('qc:fold',nv?1:0);setFold(nv)};q()})();
+</script>
+<script>
+// ---------- coleção de cards: acertou o jogador, ganhou o card ----------
+(function(){
+const KEY='qc:cards',RN=['','Bronze','Prata','Ouro'],get=()=>ls.get(KEY)||{};
+const rar=n=>n<=2?3:n<=4?2:1;
+const ini=s=>String(s).split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+function mk(t,c,n){return{id:(c?'c|':'j|')+(t.i||(t.n+'|'+(c?t.s:t.c))),k:c?'c':'j',nm:t.n,img:wPhoto(t)||'',pos:t.p||'',age:t.a||0,num:t.u||0,
+tm:(c?t.s:t.c)||'',lg:c?'':(t.l||''),bf:c?'':(t.b||''),sb:c?(t.c||''):(LI(t.l)[1]||''),yr:c?t.y:0,val:(!c&&t.v)?money(t.v):'',r:rar(n),n:n,d:Date.now()}}
+function figx(c){let lg=c.lg,bf=c.bf;
+if(c.k!='c'&&(!lg||!bf)){try{const q=P.find(p=>p.n==c.nm&&p.c==c.tm);if(q){lg=lg||q.l;bf=bf||q.b}}catch(e){}}
+let fl='',cr='';
+try{if(c.k=='c'){fl=cr=cflagBy(c.tm)}else{fl=bf?flag(bf):'';cr=lg?crest(lg,c.tm):''}}catch(e){}
+return{fl:fl?av('fl',fl,c.nm,22,16):'',cr:c.k=='c'?(cr?av('fl',cr,c.tm,20,14):''):(cr?av('cr',cr,c.tm,18):'')}}
+function fig(c){const fx=figx(c),s3=c.k=='c'?['Copa',c.yr||'—']:['Valor',c.val||'—'];
+return`<div class="fig r-${c.r}"><div class="fig-top"><span class="fig-pos">${esc(c.pos||'—')}</span><span class="fig-rar">${RN[c.r]}</span></div>
+<div class="fig-img"><span class="fig-ini">${esc(ini(c.nm))}</span>${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}</div>
+<div class="fig-name">${fx.fl}<span>${esc(c.nm)}</span></div><div class="fig-sub">${fx.cr}<span>${esc(c.tm)}${c.sb?' · '+esc(c.sb):''}</span></div>
+<div class="fig-stats"><span><small>Idade</small><b>${c.age||'—'}</b></span><span><small>Camisa</small><b>${c.num?'#'+c.num:'—'}</b></span><span><small>${s3[0]}</small><b>${esc(String(s3[1]))}</b></span></div></div>`}
+function count(){const n=Object.keys(get()).length;const b=$('ccnt');if(b)b.textContent=n}
+function show(c,title,sub){$('dnewt').textContent=title;$('dnews').textContent=sub;$('dnewc').innerHTML=fig(c);$('dnew').showModal()}
+function grant(t,c,n,silent){if(!t)return;const o=get(),x=mk(t,c,n),old=o[x.id];let st='new',card=x;
+if(old){if(x.r>old.r){old.r=x.r;old.n=x.n;st='up';card=old}else return}else o[x.id]=x;
+ls.set(KEY,o);count();if($('colview')&&document.body.classList.contains('colon'))render();
+if(!silent)setTimeout(()=>show(card,st=='new'?'Novo card na coleção!':'Card melhorado!',st=='new'?'Você acertou '+x.nm+' e ganhou o card dele.':'Raridade '+RN[card.r]+': você acertou com menos chutes.'),1500)}
+const _e=endX;endX=function(w,silent){_e.apply(this,arguments);if(w){try{const c=game=='c';grant(c?CT:target,c,(c?CG:guesses).length,silent)}catch(e){}}};
+let flt='all';
+function render(){const all=Object.values(get()).sort((a,b)=>b.d-a.d),L=flt=='all'?all:all.filter(x=>x.k==flt),r=n=>all.filter(x=>x.r==n).length;
+$('colrar').innerHTML=`<span class="g">Ouro ${r(3)}</span><span class="s">Prata ${r(2)}</span><span class="b">Bronze ${r(1)}</span>`;
+$('colf').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.f==flt));
+$('colgrid').innerHTML=L.length?L.map(c=>`<button type="button" class="cbtn" data-id="${esc(c.id)}">${fig(c)}</button>`).join(''):`<div class="colempty"><b>${all.length?'Nenhum card aqui ainda':'Sua coleção está vazia'}</b>Acerte um craque em qualquer modo para ganhar o card dele.</div>`}
+const open=()=>{document.body.classList.add('colon');$('tcol').classList.add('on');render();scrollTo({top:0})},shut=()=>{document.body.classList.remove('colon');$('tcol').classList.remove('on')};
+$('tcol').onclick=()=>document.body.classList.contains('colon')?shut():open();
+$('colback').onclick=shut;$('tipos').addEventListener('click',shut,true);
+$('colf').onclick=e=>{const b=e.target.closest('button');if(b){flt=b.dataset.f;render()}};
+$('colgrid').onclick=e=>{const b=e.target.closest('.cbtn');if(!b)return;const c=get()[b.dataset.id];if(c)show(c,'Seu card',RN[c.r]+' · acertou em '+c.n+' chute'+(c.n>1?'s':''))};
+count()})();
+</script>
+<script>
+(function(){var b=document.getElementById('btheme'),R=document.documentElement;
+function sync(){var d=R.getAttribute('data-theme')!=='light';b.title=b.ariaLabel=d?'Mudar para modo claro':'Mudar para modo escuro'}
+b.addEventListener('click',function(){var t=R.getAttribute('data-theme')==='light'?'dark':'light';R.setAttribute('data-theme',t);try{localStorage.setItem('qc:theme',JSON.stringify(t))}catch(e){}
+document.querySelectorAll('meta[name=theme-color]').forEach(function(m){m.setAttribute('content',t==='dark'?'#07200f':'#1b7238')});sync()});sync()})();
 </script>
 </body>
 </html>

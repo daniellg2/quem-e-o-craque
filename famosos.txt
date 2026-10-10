@@ -2,7 +2,8 @@
 # Formato: um ID do Transfermarkt por linha (o número no final da URL do jogador). Tudo depois de # é comentário.
 # Use SEMPRE o ID e nunca o nome: só na base há 8 "Paulinho" e 5 "Dudu".
 # Quem está aqui recebe fama mínima de 92 e conta como "sinal forte" para entrar no Fácil.
-# Linhas marcadas com CONFIRA tinham mais de um jogador com o mesmo nome: confira se o escolhido é o certo.
+# Linhas marcadas com CONFIRA tinham mais de um jogador com o mesmo nome: confira se o escolhido é o certo
+# (o critério "maior valor" erra com veteranos: um jovem homônimo vale mais que o veterano famoso).
 
 68290     # Neymar (Santos FC, BRA1)
 244275    # Gabriel Barbosa (Santos FC, BRA1)
@@ -11,7 +12,6 @@
 22415     # Fábio (Fluminense FC, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
 29241     # Thiago Silva (Fluminense FC, BRA1)
 16306     # Casemiro (Inter Miami CF, MLS1)
-731004    # Marcelo (AD Confiança, BRA3)
 401475    # Oscar (Al-Taawoun FC, SA1)
 191614    # Fred (Atlético Mineiro, BRA1)
 52896     # Everton Ribeiro (EC Bahia, BRA1)
@@ -19,6 +19,44 @@
 248410    # Giorgian de Arrascaeta (CR Flamengo, BRA1)
 432895    # Pedro (CR Flamengo, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
 353108    # Bruno Henrique (CR Flamengo, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
+145707    # Danilo (CR Flamengo) - 75 jogos pela seleção, ex-Real Madrid
+447661    # Douglas Luiz (Juventus FC) - 20 jogos pela seleção
+321239    # Everton (Santos FC) - 25 jogos pela seleção; o "Cebolinha"
+348263    # Róger Guedes (Al-Rayyan SC) - 185 gols em clubes; ex-Corinthians
+103381    # Tiquinho Soares (Botafogo FR) - 164 gols em clubes; ídolo botafoguense
+255755    # Alex Telles (Botafogo FR) - 12 jogos pela seleção
+469822    # David Neres (Napoli) - 7 Champions (cl); ex-São Paulo
+432164    # Igor Jesus (Nottingham Forest) - Libertadores (cli 5) pelo Botafogo
+346766    # Guilherme Arana (Fluminense FC) - 13 jogos pela seleção
+330085    # Gustavo Scarpa (Atlético Mineiro) - Libertadores (cli 15), ex-Palmeiras
+743591    # Sávio (Tottenham Hotspur) - 13 jogos pela seleção; "Savinho"
+175169    # Bernard (Atlético Mineiro) - 14 jogos pela seleção
+210747    # Willian Arão (Santos FC) - Libertadores (cli 6), ex-Flamengo
+47592     # Fagner (Cruzeiro EC) - 10 jogos pela seleção, ex-Corinthians
+800176    # André (Wolverhampton Wanderers) - 13 jogos pela seleção; ex-Fluminense
+220793    # Douglas Santos (Zenit São Petersburgo) - Joga fora há anos; reconhecimento incerto
+122155    # Willian José (EC Bahia) - Auge na Europa; fama difusa
+126422    # Allan (Botafogo FR) - Nome genérico; só quem acompanha reconhece
+104505    # Alan Patrick (SC Internacional) - Ídolo regional, sem projeção nacional clara
+476344    # Emerson Royal (CR Flamengo) - Barcelona/Tottenham/Milan, pouca marca no Brasil
+323874    # Evander (FC Cincinnati) - Conhecido por vascaínos
+627226    # Reinier (Atlético Mineiro) - Famoso pela venda ao Real Madrid
+454121    # Galeno (Al-Ahli SFC) - Fama maior em Portugal
+668267    # Marcos Leonardo (AFC Ajax) - Revelação recente do Santos
+711337    # Evanilson (AFC Bournemouth) - Passagem curta por clubes grandes do Brasil
+653610    # Igor Paixão (Olympique Marselha) - Fama recente e concentrada na Europa
+390638    # Arthur Cabral (Botafogo FR) - Carreira mais europeia
+525287    # Carlos Vinícius (Grêmio FBPA) - Mais conhecido na Europa
+592347    # Júnior Santos (Botafogo FR) - Importante no Botafogo, sem projeção nacional
+542598    # Breno Lopes (Coritiba FC) - Gol da final da Libertadores 2020; nome sozinho é fraco
+435485    # Luiz Araújo (CR Flamengo) - Carreira irregular; reconhecimento médio
+519731    # Danilo (Botafogo FR) - Atacante homônimo; o CSV bate com este, não com o 808509 (já no famosos)
+333241    # Joelinton (Newcastle United) - Abaixo dos cortes (sel 8, cl 4, gols 74)
+703321    # Gabriel Pec (Cruzeiro EC) - Abaixo dos cortes (sel 7, gols 69)
+553469    # Gabriel Sara (Galatasaray) - Abaixo dos cortes (sel 1)
+691316    # Luis Henrique (Inter de Milão) - Abaixo dos cortes (sel 0); não é o Luiz Henrique do Zenit
+872171    # Lucas Beraldo (Paris Saint-Germain) - Abaixo dos cortes (sel 5)
+585982    # Carlos Augusto (Inter de Milão) - Abaixo dos cortes (sel 4)
 341705    # Gerson (Cruzeiro EC, BRA1)
 444523    # Lucas Paquetá (CR Flamengo, BRA1)
 371998    # Vinicius Junior (Real Madrid CF, ES1)
@@ -40,7 +78,7 @@
 79960     # Alex Sandro (CR Flamengo, BRA1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
 442818    # Fernandinho (Mirassol FC, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
 69400     # Weverton (Grêmio FBPA, BRA1)  # CONFIRA: 3 jogadores com esse nome, escolhido o de maior valor
-1004728   # Dudu (Athletico Paranaense, BRA1)  # CONFIRA: 9 jogadores com esse nome, escolhido o de maior valor
+114937    # Dudu (Atlético Mineiro, BRA1)  # CORRIGIDO: o ID antigo (1004728) era um Dudu de 20 anos do Athletico-PR
 489893    # Yuri Alberto (SC Corinthians, BRA1)
 67920     # Ganso (Fluminense FC, BRA1)
 800175    # Luiz Henrique (Zenit São Petersburgo, RU1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
@@ -81,7 +119,7 @@
 402733    # Gonzalo Montiel (CA River Plate, AR1N)
 424042    # Nahuel Molina (AS Roma, IT1)
 401578    # Exequiel Palacios (Ipswich Town FC, GB1)
-424784    # Luis Suárez (Sporting CP, PO1)  # CONFIRA: 2 jogadores com esse nome, escolhido o de maior valor
+44352     # Luis Suárez (Inter Miami CF, MLS1)  # CORRIGIDO: o ID antigo (424784) era o colombiano do Sporting CP
 369081    # Federico Valverde (Real Madrid CF, ES1)
 546543    # Darwin Núñez (Al-Diriyah FC, SA1)
 480267    # Ronald Araujo (FC Liverpool, GB1)
