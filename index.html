@@ -1472,7 +1472,7 @@ body.colon main{max-width:1280px}
 <style>
 /* ---------- Duelo de Gols (mesmo visual do Álbum: bordas grossas, sombra deslocada, figurinhas) ---------- */
 .card:not(.qon) #qtm{display:none}
-.card.qon .stage>:not(#qtm){display:none!important}
+.card.qon .stage>:not(#qtm):not(#pm):not(#m2slot){display:none!important}
 .card.qon .side>:not(#modos):not(#qscore):not(#qdif){display:none!important}
 #qtm{position:relative;display:flex;flex-direction:column;gap:16px;min-width:0}
 #qtm .hide{display:none!important}
@@ -1695,7 +1695,7 @@ body.colon main{max-width:1280px}
 <div class="top"><h1>Quem é o <span class="fc">C</span>raque?</h1><div class="ib"><button id="bprof" aria-label="Perfil: time, seleção e ídolo" title="Perfil: time, seleção e ídolo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button><button id="bshare" aria-label="Criar desafio para um amigo" title="Criar desafio para um amigo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button><button id="bcal" aria-label="Histórico" title="Histórico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></button><button id="bhelp" aria-label="Como jogar" title="Como jogar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg></button></div></div>
 <div class="tabrow"><div class="tabs" id="tipos" role="tablist" aria-label="Tipo de jogo"><button id="t0" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M12 8v6M9 11h6"/></svg>Clubes</button><button id="t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v4M8 21h8M9 18h6"/></svg>Copa</button></div><button type="button" id="tcol" aria-label="Coleção de cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="11" height="15" rx="2.5"/><path d="M8 6l1-2.5a2 2 0 012.600-1l7.800 2.800a2 2 0 011.200 2.500L18 16"/></svg><span>Álbum</span><b id="ccnt">0</b></button></div>
 <section class="card"><aside class="side">
-<div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on"><span class="mt">Craque do dia</span><small>Um craque novo todo dia, igual para todos.</small></button><button id="m3"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Quem sou eu?</button><button id="m2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2.2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2.2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="7" cy="18" r="2.2"/></svg>Personalizado</button><button type="button" id="m4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8.2l3.4 2.5-1.3 4h-4.2l-1.3-4zM12 8.2V3.2M15.400 10.700l4.600-1.500M14.100 14.700l2.800 3.900M9.900 14.700l-2.800 3.900M8.600 10.700L4 9.200"/></svg>Duelo de Gols</button></div><div id="qdif" class="qx-dif hide" role="group" aria-label="Dificuldade (Clubes)"><button type="button" data-l="f">Fácil<small>+200 gols</small></button><button type="button" data-l="n">Normal<small>+300 gols</small></button><button type="button" data-l="d">Difícil<small>+400 gols</small></button></div><div id="qscore" class="qx-score" aria-live="polite"></div>
+<div class="tabs" id="modos" role="tablist" aria-label="Modo"><button id="m0" class="on"><span class="mt">Craque do dia</span><small>Um craque novo todo dia, igual para todos.</small></button><button id="m3"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Quem sou eu?</button><button id="m2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2.2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2.2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="7" cy="18" r="2.2"/></svg>Personalizado</button><button type="button" id="m4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8.2l3.4 2.5-1.3 4h-4.2l-1.3-4zM12 8.2V3.2M15.400 10.700l4.600-1.500M14.100 14.700l2.800 3.900M9.900 14.700l-2.800 3.900M8.600 10.700L4 9.200"/></svg>Duelo de Gols</button><button type="button" id="m5"><span class="vs-ic" aria-hidden="true">vs</span>Quem fez mais?</button></div><div id="qdif" class="qx-dif hide" role="group" aria-label="Dificuldade (Clubes)"><button type="button" data-l="f">Fácil<small>+200 gols</small></button><button type="button" data-l="n">Normal<small>+300 gols</small></button><button type="button" data-l="d">Difícil<small>+400 gols</small></button></div><div id="qscore" class="qx-score" aria-live="polite"></div>
 <p class="sub" id="sub">Descubra o jogador secreto em 8 chutes.</p>
 <div id="nudge" class="nudge hide"></div>
 <div class="bar">
@@ -1723,7 +1723,7 @@ body.colon main{max-width:1280px}
 <div class="qx-opts" id="qopts"></div>
 <div class="qx-foot" id="qfoot"><div class="qx-pips" id="qpips" aria-hidden="true"></div><p class="qx-hint" id="qhint" aria-live="polite"></p><button type="button" class="qx-swap" id="qswap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3.5c3.200 0 4.300 10 8.500 10H20M17 14l3 3-3 3M4 17h3.500c1.200 0 2.200-1.100 3-2.600M13.500 9.600C14.300 8.200 15.200 7 16.500 7H20M17 4l3 3-3 3"/></svg><span id="qswapt">Trocar trio</span></button></div>
 </div>
-<div class="qrow"><p class="q" id="qq">Qual jogador está sendo procurado?</p><button type="button" id="mhelp" class="mhelp" aria-label="Como funciona este modo" title="Como funciona este modo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg></button></div>
+<div id="pm" class="pmx" aria-label="Quem fez mais?"><div class="pm-kick" id="pmkick"></div><h3 class="pm-q" id="pmq">Carregando…</h3><div class="pm-field" id="pmfield"></div><div class="pm-banner" id="pmres" role="status" aria-live="polite"></div><div class="pm-foot"><div class="pm-bar" id="pmbarw"><i></i></div><button type="button" class="pm-next hide" id="pmnext">Próxima ▸</button><p class="pm-hint" id="pmhint"></p></div><div class="pm-score" id="pmscore"></div></div><div id="m2slot" class="m2-slot"></div><div id="m2slot" class="m2slot"></div><div class="qrow"><p class="q" id="qq">Qual jogador está sendo procurado?</p><button type="button" id="mhelp" class="mhelp" aria-label="Como funciona este modo" title="Como funciona este modo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg></button></div>
 <div class="ask"><div class="sw"><input id="q" aria-label="Nome do jogador" placeholder="Digite o nome do jogador" autocomplete="off"><div id="list" class="list hide"></div></div><button id="hbtn" class="hbtn" type="button"></button></div>
 <div id="hbox" class="hbox hide"><span id="hchips" style="display:contents"></span></div>
 <div id="hintw" class="hintw hide"><img id="hint" alt=""><span>Pista: a foto do craque fica mais nítida a cada erro.</span></div>
@@ -3141,11 +3141,11 @@ return`<div class="fig-mini r-${c.r}"><div class="fig-top"><span class="fig-pos"
 <div class="fig-stats"><span><small>Idade</small><b>${c.age||'—'}</b></span><span><small>Camisa</small><b>${c.num?'#'+c.num:'—'}</b></span><span><small>${s3[0]}</small><b>${esc(String(s3[1]))}</b></span></div></div>`}
 function count(){const n=Object.keys(get()).length;const b=$('ccnt');if(b)b.textContent=n}
 function show(c,title,sub){$('dnewt').textContent=title;$('dnews').textContent=sub;$('dnewc').innerHTML=fig(c);$('dnew').showModal()}
-function grant(t,c,n,silent,txt){if(!t)return;const o=get(),x=mk(t,c,n),old=o[x.id];x.m=(c?cmode:mode)==3?'w':'d';let st='new',card=x;
+function grant(t,c,n,silent,txt,m){if(!t)return;const o=get(),x=mk(t,c,n),old=o[x.id];x.m=m||((c?cmode:mode)==3?'w':'d');let st='new',card=x;
 if(old){if(x.r>old.r){old.r=x.r;old.n=x.n;old.m=x.m;st='up';card=old}else return}else o[x.id]=x;
 ls.set(KEY,o);count();if($('colview')&&document.body.classList.contains('colon'))render();
 if(!silent)setTimeout(()=>show(card,st=='new'?'Novo card!':'Card melhorado!',st=='new'?(txt||'Você acertou '+x.nm+'. Cole o card no seu álbum.'):'Raridade '+RN[card.r]+': você acertou com menos chutes.'),1500)}
-window.qcGrant=(t,n,txt)=>grant(t,false,n,false,txt);
+window.qcGrant=(t,n,txt,m)=>grant(t,false,n,false,txt,m);
 
 // ---------- álbum ----------
 let album='j',curKey={j:'',c:''},lastId='',side='l',yfilter='all';
@@ -3414,7 +3414,7 @@ $('colview').addEventListener('click',e=>{
   if(e.target.closest('#albpasteall')){pasteAll();return}
   const t=e.target.closest('.tcard');if(t){colar(t.dataset.id);return}
   const fs=e.target.closest('.flagslot');if(fs){openCrest();return}
-  const s=e.target.closest('.alb-slot.filled');if(s){const c=get()[s.dataset.id];if(c)show(c,'Seu card','Raridade '+RN[c.r]+' · acertou em '+c.n+' chute'+(c.n>1?'s':'')+(c.m=='w'?' · Modo Quem sou eu?':c.m=='d'?' · Modo Diário':''));return}
+  const s=e.target.closest('.alb-slot.filled');if(s){const c=get()[s.dataset.id];if(c)show(c,'Seu card',c.m=='p'?'Raridade '+RN[c.r]+' · Modo Quem fez mais?':'Raridade '+RN[c.r]+' · acertou em '+c.n+' chute'+(c.n>1?'s':'')+(c.m=='w'?' · Modo Quem sou eu?':c.m=='d'?' · Modo Diário':''));return}
   if(e.target.closest('#albprev')){go(-1);return}
   if(e.target.closest('#albnext')){go(1);return}
   const ix=e.target.closest('[data-pg]');if(ix){jump(ix.dataset.pg)}
@@ -3670,7 +3670,122 @@ document.addEventListener('keydown',e=>{if(!QT.active||QT.busy||QT.over||e.ctrlK
   const n=+e.key;if(n>=1&&n<=3){const b=q$('qopts').querySelectorAll('.qo')[n-1];if(b){e.preventDefault();b.click()}}});
 q$('m4').addEventListener('click',qActivate);
 // qualquer outro modo/aba volta para o jogo normal (o clique original continua depois)
-document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#m0,#m2,#m3,#t0,#t2,#twho');if(b)qDeactivate()},true);
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#m0,#m2,#m3,#t0,#t2,#twho,#m5');if(b)qDeactivate()},true);
+/* ---------- Quem fez mais? (infinito: 2 jogadores + uma pergunta; sem fama) ---------- */
+const PMX={hist:[],active:false,g:'j',n:0,round:null,answered:false,used:new Set(),timer:0,agg:null,aggN:-1};
+const PM_NAC={'Brasil':'brasileiro','Argentina':'argentino','Japão':'japonês','China':'chinês','Coreia do Sul':'sul-coreano','Coreia do Norte':'norte-coreano','Estados Unidos':'estadunidense','França':'francês','Alemanha':'alemão','Itália':'italiano','Espanha':'espanhol','Portugal':'português','Inglaterra':'inglês','Escócia':'escocês','País de Gales':'galês','Gales':'galês','Irlanda do Norte':'norte-irlandês','Holanda':'holandês','Países Baixos':'holandês','Uruguai':'uruguaio','Colômbia':'colombiano','México':'mexicano','Marrocos':'marroquino','Senegal':'senegalês','Nigéria':'nigeriano','Gana':'ganês','Camarões':'camaronês','Costa do Marfim':'marfinense','Egito':'egípcio','Argélia':'argelino','Tunísia':'tunisiano','Mali':'malinês','África do Sul':'sul-africano','Bélgica':'belga','Croácia':'croata','Sérvia':'sérvio','Suíça':'suíço','Polónia':'polonês','Polônia':'polonês','Dinamarca':'dinamarquês','Noruega':'norueguês','Suécia':'sueco','Finlândia':'finlandês','Islândia':'islandês','Áustria':'austríaco','Grécia':'grego','Turquia':'turco','Rússia':'russo','Ucrânia':'ucraniano','Romênia':'romeno','Hungria':'húngaro','Bulgária':'búlgaro','Eslovênia':'esloveno','Bósnia':'bósnio','Albânia':'albanês','Montenegro':'montenegrino','Geórgia':'georgiano','Tchéquia':'tcheco','Eslováquia':'eslovaco','Austrália':'australiano','Nova Zelândia':'neozelandês','Irã':'iraniano','Arábia Saudita':'saudita','Catar':'catari','Emirados Árabes Unidos':'emiradense','Iraque':'iraquiano','Uzbequistão':'uzbeque','Cazaquistão':'cazaque','Israel':'israelense','Índia':'indiano','Indonésia':'indonésio','Tailândia':'tailandês','Vietnã':'vietnamita','Canadá':'canadense','Chile':'chileno','Peru':'peruano','Paraguai':'paraguaio','Venezuela':'venezuelano','Equador':'equatoriano','Bolívia':'boliviano','Panamá':'panamenho','Costa Rica':'costarriquenho','Honduras':'hondurenho','Jamaica':'jamaicano','Haiti':'haitiano','Guatemala':'guatemalteco','El Salvador':'salvadorenho','Cuba':'cubano'};
+const PM_POS={GOL:'goleiro',ZAG:'zagueiro',LD:'lateral direito',LE:'lateral esquerdo',VOL:'volante',MC:'meio-campista',MEI:'meia-atacante',PD:'ponta direita',PE:'ponta esquerda',SA:'segundo atacante',CA:'centroavante'};
+const pmNum=v=>typeof v=='number'&&isFinite(v)?v:null;
+const pmGR=p=>(QT.G&&QT.G[p.i])||null;
+const pmAG=p=>(PMX.agg&&PMX.agg[p.i])||null;
+const pmPick=a=>a[Math.floor(Math.random()*a.length)];
+const pmSumT=t=>Object.values(t||{}).reduce((s,v)=>s+(+v||0),0);
+const pmLabs=(q,p)=>q.vals(p).filter(Boolean).map(q.label).join(' · ')||'—';
+// perguntas: t = modos (j = Clubes, c = Copa); k = n (comparação numérica, quem tem mais) ou c (categoria, qual é X)
+const PM_Q=[
+ {t:['j'],k:'n',texto:()=>'Quem fez mais gols de clube?',get:p=>pmNum(pmGR(p)?.g),fmt:v=>qFmt(v)+' gols'},
+ {t:['j'],k:'n',texto:()=>'Quem fez mais gols na Champions?',get:p=>pmNum(pmGR(p)?.cl),fmt:v=>qFmt(v)+' na Champions'},
+ {t:['j'],k:'n',texto:()=>'Quem fez mais gols na Libertadores?',get:p=>pmNum(pmGR(p)?.cli),fmt:v=>qFmt(v)+' na Libertadores'},
+ {t:['j'],k:'n',texto:()=>'Quem converteu mais pênaltis?',get:p=>pmNum(pmGR(p)?.pen),fmt:v=>qFmt(v)+' pênaltis'},
+ {t:['j'],k:'n',texto:()=>'Quem marcou mais gols de falta?',get:p=>pmNum(pmGR(p)?.fal),fmt:v=>qFmt(v)+' de falta'},
+ {t:['j'],k:'n',texto:()=>'Quem tem mais gols decisivos?',get:p=>pmNum(pmGR(p)?.dec),fmt:v=>qFmt(v)+' decisivos'},
+ {t:['j'],k:'n',texto:()=>'Quem marcou em mais clubes?',get:p=>Object.keys(pmGR(p)?.clubes||{}).length||null,fmt:v=>v+(v>1?' clubes':' clube')},
+ {t:['j','c'],k:'n',texto:()=>'Quem é mais velho?',get:p=>p.a||null,fmt:v=>v+' anos'},
+ {t:['j','c'],k:'n',texto:()=>'Quem tem o maior número de camisa?',get:p=>p.u||null,fmt:v=>'#'+v},
+ {t:['j','c'],k:'n',texto:()=>'Quem vale mais no mercado?',get:p=>p.v||null,fmt:v=>money(v)},
+ {t:['c'],k:'n',texto:()=>'Quem fez mais gols pela seleção?',get:p=>pmNum(pmGR(p)?.sel?.[1]),fmt:v=>qFmt(v)+' gols'},
+ {t:['c'],k:'n',texto:()=>'Quem jogou mais pela seleção?',get:p=>pmNum(pmGR(p)?.sel?.[0]),fmt:v=>qFmt(v)+' jogos'},
+ {t:['c'],k:'n',texto:()=>'Quem tem a maior média de gols pela seleção?',get:p=>{const s=pmGR(p)?.sel;return s&&s[0]>=5?+(s[1]/s[0]).toFixed(2):null},fmt:v=>String(v).replace('.',',')+' por jogo'},
+ {t:['c'],k:'n',texto:()=>'Quem disputou mais Copas?',get:p=>pmAG(p)?.anos.size||null,fmt:v=>v+(v>1?' Copas':' Copa')},
+ {t:['c'],k:'n',texto:()=>'Quem jogou mais partidas em Copas?',get:p=>pmAG(p)?.jc||null,fmt:v=>qFmt(v)+' jogos'},
+ {t:['c'],k:'n',texto:()=>'Quem tem mais títulos de Copa?',get:p=>pmAG(p)?.tit||null,fmt:v=>v+(v>1?' títulos':' título')},
+ {t:['j','c'],k:'c',vals:p=>[p.z],label:v=>v,texto:v=>`Qual é ${PM_NAC[v]||'de '+v}?`},
+ {t:['j','c'],k:'c',vals:p=>[p.p],label:v=>PM_POS[v]||v,texto:v=>`Qual é ${PM_POS[v]||v}?`},
+ {t:['j'],k:'c',vals:p=>[p.l],label:v=>LI(v)[0],texto:v=>`Qual joga em ${LI(v)[0]}?`},
+ {t:['c'],k:'c',vals:p=>[...(pmAG(p)?.sels||[])],label:v=>v,texto:v=>`Qual jogou pela seleção ${v}?`}
+];
+function pmBuildAgg(){const rows=COPA||[];if(PMX.agg&&PMX.aggN===rows.length)return;const a={};
+ rows.forEach(r=>{if(!r.tm)return;const x=a[r.tm]||(a[r.tm]={anos:new Set(),jc:0,tit:0,sels:new Set()});if(r.y)x.anos.add(r.y);x.jc+=r.jc||0;if(r.s)x.sels.add(r.s);x.tit=Math.max(x.tit,pmSumT(r.tit))});
+ PMX.agg=a;PMX.aggN=rows.length}
+function pmPool(){const base=PMX.g=='c'?P.filter(p=>pmAG(p)):P.filter(p=>pmGR(p));return base.filter(p=>!PMX.used.has(pkey(p)))}
+function pmNumRound(q,pool){const v=pool.map(p=>[p,q.get(p)]).filter(x=>x[1]!=null);if(v.length<2)return null;
+ for(let t=0;t<80;t++){const a=pmPick(v),b=pmPick(v);if(a===b||a[1]===b[1])continue;
+  const w=(q.maior!==false?a[1]>b[1]:a[1]<b[1])?a:b;
+  return {cards:[{p:a[0],v:a[1],lab:q.fmt(a[1]),ok:w===a},{p:b[0],v:b[1],lab:q.fmt(b[1]),ok:w===b}]}}
+ return null}
+function pmCatRound(q,pool){const m=new Map();
+ pool.forEach(p=>q.vals(p).forEach(x=>{if(!x)return;if(!m.has(x))m.set(x,[]);m.get(x).push(p)}));
+ const keys=[...m.keys()].filter(x=>m.get(x).length<pool.length);if(!keys.length)return null;
+ for(let t=0;t<40;t++){const x=pmPick(keys),sim=pmPick(m.get(x));
+  const nao=pool.filter(p=>{const vs=q.vals(p).filter(Boolean);return vs.length&&!vs.includes(x)});
+  if(!nao.length)continue;const other=pmPick(nao);
+  return {v:x,cards:[{p:sim,lab:pmLabs(q,sim),ok:true},{p:other,lab:pmLabs(q,other),ok:false}]}}
+ return null}
+function pmBuild(){let pool=pmPool();if(pool.length<12){PMX.used.clear();pool=pmPool()}
+ const qs=PM_Q.filter(q=>q.t.includes(PMX.g)).sort(()=>Math.random()-.5);
+ for(const q of qs){const r=q.k=='n'?pmNumRound(q,pool):pmCatRound(q,pool);
+  if(r){r.q=q;if(Math.random()<.5)r.cards.reverse();return r}}
+ return null}
+function pmSrc(p){try{const s=ph(p)||'';return s?`<img src="${qEsc(s)}" alt="" referrerpolicy="no-referrer" decoding="async" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">`:''}catch(e){return ''}}
+function pmCardHTML(c,i){const p=c.p;let cr='';try{const u=crest(p.l,p.c);if(u)cr=`<img src="${qEsc(u)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">`}catch(e){}
+ return `<button type="button" class="pm-card" data-i="${i}" style="--d:${i*140}ms;--dir:${i?1:-1}" aria-label="Escolher ${qEsc(p.n)}"><span class="pm-ph"><i>${qEsc(qIni(p.n))}</i>${pmSrc(p)}</span><span class="pm-name">${qEsc(p.n)}</span><span class="pm-club">${cr}<span>${qEsc(p.c||'')}</span></span><span class="pm-rv" hidden></span><span class="pm-shine"></span></button>`}
+function pmFix(root){root.querySelectorAll('.pm-ph img').forEach(im=>{if(im.complete&&im.naturalWidth)im.parentNode.classList.add('ok')})}
+function pmScoreShow(){const r=(ls.get('qc:pm')||{})[PMX.g]||{s:0,w:0,p:0,b:0},v=[r.s,r.w,r.p-r.w],L=['Sequência','Vitórias','Derrotas'];
+ q$('pmscore').innerHTML=L.map((l,i)=>`<span class="pst"><b>${v[i]}</b><small>${l}</small></span>`).join('')}
+function pmRec(win){const o=ls.get('qc:pm')||{},r=o[PMX.g]||{s:0,w:0,p:0,b:0};r.p++;if(win){r.w++;r.s++;r.b=Math.max(r.b||0,r.s)}else r.s=0;o[PMX.g]=r;ls.set('qc:pm',o);return r}
+function pmRender(){const R=PMX.round;
+ q$('pmkick').textContent=(PMX.g=='c'?'Copa':'Clubes')+' · rodada '+PMX.n;
+ q$('pmq').textContent=R.q.texto(R.v);
+ const f=q$('pmfield');f.innerHTML=R.cards.map(pmCardHTML).join('');pmFix(f);
+ const bn=q$('pmres');bn.className='pm-banner';bn.innerHTML='';
+ q$('pmnext').classList.add('hide');q$('pmbarw').classList.remove('run');
+ q$('pmhint').textContent='Escolha 1 ou 2, ou clique em um jogador.';
+ pmScoreShow()}
+function pmTick(el,to,fmt,ms){if(qrm()||!ms){el.textContent=fmt(to);return}const t0=performance.now();
+ (function f(t){const x=Math.min(1,(t-t0)/ms),e=1-Math.pow(1-x,3);
+  el.textContent=x<1?fmt(Number.isInteger(to)?Math.round(to*e):+(to*e).toFixed(2)):fmt(to);if(x<1)requestAnimationFrame(f)})(t0)}
+function pmNext(){clearTimeout(PMX.timer);if(!PMX.active)return;
+ PMX.n++;const R=pmBuild();
+ if(!R){q$('pmq').textContent='Não há perguntas válidas para os dados deste modo.';q$('pmfield').innerHTML='';return}
+ PMX.round=R;PMX.answered=false;R.cards.forEach(c=>PMX.used.add(pkey(c.p)));pmRender()}
+function pmAnswer(i){if(PMX.answered||!PMX.round)return;PMX.answered=true;clearTimeout(PMX.timer);
+ const R=PMX.round,win=R.cards[i].ok,box=q$('pmfield'),els=[...box.querySelectorAll('.pm-card')];
+ const rr=pmRec(win);
+ R.cards.forEach(c=>{PMX.hist=PMX.hist.filter(x=>pkey(x)!==pkey(c.p));PMX.hist.push(c.p)});PMX.hist=PMX.hist.slice(-10);
+ let award=null;
+ if(win&&rr.s%5==0&&PMX.hist.length&&typeof qcGrant=='function'){award=pmPick(PMX.hist);try{const x=Math.random();qcGrant(award,x<.6?5:x<.9?3:1,'Sequência de '+rr.s+' acertos! '+award.n+' entrou no seu álbum.','p')}catch(e){award=null}}
+ els.forEach((el,j)=>{const c=R.cards[j];el.disabled=true;el.classList.add(c.ok?'best':'dim');
+  if(j==i&&!win)el.classList.add('shake');
+  const rv=el.querySelector('.pm-rv');rv.hidden=false;rv.className='pm-rv '+(c.ok?'ok':'no');
+  const b=document.createElement('b');rv.appendChild(b);
+  if(R.q.k=='n')pmTick(b,c.v,R.q.fmt,900);else b.textContent=c.lab});
+ const ok=R.cards.find(c=>c.ok),bn=q$('pmres');
+ bn.className='pm-banner '+(win?'win':'lose');
+ bn.innerHTML=`<span class="pm-stamp">${win?'Acertou!':'Errou'}</span><span class="pm-msg">${win?'Boa!':'Não foi dessa vez.'} Resposta: <b>${qEsc(ok.p.n)}</b>.</span>${award?`<span class="pm-msg pm-won">+1 card no seu álbum: <b>${qEsc(award.n)}</b></span>`:''}`;
+ if(win)qConf(box);
+ qFx(win?'win':'lose');
+ q$('pmnext').classList.remove('hide');
+ if(!award){q$('pmbarw').classList.add('run');PMX.timer=setTimeout(pmNext,3400)}
+ pmScoreShow()}
+async function pmActivate(){if(PMX.active)return;PMX.active=true;PMX.g=game=='c'?'c':'j';PMX.n=0;PMX.used.clear();PMX.hist=[];
+ const card=qCard();card.classList.add('qon','pmon');
+ ['m0','m2','m3','m4'].forEach(i=>q$(i).classList.remove('on'));q$('m5').classList.add('on');
+ q$('pmkick').textContent='';q$('pmq').textContent='Carregando…';q$('pmfield').innerHTML='';q$('pmres').innerHTML='';
+ q$('pmnext').classList.add('hide');pmScoreShow();
+ let ok=false;try{ok=PMX.g=='c'?((await loadCopa())&&(await qLoad())):(await qLoad())}catch(e){}
+ if(!PMX.active)return;
+ if(!ok){q$('pmq').textContent='Não consegui carregar os dados (gols.js e copas.js na pasta do jogo).';return}
+ pmBuildAgg();pmNext()}
+function pmDeactivate(){if(!PMX.active)return;PMX.active=false;clearTimeout(PMX.timer);
+ const card=qCard();card.classList.remove('pmon','qon');q$('m5').classList.remove('on');
+ const m=game=='c'?cmode:mode;q$('m0').classList.toggle('on',m==0);q$('m3').classList.toggle('on',m==3);q$('m2').classList.toggle('on',m==2)}
+q$('m5').addEventListener('click',pmActivate);
+q$('pmfield').addEventListener('click',e=>{const b=e.target.closest('.pm-card');if(b&&!b.disabled)pmAnswer(+b.dataset.i)});
+q$('pmnext').onclick=pmNext;
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#m0,#m2,#m3,#m4,#t0,#t2,#twho');if(b)pmDeactivate()},true);
+document.addEventListener('keydown',e=>{if(!PMX.active||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target;if(t&&t.closest&&t.closest('input,textarea,select,dialog'))return;
+ if(!PMX.answered){const n=+e.key;if(n==1||n==2){const b=q$('pmfield').querySelectorAll('.pm-card')[n-1];if(b&&!b.disabled){e.preventDefault();b.click()}}}
+ else if(e.key=='Enter'||e.key==' '){e.preventDefault();pmNext()}});
 qBuild();
 })();
 </script>
@@ -3685,5 +3800,108 @@ qBuild();
 #fsum .fsc{color:#12123a}
 #fsum .fsp{font:800 12px 'DM Sans',sans-serif;color:var(--sun);background:#12123a;border:2px solid #12123a;border-radius:99px;padding:3px 9px;opacity:1}
 </style>
+<style id="pm-style">
+/* ---------- Quem fez mais? (mesmo visual do Álbum e do Duelo: bordas grossas, sombra dura, figurinhas) ---------- */
+#pm{display:none;position:relative;flex-direction:column;gap:14px;min-width:0;max-width:760px;width:100%;margin:0 auto}
+.card.pmon #pm{display:flex;animation:pmIn .45s cubic-bezier(.2,1.1,.4,1) backwards}
+.card.pmon #qtm{display:none!important}
+.card.pmon #qscore,.card.pmon #qdif{display:none!important}
+#pm .pm-kick{align-self:center;background:#12123a;color:#fff;border-radius:99px;padding:6px 12px;font:800 11px/1 'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+#pm .pm-kick:empty{display:none}
+#pm .pm-q{margin:0;padding:14px 16px;background:var(--sun);color:#12123a;border:2.5px solid var(--ol);border-radius:16px;box-shadow:4px 4px 0 var(--sh);font:800 clamp(17px,2.6vw,24px)/1.2 'Unbounded','DM Sans',sans-serif;letter-spacing:-.03em;text-align:center;animation:pmIn .4s .05s cubic-bezier(.2,1.2,.4,1) backwards}
+#pm .pm-field{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,3vw,26px);position:relative}
+#pm .pm-card{--rc:#ffc400;position:relative;display:flex;flex-direction:column;min-width:0;padding:10px 10px 12px;background:#fff;color:#12123a;text-align:left;border:3px solid #12123a;border-radius:18px;box-shadow:6px 8px 0 #02100a;cursor:pointer;font:inherit;overflow:hidden;animation:pmDeal .6s cubic-bezier(.2,1.2,.4,1) backwards;animation-delay:var(--d,0ms);transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .2s,filter .3s,opacity .3s}
+#pm .pm-card:hover:not(:disabled),#pm .pm-card:focus-visible{transform:translateY(-6px) rotate(-1deg);box-shadow:6px 14px 0 #02100a;outline:none}
+#pm .pm-card:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+#pm .pm-card:disabled{cursor:default}
+#pm .pm-card.best{box-shadow:0 0 0 4px #3ddc84,6px 8px 0 #02100a;animation:pmBest .9s cubic-bezier(.2,1.2,.4,1)}
+#pm .pm-card.dim{filter:grayscale(.85) brightness(.85);opacity:.7;transform:scale(.97)}
+#pm .pm-card.shake{animation:wshake .5s}
+#pm .pm-ph{position:relative;display:block;aspect-ratio:4/5;border:3px solid #12123a;border-radius:12px;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#ffe9a3,#ffb703 80%)}
+#pm .pm-ph i{position:absolute;inset:0;display:grid;place-items:center;font:800 40px 'Unbounded',sans-serif;font-style:normal;color:rgba(255,255,255,.9);transition:opacity .25s}
+#pm .pm-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 14%;opacity:0;transition:opacity .3s}
+#pm .pm-ph.ok img{opacity:1}
+#pm .pm-ph.ok i{opacity:0}
+#pm .pm-shine{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 48%,transparent 62%);background-size:250% 100%;mix-blend-mode:overlay;animation:qFoil 3.6s linear infinite}
+#pm .pm-name{position:relative;z-index:2;margin:-20px 4px 0;padding:7px 8px 6px;text-align:center;text-transform:uppercase;background:var(--rc);color:#12123a;border:3px solid #12123a;border-radius:12px;font:800 13px/1.15 'Unbounded','DM Sans',sans-serif;letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pm .pm-club{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;min-height:22px;font:700 12px 'DM Sans',sans-serif;color:#5d6a55;min-width:0}
+#pm .pm-club img{width:20px;height:20px;object-fit:contain;flex:none}
+#pm .pm-club span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#pm .pm-rv{display:block;margin-top:10px;padding:8px 6px;text-align:center;border:2.5px solid #12123a;border-radius:12px;background:#f1f5ea;color:#12123a;font:800 14px/1.2 'DM Sans',sans-serif;min-height:40px}
+#pm .pm-rv[hidden]{display:none}
+#pm .pm-rv b{display:block;font:800 clamp(18px,3.4vw,26px)/1.1 'Unbounded','DM Sans',sans-serif;letter-spacing:-.04em}
+#pm .pm-rv.ok{background:#3ddc84;animation:pmRise .5s cubic-bezier(.2,1.4,.4,1) backwards}
+#pm .pm-rv.no{background:#ffe3e3;color:#7a1f1f;animation:pmRise .5s .08s cubic-bezier(.2,1.4,.4,1) backwards}
+#pm .pm-banner{min-height:44px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center;font:700 14px/1.3 'DM Sans',sans-serif;color:#fff}
+#pm .pm-banner:empty{min-height:0}
+#pm .pm-stamp{display:inline-block;font:800 20px/1 'Unbounded','DM Sans',sans-serif;letter-spacing:-.03em;padding:8px 14px;border:3px solid #12123a;border-radius:12px;box-shadow:3px 3px 0 #02100a;transform:rotate(-4deg);animation:pmStamp .55s cubic-bezier(.2,1.6,.4,1) backwards}
+#pm .pm-banner.win .pm-stamp{background:#3ddc84}
+#pm .pm-banner.lose .pm-stamp{background:#ff6b6b;color:#fff}
+#pm .pm-foot{display:flex;flex-direction:column;align-items:center;gap:10px;min-height:52px}
+#pm .pm-bar{width:min(340px,80%);height:10px;border:2.5px solid #12123a;border-radius:99px;overflow:hidden;background:#fff}
+#pm .pm-bar i{display:block;height:100%;width:0;background:var(--sun)}
+#pm .pm-bar.run i{animation:pmRun 3.4s linear forwards}
+#pm .pm-won{color:#12123a;background:#ffe066;border:2.5px solid #12123a;border-radius:10px;padding:4px 10px;box-shadow:2px 2px 0 #02100a}
+#pm .vs-ic{display:none}
+#pm .pm-next{font:800 14px 'Unbounded','DM Sans',sans-serif;background:var(--ok);color:#fff;border:2.5px solid #12123a;border-radius:14px;box-shadow:3px 3px 0 #02100a;padding:10px 18px;cursor:pointer}
+#pm .pm-next.hide{display:none}
+#pm .pm-next:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+#pm .pm-hint{margin:0;font:600 12px 'DM Sans',sans-serif;color:var(--mut)}
+#pm .pm-score{display:grid;grid-template-columns:repeat(3,1fr);background:var(--sun);color:#12123a;border:2.5px solid var(--ol);border-radius:14px;box-shadow:3px 3px 0 var(--sh);padding:8px 4px}
+#pm .pst{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+#pm .pst+.pst{border-left:2px solid rgba(18,18,58,.25)}
+#pm .pst b{font:800 26px/1 'Unbounded','DM Sans',sans-serif;letter-spacing:-.04em}
+#pm .pst small{font:800 12px 'DM Sans',sans-serif}
+@media (max-width:520px){#pm .pm-field{gap:10px}#pm .pm-name{font-size:11px}#pm .pm-club{font-size:11px}}
+@keyframes pmIn{from{opacity:0;transform:translateY(12px)}}
+@keyframes pmDeal{from{opacity:0;transform:translateX(calc(var(--dir,1)*60px)) rotate(calc(var(--dir,1)*-6deg)) scale(.9)}}
+@keyframes pmBest{0%{transform:scale(1)}40%{transform:scale(1.05) rotate(-1deg)}100%{transform:none}}
+@keyframes pmRise{from{opacity:0;transform:translateY(16px) scale(.9)}}
+@keyframes pmStamp{from{opacity:0;transform:scale(2.2) rotate(-12deg)}to{opacity:1;transform:rotate(-4deg)}}
+@keyframes pmRun{to{width:100%}}
+#modos .vs-ic{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:20px;margin-right:5px;vertical-align:-3px;border:2px solid currentColor;border-radius:7px;font:800 10.5px/1 'Unbounded','DM Sans',sans-serif;letter-spacing:-.04em;white-space:nowrap}
+</style>
+<style id="m2-style">
+.m2-slot{display:flex;justify-content:flex-start;margin:0 0 8px}
+#m2.in-slot{flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);color:var(--mut);font:700 13px 'DM Sans',sans-serif;padding:7px 12px;border-radius:10px;cursor:pointer}
+#m2.in-slot svg{width:16px;height:16px;flex:none}
+#m2.in-slot.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
+</style>
+<script>
+(function(){
+ const slot=document.getElementById('m2slot'),modos=document.getElementById('modos'),m2=document.getElementById('m2'),m4=document.getElementById('m4'),bar=document.querySelector('.bar');
+ if(!slot||!m2||!bar||!modos)return;
+ const place=()=>{if(bar.classList.contains('dly')){if(m2.parentNode!==slot)slot.appendChild(m2);m2.classList.add('in-slot')}
+  else{if(m2.parentNode!==modos)modos.insertBefore(m2,m4);m2.classList.remove('in-slot')}};
+ new MutationObserver(place).observe(bar,{attributes:true,attributeFilter:['class']});
+ place();
+})();
+</script>
+<style id="m2slot-style">
+.m2slot{display:flex;justify-content:flex-start;margin:0 0 12px}
+.m2slot:empty{display:none}
+#m2slot #m2{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;border:2.5px solid var(--ol);border-radius:12px;background:var(--cell);color:var(--ink);font:800 13px/1.1 'DM Sans',sans-serif;box-shadow:0 3px 0 var(--sh);cursor:pointer;white-space:nowrap;animation:pmIn .35s cubic-bezier(.2,1.2,.4,1) backwards;transition:transform .18s cubic-bezier(.3,1.4,.5,1),background-color .2s,color .2s}
+#m2.m2off{display:none!important}
+#m2slot #m2 svg{width:16px;height:16px;flex:none}
+.side>#modos #m2{flex:1 1 100%!important}
+#m2slot #m2:hover{background:var(--sun);color:#12123a}
+#m2slot #m2:active{transform:scale(.95)}
+#m2slot #m2:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+</style>
+<script>
+/* "Personalizado" no Craque do dia: fica no canto do card; nos outros modos volta para o painel de modos */
+(function(){const m2=document.getElementById('m2'),slot=document.getElementById('m2slot'),home=document.getElementById('modos'),ref=document.getElementById('m4'),
+bar=document.querySelector('.bar'),card=document.querySelector('section.card');
+if(!m2||!slot||!home||!bar||!card)return;
+function sync(){const daily=bar.classList.contains('dly')&&!card.classList.contains('qon');
+ m2.classList.toggle('m2off',!daily);
+ if(daily&&m2.parentNode!==slot)slot.appendChild(m2);
+ else if(!daily&&m2.parentNode!==home)home.insertBefore(m2,home.firstElementChild)}
+const ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2.2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2.2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="7" cy="18" r="2.2"/></svg>';
+function icon(){if(!m2.querySelector('svg'))m2.insertAdjacentHTML('afterbegin',ICON)}
+new MutationObserver(icon).observe(m2,{childList:true});icon();
+const mo=new MutationObserver(sync);mo.observe(bar,{attributes:true,attributeFilter:['class']});mo.observe(card,{attributes:true,attributeFilter:['class']});
+sync();setTimeout(sync,300)})();
+</script>
 </body>
 </html>
