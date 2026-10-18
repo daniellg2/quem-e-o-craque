@@ -1,0 +1,94 @@
+name: Atualizar dados
+
+# Escopos:
+#   clubes    -> baixa as ligas, atualiza dados.js (clubes/valores) e recalcula a fama
+#   gols      -> atualiza gols/jogos (retoma de onde parou) e recalcula a fama
+#   historico -> atualiza titulos + trajetoria (retoma de onde parou)
+#   fama      -> so recalcula a fama (0 requisicoes)
+#   tudo      -> clubes + gols + historico + fama
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"          # segundas 06:00 UTC  -> clubes + fama
+    - cron: "0 6 1 * *"          # dia 1 06:00 UTC     -> gols + fama
+    - cron: "0 7 15 1,4,7,10 *"  # 15 jan/abr/jul/out  -> historico
+  workflow_dispatch:
+    inputs:
+      escopo:
+        description: "O que atualizar"
+        type: choice
+        default: clubes
+        options:
+          - clubes
+          - fama
+          - gols
+          - historico
+          - tudo
+      limite:
+        description: "Limite de jogadores (gols/historico). Vazio = todos."
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar-dados
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - name: Baixar o repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install --quiet --disable-pip-version-check requests beautifulsoup4
+
+      - name: Definir o escopo
+        id: escopo
+        env:
+          EVENTO: ${{ github.event_name }}
+          AGENDA: ${{ github.event.schedule }}
+          ESCOLHA: ${{ inputs.escopo }}
+        run: |
+          if [ "$EVENTO" = "workflow_dispatch" ]; then
+            valor="$ESCOLHA"
+          else
+            case "$AGENDA" in
+              "0 6 1 * *")         valor="gols" ;;
+              "0 7 15 1,4,7,10 *") valor="historico" ;;
+              *)                   valor="clubes" ;;
+            esac
+          fi
+          echo "valor=$valor" >> "$GITHUB_OUTPUT"
+          echo "Escopo escolhido: $valor"
+
+      - name: Rodar o pipeline
+        env:
+          LIMITE: ${{ inputs.limite }}
+        run: |
+          if [ -n "$LIMITE" ]; then
+            python pipeline_dados.py --escopo "${{ steps.escopo.outputs.valor }}" --limite "$LIMITE"
+          else
+            python pipeline_dados.py --escopo "${{ steps.escopo.outputs.valor }}"
+          fi
+
+      - name: Publicar no repositorio
+        run: |
+          git config user.name "craque-bot"
+          git config user.email "craque-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nada mudou nos dados."
+            exit 0
+          fi
+          git commit -m "dados: ${{ steps.escopo.outputs.valor }} ($(date -u +%Y-%m-%d)) [skip netlify]"
+          git push
