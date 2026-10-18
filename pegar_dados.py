@@ -2,9 +2,15 @@
 Baixa os elencos do Transfermarkt (várias ligas) e gera o bloco DATA do jogo.
 
 Posições (campo "pos"): GOL ZAG LD LE VOL MC MEI PD PE SA CA.
-Cada linha gerada tem 13 campos:
-  nome,clube,pos,idade,num,valor(mi €),liga,idJogador,arquivoFoto,idClube,nacionalidade,idBandeira,fama(0-100)
+Cada linha gerada tem 14 campos:
+  nome,clube,pos,idade,num,valor(mi €),liga,idJogador,arquivoFoto,idClube,nacionalidade,idBandeira,fama(0-100),famaBruta(0-100)
+  - fama       = nota com o TETO do Fácil (sem sinal forte, trava em 77). Usada pelas faixas absolutas (Diário, Quem sou eu).
+  - famaBruta  = a mesma nota SEM o teto. Usada pelo Personalizado para ordenar o elenco por fama relativa.
 A fama usa famosos.txt (IDs de estrelas), copas.json (historico de Copas) e, se existir, ajustes_fama.json.
+
+ajustes_fama.json (opcional, mesma pasta do script): correções pontuais por jogador, {"idJogador": pontos}.
+  Ex.: {"114937": 10, "1004728": -20}  -> soma 10 pontos ao 114937 e tira 20 do 1004728.
+  O ajuste entra ANTES do teto do Fácil. Depois de editar, rode: python pegar_dados.py --so-fama --html dados.js
 
 Fotos dos jogadores: o jogo monta a URL e o navegador carrega direto do Transfermarkt.
 Escudos e bandeiras: com --embutir-imagens o script baixa cada imagem uma vez e grava
@@ -27,7 +33,7 @@ o site. Use --sem-cache para forçar novo download.
 Para adicionar uma liga, inclua uma linha em LIGAS (o código é o final da URL da liga
 no Transfermarkt, ex.: .../wettbewerb/GB1).
 """
-import argparse, base64, hashlib, json, math, os, re, sys, time, unicodedata
+import argparse, base64, csv, hashlib, json, math, os, re, sys, time, unicodedata
 from collections import Counter
 import requests
 from bs4 import BeautifulSoup
@@ -382,13 +388,15 @@ def trocar_bloco(html, nome, dados):
 #  TETO DO FÁCIL: ninguém chega a 78+ só com valor + clube + nacionalidade. É preciso ao menos
 #  um SINAL FORTE: estrela manual (famosos.txt), Copa 2018/2022/2026 por seleção de grande alcance
 #  (copas.json; nacionalidade com peso >= 8), clube de enorme alcance (CLUBES_S, jogador entre os 5
-#  mais valiosos do clube), ou valor de elite (>= 40 mi). Sem isso a
-#  nota é travada em 77 (vira Médio).
+#  mais valiosos do clube), PROTAGONISTA (um dos 3 mais valiosos de um clube de CLUBES_A) ou valor de
+#  elite (>= 40 mi). Sem isso a nota é travada em 77 (vira Médio) -- mas a nota bruta é guardada à parte
+#  (14º campo) para o Personalizado ordenar o elenco sem perder a diferença entre um 78 e um 95.
 # ======================================================================
 FAMA_FACIL_MIN = 78
 FAMA_MEDIO_MIN = 60
 FAMA_CORTE = 44
 VALOR_ELITE = 40.0          # mi €: a partir daqui o valor sozinho já é sinal forte
+PROTAGONISTAS_TOP = 3       # os N mais valiosos de um clube de CLUBES_A contam como "protagonista" (sinal forte)
 
 # 39 clubes de alcance grande (os mesmos FACIL_IDS do jogo): dão 25 pts de clube
 CLUBES_A = set("418 131 13 281 985 31 11 631 148 762 583 27 16 15 46 5 506 6195 12 720 294 336 610 614 1023 199 585 221 2462 978 537 210 6600 330 609 189 209 1114 69261".split())
@@ -479,8 +487,110 @@ def carregar_ajustes(caminho):
         return {}
 
 
-def calcular_fama(campos, famosos, copas, ajustes):
-    """campos: listas com os 12 campos de cada jogador. Devolve [(fama, sinais, travado)] na mesma ordem."""
+# ---- bônus de gols (gols.json, vindo do pegar_gols.py) -------------------------------
+GOLS_SEL_MIN = (10, 30, 60)     # jogos pela seleção principal: +4 / +8 / +12 (escala por PESO_NAC)
+GOLS_SEL_FORTE = 30             # sinal forte "selecao": 30+ jogos por seleção de peso >= 8
+GOLS_ARTILHEIRO = 150           # sinal forte "artilheiro": 150+ gols de clube
+GOLS_CL, GOLS_CLI = 5, 3        # Champions 5+ ou Libertadores 3+: dá +4 de fama, mas NÃO libera o Fácil sozinho
+GOLS_TETO = 12                  # o bônus de gols não passa disso (o valor de mercado já pesa até 40)
+POS_ATAQUE = {"CA", "SA", "PE", "PD", "MEI"}   # quem recebe o bônus de gols inteiro (os demais, 40%)
+
+
+def carregar_gols(caminho):
+    """gols.json do pegar_gols.py: {idJogador: registro}. Vazio (sem bônus) se não existir."""
+    try:
+        with open(caminho, encoding="utf-8") as f:
+            return json.load(f).get("rows", {})
+    except (OSError, ValueError, AttributeError):
+        print(f"  ! {caminho} nao encontrado/ilegivel: sem bonus de gols.")
+        return {}
+
+
+def bonus_gols(c, rec):
+    """Pontos extras e sinais fortes vindos de gols.json. c = campos do jogador, rec = registro (ou None)."""
+    if not rec:
+        return 0.0, []
+    pts, sinais = 0.0, []
+    nac = c[10]
+    sel = rec.get("sel")
+    if sel and sel[0] >= GOLS_SEL_MIN[0]:
+        pts += (12 if sel[0] >= GOLS_SEL_MIN[2] else 8 if sel[0] >= GOLS_SEL_MIN[1] else 4) * PESO_NAC.get(nac, 3) / 13
+        if sel[0] >= GOLS_SEL_FORTE and PESO_NAC.get(nac, 3) >= 8:
+            sinais.append("selecao")
+    g = rec.get("g") or 0
+    if g > 0:
+        fator = 1.0 if c[2] in POS_ATAQUE else 0.4
+        pts += 12 * fator * _clamp(math.log10(g) / math.log10(300))
+    if g >= GOLS_ARTILHEIRO:
+        sinais.append("artilheiro")
+    if (rec.get("cl") or 0) >= GOLS_CL or (rec.get("cli") or 0) >= GOLS_CLI:
+        pts += 4
+    return min(pts, GOLS_TETO), sinais
+
+
+# ---- bônus de Copa pelo ID do Transfermarkt (copas.json v2 + copas_tm.json do cruzar_copas.py) ----
+COPA_TETO = 16
+COPA_TITULO_MUNDO = {"Copa do Mundo", "Copa del Mundo", "World Cup", "Mundial"}   # "Mundial" sozinho = Copa do Mundo
+COPA_TITULO_AMERICA = {"Copa América", "Copa America"}
+
+
+def carregar_copas_tm(copas_json, copas_tm_json):
+    """ID do Transfermarkt -> resumo da carreira em Copas. Vazio se faltar algum arquivo (cai no cálculo antigo)."""
+    try:
+        with open(copas_tm_json, encoding="utf-8") as f:
+            pid_tm = {k: v["tm"] for k, v in json.load(f)["rows"].items()}
+        with open(copas_json, encoding="utf-8") as f:
+            rows = json.load(f)["rows"]
+    except (OSError, ValueError, KeyError) as e:
+        print(f"  ! sem bônus de Copa por ID ({e}): usando o sinal antigo por nome.")
+        return {}
+    agg = {}
+    for r in rows:
+        if len(r) <= 21 or r[17] is None or str(r[7]) not in pid_tm:
+            continue
+        a = agg.setdefault(pid_tm[str(r[7])], {"anos": set(), "anos_jogou": set(), "ultimo_ano": 0,
+                                               "jc": 0, "titular": False, "mundo": 0, "america": 0})
+        a["anos"].add(r[2])                                       # esteve no elenco
+        a["ultimo_ano"] = max(a["ultimo_ano"], int(r[2]))
+        if r[17] > 0:
+            a["anos_jogou"].add(r[2])
+            a["jc"] += r[17]
+            if r[19] and r[19] / r[17] >= 60:              # minutos por jogo: titular
+                a["titular"] = True
+        tit = r[21] or {}
+        a["mundo"] = max(a["mundo"], sum(v for k, v in tit.items() if k in COPA_TITULO_MUNDO))
+        a["america"] = max(a["america"], sum(v for k, v in tit.items() if k in COPA_TITULO_AMERICA))
+    return agg
+
+
+def bonus_copa_tm(cr, nac):
+    """Pontos e sinal forte vindos da carreira em Copas. cr = resumo do carregar_copas_tm.
+    Base = a mesma escala do ano da Copa mais recente (2026: +10, 2022: +8, 2018: +5, 2014: +2),
+    para não baixar quem já era famoso. Por cima entram o que o oGol traz de novo: jogos, titularidade e títulos."""
+    ano = cr["ultimo_ano"]
+    base = 10 if ano >= 2026 else 8 if ano >= 2022 else 5 if ano >= 2018 else 2 if ano >= 2014 else 0
+    extra = 0
+    if cr["jc"] >= 10:
+        extra += 4
+    elif cr["jc"] >= 4:
+        extra += 2
+    if cr["titular"]:
+        extra += 2
+    if cr["mundo"]:
+        extra += 4
+    if cr["america"]:
+        extra += 2
+    pts = min(base + min(extra, 6), COPA_TETO)
+    sinal = []
+    # mesma regra do sinal antigo: Copa de 2018 em diante por seleção de grande alcance (peso >= 8)
+    if PESO_NAC.get(nac, 3) >= 8 and cr["ultimo_ano"] >= 2018:
+        sinal.append(f"copa{cr['ultimo_ano']}")
+    return pts, sinal
+
+
+def calcular_fama(campos, famosos, copas, ajustes, gols=None, copas_tm=None):
+    """campos: listas com os 12 campos de cada jogador.
+    Devolve [(fama, sinais, travado, famaBruta)] na mesma ordem. famaBruta = nota sem o teto do Fácil."""
     por_clube = {}
     for i, c in enumerate(campos):
         por_clube.setdefault(c[9] or c[1], []).append(i)
@@ -506,36 +616,50 @@ def calcular_fama(campos, famosos, copas, ajustes):
             f -= 6
         elif idade <= 22 and v < 5:
             f -= 3
-        ano_copa = copas.get((_norm(nome), _pais(nac)), 0)
-        f += 10 if ano_copa >= 2026 else 8 if ano_copa >= 2022 else 5 if ano_copa >= 2018 else 2 if ano_copa >= 2014 else 0
-        sinais = []
+        cr = (copas_tm or {}).get(pid)                            # pid = ID do jogador no Transfermarkt
+        if cr is not None:                                        # bônus novo, pelo ID do Transfermarkt
+            pc_pts, pc_sinal = bonus_copa_tm(cr, nac)
+            f += pc_pts
+            ano_copa = 0
+        else:                                                     # antigo: ano da última Copa, pelo nome
+            pc_sinal = []
+            ano_copa = copas.get((_norm(nome), _pais(nac)), 0)
+            f += 10 if ano_copa >= 2026 else 8 if ano_copa >= 2022 else 5 if ano_copa >= 2018 else 2 if ano_copa >= 2014 else 0
+        bg, sg = bonus_gols(c, (gols or {}).get(pid))
+        f += bg
+        sinais = list(sg)
         if pid in famosos:
             sinais.append("estrela")
             f = max(f, 92)
-        if ano_copa >= 2018 and PESO_NAC.get(nac, 3) >= 8:        # Copa só conta como sinal forte para seleções de grande alcance
+        if cr is not None:
+            sinais += pc_sinal
+        elif ano_copa >= 2018 and PESO_NAC.get(nac, 3) >= 8:      # Copa só conta como sinal forte para seleções de grande alcance
             sinais.append(f"copa{ano_copa}")
         if idc in CLUBES_S and r <= 5:
             sinais.append("clube")
+        if idc in CLUBES_A and r <= PROTAGONISTAS_TOP:            # craque do elenco de um clube de grande alcance
+            sinais.append("protagonista")
         if v >= VALOR_ELITE:
             sinais.append("valor")
         f = int(round(_clamp(f + ajustes.get(pid, 0), 0, 100)))
+        bruta = f                                                 # nota sem o teto (vai para o 14º campo)
         travado = False
         if f >= FAMA_FACIL_MIN and not sinais:                    # o teto: sem sinal forte, não entra no Fácil
             f, travado = FAMA_FACIL_MIN - 1, True
-        saida.append((f, sinais, travado))
+        saida.append((f, sinais, travado, bruta))
     return saida
 
 
 def relatorio_fama(campos, res, famosos, caminho_csv=None):
-    cont = Counter(faixa_fama(f) for f, _, _ in res)
+    cont = Counter(faixa_fama(r[0]) for r in res)
     print("\nFama calculada:")
     for nome in ("Fácil", "Médio", "Especialista", "Fora"):
         print(f"  {nome:13} {cont.get(nome, 0):6}")
-    travados = [(c, f) for c, (f, _, t) in zip(campos, res) if t]
+    travados = [(c, r[0]) for c, r in zip(campos, res) if r[2]]
     print(f"  {len(travados)} jogadores seriam Fácil mas foram travados em {FAMA_FACIL_MIN - 1} (sem sinal forte). Exemplos:")
     for c, _ in sorted(travados, key=lambda x: -_f(x[0][5]))[:8]:
         print(f"     {c[0]} ({c[1]}, {c[5]} mi)")
-    por_sinal = Counter(s.rstrip("0123456789") for f, sig, _ in res if f >= FAMA_FACIL_MIN for s in sig)
+    por_sinal = Counter(s.rstrip("0123456789") for r in res if r[0] >= FAMA_FACIL_MIN for s in r[1])
     print("  Sinais fortes dos jogadores do Fácil:", dict(por_sinal))
     ids_base = {c[7] for c in campos}
     fora = sum(1 for i in famosos if i not in ids_base)
@@ -543,22 +667,92 @@ def relatorio_fama(campos, res, famosos, caminho_csv=None):
         print(f"  ({fora} IDs de famosos.txt nao estao na base atual: jogam fora das ligas coletadas, nao tem problema)")
     if caminho_csv:
         with open(caminho_csv, "w", encoding="utf-8-sig") as f:
-            f.write("nome;clube;liga;valor_mi;nacionalidade;fama;faixa;sinais;travado\n")
-            for c, (fm, sig, t) in sorted(zip(campos, res), key=lambda x: -x[1][0]):
-                f.write(";".join([c[0], c[1], c[6], c[5], c[10], str(fm), faixa_fama(fm), "+".join(sig), "sim" if t else ""]) + "\n")
+            f.write("nome;clube;liga;valor_mi;nacionalidade;fama;fama_bruta;faixa;sinais;travado\n")
+            for c, (fm, sig, t, br) in sorted(zip(campos, res), key=lambda x: -x[1][3]):
+                f.write(";".join([c[0], c[1], c[6], c[5], c[10], str(fm), str(br), faixa_fama(fm), "+".join(sig), "sim" if t else ""]) + "\n")
         print(f"  Relatorio completo: {caminho_csv}")
 
 
+def relatorio_gols(campos, antes, depois, gols, caminho_csv):
+    """Compara a fama sem e com o bonus de gols. Só para calibrar: escreve o CSV e imprime o resumo."""
+    trans, entrou = Counter(), []
+    with_csv = []
+    for c, a, b in zip(campos, antes, depois):
+        rec = gols.get(c[7]) or {}
+        bon, sig = bonus_gols(c, rec or None)
+        fa, fb = faixa_fama(a[0]), faixa_fama(b[0])
+        if fa != fb:
+            trans[(fa, fb)] += 1
+        if fb == "Fácil" and fa != "Fácil":
+            entrou.append((b[0], c[0], c[1], c[5], rec))
+        with_csv.append((b[0] - a[0], c, a[0], b[0], bon, sig, fa, fb, rec))
+    print("\nBônus de gols (antes -> depois):")
+    for (x, y), n in trans.most_common():
+        print(f"  {x:13} -> {y:13} {n:6}")
+    print(f"  Jogadores com algum bônus: {sum(1 for r in with_csv if r[4] > 0)} | "
+          f"Fácil antes: {sum(1 for r in with_csv if r[6] == 'Fácil')} -> depois: {sum(1 for r in with_csv if r[7] == 'Fácil')}")
+    sinais = Counter(s.rstrip("0123456789") for r in with_csv for s in r[5])
+    print(f"  Sinais fortes que vieram dos gols: {dict(sinais)}")
+    print(f"  Entraram no Fácil ({len(entrou)}). Os 25 de maior fama:")
+    for f_, nome, clube, valor, rec in sorted(entrou, key=lambda x: -x[0])[:25]:
+        print(f"     {f_:3} {nome} ({clube}, {valor} mi) | g={rec.get('g')} sel={(rec.get('sel') or [0])[0]}")
+    if caminho_csv:
+        with open(caminho_csv, "w", encoding="utf-8-sig") as f:
+            f.write("nome;clube;pos;liga;valor_mi;nacionalidade;fama_antes;fama_depois;diferenca;bonus_gols;"
+                    "faixa_antes;faixa_depois;sinais_gols;gols_clube;jogos_gols;sel_jogos;cl;cli\n")
+            for d, c, a, b, bon, sig, fa, fb, rec in sorted(with_csv, key=lambda x: -x[0]):
+                sel = rec.get("sel") or [0]
+                f.write(";".join(map(str, [c[0], c[1], c[2], c[6], c[5], c[10], a, b, d, round(bon, 1), fa, fb,
+                                           "+".join(sig), rec.get("g", ""), rec.get("jg", ""), sel[0],
+                                           rec.get("cl", ""), rec.get("cli", "")])) + "\n")
+        print(f"  Comparacao completa: {caminho_csv}")
+
+
+def relatorio_copa(campos, antes, depois, copas_tm, caminho_csv):  # copas_tm: reservado
+    """Antes/depois só do bônus de Copa (com os gols já aplicados nos dois lados)."""
+    trans, entrou, linhas = Counter(), [], []
+    for c, a, b in zip(campos, antes, depois):
+        fa, fb = faixa_fama(a[0]), faixa_fama(b[0])
+        if fa != fb:
+            trans[(fa, fb)] += 1
+        if fb == "Fácil" and fa != "Fácil":
+            entrou.append((b[0], c[0], c[1], c[5]))
+        linhas.append((b[0] - a[0], c, a[0], b[0], fa, fb))
+    print("\nBônus de Copa (antes -> depois):")
+    for (x, y), n in trans.most_common():
+        print(f"  {x:13} -> {y:13} {n:6}")
+    print(f"  Fácil antes: {sum(1 for r in linhas if r[4] == 'Fácil')} -> depois: {sum(1 for r in linhas if r[5] == 'Fácil')}")
+    print(f"  Entraram no Fácil ({len(entrou)}). Os 25 de maior fama:")
+    for f_, nome, clube, valor in sorted(entrou, key=lambda x: -x[0])[:25]:
+        print(f"     {f_:3} {nome} ({clube}, {valor} mi)")
+    if caminho_csv:
+        with open(caminho_csv, "w", encoding="utf-8-sig") as f:
+            f.write("nome;clube;liga;valor_mi;nacionalidade;fama_antes;fama_depois;diferenca;faixa_antes;faixa_depois\n")
+            for d, c, a, b, fa, fb in sorted(linhas, key=lambda x: -x[0]):
+                f.write(";".join(map(str, [c[0], c[1], c[6], c[5], c[10], a, b, d, fa, fb])) + "\n")
+        print(f"  Comparacao completa: {caminho_csv}")
+
+
 def aplicar_fama(linhas, args):
-    """Recalcula a fama de TODAS as linhas (descarta qualquer 13º campo antigo) e devolve linhas com 13 campos."""
+    """Recalcula a fama de TODAS as linhas (descarta 13º/14º campos antigos) e devolve linhas com 14 campos."""
     campos = []
     for l in linhas:
         c = l.split(",")[:12]
         campos.append(c + [""] * (12 - len(c)))
     famosos = carregar_famosos(args.famosos)
-    res = calcular_fama(campos, famosos, carregar_copas(args.copas_json), carregar_ajustes(args.ajustes_fama))
+    copas = carregar_copas(args.copas_json)
+    ajustes = carregar_ajustes(args.ajustes_fama)
+    gols = carregar_gols(args.gols) if getattr(args, "gols", None) else None
+    copas_tm = carregar_copas_tm(args.copas_json, args.copas_tm) if getattr(args, "copas_tm", None) else None
+    res = calcular_fama(campos, famosos, copas, ajustes, gols, copas_tm)
     relatorio_fama(campos, res, famosos, args.relatorio_fama)
-    return [",".join(c + [str(f)]) for c, (f, _, _) in zip(campos, res)]
+    if gols is not None:
+        antes = calcular_fama(campos, famosos, copas, ajustes, None, copas_tm)
+        relatorio_gols(campos, antes, res, gols, args.relatorio_gols)
+    if copas_tm is not None:
+        sem_copa = calcular_fama(campos, famosos, copas, ajustes, gols, None)
+        relatorio_copa(campos, sem_copa, res, copas_tm, args.relatorio_copa)
+    return [",".join(c + [str(r[0]), str(r[3])]) for c, r in zip(campos, res)]
 
 
 def ler_linhas_dados(fonte):
@@ -569,6 +763,172 @@ def ler_linhas_dados(fonte):
     corpo = m.group(1) if m else txt
     return [l.strip() for l in corpo.split(";") if l.strip() and len(l.split(",")) > 6]
 
+
+
+# ======================================================================
+#  ESCUDOS DOS CLUBES DA COPA (--escudos-copas)
+#  1) acha o ID de cada clube do copas.json: pelo dados.txt (nome) ou pela busca no Transfermarkt;
+#     os nomes diferentes podem ser informados em aliases_clubes.txt ("Nome na Copa ; nome no Transfermarkt"
+#     ou "Nome na Copa ; ID:123456");
+#  2) grava os IDs no campo 9 do copas.json/copas.js (já fica salvo mesmo se você interromper);
+#  3) baixa os escudos que faltam e junta no bloco CRESTS do HTML (--html).
+# ======================================================================
+SIGLAS_CLUBE_ESC = {"fc", "cf", "ec", "sc", "se", "sl", "ad", "ca", "cr", "club", "de", "sp", "fk", "afc",
+                    "ac", "as", "rb", "sd", "sv", "rc", "ud", "cd", "ss", "us", "ssc", "sc"}
+
+
+def _chave_clube(nome):
+    """'FC Liverpool' e 'Liverpool' viram a mesma chave. Hífen e apóstrofo viram espaço ('Umm-Salal' = 'Umm Salal')."""
+    limpo = re.sub(r"[-'´`]", " ", nome or "")
+    return " ".join(t for t in _norm(limpo).split() if t not in SIGLAS_CLUBE_ESC)
+
+
+def _mesmo_clube(a, b):
+    ta, tb = set(_chave_clube(a).split()), set(_chave_clube(b).split())
+    return bool(ta) and bool(tb) and (ta <= tb or tb <= ta)
+
+
+def carregar_aliases(caminho="aliases_clubes.txt"):
+    """'Nome na Copa ; nome no Transfermarkt' ou 'Nome na Copa ; ID:123'. Linhas com # são ignoradas."""
+    aliases = {}
+    try:
+        with open(caminho, encoding="utf-8") as f:
+            for linha in f:
+                linha = linha.strip()
+                if not linha or linha.startswith("#") or ";" not in linha:
+                    continue
+                nome, alvo = [x.strip() for x in linha.split(";", 1)]
+                aliases[nome] = alvo
+    except OSError:
+        pass
+    return aliases
+
+
+def buscar_clube_tm(nome, termo=None):
+    """Procura o clube no Transfermarkt. 'termo' (do aliases) substitui o nome na busca e na comparação.
+    Devolve (id, nome_no_tm) ou (None, None)."""
+    from urllib.parse import quote
+    busca = termo or nome
+    try:
+        soup = get(f"{BASE}/schnellsuche/ergebnis/schnellsuche?query={quote(busca)}")
+    except requests.RequestException:
+        return None, None
+    if soup is None:
+        return None, None
+    for a in soup.select('a[href*="/verein/"]'):
+        m = re.search(r"/verein/(\d+)", a.get("href", ""))
+        txt = a.get_text(" ", strip=True)
+        if m and txt and _mesmo_clube(txt, busca):
+            return m.group(1), txt
+    return None, None
+
+
+def _gravar_relatorio(linhas):
+    """Grava o CSV. Se ele estiver aberto no Excel (bloqueado), grava em outro nome e segue."""
+    for nome in ("escudos_copas.csv", "escudos_copas_novo.csv"):
+        try:
+            with open(nome, "w", encoding="utf-8-sig", newline="") as f:
+                w = csv.writer(f, delimiter=";")
+                w.writerow(["clube_copa", "linhas", "id_tm", "nome_tm", "origem"])
+                w.writerows(linhas)
+            return
+        except PermissionError:
+            print(f"  ! {nome} está aberto em outro programa (Excel?). Feche-o para atualizar.", flush=True)
+    print("  ! relatório não gravado (arquivos bloqueados); os IDs no copas.json foram gravados normalmente.", flush=True)
+
+
+def _gravar_copas(dados_copa, rows):
+    txt = json.dumps({"v": dados_copa.get("v", 2), "rows": rows}, ensure_ascii=False, separators=(",", ":"))
+    with open(dados_copa["_arq"], "w", encoding="utf-8") as f:
+        f.write(txt)
+    with open("copas.js", "w", encoding="utf-8") as f:
+        f.write("window.COPAS_DATA=" + txt + ";")
+
+
+def escudos_copas(args):
+    with open(args.copas_json, encoding="utf-8") as f:
+        dados_copa = json.load(f)
+    dados_copa["_arq"] = args.copas_json
+    rows = dados_copa["rows"]
+    clubes = Counter(r[6] for r in rows if len(r) > 6 and r[6])
+    aliases = carregar_aliases()
+    print(f"{len(clubes)} clubes distintos nas Copas ({len(aliases)} apelidos em aliases_clubes.txt).")
+
+    mapa = {}                                           # chave do nome -> (id, nome)
+    for linha in ler_linhas_dados("dados.txt"):
+        c = linha.split(",")
+        if len(c) > 9 and c[9] and c[1]:
+            mapa.setdefault(_chave_clube(c[1]), (c[9], c[1]))
+
+    resolvidos, relatorio = {}, []
+    pendentes = sum(1 for nome in clubes if _chave_clube(nome) not in mapa and nome not in aliases)
+    print(f"  {pendentes} clubes sem correspondência no dados.txt: vão para a busca no Transfermarkt.")
+    print("  (Pode interromper com Ctrl+C: o que já foi pesquisado fica no cache e não se repete.)", flush=True)
+    feitos_busca = 0
+    for nome, n in clubes.most_common():
+        cid, tnome, origem = None, "", ""
+        ch = _chave_clube(nome)
+        alvo = aliases.get(nome)
+        if alvo and alvo.upper().startswith("ID:"):
+            cid, tnome, origem = alvo.split(":", 1)[1].strip(), alvo, "aliases_clubes.txt (id)"
+        elif ch in mapa and not alvo:
+            cid, tnome, origem = mapa[ch][0], mapa[ch][1], "dados.txt"
+        else:
+            global USOU_REDE
+            USOU_REDE = False
+            cid, tnome = buscar_clube_tm(nome, alvo)
+            origem = ("aliases_clubes.txt" if alvo else "busca no Transfermarkt") if cid else "nao encontrado"
+            feitos_busca += 1
+            print(f"  [{feitos_busca}/{pendentes}] {nome} -> {origem}{(' ' + str(cid)) if cid else ''}", flush=True)
+            if USOU_REDE:
+                time.sleep(1.5)
+            if feitos_busca % 25 == 0:
+                _gravar_relatorio(relatorio + [[nome, n, cid or "", tnome, origem]])
+        if cid:
+            resolvidos[nome] = cid
+        relatorio.append([nome, n, cid or "", tnome, origem])
+
+    print(f"  {sum(1 for r in relatorio if r[4] == 'dados.txt')} pelo dados.txt, "
+          f"{sum(1 for r in relatorio if r[4] == 'busca no Transfermarkt')} pela busca, "
+          f"{sum(1 for r in relatorio if 'aliases' in r[4])} pelo aliases_clubes.txt, "
+          f"{sum(1 for r in relatorio if r[4] == 'nao encontrado')} sem id.", flush=True)
+
+    for r in rows:
+        while len(r) < 10:
+            r.append("")
+        cid = resolvidos.get(r[6])
+        if cid:
+            r[9] = cid
+    _gravar_copas(dados_copa, rows)
+    _gravar_relatorio(relatorio)
+    print("  IDs gravados no copas.json e copas.js (campo 9). Relatório: escudos_copas.csv", flush=True)
+
+    ids = sorted(set(resolvidos.values()), key=int)
+    print(f"\nBaixando escudos de {len(ids)} clubes (os que já estão no cache saem na hora)...", flush=True)
+    escudos, falhas = {}, []
+    for k, i in enumerate(ids, 1):
+        uri = imagem_data_uri(f"escudo_{i}", [f"{TM_IMG}/wappen/{t}/{i}.png" for t in ("medium", "head", "normquad")])
+        if uri:
+            escudos[i] = uri
+        else:
+            falhas.append(i)
+        if k % 20 == 0 or k == len(ids):
+            print(f"  {k}/{len(ids)} escudos processados ({len(escudos)} ok, {len(falhas)} sem imagem)", flush=True)
+
+    if args.html:
+        with open(args.html, encoding="utf-8") as f:
+            html = f.read()
+        m = re.search(r"const CRESTS=(\{.*?\});", html, re.S)
+        atuais = json.loads(m.group(1)) if m else {}
+        atuais.update(escudos)
+        novo, achou = trocar_bloco(html, "CRESTS", atuais)
+        if achou:
+            with open(args.html, "w", encoding="utf-8") as f:
+                f.write(novo)
+            print(f"  bloco CRESTS de {args.html} atualizado: {len(atuais)} escudos no total.")
+        else:
+            print(f"  ! nao achei 'const CRESTS={{}};' em {args.html}: escudos nao gravados no HTML.")
+    print("Pronto.", flush=True)
 
 
 def main():
@@ -590,12 +950,22 @@ def main():
     ap.add_argument("--acrescentar", action="store_true",
                     help="mantém os jogadores das outras ligas que já estão no --html (ou dados.txt) e só troca/adiciona as ligas de --ligas")
     ap.add_argument("--so-fama", action="store_true",
-                    help="NAO baixa nada: so recalcula a fama (13o campo) do --html (ou dados.txt) e regrava")
+                    help="NAO baixa nada: so recalcula a fama (13o e 14o campos) do --html (ou dados.txt) e regrava")
     ap.add_argument("--famosos", default="famosos.txt", help="IDs de jogadores estrela (padrao: famosos.txt)")
+    ap.add_argument("--escudos-copas", action="store_true",
+                    help="acha o id dos clubes das Copas (dados.txt ou busca no Transfermarkt) e baixa os escudos que faltam")
     ap.add_argument("--copas-json", default="copas.json", help="Copas (gerado por pegar_copas.py), sinal de historico internacional")
     ap.add_argument("--ajustes-fama", default="ajustes_fama.json", help="opcional: {idJogador: pontos} vindo do feedback")
     ap.add_argument("--relatorio-fama", metavar="ARQ.csv", help="grava um CSV com a fama de cada jogador para conferir")
+    ap.add_argument("--gols", metavar="gols.json", help="liga o bonus de gols (gols.json do pegar_gols.py) e mostra o antes/depois")
+    ap.add_argument("--relatorio-gols", default="comparacao_gols.csv", help="CSV do antes/depois (usado com --gols)")
+    ap.add_argument("--copas-tm", metavar="copas_tm.json", help="liga o bonus de Copa pelo ID do Transfermarkt (cruzar_copas.py)")
+    ap.add_argument("--relatorio-copa", default="comparacao_copa.csv", help="CSV do antes/depois do bonus de Copa (usado com --copas-tm)")
     args = ap.parse_args()
+    if args.escudos_copas:
+        USAR_CACHE = not args.sem_cache
+        escudos_copas(args)
+        return
 
     if args.lista_ligas:
         for cod, (_, nome) in LIGAS.items():

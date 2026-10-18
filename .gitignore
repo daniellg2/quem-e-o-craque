@@ -1,0 +1,17 @@
+﻿# Estado de execucao dos scrapers (nao vai para o site)
+cache/
+__pycache__/
+*.log
+dados.txt
+fama.csv
+
+# Evidencias de reverse-engineering / arquivos grandes
+app-evidence.json
+view-inline.json
+_rea_copero/
+_check*.js
+_car_check.js
+
+# Sistema
+Thumbs.db
+desktop.ini
