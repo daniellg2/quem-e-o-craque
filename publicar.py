@@ -26,6 +26,7 @@ DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py"]
+EXTRAS = ["README.md", "publicar.cmd"]
 
 
 def git(*args, alvo="."):
@@ -48,7 +49,7 @@ def main():
         print("Clone uma vez com:  git clone https://github.com/daniellg2/quem-e-o-craque.git \"%s\"" % alvo)
         sys.exit(1)
 
-    arquivos = list(DADOS) + list(SCRIPTS)
+    arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
     if a.jogo:
         arquivos.append("index6.html")
 
