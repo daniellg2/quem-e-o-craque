@@ -26,7 +26,28 @@ DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py"]
-EXTRAS = ["README.md", "publicar.cmd"]
+EXTRAS = ["README.md", "publicar.cmd", ".gitignore"]
+
+ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
+               "copero-times.js", "historico.js", "historico.json")
+
+
+def normalizar_lf():
+    """CRLF -> LF nos arquivos publicados.
+
+    Sem isso, o mesmo arquivo gerado no Windows (CRLF) e no Linux (LF) aparece
+    como "todas as linhas mudaram" no git, inchando o repositorio a cada rodada.
+    """
+    for arq in ARQUIVOS_LF:
+        p = os.path.join(AQUI, arq)
+        if not os.path.exists(p):
+            continue
+        with open(p, "rb") as f:
+            b = f.read()
+        if b"\r\n" in b:
+            with open(p, "wb") as f:
+                f.write(b.replace(b"\r\n", b"\n"))
+            print("  (normalizado para LF: %s)" % arq)
 
 
 def git(*args, alvo="."):
@@ -52,6 +73,8 @@ def main():
     arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
     if a.jogo:
         arquivos.append("index6.html")
+
+    normalizar_lf()
 
     copiados, faltando = [], []
     for f in arquivos:
