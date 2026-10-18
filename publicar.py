@@ -6,7 +6,7 @@ nao gastar deploy na Netlify (o Cloudflare Pages constroi normalmente).
 
 Uso (na pasta do jogo):
   python publicar.py                    # dados + scripts
-  python publicar.py --jogo             # inclui o index6.html -> index.html
+  python publicar.py --jogo             # inclui o index.html (o jogo)
   python publicar.py --seco             # so mostra o que mudaria
   python publicar.py -m "mensagem"      # mensagem do commit
   python publicar.py --alvo C:\\dev\\quem-e-o-craque
@@ -59,7 +59,7 @@ def git(*args, alvo="."):
 def main():
     ap = argparse.ArgumentParser(description="Publica os dados no repositorio do GitHub")
     ap.add_argument("--alvo", default=ALVO_PADRAO, help="pasta do clone do repositorio")
-    ap.add_argument("--jogo", action="store_true", help="inclui o index6.html como index.html")
+    ap.add_argument("--jogo", action="store_true", help="inclui o index.html (o jogo)")
     ap.add_argument("-m", "--mensagem", default="dados atualizados", help="mensagem do commit")
     ap.add_argument("--incluir", default="",
                     help="arquivos extras para publicar (separados por virgula). Ex.: --incluir times.js")
@@ -74,7 +74,7 @@ def main():
 
     arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
     if a.jogo:
-        arquivos.append("index6.html")
+        arquivos.append("index.html")
     arquivos += [s.strip() for s in a.incluir.split(",") if s.strip()]
 
     normalizar_lf()
@@ -85,7 +85,7 @@ def main():
         if not os.path.exists(src):
             faltando.append(f)
             continue
-        dst_nome = "index.html" if f == "index6.html" else f
+        dst_nome = f
         dst = os.path.join(alvo, dst_nome)
         novo = (not os.path.exists(dst)) or (os.path.getsize(dst) != os.path.getsize(src)) or \
                (open(dst, "rb").read() != open(src, "rb").read())

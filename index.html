@@ -3801,7 +3801,9 @@ main:has(.card.caron){max-width:1180px}
     const start = 16 + Math.ceil(6 / p) * p;
     const slots = [];
     for (let a = start; a <= 37; a += p) slots.push(a);
-    const count = _int(rng, cfg.personalEventCount[0], cfg.personalEventCount[1]);
+    const c = _int(rng, cfg.personalEventCount[0], cfg.personalEventCount[1]);
+    rng = c.rng;
+    const count = c.value;
     // combinações de slots com passo >= 2 (sem vizinhos)
     const combos = [];
     (function rec(idx, acc) {
@@ -4514,7 +4516,7 @@ main:has(.card.caron){max-width:1180px}
   // Extrai todos os clubes únicos da base P com liga, escudo e força
   let ALL_CLUBS=null;
   // Reputação dos clubes (escala 0–5 do Copero): internacional (propostas), doméstica (liga/copa) e continental
-  const REP_OVR_MAP={0:58,1:68,2:75,3:80,4:84,5:88};          // OVR de referência do clube por reputação
+  const REP_OVR_MAP={[-1]:52,0:58,1:68,2:75,3:80,4:84,5:88};    // OVR de referência do clube por reputação (tabela Ma do Copero)
   const TIT_LIGA=[0,.01,.05,.25,.45,.7];                       // chance de título da liga por rep. doméstica
   const TIT_COPA=[.01,.04,.1,.25,.35,.4];                      // chance de copa nacional
   const TIT_CONT=[0,1e-5,.03,.15,.2,.3];                       // chance da competição continental principal
@@ -4684,7 +4686,7 @@ main:has(.card.caron){max-width:1180px}
 
   // Papel no elenco: vem do OVR contra a força do clube (regra do Copero), com efeitos por cima
   function papelParaClube(cl,ovr,pos){
-    const base=(cl&&cl.rep!=null)?REP_OVR_MAP[cl.rep]:(BASE_CLUBE[cl&&cl.tier]||68);
+    const base=((cl&&cl.rep!=null)?REP_OVR_MAP[cl.rep]:undefined)??(BASE_CLUBE[cl&&cl.tier]||68);
     // Copero: goleiro tem lista própria (titular / reserva / terceiro goleiro)
     return MC.roleFromDiff(ovr-base,pos==='GOL');
   }
@@ -4708,13 +4710,11 @@ main:has(.card.caron){max-width:1180px}
   }
   function rivais(car){return getClubs().filter(x=>x.c!==car.clube.c&&(x.tier==='S'||x.tier==='A'))}
 
-  // Plano de carreira: 3 ou 4 eventos entre 22 e 36 anos, sem slots vizinhos
+  // Plano de carreira no modo INTENSO do Copero (long): 6 ou 7 eventos entre 22 e 37,
+  // com 2 anos de intervalo. O plano vem do motor (porte fiel de fi/ui/hi do original).
   function criaPlano(){
-    const slots=[];for(let a=22;a<=36;a+=2)slots.push(a);
-    let pick;
-    do{pick=slots.slice().sort(()=>rnd()-0.5).slice(0,rInt(3,4)).sort((x,y)=>x-y)}
-    while(pick.some((a,i)=>i>0&&a-pick[i-1]<4));
-    return {slots:pick,feitos:[],feitosIdade:[],ultimo:null,lesoes:0};
+    const b=MC.buildPlan(CRNG,'long');CRNG=b.rng;
+    return {slots:b.plan.slotAges,feitos:[],feitosIdade:[],ultimo:null,lesoes:0};
   }
 
   function eventoElegivel(car,k){
@@ -4768,7 +4768,7 @@ main:has(.card.caron){max-width:1180px}
     if(!p||car.idade>37)return;
     const pend=p.slots.find(s=>s<=car.idade&&!p.feitosIdade.includes(s));
     if(pend===undefined)return;
-    if(p.ultimo!==null&&car.idade-p.ultimo<4)return;
+    if(p.ultimo!==null&&car.idade-p.ultimo<2)return; // intenso: 2 anos entre eventos (modo normal seria 4)
     if(p.lesoes<2&&rnd()<0.02){
       const l=pesoPick(LESOES.map(x=>({item:x,weight:x.w}))).item;
       p.lesoes++;p.feitosIdade.push(pend);p.ultimo=car.idade;
@@ -5304,8 +5304,7 @@ main:has(.card.caron){max-width:1180px}
     return picks.map(cl=>{
       const diff=car.ovr-cl.baseOvr;
       const role=diff>=3?'Estrela do Time':diff>=-2?'Titular':'Disputa Posição';
-      const ovrBonus=cl.rep>=5?2:cl.rep>=4?1:0;
-      return {...cl,role,ovrBonus};
+      return {...cl,role};
     });
   }
 
@@ -5808,7 +5807,7 @@ main:has(.card.caron){max-width:1180px}
         <div id="car-offers">
           <div class="car-teams">
             ${nr?'':cardTime(CAR.clube,'Renovar com','data-move="stay"','+8% moral')}
-            ${CAR.offers.map((o,i)=>cardTime(o,'Assinar com',`data-move="${i}"`,`${o.role}${(o.ovrBonus&&CAR.idade<=25)?' · +1 OVR':''}`)).join('')}
+            ${CAR.offers.map((o,i)=>cardTime(o,'Assinar com',`data-move="${i}"`,o.role)).join('')}
           </div>
           ${(CAR.contratoInfo&&CAR.contratoInfo.aposentar)?`<div class="car-opts"><button type="button" class="car-opt" data-move="retire"><b>👋 Pendurar chuteiras</b><span class="car-opt-d">Encerrar a carreira</span></button></div>`:''}
         </div>
@@ -5984,8 +5983,6 @@ main:has(.card.caron){max-width:1180px}
         const ch=CAR.offers[+mv];
         if(ch){
           CAR.clube={c:ch.c,l:ch.l,k:ch.k,tier:ch.tier,baseOvr:ch.baseOvr,rep:ch.rep,repDom:ch.repDom,repCont:ch.repCont,isSA:ch.isSA,isEU:ch.isEU};
-          if(ch.ovrBonus&&CAR.idade<=25)CAR.ovr=clamp(CAR.ovr+1,54,99);
-          CAR.peakOvr=Math.max(CAR.peakOvr,CAR.ovr);
           CAR.emprestimo=null;
         }
       }
