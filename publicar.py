@@ -21,7 +21,8 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 ALVO_PADRAO = r"C:\dev\quem-e-o-craque"
 
 DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
-         "copero-times.js", "historico.js", "historico.json", "famosos.txt", "copas_tm.json"]
+         "copero-times.js", "historico.js", "historico.json", "famosos.txt", "copas_tm.json",
+         "netlify.toml"]
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py"]

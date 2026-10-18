@@ -1,0 +1,13 @@
+# A Netlify agora so serve de ponte: tudo cai no endereco novo (Cloudflare Workers).
+# Feito em 18/10/2026, na migracao do jogo.
+# Obrigado a chave "force = true": mesmo arquivos que existem (index.html, dados.js...)
+# sao redirecionados, entao este repositorio nunca mais publica o jogo por aqui.
+
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "https://quem-e-o-craque.danielsoqalt.workers.dev/:splat"
+  status = 301
+  force = true
