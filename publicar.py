@@ -61,6 +61,8 @@ def main():
     ap.add_argument("--alvo", default=ALVO_PADRAO, help="pasta do clone do repositorio")
     ap.add_argument("--jogo", action="store_true", help="inclui o index6.html como index.html")
     ap.add_argument("-m", "--mensagem", default="dados atualizados", help="mensagem do commit")
+    ap.add_argument("--incluir", default="",
+                    help="arquivos extras para publicar (separados por virgula). Ex.: --incluir times.js")
     ap.add_argument("--seco", action="store_true", help="so mostra o que mudaria")
     a = ap.parse_args()
 
@@ -73,6 +75,7 @@ def main():
     arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
     if a.jogo:
         arquivos.append("index6.html")
+    arquivos += [s.strip() for s in a.incluir.split(",") if s.strip()]
 
     normalizar_lf()
 

@@ -81,6 +81,18 @@ jobs:
             python pipeline_dados.py --escopo "${{ steps.escopo.outputs.valor }}"
           fi
 
+      - name: Conferir os dados
+        run: |
+          python - <<'PY'
+          import re, sys
+          t = open("dados.js", encoding="utf-8").read()
+          m = re.search(r"const DATA=`(.*?)`;", t, re.S)
+          n = len([l for l in (m.group(1).split("\n") if m else []) if l.strip()])
+          print("jogadores no dados.js:", n)
+          if n < 1000:
+              sys.exit("dados.js com poucos jogadores (%d) - nao vou publicar" % n)
+          PY
+
       - name: Publicar no repositorio
         run: |
           git config user.name "craque-bot"

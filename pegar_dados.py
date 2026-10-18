@@ -1033,6 +1033,20 @@ def main():
         print(f"\n--acrescentar: {len(mantidas)} jogadores de outras ligas mantidos de {fonte}")
         linhas = mantidas + linhas
 
+    # Trava de seguranca: nunca regravar o dados.js com a raspagem vazia ou capenga.
+    # (sem isso, um bloqueio do site zerava o arquivo e o site ia ao ar sem jogadores)
+    anterior = 0
+    try:
+        anterior = len(ler_linhas_dados(args.html or "dados.txt"))
+    except OSError:
+        pass
+    if not linhas:
+        sys.exit("ERRO: nenhum jogador foi baixado (bloqueio do site, layout novo ou rede fora?). "
+                 "Nada foi gravado.")
+    if len(args.ligas) == len(LIGAS) and anterior > 1000 and len(linhas) < anterior // 2:
+        sys.exit("ERRO: baixei apenas %d jogadores (a rodada anterior tinha %d). "
+                 "Parece bloqueio parcial ou mudanca de layout; nada foi gravado." % (len(linhas), anterior))
+
     gravar(aplicar_fama(linhas, args), args)
 
 

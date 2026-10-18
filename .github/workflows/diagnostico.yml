@@ -1,0 +1,65 @@
+name: Diagnostico (Transfermarkt)
+
+# Ferramenta de teste: baixa 3 paginas do Transfermarkt e publica o resultado
+# (codigo HTTP + inicio do corpo) em diagnostico_tm.txt, para descobrir se o
+# site esta bloqueando o IP dos servidores do GitHub.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Baixar o repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: pip install --quiet --disable-pip-version-check requests
+
+      - name: Testar o Transfermarkt
+        run: |
+          python - <<'PY'
+          import requests
+
+          HEADERS = {
+              "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                             "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"),
+              "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
+          }
+          urls = [
+              "https://www.transfermarkt.com.br/brasileirao-serie-a/startseite/wettbewerb/BRA1/plus/?saison_id=2026",
+              "https://www.transfermarkt.com.br/premier-league/startseite/wettbewerb/GB1/plus/?saison_id=2026",
+              "https://www.transfermarkt.com.br/fc-barcelona/kader/verein/131/saison_id/2026/plus/1",
+          ]
+          saida = []
+          for u in urls:
+              print("\n==", u)
+              try:
+                  r = requests.get(u, headers=HEADERS, timeout=30)
+                  linha = "HTTP %s | %d bytes | %s" % (r.status_code, len(r.text), u)
+                  cab = {k: r.headers.get(k) for k in ("server", "cf-ray", "x-datadome", "content-type")}
+                  print("  ", linha)
+                  print("   headers:", cab)
+                  print("   inicio:", " ".join(r.text.split())[:300])
+                  saida += [linha, "   headers: %s" % cab,
+                            "   inicio: " + " ".join(r.text.split())[:800], ""]
+              except Exception as e:
+                  linha = "ERRO %s: %s | %s" % (type(e).__name__, e, u)
+                  print("  ", linha)
+                  saida += [linha, ""]
+          with open("diagnostico_tm.txt", "w", encoding="utf-8") as f:
+              f.write("\n".join(saida))
+          PY
+
+      - name: Publicar o resultado
+        run: |
+          git config user.name "craque-bot"
+          git config user.email "craque-bot@users.noreply.github.com"
+          git add diagnostico_tm.txt
+          git commit -m "diagnostico do Transfermarkt [skip netlify]"
+          git push
