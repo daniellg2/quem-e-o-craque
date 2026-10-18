@@ -1,9 +1,11 @@
 ﻿# Estado de execucao dos scrapers (nao vai para o site)
 cache/
+cache_ogol/
 __pycache__/
 *.log
 dados.txt
 fama.csv
+comparacao_*.csv
 
 # Evidencias de reverse-engineering / arquivos grandes
 app-evidence.json
