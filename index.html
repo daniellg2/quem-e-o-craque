@@ -5655,14 +5655,93 @@ main:has(.card.caron){max-width:1180px}
   }
 
   // ---------- Criação: "Defina sua identidade" ----------
+  // Cor da camisa a partir da bandeira (mesma ideia do Hall da Fama: cor dominante e saturada da imagem).
+  // Devolve [cor do corpo, cor do detalhe]. Só é usado por seleções sem cor definida em CORES_NAC.
+  function kitDaBandeira(img){
+    const N=48,cv=document.createElement('canvas');cv.width=cv.height=N;
+    const cx=cv.getContext('2d');cx.drawImage(img,0,0,N,N);
+    const d=cx.getImageData(0,0,N,N).data;
+    const B=12,bk=Array.from({length:B},()=>({k:0,w:0,r:0,g:0,b:0}));
+    bk.forEach((x,i)=>x.k=i);
+    let claro=0,escuro=0,tot=0;
+    for(let i=0;i<d.length;i+=4){
+      const a=d[i+3]/255;if(a<.5)continue;
+      const r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/510,sat=mx===0?0:(mx-mn)/mx;
+      tot++;if(l>.85&&sat<.3)claro++;else if(l<.15)escuro++;
+      if(sat<.3||l>.9||l<.12)continue;
+      let h=0;const df=mx-mn;
+      if(mx===r)h=((g-b)/df+6)%6;else if(mx===g)h=(b-r)/df+2;else h=(r-g)/df+4;
+      const k=Math.floor(h/6*B)%B,w=sat;
+      bk[k].w+=w;bk[k].r+=r*w;bk[k].g+=g*w;bk[k].b+=b*w;
+    }
+    const L=c=>(.299*c[0]+.587*c[1]+.114*c[2])/255;
+    const hex=c=>'#'+c.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
+    const ord=bk.slice().sort((a,b)=>b.w-a.w);
+    const top=ord[0];
+    let corpo,trim;
+    if(top.w<tot*.08){
+      // bandeira quase sem cor (branca/preta): camisa neutra
+      corpo=escuro>claro?[28,28,28]:[245,245,245];
+      trim=escuro>claro?[255,255,255]:[17,17,17];
+    }else{
+      corpo=[top.r/top.w,top.g/top.w,top.b/top.w];
+      // segunda cor da bandeira (matiz diferente e com área relevante) vira o detalhe
+      const dist=(a,b)=>{const x=Math.abs(a-b);return Math.min(x,B-x)};
+      const seg=ord.slice(1).find(x=>x.w>top.w*.3&&dist(x.k,top.k)>=2);
+      trim=seg?[seg.r/seg.w,seg.g/seg.w,seg.b/seg.w]:(claro>tot*.1?[255,255,255]:(L(corpo)>.6?[17,17,17]:[255,255,255]));
+      // contraste mínimo entre corpo e detalhe
+      if(Math.abs(L(corpo)-L(trim))<.22)trim=L(corpo)>.55?[17,17,17]:[255,255,255];
+    }
+    return [hex(corpo),hex(trim)];
+  }
+  const KIT_BAND=new Map();
+  function carregaKit(nac){
+    if(KIT_BAND.has(nac))return;
+    const src=flagOf(nac);
+    KIT_BAND.set(nac,null);
+    if(!src)return;
+    const img=new Image();img.crossOrigin='anonymous';
+    img.onload=()=>{try{KIT_BAND.set(nac,kitDaBandeira(img));if(CREATE_STATE.nac===nac)paintCamisa()}catch(e){KIT_BAND.set(nac,false);if(CREATE_STATE.nac===nac)paintCamisa()}};
+    img.onerror=()=>{KIT_BAND.set(nac,false);if(CREATE_STATE.nac===nac)paintCamisa()};
+    img.src=src;
+  }
+  let _camId=0;
   function camisa(nome,num,nac){
-    const [cor,trim]=CORES_NAC[nac]||[`hsl(${hue(nac)},70%,52%)`,'#ffffff'];
+    let kit=CORES_NAC[nac];
+    if(!kit){
+      carregaKit(nac);
+      const v=KIT_BAND.get(nac);
+      kit=v||(v===false||!flagOf(nac)?[`hsl(${hue(nac)},70%,52%)`,'#ffffff']:['#8b9a92','#ffffff']);
+    }
+    const [cor,trim]=kit;
     const txt=String(nome||'').toUpperCase().slice(0,16)||'CRAQUE';
+    const id='cj'+(++_camId);
+    const body='M76 12 L38 26 Q24 31 16 46 L6 74 L36 88 L43 78 L43 184 Q43 190 49 190 L151 190 Q157 190 157 184 L157 78 L164 88 L194 74 L184 46 Q176 31 162 26 L124 12 Q100 22 76 12 Z';
+    const tl=Math.min(110,txt.length*9);
+    const tx=(y,sz,t,extra)=>`<text x="100" y="${y}" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="${sz}" ${extra}>${t}</text>`;
     return `<svg class="car-jersey" viewBox="0 0 200 200" role="img" aria-label="Camisa ${esc(txt)} número ${num}">
-      <path d="M64 14 L30 34 L6 80 L34 94 L46 76 L46 190 L154 190 L154 76 L166 94 L194 80 L170 34 L136 14 Q100 32 64 14 Z" fill="${cor}" stroke="#0d2b17" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M64 14 Q100 36 136 14" fill="none" stroke="${trim}" stroke-width="8"/>
-      <text x="100" y="62" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="13" fill="${trim}" textLength="${Math.min(110,txt.length*9)}" lengthAdjust="spacingAndGlyphs">${esc(txt)}</text>
-      <text x="100" y="140" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="62" fill="${trim}">${num}</text>
+      <defs>
+        <clipPath id="${id}c"><path d="${body}"/></clipPath>
+        <linearGradient id="${id}g" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity=".24"/><stop offset=".38" stop-color="#fff" stop-opacity="0"/>
+          <stop offset=".68" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/>
+        </linearGradient>
+      </defs>
+      <path d="${body}" fill="${cor}"/>
+      <g clip-path="url(#${id}c)">
+        <rect width="200" height="200" fill="url(#${id}g)"/>
+        <path d="M6 67 L42 84" stroke="${trim}" stroke-width="13" fill="none"/>
+        <path d="M194 67 L158 84" stroke="${trim}" stroke-width="13" fill="none"/>
+        <path d="M43 78 Q47 50 38 27 M157 78 Q153 50 162 27" stroke="#000" stroke-opacity=".18" stroke-width="2" fill="none"/>
+        <path d="M58 118 Q66 152 60 186 M142 118 Q134 152 140 186" stroke="#000" stroke-opacity=".07" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <path d="${body}" fill="none" stroke="#0d2b17" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M76 12 Q100 22 124 12 Z" fill="#000" fill-opacity=".34"/>
+      <path d="M77 12.5 Q100 24 123 12.5" fill="none" stroke="#0d2b17" stroke-width="10" stroke-linecap="round"/>
+      <path d="M77 12.5 Q100 24 123 12.5" fill="none" stroke="${trim}" stroke-width="5" stroke-linecap="round"/>
+      ${tx(66,13,esc(txt),`fill="${trim}" textLength="${tl}" lengthAdjust="spacingAndGlyphs"`)}
+      ${tx(148,62,num,`fill="#000" fill-opacity=".18" transform="translate(2.5 2.5)"`)}
+      ${tx(146,62,num,`fill="${trim}"`)}
     </svg>`;
   }
 
@@ -5681,7 +5760,7 @@ main:has(.card.caron){max-width:1180px}
     const q=semAcento(CREATE_STATE.busca).trim();
     const todas=getNacs();
     const destSet=NAC_DESTAQUE.map(semAcento);
-    const ehDest=n=>destSet.includes(semAcento(nacRotulo(n)))||n===CREATE_STATE.nac;
+    const ehDest=n=>destSet.includes(semAcento(nacRotulo(n)))||(!CREATE_STATE.verMais&&n===CREATE_STATE.nac);
     let lista,mostraMais=false;
     if(q){
       lista=todas.filter(n=>semAcento(n).includes(q)||semAcento(nacRotulo(n)).includes(q)).sort(porRotulo);
