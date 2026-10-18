@@ -4329,8 +4329,8 @@ main:has(.card.caron){max-width:1180px}
   const PESO_LIGA={GB1:100,ES1:97,IT1:94,L1:92,FR1:88,BRA1:82,PO1:78,NL1:72,ARG1:70,TR1:66,BE1:64,RU1:58,SAU1:62,MLS1:58,MEX1:60,BRA2:48,GB2:58};
   // Copero: pesos e ligas extras da base extraída do site (copero-times.js)
   Object.assign(PESO_LIGA,{AR1N:70,SA1:62,MEXA:60},(window.COPERO_PESO_LIGA||{}));
-  const CLUBES_S=new Set(['Real Madrid','FC Barcelona','Manchester City','Bayern Munique','Paris Saint-Germain','Liverpool FC','Arsenal FC','Inter de Milão','CR Flamengo','SE Palmeiras']);
-  const CLUBES_A=new Set(['Chelsea FC','Manchester United','Tottenham Hotspur','Atlético de Madrid','Juventus FC','AC Milan','SSC Napoli','Borussia Dortmund','Bayer 04 Leverkusen','SL Benfica','Sporting CP','FC Porto','Botafogo FR','CA River Plate','CA Boca Juniors','Cruzeiro EC','SC Corinthians','São Paulo FC','Atalanta BC','AS Roma','Aston Villa','Newcastle United']);
+  const CLUBES_S=new Set(['Real Madrid CF','Barcelona','Manchester City','Bayern Munique','Paris Saint-Germain','Liverpool','Arsenal','Inter de Milão','Flamengo','Palmeiras']);
+  const CLUBES_A=new Set(['Chelsea','Manchester United','Tottenham Hotspur','Atlético de Madrid','Juventus','Milan','Napoli','Borussia Dortmund','Bayer 04 Leverkusen','SL Benfica','Sporting CP','Porto','Botafogo FR','River Plate','Boca Juniors','Cruzeiro','Corinthians','São Paulo','Atalanta BC','Roma','Aston Villa','Newcastle United']);
   const PESO_NAC={'Brasil':95,'Argentina':96,'França':98,'Inglaterra':95,'Espanha':96,'Alemanha':93,'Portugal':93,'Holanda':90,'Itália':89,'Uruguai':88,'Colômbia':86,'Bélgica':86,'Croácia':85,'Marrocos':82,'Senegal':80,'Japão':79,'Estados Unidos':77,'México':77,'Suíça':79,'Suiça':79,'Dinamarca':79,'Sérvia':77,'Chile':75,'Equador':78,'Paraguai':73,'Nigéria':78,'Coreia do Sul':77};
 
   const POS_LIST=['CA','SA','PD','PE','MEI','MC','VOL','LD','LE','ZAG','GOL'];
@@ -4523,17 +4523,25 @@ main:has(.card.caron){max-width:1180px}
   const TIT_CONT2=[0,.04,.12,.02,0,0];                         // competição secundária (Europa League / Sul-Americana)
   const TOP5=['GB1','ES1','IT1','L1','FR1'];
   const LIGAS_COM_S=new Set(['ES1','GB1','BRA1','L1','FR1','IT1']);
-  let REP_OVERRIDE=null;  // opcional: reputacao_clubes.json -> {"Clube":[internacional,domestica,continental]}
+  let REP_OVERRIDE=null;  // opcional: reputacao_clubes.json -> {"Clube|LIGA":[internacional,domestica,continental,divisao]}
+  // Divisão real pela liga (a base vinda do Copero manda; senão as 2ª/3ª divisões conhecidas).
+  // Serve para só deixar clube de 1ª divisão disputar continental/Mundial (regra do Copero).
+  const DIV_LIGA=(()=>{const m={BRA2:2,BRA3:3,GB2:2,ES2:2,IT2:2,FR2:2};
+    for(const lg of ((window.COPERO_TIMES||{}).ligas||[])){const t=lg&&lg.code?Number(lg.tier):0;if(lg&&lg.code&&t>=1)m[lg.code]=t|0}
+    return m})();
+  const divisaoClube=cl=>{if(!cl)return 1;if(cl.div!=null)return cl.div;const d=DIV_LIGA[cl.l];return d==null?1:d};
   function derivaRep(nome,liga,tier){
     const pl=PESO_LIGA[liga]||50,top=TOP5.includes(liga);
     let int,dom,cont;
     if(tier==='S'){int=5;cont=5;dom=(liga==='L1'||liga==='FR1'||liga==='IT1')?5:4}
-    else if(tier==='A'){int=top?4:3;cont=top?4:3;dom=LIGAS_COM_S.has(liga)?2:3}
-    else if(tier==='B'){int=pl>=94?3:pl>=82?2:1;cont=2;dom=1}
+    else if(tier==='A'){int=top?4:3;cont=top?2:1;dom=LIGAS_COM_S.has(liga)?2:3}
+    else if(tier==='B'){int=pl>=94?3:pl>=82?2:1;cont=0;dom=1}
     else{int=pl>=64?1:0;cont=(liga==='SAU1'||liga==='MLS1'||liga==='MEX1')?2:0;dom=(liga==='BRA2'||liga==='GB2')?0:1}
-    const o=REP_OVERRIDE&&REP_OVERRIDE[nome];
-    if(o){int=o[0];dom=o[1];cont=o[2]}
-    return {rep:int,repDom:dom,repCont:cont};
+    // Divisao: manda o codigo da liga (BRA2/GB2...); o Copero so ajuda se a liga nao estiver no mapa
+    let div=DIV_LIGA[liga]!=null?DIV_LIGA[liga]:null;
+    const o=REP_OVERRIDE&&(REP_OVERRIDE[nome+'|'+liga]||REP_OVERRIDE[nome]);
+    if(o){int=o[0];dom=o[1];cont=o[2];if(div==null&&o.length>3&&o[3]!=null)div=o[3]|0}
+    return {rep:int,repDom:dom,repCont:cont,div:div};
   }
   // Garante os campos de reputação em clubes vindos de saves antigos
   function normClube(cl){
@@ -4541,6 +4549,7 @@ main:has(.card.caron){max-width:1180px}
     const f=getClubs().find(x=>x.c===cl.c&&x.l===cl.l);
     const r=f||derivaRep(cl.c,cl.l,cl.tier||'C');
     cl.rep=r.rep;cl.repDom=r.repDom;cl.repCont=r.repCont;cl.baseOvr=REP_OVR_MAP[r.rep];
+    if(cl.div==null)cl.div=divisaoClube(r);
     return cl;
   }
   function getClubs(){
@@ -4553,7 +4562,8 @@ main:has(.card.caron){max-width:1180px}
         const tier=CLUBES_S.has(p.c)?'S':CLUBES_A.has(p.c)?'A':(PESO_LIGA[p.l]>=75?'B':'C');
         const rp=derivaRep(p.c,p.l,tier);
         const baseOvr=REP_OVR_MAP[rp.rep];
-        map.set(key,{c:p.c,l:p.l,k:p.k||'',tier,baseOvr,rep:rp.rep,repDom:rp.repDom,repCont:rp.repCont,isSA:['BRA1','BRA2','BRA3','AR1N','COLP','URU1','ARG1'].includes(p.l),isEU:['GB1','GB2','ES1','IT1','L1','FR1','PO1','NL1','SC1','GR1','DK1','TR1','BE1','RU1'].includes(p.l)});
+        const div=rp.div!=null?rp.div:1;
+        map.set(key,{c:p.c,l:p.l,k:p.k||'',tier,div,baseOvr,rep:rp.rep,repDom:rp.repDom,repCont:rp.repCont,isSA:['BRA1','BRA2','BRA3','AR1N','COLP','URU1','ARG1'].includes(p.l),isEU:['GB1','GB2','ES1','IT1','L1','FR1','PO1','NL1','SC1','GR1','DK1','TR1','BE1','RU1'].includes(p.l)});
       }
     });
     (window.COPERO_CLUBES||[]).forEach(cl=>{const key=cl.l+'|'+cl.c;if(!map.has(key))map.set(key,cl)});
@@ -4593,7 +4603,7 @@ main:has(.card.caron){max-width:1180px}
       internationalReputation:clamp(cl.rep==null?0:cl.rep,-1,5),
       domesticReputation:clamp(cl.repDom||0,0,5),
       continentalReputation:clamp(cl.repCont||0,0,5),
-      tier:1
+      tier:divisaoClube(cl)
     };
   }
 
@@ -4706,7 +4716,7 @@ main:has(.card.caron){max-width:1180px}
     return m;
   }
   function trocaClube(c,ch){
-    c.clube={c:ch.c,l:ch.l,k:ch.k,tier:ch.tier,baseOvr:ch.baseOvr,rep:ch.rep,repDom:ch.repDom,repCont:ch.repCont,isSA:ch.isSA,isEU:ch.isEU};
+    c.clube={c:ch.c,l:ch.l,k:ch.k,tier:ch.tier,div:ch.div!=null?ch.div:divisaoClube(ch),baseOvr:ch.baseOvr,rep:ch.rep,repDom:ch.repDom,repCont:ch.repCont,isSA:ch.isSA,isEU:ch.isEU};
   }
   function rivais(car){return getClubs().filter(x=>x.c!==car.clube.c&&(x.tier==='S'||x.tier==='A'))}
 
@@ -5205,7 +5215,7 @@ main:has(.card.caron){max-width:1180px}
     car.seasonsLog=car.seasonsLog||[];
     car.seasonsLog.push({
       age:car.idade,teamId:CLID(car.clube),countryFifaCode:FIFA_LIGA[car.clube.l]||LI(car.clube.l)[2]||'',
-      confederation:conf||'',competitionTier:(car.clube.tier==='B'?2:car.clube.tier==='C'?3:1),continentalReputation:car.clube.repCont||0,
+      confederation:conf||'',competitionTier:divisaoClube(car.clube),continentalReputation:car.clube.repCont||0,
       trophies:mcTrophies.concat(natWon),awards:awards.slice(),nationalityFifaCode:fifaNac(car.nac),
       goals,assists
     });

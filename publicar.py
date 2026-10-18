@@ -22,14 +22,15 @@ ALVO_PADRAO = r"C:\dev\quem-e-o-craque"
 
 DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
          "copero-times.js", "historico.js", "historico.json", "famosos.txt", "copas_tm.json",
-         "netlify.toml"]
+         "reputacao_clubes.json", "netlify.toml"]
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
-           "cruzar_copas.py", "fama_copas.py"]
-EXTRAS = ["README.md", "publicar.cmd", ".gitignore"]
+           "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py"]
+EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore"]
 
 ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
-               "copero-times.js", "historico.js", "historico.json")
+               "copero-times.js", "historico.js", "historico.json",
+               "reputacao_clubes.json")
 
 
 def normalizar_lf():

@@ -19,6 +19,7 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 | `gols.js` / `gols.json` | gols, jogos em que marcou, gols decisivos/pênaltis/faltas, gols por clube e seleção |
 | `copas.js` / `copas.json` | histórico de Copas do Mundo |
 | `copero-times.js` | ligas e clubes do "Modo Copero" (base extraída do site copero.com.ar) |
+| `reputacao_clubes.json` | reputação real e divisão de cada clube (chave `nome do jogo\|liga`), casadas com a base do Copero — é o que deixa os títulos fiéis (clube fraco não ganha continental). Gerado pelo `gerar_reputacao.py` |
 | `historico.js` / `historico.json` | títulos oficiais por competição + trajetória de clubes (usado pelo "Gêmeo de Carreira") |
 | `famosos.txt` | IDs do Transfermarkt de jogadores "estrela" (entrada do cálculo da fama) |
 | `copas_tm.json` | cruzamento Copas × Transfermarkt (entrada do bônus de fama por Copa) |
@@ -28,7 +29,9 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 
 | Arquivo | Papel |
 |---|---|
-| `pipeline_dados.py` | orquestrador: `--escopo clubes \| fama \| gols \| historico \| tudo` |
+| `pipeline_dados.py` | orquestrador: `--escopo clubes \| fama \| gols \| historico \| reputacao \| tudo` (clubes/fama/gols/tudo refazem o `reputacao_clubes.json` no fim) |
+| `gerar_reputacao.py` | casa os clubes do `dados.js` com a base do Copero e grava o `reputacao_clubes.json` (é o que corrige os títulos) |
+| `atualizar_dados.cmd` / `atualizar_dados.ps1` | menu bonito no PC para rodar o pipeline e publicar (dois cliques no `.cmd`) |
 | `pegar_dados.py` | baixa as ligas, gera `dados.txt` e atualiza o `dados.js` (também recalcula a fama com `--so-fama`) |
 | `pegar_gols.py` | gera `gols.json`/`gols.js` (retoma de onde parou) |
 | `pegar_historico.py` | gera `historico.json`/`historico.js` (retoma de onde parou) |
@@ -39,11 +42,16 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 
 ## Como atualizar os dados
 
+O jeito fácil: dê dois cliques no **`atualizar_dados.cmd`** — abre um menu (dados + publicação) que mostra o progresso e publica quando você mandar. Por baixo dele é o mesmo pipeline abaixo.
+
+Na mão:
+
 ```bash
 # no PC (na pasta do jogo)
 python pipeline_dados.py --escopo clubes     # clubes/valores + fama  (~500 requisições, 20-40 min)
 python pipeline_dados.py --escopo gols       # gols/jogos + fama      (retoma de onde parou)
 python pipeline_dados.py --escopo historico  # títulos/trajetória     (retoma de onde parou)
+python pipeline_dados.py --escopo reputacao  # razão/divisão dos clubes p/ os títulos (usa a base do Copero)
 python pipeline_dados.py --escopo tudo       # tudo, na ordem
 
 python publicar.py                            # publica os dados no repositório
@@ -51,6 +59,8 @@ python publicar.py --jogo                     # + o index6.html (vira index.html
 ```
 
 ### No servidor (grátis, sem PC ligado)
+
+> **Atenção**: na prática o Transfermarkt bloqueia o robô do GitHub Actions (responde `HTTP 202` com 0 bytes), então a atualização de verdade sai pelo PC, pelo menu `atualizar_dados.cmd`. O workflow abaixo fica de reserva (histórico de copas e outras fontes).
 
 `.github/workflows/atualizar-dados.yml`:
 

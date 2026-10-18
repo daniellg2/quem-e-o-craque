@@ -5,13 +5,18 @@ Roda em sequencia os scrapers que geram os arquivos usados pelo jogo:
   gols.js / gols.json    (pegar_gols.py)       gols e jogos por jogador
   historico.js / .json   (pegar_historico.py)  titulos oficiais + trajetoria de clubes
   copas.js / copas.json  (pegar_copas.py)      copas (raro: so quando a fonte muda)
+  reputacao_clubes.json  (gerar_reputacao.py)  reputacao/divisao real dos clubes (titulos fieis)
 
 Escopos (--escopo):
   clubes     baixa todas as ligas, atualiza dados.txt/dados.js e recalcula a fama
   fama       so recalcula a fama (0 requisicoes) usando gols.json + copas_tm.json
   gols       atualiza gols/jogos (retoma de onde parou) e recalcula a fama
   historico  atualiza titulos/trajetoria (retoma de onde parou)
+  reputacao  so refaz o reputacao_clubes.json (casamento com a base do Copero)
   tudo       clubes + gols + historico + fama
+
+Obs.: clubes/fama/gols/tudo regravam o dados.js, entao ao final o pipeline refaz
+o reputacao_clubes.json sozinho (os nomes dos clubes podem ter mudado).
 
 Opcoes:
   --limite N   limita quantos jogadores os passos de gols/historico processam
@@ -35,7 +40,8 @@ BONUS = ("--gols", "gols.json", "--copas-tm", "copas_tm.json")
 
 
 ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
-               "copero-times.js", "historico.js", "historico.json")
+               "copero-times.js", "historico.js", "historico.json",
+               "reputacao_clubes.json")
 
 
 def normalizar_lf():
@@ -104,6 +110,10 @@ def passo_historico(seco, limite):
     return passo("historico", cmd, seco)
 
 
+def passo_reputacao(seco):
+    return passo("reputacao", [sys.executable, "gerar_reputacao.py"], seco)
+
+
 def garantir_dados_txt(seco, com_bonus):
     """gols/historico leem dados.txt; se ele nao existir, a fama o recria do dados.js."""
     if os.path.exists(os.path.join(AQUI, "dados.txt")):
@@ -114,7 +124,8 @@ def garantir_dados_txt(seco, com_bonus):
 
 def resumo():
     print("\n=== arquivos ===")
-    for arq in ("dados.js", "dados.txt", "gols.js", "gols.json", "historico.js", "historico.json"):
+    for arq in ("dados.js", "dados.txt", "gols.js", "gols.json", "historico.js",
+                "historico.json", "reputacao_clubes.json"):
         p = os.path.join(AQUI, arq)
         if not os.path.exists(p):
             print("  %-16s ausente" % arq)
@@ -134,7 +145,7 @@ def resumo():
 def main():
     ap = argparse.ArgumentParser(description="Pipeline de dados do Quem e o Craque")
     ap.add_argument("--escopo", default="clubes",
-                    choices=["clubes", "fama", "gols", "historico", "tudo"])
+                    choices=["clubes", "fama", "gols", "historico", "reputacao", "tudo"])
     ap.add_argument("--limite", type=int, help="limite de jogadores nos passos de gols/historico")
     ap.add_argument("--sem-bonus", action="store_true",
                     help="nao usa os bonus de gols.json/copas_tm.json na fama")
@@ -163,6 +174,9 @@ def main():
     if e in ("fama", "gols", "tudo"):
         # fama por ultimo: usa o gols.json recem-gerado no bonus de gols
         passo_fama(a.seco, com_bonus)
+    if e in ("clubes", "fama", "gols", "tudo", "reputacao"):
+        # dados.js pode ter sido regravado: refaz as reputacoes reais dos clubes
+        passo_reputacao(a.seco)
 
     resumo()
     print("\nTotal: %.1f min" % ((time.time() - t0) / 60.0))
