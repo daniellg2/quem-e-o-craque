@@ -8,6 +8,6 @@
 
 [[redirects]]
   from = "/*"
-  to = "quem-e-o.craque.workers.dev/:splat"
+  to = "https://quem-e-o.craque.workers.dev/:splat"
   status = 301
   force = true
