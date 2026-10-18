@@ -1,0 +1,11 @@
+HTTP 202 | 0 bytes | https://www.transfermarkt.com.br/brasileirao-serie-a/startseite/wettbewerb/BRA1/plus/?saison_id=2026
+   headers: {'server': 'CloudFront', 'cf-ray': None, 'x-datadome': None, 'content-type': 'text/html; charset=UTF-8'}
+   inicio: 
+
+HTTP 202 | 0 bytes | https://www.transfermarkt.com.br/premier-league/startseite/wettbewerb/GB1/plus/?saison_id=2026
+   headers: {'server': 'CloudFront', 'cf-ray': None, 'x-datadome': None, 'content-type': 'text/html; charset=UTF-8'}
+   inicio: 
+
+HTTP 202 | 0 bytes | https://www.transfermarkt.com.br/fc-barcelona/kader/verein/131/saison_id/2026/plus/1
+   headers: {'server': 'CloudFront', 'cf-ray': None, 'x-datadome': None, 'content-type': 'text/html; charset=UTF-8'}
+   inicio: 
