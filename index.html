@@ -5313,10 +5313,10 @@ main:has(.card.caron){max-width:1180px}
     }
 
     // ---- Evolução: ciclo de 2 anos do Copero ----
-    const ovrDelta=evolucaoNatural(car,suspenso);
-    car.ovr=clamp(car.ovr+ovrDelta,40,99);
-    car.peakOvr=Math.max(car.peakOvr,car.ovr);
-    car.valor=calcVal(car.ovr,car.idade,car.clube.l);
+    // Fiel ao Copero (modo intenso): o OVR da temporada encerrada (card, histórico
+    // e resumo) continua sendo o que o jogador tinha nela; o ganho vira o estado do
+    // PRÓXIMO ano e só é aplicado na virada de idade (avancaTemporada).
+    car.ovrProx=clamp(car.ovr+evolucaoNatural(car,suspenso),40,99);
 
     car.jg+=baseGames;
     car.g+=goals;
@@ -5359,7 +5359,7 @@ main:has(.card.caron){max-width:1180px}
       tempStr,baseGames,goals,assists,dec,pen,fal,clGols,cliGols,gkCS,gkGC,gkDef,gkPen,
       awards,awardsLabel:awards.map(a=>MC.AWARD_LABELS[a]||a),
       selJ:car.tempMod.selJogos,selG:car.tempMod.selGols,selGS:car.selGS||0,selSG:car.selSG||0,
-      won,wonK,wonImg,prevOvr:car.ovrInicio||car.ovr,newOvr:car.ovr,papel,suspenso
+      won,wonK,wonImg,prevOvr:car.ovrInicio||car.ovr,newOvr:(car.ovrProx!=null?car.ovrProx:car.ovr),papel,suspenso
     };
     car.contrato--;
     car.step='summary';
@@ -5381,6 +5381,9 @@ main:has(.card.caron){max-width:1180px}
 
   function avancaTemporada(){
     CAR.idade++;CAR.ano++;CAR.ganhoTemp=0;
+    // Copero: o ganho da temporada passada vira o OVR do novo ano
+    if(CAR.ovrProx!=null){CAR.ovr=clamp(CAR.ovrProx,40,99);CAR.ovrProx=null}
+    CAR.peakOvr=Math.max(CAR.peakOvr,CAR.ovr);
     CAR.fisico=clamp(CAR.fisico+10,10,100);
     CAR.moral=clamp(CAR.moral+4,15,100);
     CAR.valor=calcVal(CAR.ovr,CAR.idade,CAR.clube.l);
@@ -5406,7 +5409,7 @@ main:has(.card.caron){max-width:1180px}
       nac:CREATE_STATE.nac,pos:CREATE_STATE.pos,perna:CREATE_STATE.perna||'Direita',
       num:clamp(+CREATE_STATE.num||9,1,99),
       seed,rngSeed:seed,rngState:(MC?CRNG.state:0),
-      idade:16,ano:2026,ovr:50,ovrInicio:50,peakOvr:50,perfil:rollPerfil(),ciclo:null,fisico:92,moral:80,valor:calcVal(50,16),
+      idade:16,ano:2026,ovr:50,ovrProx:null,ovrInicio:50,peakOvr:50,perfil:rollPerfil(),ciclo:null,fisico:92,moral:80,valor:calcVal(50,16),
       clube:cl,
       passagens:[{c:cl.c,l:cl.l,k:cl.k,anos:0,jg:0,g:0,a:0,gs:0,sg:0,tit:0}],
       jg:0,g:0,a:0,dec:0,pen:0,fal:0,cl:0,cli:0,cs:0,gc:0,gkDef:0,gkPen:0,
@@ -5436,18 +5439,20 @@ main:has(.card.caron){max-width:1180px}
   function buildTransferOffers(car,qtd){
     qtd=qtd||2;
     const pool=getClubs().map(mcClube).filter(x=>x.id!==CLID(car.clube)&&!(car.emprestimo&&x.key===car.emprestimo.origem.c));
-    const player={overall:car.ovr,age:car.idade,nationality:{fifaCode:fifaNac(car.nac),confederation:confNac(car.nac)}};
+    // A proposta vale para a próxima temporada: usa o OVR do novo ano (evolução pendente)
+    const ovrOf=car.ovrProx!=null?car.ovrProx:car.ovr;
+    const player={overall:ovrOf,age:car.idade,nationality:{fifaCode:fifaNac(car.nac),confederation:confNac(car.nac)}};
     const res=MC.generateTransferOffers(CRNG,player,mcClube(car.clube),pool,qtd);
     CRNG=res.rng;
     let picks=res.teams.map(m=>m.ref);
     // Garante o mínimo de propostas (clubes de reputação baixa) quando o motor não acha alvo
     if(picks.length<qtd){
       const used=new Set([CLID(car.clube),...res.teams.map(m=>m.id)]);
-      const extra=getClubs().filter(cl=>!used.has(CLID(cl))&&cl.rep<=(car.ovr>=55?1:0)).sort((a,b)=>a.rep-b.rep);
+      const extra=getClubs().filter(cl=>!used.has(CLID(cl))&&cl.rep<=(ovrOf>=55?1:0)).sort((a,b)=>a.rep-b.rep);
       for(const cl of extra){if(picks.length>=qtd)break;picks.push(cl)}
     }
     return picks.map(cl=>{
-      const diff=car.ovr-cl.baseOvr;
+      const diff=ovrOf-cl.baseOvr;
       const role=diff>=3?'Estrela do Time':diff>=-2?'Titular':'Disputa Posição';
       return {...cl,role};
     });
@@ -5582,6 +5587,8 @@ main:has(.card.caron){max-width:1180px}
 
   function retireCareer(){
     if(!CAR)return;
+    // Evolução pendente da última temporada conta no legado (como no Copero)
+    if(CAR.ovrProx!=null){CAR.ovr=clamp(CAR.ovrProx,40,99);CAR.ovrProx=null;CAR.peakOvr=Math.max(CAR.peakOvr,CAR.ovr)}
     CAR.step='retired';
     CAR.aposView='fw';
     const twin=findCareerTwin(CAR);
