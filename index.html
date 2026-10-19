@@ -881,7 +881,7 @@ to{transform:translateX(calc(var(--s)*140%)) translateY(24px) rotate(calc(var(--
   .card.caron #car-btn-reset{display:none!important}
   .card.caron .side>#modos button,.card.caron .side>#modos button.on,.card.caron .side>#modos #m0.on{transform:none!important;height:auto;min-height:52px!important;align-self:stretch}
   .card.caron .side>#modos #m0{min-height:52px!important}
-  .card.caron #carscore:not(:has(#car-btn-retire)){display:none!important;margin:0!important}
+  .card.caron #carscore{display:none!important;margin:0!important}
   .card.caron .side>#modos button,.card.caron .side>#modos button.on,.card.caron .side>#modos #m0,.card.caron .side>#modos #m0.on{box-shadow:0 3px 0 var(--sh)!important}
 
 }
@@ -3263,6 +3263,8 @@ main:has(.card.caron){max-width:1180px}
 .car-ovr.ov-g{background:linear-gradient(135deg,#ffe36b,#f0a500);color:#12123a}
 .car-ovr.ov-p{background:linear-gradient(135deg,#d65cff,#6a2fe0);color:#fff;box-shadow:3px 3px 0 var(--sh),0 0 14px rgba(190,80,255,.55)}
 .car-ovr[data-t="3"].ov-p{background:linear-gradient(135deg,#d65cff,#6a2fe0)}
+.car-ovr.ov-x,.car-ovr[data-t="3"].ov-x{background:radial-gradient(120% 90% at 100% 100%,rgba(210,60,255,.75) 0%,rgba(210,60,255,0) 55%),linear-gradient(150deg,#6d28d9 0%,#2b0f52 32%,#0b0614 62%,#14081f 100%);color:#fff;border-color:rgba(190,90,255,.7);box-shadow:0 0 18px rgba(170,60,255,.65),inset 0 0 14px rgba(190,80,255,.35)}
+.car-ovr-s.ov-x{background:linear-gradient(150deg,#7c3aed 0%,#2b0f52 45%,#0b0614 75%,#b026d6 100%);color:#fff;border-color:rgba(190,90,255,.7);box-shadow:0 0 8px rgba(170,60,255,.55)}
 .car-ovr.up{animation:ovrPop .8s cubic-bezier(.2,1.4,.4,1)}
 .car-ovr.dn{animation:ovrShake .55s;background:#ff6b6b}
 .car-ovr .ovr-d{position:absolute;left:50%;top:-4px;font:800 18px/1 'Unbounded',sans-serif;pointer-events:none;z-index:3;text-shadow:2px 2px 0 var(--ol);animation:ovrFloat 1.4s cubic-bezier(.2,.8,.3,1) forwards}
@@ -3389,7 +3391,67 @@ main:has(.card.caron){max-width:1180px}
 .car-hist-clubs .car-pill{gap:6px}
 
 /* ---------- Visual minimalista da carreira ---------- */
-.car-top{display:flex;justify-content:flex-end;margin-bottom:10px}
+#car .car-act{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--line);background:var(--cell);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;transition:background .15s,color .15s,transform .15s;-webkit-tap-highlight-color:transparent}
+#car .car-act:active{transform:scale(.92)}
+#car .car-act:hover:not(:disabled){background:var(--sun);color:#12123a;border-color:var(--sun)}
+#car .car-act:disabled{opacity:.5}
+#car .car-legacy-row{align-items:center;gap:10px;flex-wrap:wrap}
+#car .car-legacy-row .car-act{width:46px;height:46px}
+#car .car-outs.fx{display:flex;flex-direction:column;flex-wrap:nowrap;gap:6px;margin-top:6px;padding-top:0;border-top:0}
+/* ===== Sorteio das consequências (eventos com mais de um desfecho) ===== */
+#car .car-fx-g{display:flex;flex-direction:column;gap:6px}
+#car .car-fx-g .car-fx-p{transition:transform .12s,opacity .22s,filter .22s,box-shadow .12s,background .12s}
+#car .car-opt.picked.rolling{background:var(--cell)!important;color:var(--ink)!important;transform:none!important;box-shadow:0 0 0 2px rgba(255,255,255,.28)!important}
+#car .car-opt.picked.rolling .car-opt-d{color:var(--mut)!important}
+#car .car-opt.rolling:not(.decided) .car-fx-g:not(.hl) .car-fx-p{opacity:.5}
+#car .car-opt.rolling .car-fx-g.hl .car-fx-p{transform:scale(1.035);box-shadow:0 0 0 2px currentColor,0 0 16px -2px currentColor}
+#car .car-opt.rolling .car-fx-g.hl .car-fx-p.up{background:rgba(34,197,94,.36)}
+#car .car-opt.rolling .car-fx-g.hl .car-fx-p.dn{background:rgba(239,68,68,.36)}
+#car .car-opt.rolling .car-fx-g.hl .car-fx-p.nt{background:rgba(148,163,184,.32)}
+#car .car-opt.rolling .car-fx-g.won .car-fx-p{opacity:1;transform:scale(1.04);box-shadow:0 0 0 2px currentColor,0 0 22px 0 currentColor;animation:fxWon .6s ease-out}
+#car .car-opt.rolling .car-fx-g.lost .car-fx-p{opacity:.2;filter:grayscale(.85);transform:scale(.96)}
+@keyframes fxWon{0%{transform:scale(.98)}45%{transform:scale(1.09)}100%{transform:scale(1.04)}}
+
+/* ===== Ira da torcida: dois cartões grandes lado a lado ===== */
+#car .car-ira{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+#car .car-ira.one{grid-template-columns:minmax(0,320px)}
+@media (max-width:560px){#car .car-ira{grid-template-columns:1fr}}
+#car .car-ira-card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 14px 14px;border:1.5px solid var(--line);border-radius:18px;background:var(--cell);color:var(--ink);text-align:center;cursor:pointer;transition:transform .15s,border-color .15s,opacity .25s,filter .25s}
+#car .car-ira-card:hover{transform:translateY(-2px);border-color:var(--ol)}
+#car .car-ira-card small{font:700 12px 'DM Sans',sans-serif;color:var(--mut)}
+#car .car-ira-card>b{font:800 19px/1.15 'Unbounded',sans-serif;letter-spacing:-.02em}
+#car .car-ira-art{display:grid;place-items:center;width:100%;max-width:190px;aspect-ratio:1/1;border-radius:14px;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.09),rgba(0,0,0,.35))}
+#car .car-ira-card.stay .car-ira-art{background:radial-gradient(circle at 50% 42%,rgba(239,68,68,.22),rgba(0,0,0,.4))}
+#car .car-ira-art .av{width:92px!important;height:92px!important}
+#car .car-ira-card .car-outs.fx{width:100%;margin-top:2px}
+#car .car-ira-card.picked{transform:scale(1.02);border-color:var(--sun)}
+#car .car-ira-card.dim{opacity:.3;filter:grayscale(.7);transform:scale(.97);pointer-events:none}
+
+/* ===== Idade e valor recalculando na virada de temporada ===== */
+#car .car-pl-side b{position:relative}
+#car .car-pl-side b.recalc{animation:plRecalc .32s linear infinite}
+#car .car-pl-side b.recalc.up{color:#4ade80}
+#car .car-pl-side b.recalc.dn{color:#f87171}
+#car .car-pl-side .pl-d{position:absolute;right:0;top:100%;margin-top:-4px;font:800 11px/1 'DM Sans',sans-serif;white-space:nowrap;pointer-events:none;animation:plFloat 1.2s ease-out forwards}
+#car .car-pl-side .pl-d.up{color:#4ade80}
+#car .car-pl-side .pl-d.dn{color:#f87171}
+@keyframes plRecalc{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes plFloat{0%{opacity:0;transform:translateY(8px)}18%{opacity:1;transform:translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateY(-8px)}}
+@media (prefers-reduced-motion:reduce){#car .car-pl-side b.recalc{animation:none}}
+
+.car-fx-p{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:12px;font:700 12.5px/1.25 'DM Sans',sans-serif;border:1px solid transparent}
+.car-fx-p .car-fx-i{flex:none;display:inline-flex}
+.car-fx-p .car-fx-t{flex:1;min-width:0}
+.car-fx-p.up{background:rgba(34,197,94,.16);color:#4ade80;border-color:rgba(34,197,94,.28)}
+.car-fx-p.dn{background:rgba(239,68,68,.16);color:#f87171;border-color:rgba(239,68,68,.28)}
+.car-fx-p.nt{background:rgba(148,163,184,.14);color:#b4bdc8;border-color:rgba(148,163,184,.25)}
+.car-fx-pc{flex:none;font-style:normal;font-variant-numeric:tabular-nums;font-weight:800;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.14);color:inherit}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .car-fx-p.up{color:#15803d}:root:not([data-theme="dark"]) .car-fx-p.dn{color:#b91c1c}:root:not([data-theme="dark"]) .car-fx-p.nt{color:#475569}}
+:root[data-theme="light"] .car-fx-p.up{color:#15803d}:root[data-theme="light"] .car-fx-p.dn{color:#b91c1c}:root[data-theme="light"] .car-fx-p.nt{color:#475569}
+.car-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.car-top-new{display:none;border:2px solid var(--ol);border-radius:99px;background:var(--cell);color:var(--ink);font:800 12px 'DM Sans',sans-serif;padding:6px 14px;cursor:pointer;transition:background .15s,color .15s}
+.car-top-new:hover{background:var(--sun);color:#12123a}
+@media (min-width:900px){.car-top-new{display:inline-flex;align-items:center;gap:6px}}
 .car-top .car-badge{background:var(--cell);color:var(--mut);box-shadow:none;font-size:10.5px;padding:5px 10px}
 .car-main{gap:14px}
 @media (min-width:900px){
@@ -3447,8 +3509,8 @@ main:has(.card.caron){max-width:1180px}
 #car .car-rc .car-season-trophies img,#car .car-rc .car-season-trophies svg{width:12px!important;height:16px!important;object-fit:contain}
 #car .car-season-trophies .car-troph-ico{width:14px;height:18px;padding:0}
 .car-season-trophies:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
-.car-season-club{display:flex;align-items:center;flex-wrap:wrap;gap:2px 5px;min-width:0}
-.car-season-club>.car-rc{flex:1;min-width:48px}
+.car-season-club{display:flex;align-items:center;flex-wrap:nowrap;gap:2px 6px;min-width:0}
+.car-season-club>.car-rc{flex:0 1 auto;min-width:48px}
 #car .car-season-trophies img,#car .car-season-trophies svg{width:12px!important;height:16px!important;object-fit:contain}
 /* Escolha de time (layout Copero) */
 .car-teams{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:12px}
@@ -3474,6 +3536,7 @@ main:has(.card.caron){max-width:1180px}
 #car .car-left>.car-box+.car-box{border-top:1.5px solid var(--line)}
 #car .car-pl-top{align-items:flex-start;gap:14px}
 #car .car-ovr{width:78px;height:78px;border-radius:18px;box-shadow:none}
+#car .car-ovr.ov-x{box-shadow:0 0 18px rgba(170,60,255,.65),inset 0 0 14px rgba(190,80,255,.35)}
 #car .car-ovr b{font-size:30px}
 #car .car-pl-name{font-size:22px;margin-top:8px}
 #car .car-chip{border-width:1.5px;font-size:11.5px;padding:3px 9px;background:transparent;color:var(--ink)}
@@ -3642,7 +3705,24 @@ main:has(.card.caron){max-width:1180px}
   #car .car-legacy-route,#car .car-legacy-section .car-trophies{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px}
   #car .car-legacy-poster footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;border-top:1px solid var(--line);padding-top:12px;margin-top:22px;font:800 9px 'DM Sans',sans-serif;color:var(--mut)}
   #car .car-legacy-toggle{display:flex;align-items:center;justify-content:center;gap:8px;margin:24px 0 14px;font:700 12px 'DM Sans',sans-serif;min-height:44px}
-  #car .car-legacy-toggle input{accent-color:var(--acc);width:18px;height:18px}
+  #car .car-legacy-brand{display:flex;flex-direction:column;gap:3px}
+  #car .car-legacy-brand em{font-style:normal;color:var(--sun)}
+  #car .car-legacy-poster footer>span:last-child{text-align:right}
+  #car .car-legacy-actions{display:flex;justify-content:center;gap:14px;margin:6px 0 4px}
+  #car .car-act{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--line);background:var(--cell);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s,transform .15s;-webkit-tap-highlight-color:transparent}
+  #car .car-act:active{transform:scale(.92)}
+  #car .car-act:hover:not(:disabled){background:var(--sun);color:#12123a;border-color:var(--sun)}
+  #car .car-act:disabled{opacity:.5}
+  #car .car-legacy-toggle{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+  #car .car-legacy-toggle input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+  #car .car-sw{position:relative;flex:none;width:46px;height:26px;border-radius:99px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.25);transition:background .2s,border-color .2s}
+  #car .car-sw::after{content:"";position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.35);transition:transform .22s cubic-bezier(.3,1.4,.5,1)}
+  #car .car-legacy-toggle input:checked+.car-sw{background:var(--sun);border-color:var(--sun)}
+  #car .car-legacy-toggle input:checked+.car-sw::after{transform:translateX(20px);background:#12123a}
+  #car .car-legacy-toggle input:focus-visible+.car-sw{outline:2px solid var(--sun);outline-offset:3px}
+  #car .car-legacy-toggle .car-sw-txt{font:800 13px 'DM Sans',sans-serif}
+  #car .car-mobile-legacy .car-ovr{gap:2px}
+  #car .car-mobile-legacy .car-ovr small{font-size:11px;letter-spacing:.1em;text-align:center;width:100%}
   #car .car-final-data .car-trof-col:not([data-tc="1"])::after,#car .car-legacy-poster .car-trof-col:not([data-tc="1"])::after{content:'×' attr(data-tc);position:absolute;right:-3px;bottom:0;z-index:12;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:2px 4px;font:800 10px 'DM Sans',sans-serif;color:var(--ink)}
   #car .car-mobile-legacy>.car-btn{font:800 12px 'DM Sans',sans-serif;min-height:44px;box-shadow:none}
 }
@@ -4924,6 +5004,22 @@ main:has(.card.caron){max-width:1180px}
     else{try{localStorage.removeItem(CAR_KEY)}catch(e){}}
   }
 
+  // Recarregar a página (F5, Ctrl+R, botão do navegador, puxar para atualizar) reinicia a carreira
+  const CAR_RESET_MSG='Iniciar uma nova carreira? O progresso atual será perdido.';
+  try{
+    const nav=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+    if(nav&&nav.type==='reload')localStorage.removeItem(CAR_KEY);
+  }catch(e){}
+  document.addEventListener('keydown',e=>{
+    const k=(e.key||'').toLowerCase();
+    if(!(k==='f5'||((e.ctrlKey||e.metaKey)&&k==='r')))return;
+    if(!(CAR&&CAR.nome))return;
+    e.preventDefault();
+    if(!confirm(CAR_RESET_MSG))return;
+    CAR=null;try{localStorage.removeItem(CAR_KEY)}catch(_){}
+    location.reload();
+  },true);
+
   function getHof(){return ls.get(HOF_KEY)||[]}
   function addHof(entry){
     const h=getHof();
@@ -4987,6 +5083,20 @@ main:has(.card.caron){max-width:1180px}
   }
   function trocaClube(c,ch){
     c.clube={c:ch.c,l:ch.l,k:ch.k,tier:ch.tier,div:ch.div!=null?ch.div:divisaoClube(ch),baseOvr:ch.baseOvr,rep:ch.rep,repDom:ch.repDom,repCont:ch.repCont,isSA:ch.isSA,isEU:ch.isEU};
+  }
+  // Clube de destino do "Sair do clube" (Ira da torcida): reputação parecida ou um degrau abaixo, de preferência de outra liga.
+  // Escolha estável (hash do nome/ano), sem gastar o RNG da carreira.
+  function saidaClube(car){
+    const cur=car.clube;
+    let pool=getClubs().filter(x=>x.c!==cur.c&&x.l&&crest(x.l,x.c));
+    const rp=cur.rep!=null?pool.filter(x=>x.rep!=null&&x.rep<=cur.rep&&x.rep>=cur.rep-1):[];
+    if(rp.length)pool=rp;
+    const out=pool.filter(x=>x.l!==cur.l);
+    if(out.length)pool=out;
+    if(!pool.length)return null;
+    let h=0;const s=`${car.nome}|${car.ano}|ira`;
+    for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;
+    return pool[h%pool.length];
   }
   function rivais(car){return getClubs().filter(x=>x.c!==car.clube.c&&(x.tier==='S'||x.tier==='A'))}
 
@@ -5079,7 +5189,7 @@ main:has(.card.caron){max-width:1180px}
         const l=LESOES.find(x=>x.type===ev.lesao);
         return d('Lesão',l.label,`O departamento médico identificou: ${l.label.toLowerCase()}. Você pode seguir jogando mesmo lesionado.`,[
           op('Continuar jogando','O clube insiste, e você aceita o risco.',[
-            {p:1,t:`${sg(l.d)} OVR e reserva por 2 temporadas`,k:'dn',fn:c=>{ovrMais(c,l.d);efeito(c,'papel','substitute',2);return `${l.label}: você perdeu ${-l.d} de OVR e ficou na reserva.`}}
+            {p:1,t:`${sg(l.d)} OVR e vira reserva por 2 temporadas`,k:'dn',fn:c=>{ovrMais(c,l.d);efeito(c,'papel','substitute',2);return `${l.label}: você perdeu ${-l.d} de OVR e ficou na reserva.`}}
           ])
         ]);
       }
@@ -5094,7 +5204,7 @@ main:has(.card.caron){max-width:1180px}
       case 'personal_coach':
         return d('Preparação','Preparador pessoal','Um especialista quer montar um plano de nutrição e recuperação exclusivo para você.',[
           op('Contratar o preparador','Mudança de hábitos de longo prazo.',[
-            {p:.6,t:'+3 OVR definitivo',k:'up',fn:c=>{ovrMais(c,3);return 'O plano de nutrição mudou seu corpo para sempre.'}},
+            {p:.6,t:'+3 OVR',k:'up',fn:c=>{ovrMais(c,3);return 'O plano de nutrição mudou seu corpo para sempre.'}},
             {p:.4,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'O plano não combinou com o seu corpo.'}}
           ]),
           op('Recusar','Você prefere seguir sozinho.',[semEfeito('Você preferiu seguir sozinho.')])
@@ -5103,7 +5213,7 @@ main:has(.card.caron){max-width:1180px}
         return d('Saúde','Substância misteriosa','O médico do clube oferece um suplemento de origem duvidosa.',[
           op('Consumir','Pode ser o empurrão que você precisa. Ou não.',[
             {p:.75,t:'+5 OVR',k:'up',fn:c=>{ovrMais(c,5);return 'O suplemento funcionou e seu OVR disparou.'}},
-            {p:.25,t:'Suspensão de 2 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,2);return 'Exame antidoping positivo: você está suspenso por 2 temporadas.'}}
+            {p:.25,t:'Suspenso por 2 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,2);return 'Exame antidoping positivo: você está suspenso por 2 temporadas.'}}
           ]),
           op('Recusar','Você não confia no suplemento.',[semEfeito('Você recusou e manteve a consciência limpa.')])
         ]);
@@ -5111,14 +5221,14 @@ main:has(.card.caron){max-width:1180px}
         return d('Ética','Teste surpresa','A entidade anunciou um teste antidoping surpresa para o seu elenco.',[
           op('Aceitar o teste','Você não tem nada a esconder.',[
             {p:.5,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'Teste limpo. A confiança no clube subiu e você ganhou ritmo.'}},
-            {p:.5,t:'Suspensão de 2 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,2);return 'Resultado positivo: você está suspenso por 2 temporadas.'}}
+            {p:.5,t:'Suspenso por 2 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,2);return 'Resultado positivo: você está suspenso por 2 temporadas.'}}
           ]),
           op('Recusar o teste','Você prefere não se submeter.',[semEfeito('Você recusou o teste e a desconfiança cresceu.')])
         ]);
       case 'indecent_proposal':
         return d('Bastidores','Proposta indecente','Um empresário oferece um contrato milionário em troca de um favor que pode manchar sua carreira.',[
           op('Aceitar a proposta','Dinheiro agora, problema depois.',[
-            {p:.5,t:'−2 OVR e reserva por 1 temporada',k:'dn',fn:c=>{ovrMais(c,-2);efeito(c,'papel','substitute',1);return 'O escândalo custou sua vaga no time.'}},
+            {p:.5,t:'−2 OVR e vira reserva por 1 temporada',k:'dn',fn:c=>{ovrMais(c,-2);efeito(c,'papel','substitute',1);return 'O escândalo custou sua vaga no time.'}},
             {p:.5,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'A proposta foi recusada na hora pela imprensa, e você ganhou moral.'}}
           ]),
           op('Recusar','Você manda o empresário embora.',[semEfeito('Você recusou e manteve o nome limpo.')])
@@ -5127,7 +5237,7 @@ main:has(.card.caron){max-width:1180px}
         const par=PARENTES[ev.variante]||'alguém da família';
         return d('Redes sociais',`Postagem sobre ${par}`,`Uma postagem sua sobre ${par} viralizou e dividiu opiniões.`,[
           op('Defender a família','A família vem antes de tudo.',[
-            {p:1,t:'Menos minutos por 1 temporada',k:'dn',fn:c=>{
+            {p:1,t:'Joga menos por 1 temporada',k:'dn',fn:c=>{
               const p=papelEfetivo(c);
               if(p==='starter'||p==='high_rotation')efeito(c,'papel','low_rotation',1);
               else if(p==='low_rotation')efeito(c,'papel','substitute',1);
@@ -5143,50 +5253,50 @@ main:has(.card.caron){max-width:1180px}
       case 'season_load':
         return d('Carga de treino','Temporada em dobradinha','O clube quer treinos em dobradinha durante toda a temporada para você.',[
           op('Aceitar a carga','Mais intensidade, mais risco.',[
-            {p:.65,t:'Titular por 2 temporadas',k:'up',fn:c=>{efeito(c,'papel','starter',2);return 'O técnico confiou em você e a carga virou titularidade.'}},
-            {p:.35,t:'Reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'A carga foi demais e você perdeu a vaga.'}}
+            {p:.65,t:'Vira titular por 2 temporadas',k:'up',fn:c=>{efeito(c,'papel','starter',2);return 'O técnico confiou em você e a carga virou titularidade.'}},
+            {p:.35,t:'Vira reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'A carga foi demais e você perdeu a vaga.'}}
           ]),
           op('Manter o ritmo','Você prefere cuidar do corpo.',[
-            {p:1,t:'Papel −1 por 2 temporadas',k:'dn',fn:c=>{efeito(c,'desloca',-1,2);return 'Você manteve o ritmo, mas o técnico reduziu seu papel.'}}
+            {p:1,t:'Joga menos por 2 temporadas',k:'dn',fn:c=>{efeito(c,'desloca',-1,2);return 'Você manteve o ritmo, mas o técnico reduziu seu papel.'}}
           ])
         ]);
       case 'position_change':
         return d('Tática','Mudança de posição','O técnico quer você jogando numa posição diferente.',[
           op('Aceitar a mudança','Você se adapta e vira titular, mas perde OVR agora.',[
-            {p:1,t:'Titular, −2 OVR agora e +2 na próxima',k:'nt',fn:c=>{efeito(c,'papel','starter',2);ovrMais(c,-2);adiado(c,2);return 'A nova posição exigiu adaptação, mas você virou titular.'}}
+            {p:1,t:'Vira titular e −2 OVR agora (+2 na próxima temporada)',k:'nt',fn:c=>{efeito(c,'papel','starter',2);ovrMais(c,-2);adiado(c,2);return 'A nova posição exigiu adaptação, mas você virou titular.'}}
           ]),
           op('Recusar','Você quer continuar na sua posição.',[
-            {p:1,t:'Papel −1 por 2 temporadas',k:'dn',fn:c=>{efeito(c,'desloca',-1,2);return 'O técnico ficou irritado e reduziu seu papel.'}}
+            {p:1,t:'Joga menos por 2 temporadas',k:'dn',fn:c=>{efeito(c,'desloca',-1,2);return 'O técnico ficou irritado e reduziu seu papel.'}}
           ])
         ]);
       case 'position_competition':
         return d('Elenco','Disputa por posição','Um jovem chegou pedindo a sua vaga no time.',[
           op('Disputar a vaga','Você entra na briga.',[
-            {p:.5,t:'Titular por 2 temporadas',k:'up',fn:c=>{efeito(c,'papel','starter',2);return 'Você ganhou a briga e segue como titular.'}},
-            {p:.5,t:'Rodízio baixo por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','low_rotation',2);return 'O jovem se mostrou melhor e você perdeu minutos.'}}
+            {p:.5,t:'Vira titular por 2 temporadas',k:'up',fn:c=>{efeito(c,'papel','starter',2);return 'Você ganhou a briga e segue como titular.'}},
+            {p:.5,t:'Joga menos por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','low_rotation',2);return 'O jovem se mostrou melhor e você perdeu minutos.'}}
           ])
         ]);
       case 'unexpected_prospect':
         return d('Base','Promessa inesperada','Uma promessa da base quer aprender com você.',[
           op('Ser mentor','Você dedica tempo ao garoto e ajuda o clube a ganhar mais.',[
-            {p:1,t:'Papel −1 e títulos ×2 por 2 temporadas',k:'nt',fn:c=>{efeito(c,'desloca',-1,2);efeito(c,'trofeu',{liga:2,copa:2,cont:2},2);return 'O garoto cresceu com a sua ajuda e o clube ganhou força.'}}
+            {p:1,t:'Joga menos e ganha mais títulos por 2 temporadas',k:'nt',fn:c=>{efeito(c,'desloca',-1,2);efeito(c,'trofeu',{liga:2,copa:2,cont:2},2);return 'O garoto cresceu com a sua ajuda e o clube ganhou força.'}}
           ]),
           op('Ignorar','Você foca em você.',[semEfeito('Você seguiu focado na sua carreira.')])
         ]);
       case 'club_priority':
         return d('Diretoria','Prioridade da temporada','A diretoria precisa escolher em que o clube vai focar.',[
           op('Priorizar o campeonato','Mais chances no torneio nacional.',[
-            {p:1,t:'Liga ×2 e continental ×0,5',k:'nt',fn:c=>{efeito(c,'trofeu',{liga:2,copa:1,cont:.5},2);return 'O clube apostou no campeonato nacional.'}}
+            {p:1,t:'Mais chance de título na liga, menos no continental',k:'nt',fn:c=>{efeito(c,'trofeu',{liga:2,copa:1,cont:.5},2);return 'O clube apostou no campeonato nacional.'}}
           ]),
           op('Priorizar o continental','Mais chances na competição internacional.',[
-            {p:1,t:'Liga ×0,5 e continental ×2',k:'nt',fn:c=>{efeito(c,'trofeu',{liga:.5,copa:1,cont:2},2);return 'O clube apostou na competição internacional.'}}
+            {p:1,t:'Menos chance de título na liga, mais no continental',k:'nt',fn:c=>{efeito(c,'trofeu',{liga:.5,copa:1,cont:2},2);return 'O clube apostou na competição internacional.'}}
           ])
         ]);
       case 'rival_offer':{
         const alvo=rivais(car).find(x=>x.c===ev.alvo)||rivais(car)[0];
         return d('Mercado',`Proposta do ${ev.alvo}`,`O ${ev.alvo} te ofereceu uma proposta de transferência.`,[
           op(`Aceitar e ir para o ${ev.alvo}`,'Mudança de clube com papel de rodízio alto.',[
-            {p:1,t:'Troca de clube, rodízio alto e títulos ×2',k:'nt',fn:c=>{if(alvo)trocaClube(c,alvo);efeito(c,'papel','high_rotation',2);efeito(c,'trofeu',{liga:2,copa:2,cont:2},2);return `Você foi para o ${ev.alvo}.`}}
+            {p:1,t:'Muda de clube, joga bastante e ganha mais títulos',k:'nt',fn:c=>{if(alvo)trocaClube(c,alvo);efeito(c,'papel','high_rotation',2);efeito(c,'trofeu',{liga:2,copa:2,cont:2},2);return `Você foi para o ${ev.alvo}.`}}
           ]),
           op('Recusar','Você fica no clube atual.',[semEfeito('Você recusou a proposta e ficou.')])
         ]);
@@ -5194,40 +5304,47 @@ main:has(.card.caron){max-width:1180px}
       case 'club_crisis':
         return d('Crise','Crise no clube','Salários atrasados e troca de diretoria. O clube passa por um momento difícil.',[
           op('Ficar e lutar','Você decide enfrentar a crise ao lado do clube.',[
-            {p:1,t:'Títulos ×0,1 por 2 temporadas',k:'dn',fn:c=>{efeito(c,'trofeu',{liga:.1,copa:.1,cont:.1},2);return 'Sem estrutura, o clube dificilmente ganha títulos.'}}
+            {p:1,t:'Quase sem chance de título por 2 temporadas',k:'dn',fn:c=>{efeito(c,'trofeu',{liga:.1,copa:.1,cont:.1},2);return 'Sem estrutura, o clube dificilmente ganha títulos.'}}
           ])
         ]);
-      case 'fan_backlash':
-        return d('Torcida','Protestos da torcida','A torcida pediu a sua saída depois de um lance polêmico.',[
-          op('Enfrentar a torcida','Você fica e mostra a cara.',[
-            {p:1,t:'−2 OVR agora e +2 na próxima',k:'dn',fn:c=>{ovrMais(c,-2);adiado(c,2);return 'A pressão pesou agora, mas a torcida vai te respeitar depois.'}}
-          ])
+      case 'fan_backlash':{
+        const atual=car.clube.c,saida=saidaClube(car);
+        const dec=d('Torcida','Protestos da torcida','A torcida está irritada com seu desempenho e começa a questionar seu lugar no time.',[
+          {...op(`Ficar para lutar no ${atual}`,'Você enfrenta a pressão e fica.',[
+            {p:1,t:'−2 OVR temporário pela pressão mental',k:'dn',fn:c=>{ovrMais(c,-2);adiado(c,2);return 'A pressão pesou agora, mas a torcida vai te respeitar depois.'}}
+          ]),ira:{cl:car.clube,tipo:'Ficar para lutar no',kind:'stay'}},
+          ...(saida?[{...op(`Sair do clube para ${saida.c}`,'Você pede para sair e recomeça em outro clube.',[
+            {p:1,t:`Vai para o ${saida.c}`,k:'nt',fn:c=>{trocaClube(c,saida);return `Você deixou o ${atual} e foi para o ${saida.c}.`}}
+          ]),ira:{cl:saida,tipo:'Sair do clube para',kind:'exit'}}]:[])
         ]);
+        dec.layout='ira';
+        return dec;
+      }
       case 'return_home':
         return d('Mercado','Um clube do seu país quer você','Um grande clube do seu país quer você de volta.',[
           op('Ficar no exterior','Você escolhe continuar lá fora.',[
-            {p:1,t:'−5 OVR agora e +5 na próxima',k:'dn',fn:c=>{ovrMais(c,-5);adiado(c,5);return 'A decisão pesou no moral. Mas o retorno chega depois.'}}
+            {p:1,t:'−5 OVR agora e +5 na próxima temporada',k:'dn',fn:c=>{ovrMais(c,-5);adiado(c,5);return 'A decisão pesou no moral. Mas o retorno chega depois.'}}
           ])
         ]);
       case 'giant_tattoo':
         return d('Imagem','Tatuagem gigante','Você quer fazer uma tatuagem gigante, bem visível, durante a temporada.',[
           op('Fazer a tatuagem','Uma marca pessoal, com risco de polêmica.',[
-            {p:.7,t:'+2 OVR definitivo',k:'up',fn:c=>{ovrMais(c,2);return 'A tatuagem virou símbolo de confiança e seu OVR subiu.'}},
-            {p:.3,t:'Reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'A tatuagem gerou uma crise de imagem e você perdeu espaço.'}}
+            {p:.7,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'A tatuagem virou símbolo de confiança e seu OVR subiu.'}},
+            {p:.3,t:'Vira reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'A tatuagem gerou uma crise de imagem e você perdeu espaço.'}}
           ]),
           op('Não fazer','Você prefere evitar a polêmica.',[semEfeito('Você deixou a ideia de lado.')])
         ]);
       case 'tax_trouble':
         return d('Finanças','Problema com o imposto','A Receita investiga seus bens. O clube pede para você resolver sem alarde.',[
           op('Ficar e lutar','Você enfrenta a investigação de frente.',[
-            {p:1,t:'−3 OVR agora e +3 na próxima',k:'dn',fn:c=>{ovrMais(c,-3);adiado(c,3);return 'A investigação pesou agora. O caso foi resolvido depois.'}}
+            {p:1,t:'−3 OVR agora e +3 na próxima temporada',k:'dn',fn:c=>{ovrMais(c,-3);adiado(c,3);return 'A investigação pesou agora. O caso foi resolvido depois.'}}
           ])
         ]);
       case 'foreign_grandfather':{
         const alt=ALT_NAC[car.nac];
         return d('Documentos',`Avô ${alt}`,`Descobriu-se um avô de nacionalidade ${alt}. Você pode mudar de seleção.`,[
           op(`Trocar para ${alt}`,'Nova seleção, nova chance de convocação.',[
-            {p:1,t:`Seleção de ${alt}`,k:'nt',fn:c=>{c.nac=alt;return `Você agora defende a seleção de ${alt}.`}}
+            {p:1,t:`Joga pela seleção de ${alt}`,k:'nt',fn:c=>{c.nac=alt;return `Você agora defende a seleção de ${alt}.`}}
           ]),
           op(`Manter ${car.nac}`,'Você segue com a seleção atual.',[semEfeito(`Você continua defendendo ${car.nac}.`)])
         ]);
@@ -5235,21 +5352,21 @@ main:has(.card.caron){max-width:1180px}
       case 'finish_high_school':
         return d('Estudos','Terminar o ensino médio','Você pode terminar o ensino médio enquanto joga.',[
           op('Estudar e jogar','Mais disciplina, menos tempo de treino.',[
-            {p:1,t:'+1 OVR definitivo e papel −1',k:'nt',fn:c=>{ovrMais(c,1);efeito(c,'desloca',-1,2);return 'Você terminou os estudos e ganhou maturidade.'}}
+            {p:1,t:'+1 OVR e joga menos por 2 temporadas',k:'nt',fn:c=>{ovrMais(c,1);efeito(c,'desloca',-1,2);return 'Você terminou os estudos e ganhou maturidade.'}}
           ]),
           op('Não estudar','Você se dedica só ao futebol.',[semEfeito('Você preferiu se dedicar só ao futebol.')])
         ]);
       case 'controversial_statement':
         return d('Imprensa','Declaração polêmica','Uma declaração sua repercutiu muito na imprensa.',[
           op('Pedir desculpas','A imprensa dá um tempo, mas o técnico não esquece.',[
-            {p:1,t:'Papel −1 por 2 temporadas',k:'dn',fn:c=>{efeito(c,'desloca',-1,2);return 'Você pediu desculpas, mas perdeu espaço com o treinador.'}}
+            {p:1,t:'Joga menos por 2 temporadas',k:'dn',fn:c=>{efeito(c,'desloca',-1,2);return 'Você pediu desculpas, mas perdeu espaço com o treinador.'}}
           ])
         ]);
       case 'triumphant_return':{
         const antigo=getClubs().find(x=>x.c===ev.alvo);
         return d('Retorno','Retorno ao clube antigo',`Seu antigo clube (${ev.alvo}) quer você de volta para um último ato.`,[
           op(`Voltar ao ${ev.alvo}`,'Retorno com carinho da torcida.',[
-            {p:1,t:`Troca para o ${ev.alvo}`,k:'nt',fn:c=>{if(antigo)trocaClube(c,antigo);return `Você voltou ao ${ev.alvo} e foi recebido como herói.`}}
+            {p:1,t:`Vai para o ${ev.alvo}`,k:'nt',fn:c=>{if(antigo)trocaClube(c,antigo);return `Você voltou ao ${ev.alvo} e foi recebido como herói.`}}
           ]),
           op('Ficar onde está','Você prefere continuar no clube atual.',[semEfeito('Você escolheu ficar onde está.')])
         ]);
@@ -5257,32 +5374,32 @@ main:has(.card.caron){max-width:1180px}
       case 'club_national_team_conflict':
         return d('Seleção','Conflito de datas','O clube quer você em campo no mesmo período da convocação para a seleção.',[
           op('Ir à seleção','Você defende o país e perde espaço no clube.',[
-            {p:1,t:'Reserva no clube por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','substitute',1);return 'Você foi para a seleção e perdeu minutos no clube.'}}
+            {p:1,t:'Vira reserva por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','substitute',1);return 'Você foi para a seleção e perdeu minutos no clube.'}}
           ]),
           op('Ficar no clube','Você cumpre o contrato e fica.',[
-            {p:1,t:'Sem convocação nesta temporada',k:'nt',fn:c=>{efeito(c,'semSelecao',true,1);return 'Você ficou no clube e não foi convocado.'}}
+            {p:1,t:'Sem seleção nesta temporada',k:'nt',fn:c=>{efeito(c,'semSelecao',true,1);return 'Você ficou no clube e não foi convocado.'}}
           ])
         ]);
       case 'injury_at_peak':
         return d('Departamento médico','Lesão no auge','Você está lesionado, mas o time precisa de você no jogo decisivo.',[
           op('Jogar lesionado','Você entra mesmo sem condições ideais.',[
-            {p:.8,t:'Jogou bem, −1 OVR',k:'dn',fn:c=>{ovrMais(c,-1);return 'Você jogou bem, mas a lesão cobrou o preço.'}},
-            {p:.2,t:'Piorou, −1 OVR',k:'dn',fn:c=>{ovrMais(c,-1);return 'A lesão piorou durante o jogo.'}}
+            {p:.8,t:'Jogou bem, mas −1 OVR',k:'dn',fn:c=>{ovrMais(c,-1);return 'Você jogou bem, mas a lesão cobrou o preço.'}},
+            {p:.2,t:'A lesão piorou: −1 OVR',k:'dn',fn:c=>{ovrMais(c,-1);return 'A lesão piorou durante o jogo.'}}
           ]),
           op('Recuperar com calma','Você segue o protocolo médico.',[
-            {p:.3,t:'Voltou melhor',k:'up',fn:c=>{return 'A recuperação foi perfeita e você voltou mais forte.'}},
+            {p:.3,t:'Recuperou sem problemas',k:'up',fn:c=>{return 'A recuperação foi perfeita e você voltou mais forte.'}},
             {p:.7,t:'Recuperação lenta',k:'nt',fn:c=>{return 'A recuperação foi lenta, mas segura.'}}
           ])
         ]);
       case 'decisive_penalty':
         return d('Decisão','Pênalti decisivo','O jogo está empatado no fim. Você é o batedor.',[
           op('Bater no canto esquerdo','Você escolhe o lado do goleiro.',[
-            {p:.5,t:'Gol decisivo: +20% de título',k:'up',fn:c=>{c.tempMod.titBonus+=0.2;return 'Gol decisivo! A torcida explodiu.'}},
-            {p:.5,t:'Defendido',k:'dn',fn:c=>'O goleiro defendeu o pênalti.'}
+            {p:.5,t:'Gol decisivo: +20% de chance de título',k:'up',fn:c=>{c.tempMod.titBonus+=0.2;return 'Gol decisivo! A torcida explodiu.'}},
+            {p:.5,t:'Pênalti defendido',k:'dn',fn:c=>'O goleiro defendeu o pênalti.'}
           ]),
           op('Bater no canto direito','Você aposta na outra direção.',[
-            {p:.5,t:'Gol decisivo: +20% de título',k:'up',fn:c=>{c.tempMod.titBonus+=0.2;return 'Gol decisivo! A torcida explodiu.'}},
-            {p:.5,t:'Defendido',k:'dn',fn:c=>'O goleiro adivinhou o canto.'}
+            {p:.5,t:'Gol decisivo: +20% de chance de título',k:'up',fn:c=>{c.tempMod.titBonus+=0.2;return 'Gol decisivo! A torcida explodiu.'}},
+            {p:.5,t:'Pênalti defendido',k:'dn',fn:c=>'O goleiro adivinhou o canto.'}
           ])
         ]);
       // O empréstimo dura 1 temporada: o contrato é esticado (+1) para a decisão
@@ -5291,9 +5408,8 @@ main:has(.card.caron){max-width:1180px}
         const clubs=ev.alvos.map(n=>getClubs().find(x=>x.c===n)).filter(Boolean);
         return d('Empréstimo','Oferta de empréstimo','Ganhe minutos em outro time. Escolha o destino.',[
           ...clubs.map(cl=>op(cl.c,'',[
-            {p:1,t:'Titular por 1 temporada',k:'up',fn:c=>{c.emprestimo={origem:{...c.clube},ate:c.ano+1};c.jaEmprestado=true;trocaClube(c,cl);efeito(c,'papel','starter',1);c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);return `Você foi emprestado ao ${cl.c} para ganhar minutos.`}}
-          ],{cl,tipo:'Ir por empréstimo para'})),
-          op('Ficar no clube','',[semEfeito('Você preferiu ficar no clube.')])
+            {p:1,t:'Vira titular por 1 temporada',k:'up',fn:c=>{c.emprestimo={origem:{...c.clube},ate:c.ano+1};c.jaEmprestado=true;trocaClube(c,cl);efeito(c,'papel','starter',1);c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);return `Você foi emprestado ao ${cl.c} para ganhar minutos.`}}
+          ],{cl,tipo:'Ir por empréstimo para'}))
         ]);
       }
       case 'post_loan':{
@@ -5302,20 +5418,20 @@ main:has(.card.caron){max-width:1180px}
         if(ev.retido&&og){
           return d('Fim do empréstimo','Você convenceu o clube',`${og.c} quer você de volta.`,[
             op(og.c,'',[
-              {p:1,t:'Retorna ao clube de origem',k:'up',fn:c=>{trocaClube(c,og);c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você voltou ao ${og.c}.`}}
+              {p:1,t:'Volta ao clube de origem',k:'up',fn:c=>{trocaClube(c,og);c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você voltou ao ${og.c}.`}}
             ],{cl:og,tipo:'Voltar para'}),
             ...clubs.map(cl=>op(cl.c,'',[
-              {p:1,t:`Troca para o ${cl.c}`,k:'nt',fn:c=>{trocaClube(c,cl);c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você aceitou a proposta do ${cl.c}.`}}
+              {p:1,t:`Vai para o ${cl.c}`,k:'nt',fn:c=>{trocaClube(c,cl);c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você aceitou a proposta do ${cl.c}.`}}
             ],{cl,tipo:'Transferência para'}))
           ]);
         }
         const aqui=CAR.clube;
         return d('Fim do empréstimo','Você não foi aproveitado',`${og?og.c:'O clube de origem'} não conta com você. Escolha o próximo passo.`,[
           ...clubs.map(cl=>op(cl.c,'',[
-            {p:1,t:'Titular por 1 temporada',k:'up',fn:c=>{c.emprestimo={origem:c.emprestimo.origem,ate:c.ano+1};trocaClube(c,cl);efeito(c,'papel','starter',1);c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);return `Novo empréstimo ao ${cl.c}.`}}
+            {p:1,t:'Vira titular por 1 temporada',k:'up',fn:c=>{c.emprestimo={origem:c.emprestimo.origem,ate:c.ano+1};trocaClube(c,cl);efeito(c,'papel','starter',1);c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);return `Novo empréstimo ao ${cl.c}.`}}
           ],{cl,tipo:'Ir por empréstimo para'})),
           op(aqui.c,'',[
-            {p:1,t:'Transferência permanente',k:'nt',fn:c=>{c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você assinou em definitivo com o ${aqui.c}.`}}
+            {p:1,t:'Fica de vez no clube',k:'nt',fn:c=>{c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você assinou em definitivo com o ${aqui.c}.`}}
           ],{cl:aqui,tipo:'Ficar de vez no'})
         ]);
       }
@@ -5514,7 +5630,7 @@ main:has(.card.caron){max-width:1180px}
     // Efeitos com prazo: cada temporada consome 1 do prazo
     car.efeitos=car.efeitos.map(e=>({...e,restam:e.restam-1})).filter(e=>e.restam>0);
 
-    if(won.some(t=>t.includes('Copa do Mundo')||t.includes('Champions')||t.includes('Libertadores')||t.includes('Bola de Ouro'))){
+    if(won.some(t=>t.includes('Copa do Mundo')||t.includes('Bola de Ouro'))){
       if(typeof confetti==='function')confetti();
       fx('win');
     }else{
@@ -5575,6 +5691,7 @@ main:has(.card.caron){max-width:1180px}
     fx('win');
     saveCar();
     renderCar();
+    carFocoPc();
   }
 
   // OVR do jogador -> nível de reputação das propostas (tabela do Copero)
@@ -6141,7 +6258,7 @@ main:has(.card.caron){max-width:1180px}
               <div><b>${esc(car.clube.c)}</b><small class="car-club-lg">${(()=>{const pais=LI(car.clube.l)[2],fl=pais?flagOf(pais):'';return fl?av('fl',fl,pais,16,12):''})()}<span>${esc(LI(car.clube.l)[1])}</span></small></div>
             </div>
           </div>
-          <div class="car-pl-side"><small>Idade</small><b>${car.idade}</b><small>Valor</small><b>${money(car.valor)}</b></div>
+          <div class="car-pl-side"><small>Idade</small><b data-k="idade">${car.idade}</b><small>Valor</small><b data-k="valor">${money(car.valor)}</b></div>
         </div>
         <div class="car-stats3 car-stats4">
           <div><small>Jogos</small><b>${car.jg+car.sel[0]}</b></div>
@@ -6166,16 +6283,102 @@ main:has(.card.caron){max-width:1180px}
     </button>`;
   }
 
+  // ---- Efeitos das decisões: pílulas verdes (bom), vermelhas (ruim) e cinza (neutro) ----
+  const FX_ICO={
+    up:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+    dn:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg>',
+    nt:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>'};
+  const FX_MAP={
+    'Joga menos e ganha mais títulos por 2 temporadas':[['Joga menos por 2 temporadas','dn'],['Mais chance de título por 2 temporadas','up']],
+    'Mais chance de título na liga, menos no continental':[['Mais chance de título na liga','up'],['Menos chance de título no continental','dn']],
+    'Menos chance de título na liga, mais no continental':[['Menos chance de título na liga','dn'],['Mais chance de título no continental','up']],
+    'Muda de clube, joga bastante e ganha mais títulos':[['Muda de clube','nt'],['Joga bastante','up'],['Mais chance de título','up']],
+    'Vira titular e −2 OVR agora (+2 na próxima temporada)':[['Vira titular','up'],['−2 OVR agora','dn'],['+2 OVR na próxima temporada','up']],
+    'Jogou bem, mas −1 OVR':[['Jogou bem','up'],['−1 OVR','dn']]
+  };
+  const fxCap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  function fxParts(out){
+    const t=out.t;
+    if(FX_MAP[t])return FX_MAP[t];
+    let m=t.match(/^([−+]\d+) OVR agora e ([−+]\d+) na próxima temporada$/);
+    if(m)return [[`${m[1]} OVR agora`,m[1][0]==='+'?'up':'dn'],[`${m[2]} OVR na próxima temporada`,m[2][0]==='+'?'up':'dn']];
+    m=t.match(/^([−+]\d+ OVR) e (.+)$/);
+    if(m)return [[m[1],m[1][0]==='+'?'up':'dn'],[fxCap(m[2]),out.k==='up'?'up':out.k==='nt'?'nt':'dn']];
+    return [[t,out.k||'nt']];
+  }
+  // Ordem de exibição: verdes (bom) em cima, cinza no meio, vermelho (ruim) sempre embaixo
+  const FX_RANK={up:0,nt:1,dn:2};
+  function fxHTML(o){
+    if(!o.outs||!o.outs.length)return '';
+    const multi=!(o.outs.length===1&&o.outs[0].p>=1);
+    if(!multi&&o.outs[0].t==='Sem efeito')return '';
+    const pillsOf=out=>fxParts(out).map((p,i)=>({txt:p[0],k:p[1],i})).sort((x,y)=>((x.k==='dn')-(y.k==='dn'))||(x.i-y.i));
+    const grupos=o.outs.map((out,idx)=>({out,idx,pills:pillsOf(out)}));
+    if(multi)grupos.sort((x,y)=>((FX_RANK[x.out.k]??1)-(FX_RANK[y.out.k]??1))||(x.idx-y.idx));
+    return `<div class="car-outs fx">${grupos.map(g=>{
+      const pc=multi?`<em class="car-fx-pc">${Math.round(g.out.p*100)}%</em>`:'';
+      const html=g.pills.map((p,i)=>`<div class="car-fx-p ${p.k}"><span class="car-fx-i">${FX_ICO[p.k]}</span><span class="car-fx-t">${esc(p.txt)}</span>${i===0?pc:''}</div>`).join('');
+      return multi?`<div class="car-fx-g" data-out="${g.idx}">${html}</div>`:html;
+    }).join('')}</div>`;
+  }
+
+  // Cartão do evento "Ira da torcida" (layout parecido com o do Copero: dois cartões grandes lado a lado)
+  function cardIra(o,i){
+    const cl=o.ira.cl,L=LI(cl.l),pais=L[2],fl=pais?flagOf(pais):'';
+    const stay=o.ira.kind==='stay';
+    const meta=`<span class="car-team-meta"><span class="car-team-league">${lgIcon(cl.l,14)}<span>${esc(L[0])}</span></span>${pais?`<span class="car-team-country">${fl?av('fl',fl,pais,16,12):''}<span>${esc(nac3(pais))}</span></span>`:''}</span>`;
+    return `<button type="button" class="car-ira-card ${stay?'stay':'exit'}" data-opt="${i}">
+      <small>${esc(o.ira.tipo)}</small>
+      <b>${esc(cl.c)}</b>
+      <span class="car-ira-art">${av('cr',crest(cl.l,cl.c)||'',cl.c,92)}</span>
+      ${stay?fxHTML(o):meta}
+    </button>`;
+  }
+
+  // Sorteio animado: o destaque percorre as consequências, desacelera e para na que foi sorteada
+  function rolaSorteio(btn,win,done){
+    const gs=[...btn.querySelectorAll('.car-fx-g')];
+    const alvo=gs.findIndex(g=>+g.dataset.out===win);
+    if(gs.length<2||alvo<0){done();return}
+    const G=gs.length,T=15+(((alvo-14)%G)+G)%G;
+    let i=0;
+    const step=()=>{
+      gs.forEach(g=>g.classList.remove('hl'));
+      gs[i%G].classList.add('hl');
+      if(i===T-1){
+        setTimeout(()=>{
+          gs.forEach(g=>{g.classList.remove('hl');g.classList.add(g===gs[alvo]?'won':'lost')});
+          btn.classList.add('decided');
+          setTimeout(done,950);
+        },260);
+        return;
+      }
+      const f=i/(T-1);
+      i++;
+      setTimeout(step,55+330*Math.pow(f,2.3));
+    };
+    step();
+  }
+
   function htmlDecisao(){
     const d=CAR.decisions[CAR.decIdx];
     if(!d)return '';
+    if(d.layout==='ira'){
+      return `
+      <section class="car-box car-ira-box">
+        <h3 class="car-dec-tt">${esc(d.titulo)}</h3>
+        <p class="car-sub">${esc(d.desc)}</p>
+        <div id="car-opts" class="car-ira ${d.opts.length<2?'one':''}">${d.opts.map((o,i)=>cardIra(o,i)).join('')}</div>
+        ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
+      </section>`;
+    }
     const idx=d.opts.map((o,i)=>[o,i]);
     const times=idx.filter(([o])=>o.time),outros=idx.filter(([o])=>!o.time);
     const optBtn=([o,i])=>`
             <button type="button" class="car-opt" data-opt="${i}">
               <b>${esc(o.t)}</b>
               ${o.d?`<span class="car-opt-d">${esc(o.d)}</span>`:''}
-              <div class="car-outs">${(o.outs.length===1&&o.outs[0].p>=1)?(o.outs[0].t==='Sem efeito'?'':`<span class="car-one">${esc(o.outs[0].t)}</span>`):o.outs.map(x=>`<div class="car-out ${x.k}"><span>${esc(x.t)}</span><em>${Math.round(x.p*100)}%</em></div>`).join('')}</div>
+              ${fxHTML(o)}
             </button>`;
     return `
       <section class="car-box">
@@ -6311,16 +6514,22 @@ main:has(.card.caron){max-width:1180px}
   function htmlMobileLegacy(car){
     return `<section class="car-mobile-only car-mobile-legacy">
       <button type="button" class="car-legacy-close" id="car-close-legacy" aria-label="Voltar ao fim da carreira">×</button>
-      <small class="car-legacy-eyebrow">Carreira finalizada</small><h2>Sua carreira no Hall da Fama</h2>
+      <small class="car-legacy-eyebrow">Carreira finalizada</small><h2>Compartilhe sua carreira</h2>
       <div class="car-legacy-poster">
-        <div class="car-legacy-identity"><div class="car-ovr ${ovrCls(car.peakOvr||car.ovr)}"><small>OVR máx.</small><b>${car.peakOvr||car.ovr}</b></div><div><div class="car-chips"><span class="car-chip">${av('fl',flagOf(car.nac)||'',car.nac,20,14)} ${esc(nac3(car.nac))}</span><span class="car-chip">#${car.num}</span><span class="car-chip">${esc(car.pos)}</span></div><b class="car-legacy-name" hidden>${esc(car.nome)}</b><small class="car-legacy-years">2026–${car.ano} · ${money(car.valor)}</small></div></div>
+        <div class="car-legacy-identity"><div class="car-ovr ${ovrCls(car.peakOvr||car.ovr)}"><b>${car.peakOvr||car.ovr}</b><small>OVR</small></div><div><div class="car-chips"><span class="car-chip">${av('fl',flagOf(car.nac)||'',car.nac,20,14)} ${esc(nac3(car.nac))}</span><span class="car-chip">#${car.num}</span><span class="car-chip">${esc(car.pos)}</span></div><b class="car-legacy-name" hidden>${esc(car.nome)}</b><small class="car-legacy-years">2026–${car.ano} · ${money(car.valor)}</small></div></div>
         ${htmlCareerTotals(car)}
         <div class="car-legacy-section"><h3>Trajetória</h3><div class="car-legacy-route">${car.passagens.map(p=>`<span title="${esc(p.c)} · ${p.anos} temporadas">${av('cr',crest(p.l,p.c)||'',p.c,30)}</span>`).join('')}</div></div>
         <div class="car-legacy-section"><h3>Títulos</h3><div class="car-trophies">${vitrineHTML(car)||'<small>Sem títulos na carreira</small>'}</div></div>
-        <footer>Quem é o Craque? <span>${car.legacyPts||0} pts · ${esc(car.legacyRank||'Carreira finalizada')}</span></footer>
+        <footer><span class="car-legacy-brand">Quem é o Craque?<em>craques.netlify.app</em></span><span>${car.legacyPts||0} pts · ${esc(car.legacyRank||'Carreira finalizada')}</span></footer>
       </div>
-      <label class="car-legacy-toggle"><input type="checkbox" id="car-legacy-show-name"> Mostrar sobrenome</label>
-      <button type="button" class="car-btn pri" id="car-mobile-share">Compartilhar resumo</button>
+      <label class="car-legacy-toggle"><input type="checkbox" id="car-legacy-show-name"><span class="car-sw" aria-hidden="true"></span><span class="car-sw-txt">Mostrar sobrenome</span></label>
+      <button type="button" class="car-btn pri" id="car-mobile-again">Jogar novamente</button>
+      <div class="car-legacy-actions" role="group" aria-label="Opções do cartão">
+        <button type="button" class="car-act" id="car-act-share" aria-label="Compartilhar" title="Compartilhar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+        <button type="button" class="car-act" id="car-act-copy" aria-label="Copiar imagem" title="Copiar imagem"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+        <button type="button" class="car-act" id="car-act-down" aria-label="Baixar imagem" title="Baixar imagem"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button>
+        <button type="button" class="car-act" id="car-act-link" aria-label="Copiar link do jogo" title="Copiar link do jogo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button>
+      </div>
       <p class="car-sub" id="car-mobile-share-status" role="status"></p>
     </section>`;
   }
@@ -6367,23 +6576,23 @@ main:has(.card.caron){max-width:1180px}
               <span class="car-tag">Gêmeo de Carreira · ${tw.sim}%</span>
               <h4 style="margin:10px 0 4px;font:800 17px 'Unbounded',sans-serif;color:var(--ink)">Sua carreira lembra a de ${esc(tw.n)}!</h4>
               <p class="car-sub">Você desbloqueou a figurinha de <b>${esc(tw.n)}</b> no Álbum.</p>
-              <div style="display:flex;align-items:center;gap:12px;margin-top:10px">${av('pl',twPh,tw.n,56,74)}<div><b style="font:800 14px 'Unbounded',sans-serif;color:var(--ink)">${esc(tw.n)}</b><div class="car-sub" style="margin-top:2px">${esc(tw.c)} · ${tw.p}</div></div></div>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:10px">${av('pl',twPh,tw.n,56,74)}<div><b style="font:800 14px 'Unbounded',sans-serif;color:var(--ink)">${esc(tw.n)}</b><div class="car-sub" style="margin-top:2px">${esc(tw.c)} · ${tw.p}</div></div><button type="button" class="car-btn pri" id="car-open-album" style="margin-left:auto">📖 Álbum</button></div>
             </div>
             <div class="car-box">
               <span class="car-tag">Legado</span>
               <p class="car-sub" style="margin-top:10px">Cole a figurinha no Álbum ou compartilhe o resumo da carreira.</p>
-              <div class="car-foot" style="justify-content:flex-start">
-                <button type="button" class="car-btn pri" id="car-open-album">📖 Álbum</button>
-                <button type="button" class="car-btn ghost" id="car-share-leg">📋 Copiar resumo</button>
+              <div class="car-foot car-legacy-row" style="justify-content:flex-start">
                 <button type="button" class="car-btn ghost" id="car-new-after">⚽ Nova carreira</button>
+                <button type="button" class="car-act" id="car-dact-share" aria-label="Compartilhar" title="Compartilhar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button><button type="button" class="car-act" id="car-dact-copy" aria-label="Copiar imagem" title="Copiar imagem"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button type="button" class="car-act" id="car-dact-down" aria-label="Baixar imagem" title="Baixar imagem"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button><button type="button" class="car-act" id="car-dact-link" aria-label="Copiar link do jogo" title="Copiar link do jogo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button>
               </div>
+              <p class="car-sub" id="car-desk-share-status" role="status" style="margin-top:8px"></p>
             </div>
           </div>`:''}
         </div>
       </section>`;
   }
 
-  const ovrCls=o=>o>=90?'ov-p':o>=80?'ov-g':o>=70?'ov-s':'ov-b';
+  const ovrCls=o=>o>=99?'ov-x':o>=90?'ov-p':o>=80?'ov-g':o>=70?'ov-s':'ov-b';
   const PITCH_SVG='<svg class="pitch-ic" viewBox="0 0 160.67482 213.66823" aria-hidden="true"><g transform="translate(-23.837044,-32.292888)"><path fill="#008000" d="m 145.43379,52.451312 c -29.78521,0.08245 -59.572312,-0.01541 -89.356807,0.09992 -2.438814,0.430967 -4.58395,1.928213 -6.523626,3.52094 -3.108857,2.742307 -5.44832,6.788953 -5.635364,11.224474 -0.270042,3.999621 0.03523,8.011567 -0.09166,12.015952 0.0046,44.324522 1.09e-4,88.649042 0.0392,132.973532 0.788896,4.60144 3.594732,8.57186 7.090519,11.17186 2.670551,1.86935 5.90778,2.65114 9.058073,2.40969 26.595415,0.0611 53.191295,0.13921 79.786495,-0.0284 3.36883,-0.0561 6.74231,-0.027 10.10749,-0.19573 3.5282,-0.34442 7.02341,-1.983 9.38008,-4.92843 2.97579,-3.49926 4.34307,-8.43062 3.98009,-13.15434 0.19558,-43.73073 0.0746,-87.46207 0.0884,-131.193086 -0.0104,-3.63822 0.0204,-7.284052 -0.041,-10.917451 -1.57646,-5.778088 -5.74745,-10.835417 -11.13435,-12.507269 -2.20858,-0.569759 -4.49349,-0.525269 -6.74748,-0.491663 z"/><path fill="#fff" d="m 172.05112,227.85726 c -0.43321,1.607 -1.55513,3.21739 -3.0197,4.33446 -2.35411,1.79554 2.53724,1.67585 -65.40313,1.60033 l -61.506419,-0.0684 -1.497686,-0.73548 c -1.724702,-0.84697 -3.21054,-2.37148 -4.022229,-4.12692 l -0.565502,-1.22301 v -88.5031 -88.503128 l 0.735484,-1.497685 c 0.846968,-1.724703 2.37148,-3.210541 4.126922,-4.02223 l 1.223011,-0.565501 h 62.044789 62.0448 l 1.51454,0.74373 c 1.68575,0.827806 3.15824,2.352791 4.00815,4.151061 l 0.56272,1.190625 0.0493,87.973958 c 0.0401,71.52274 -0.0151,88.21282 -0.29504,89.25129 z M 147.9654,145.74972 h -11.49917 l -0.28925,1.12448 c -1.12742,4.38296 -3.02021,8.49542 -5.3701,11.6676 -8.54179,11.53077 -23.07051,16.22627 -36.826674,11.90191 C 83.303032,167.08726 74.879643,157.99535 72.143733,146.8742 L 71.8671,145.74972 H 60.367014 48.866928 l 0.06705,37.50469 0.06706,37.50469 11.046354,0.0691 11.046355,0.0691 v -9.08244 c 0,-5.27542 0.11829,-9.74049 0.282207,-10.65238 0.508669,-2.82978 2.483284,-5.16409 5.261248,-6.21964 1.291507,-0.49073 2.312865,-0.50963 27.466158,-0.50821 16.96462,9.6e-4 26.46591,0.0962 27.09772,0.27171 2.2375,0.62146 4.84159,3.07377 5.54688,5.2236 0.22338,0.68087 0.35464,4.07301 0.42465,10.97353 l 0.10133,9.98802 h 10.91893 c 6.00541,0 10.99831,-0.0794 11.09532,-0.17639 0.097,-0.097 0.17639,-17.00389 0.17639,-37.57083 v -37.39445 z m 0.33999,-88.307574 -11.0269,-0.06903 -0.0856,10.1232 -0.0856,10.1232 -0.73548,1.497686 c -0.87347,1.778665 -2.38522,3.219825 -4.29439,4.093873 l -1.38921,0.636 -26.82067,-0.07107 -26.820668,-0.07107 -1.455209,-0.82121 c -1.649681,-0.930955 -3.515852,-3.04253 -4.002222,-4.528521 -0.228457,-0.697995 -0.358018,-4.019446 -0.428737,-10.99118 l -0.101344,-9.99091 -11.029161,0.06903 -11.029161,0.06903 -0.06706,37.504689 -0.06705,37.504687 H 60.367014 71.8671 l 0.289248,-1.12448 c 1.076487,-4.18495 2.811717,-7.98566 5.180536,-11.34703 5.554533,-7.8819 14.260837,-12.84813 24.007846,-13.69448 11.44499,-0.99379 22.55176,4.04537 29.45446,13.36355 2.32789,3.14249 4.2633,7.34525 5.37779,11.67796 l 0.28925,1.12448 h 11.50008 11.50009 l -0.067,-37.504687 -0.0671,-37.504689 z M 104.16666,207.39764 H 84.322914 v 6.74688 6.74687 h 19.843746 19.84375 v -6.74687 -6.74688 z m 0,-150.018752 H 84.322914 v 6.746875 6.746875 h 19.843746 19.84375 v -6.746875 -6.746875 z m 0,88.370832 c -10.331975,0 -18.785413,0.0561 -18.785413,0.12475 0,0.0686 0.29746,0.79736 0.661021,1.61943 2.089936,4.72572 6.86253,8.9605 11.965412,10.61705 3.02671,0.98256 7.83744,1.14755 10.93128,0.3749 4.1902,-1.04646 7.8576,-3.3885 10.69765,-6.83162 1.2128,-1.47034 3.30543,-5.07446 3.31307,-5.70607 0.001,-0.10914 -8.45104,-0.19844 -18.78302,-0.19844 z m 17.8541,-15.45839 c -2.55348,-5.13213 -7.51424,-9.11646 -13.0818,-10.5069 -3.09384,-0.77265 -7.90457,-0.60766 -10.93128,0.3749 -5.102882,1.65655 -9.875476,5.89133 -11.965412,10.61704 -0.363561,0.82208 -0.661021,1.55083 -0.661021,1.61944 0,0.0686 8.453438,0.12475 18.785413,0.12475 10.33198,0 18.78542,-0.0804 18.78542,-0.17871 0,-0.0983 -0.41909,-1.02102 -0.93132,-2.05052 z"/></g></svg>';
   const ageCor=c=>{const mc=hofCor(c);if(mc)return{top:mc[0],txt:mc[2]};const ce=COR_ESCUDO.get(c);if(ce)return{top:ce.top,txt:ce.txt};return{top:`hsl(${hue(c)},42%,30%)`,txt:'#fff'}};
   const ageSt=c=>{const k=ageCor(c);return `--tc:${k.top};color:${k.txt};box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28)`};
@@ -6434,8 +6643,8 @@ main:has(.card.caron){max-width:1180px}
       const op=d&&d.opts[+b.dataset.opt];
       if(!op)return;
       if(CAR_BUSY)return;
-      const run=()=>{CAR_BUSY=false;
       const out=sorteia(op.outs);
+      const run=()=>{CAR_BUSY=false;
       const msg=out.fn(CAR);
       CAR.seasonLog.push({t:out.t,k:out.k,m:msg});
       CAR.decIdx++;
@@ -6448,7 +6657,14 @@ main:has(.card.caron){max-width:1180px}
       renderCar();carToast(out.t,out.k);
       };
       if(carRM()){run();return}
-      CAR_BUSY=true;b.classList.add('picked');opts.querySelectorAll('button[data-opt]').forEach(x=>{if(x!==b)x.classList.add('dim')});setTimeout(run,380);
+      CAR_BUSY=true;b.classList.add('picked');opts.querySelectorAll('button[data-opt]').forEach(x=>{if(x!==b)x.classList.add('dim')});
+      if(b.querySelectorAll('.car-fx-g').length>1){
+        // evento de sorte (ex.: 50% / 50%): sorteio animado antes de aplicar a consequência
+        b.classList.add('rolling');
+        setTimeout(()=>rolaSorteio(b,op.outs.indexOf(out),run),420);
+        return;
+      }
+      setTimeout(run,380);
     };
 
     const nx=c$('car-next');
@@ -6501,6 +6717,158 @@ main:has(.card.caron){max-width:1180px}
         else{await navigator.clipboard.writeText(text);c$('car-mobile-share-status').textContent='Resumo copiado!'}
       }catch(e){if(e.name!=='AbortError')c$('car-mobile-share-status').textContent='Não foi possível compartilhar. Tente novamente.'}
     };
+    // ---------- Imagem do cartão (Hall da Fama, celular): baixar / copiar / compartilhar ----------
+    const SITE_URL='https://craques.netlify.app';
+    const legacyStatus=msg=>['car-mobile-share-status','car-desk-share-status'].forEach(i=>{const s=c$(i);if(s)s.textContent=msg});
+    const legacyImg=src=>new Promise(res=>{
+      if(!src)return res(null);
+      const im=new Image();im.crossOrigin='anonymous';im.referrerPolicy='no-referrer';
+      im.onload=()=>res(im);im.onerror=()=>res(null);im.src=src;
+    });
+    const legacyRR=(ctx,x,y,w,h,r)=>{ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()};
+    const legacyFit=(ctx,im,x,y,w,h)=>{const k=Math.min(w/im.naturalWidth,h/im.naturalHeight)||1,dw=im.naturalWidth*k,dh=im.naturalHeight*k;ctx.drawImage(im,x+(w-dw)/2,y+(h-dh)/2,dw,dh)};
+    async function legacyRenderPNG(){
+      const root=c$('car').querySelector('.car-legacy-poster');
+      if(!root)throw new Error('sem cartão');
+      try{await document.fonts.ready}catch(e){}
+      const cs=getComputedStyle(root),V=n=>(cs.getPropertyValue(n)||'').trim();
+      const C={cell:V('--cell')||'#1b3a28',panel:V('--panel')||'#102019',ink:V('--ink')||'#f1efe4',mut:V('--mut')||'#9fb3a5',line:V('--line')||'rgba(255,255,255,.15)',sun:V('--sun')||'#ffd84a'};
+      const W=360,S=3,PAD=18,GAP_R=8,GAP_T=10;
+      const ovrEl=root.querySelector('.car-ovr'),ovrNum=ovrEl.querySelector('b').textContent;
+      const tier=['ov-l','ov-b','ov-s','ov-g','ov-p','ov-x'].find(k=>ovrEl.classList.contains(k))||'ov-b';
+      const OV={'ov-l':['#8a93a3','#5b6472','#fff'],'ov-b':['#f0b27a','#a85a1a','#fff'],'ov-s':['#e6ebf3','#8d98ae','#1c2333'],'ov-g':['#ffe36b','#f0a500','#12123a'],'ov-p':['#d65cff','#6a2fe0','#fff'],'ov-x':['#6d28d9','#0b0614','#fff']}[tier];
+      const chips=[...root.querySelectorAll('.car-chip')].map(c=>({t:c.textContent.trim(),img:c.querySelector('img')?.src||''}));
+      const nameEl=root.querySelector('.car-legacy-name'),name=nameEl&&!nameEl.hidden?nameEl.textContent.trim():'';
+      const years=root.querySelector('.car-legacy-years')?.textContent.trim()||'';
+      const stats=[...root.querySelectorAll('.car-final-stats>div')].map(d=>[d.querySelector('small').textContent,d.querySelector('b').textContent]);
+      const secs=[...root.querySelectorAll('.car-legacy-section')];
+      const route=[...secs[0].querySelectorAll('.av')].map(a=>({src:a.querySelector('img')?.src||'',ini:a.dataset.ini||''}));
+      const trofs=[...secs[1].querySelectorAll('.car-trof-col')].map(c=>{const im=[...c.querySelectorAll('img')].find(i=>i.style.display!=='none');return{src:im?im.src:'',n:+c.dataset.tc||1}});
+      const brand=root.querySelector('footer>span:first-child'),pts=root.querySelector('footer>span:last-child')?.textContent.trim()||'';
+      const [flagImgs,routeImgs,trofImgs]=await Promise.all([
+        Promise.all(chips.map(c=>legacyImg(c.img))),Promise.all(route.map(r=>legacyImg(r.src))),Promise.all(trofs.map(t=>legacyImg(t.src)))]);
+      // altura
+      const rows=(n,sz,gap)=>Math.max(1,Math.ceil(n/Math.floor((W-PAD*2+gap)/(sz+gap))));
+      const RS=32,TS=46;
+      const hHead=name?100:88, hStats=62;
+      const hRoute=36+rows(route.length,RS,GAP_R)*(RS+GAP_R);
+      const hTrof=trofs.length?36+rows(trofs.length,TS,GAP_T+6)*(TS+GAP_T+6):60;
+      const H=PAD+hHead+hStats+hRoute+hTrof+70;
+      const cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;
+      const ctx=cv.getContext('2d');ctx.scale(S,S);
+      const font=(w,s,f)=>ctx.font=`${w} ${s}px ${f||"'DM Sans',sans-serif"}`;
+      const UNB="'Unbounded','DM Sans',sans-serif";
+      const spaced=(txt,x,y,ls,align)=>{try{ctx.letterSpacing=ls+'px'}catch(e){}ctx.textAlign=align||'left';ctx.fillText(txt,x,y);try{ctx.letterSpacing='0px'}catch(e){}};
+      // fundo
+      const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,C.cell);g.addColorStop(1,C.panel);
+      legacyRR(ctx,0,0,W,H,18);ctx.fillStyle=g;ctx.fill();
+      ctx.lineWidth=1;ctx.strokeStyle=C.line;ctx.stroke();
+      // OVR
+      const og=ctx.createLinearGradient(PAD,PAD,PAD+72,PAD+72);og.addColorStop(0,OV[0]);og.addColorStop(1,OV[1]);
+      legacyRR(ctx,PAD,PAD,72,72,16);ctx.fillStyle=og;ctx.fill();
+      if(tier==='ov-x'){ctx.save();legacyRR(ctx,PAD,PAD,72,72,16);ctx.clip();
+        const rg=ctx.createRadialGradient(PAD+72,PAD+72,0,PAD+72,PAD+72,60);rg.addColorStop(0,'rgba(210,60,255,.8)');rg.addColorStop(1,'rgba(210,60,255,0)');
+        ctx.fillStyle=rg;ctx.fillRect(PAD,PAD,72,72);ctx.restore();
+        legacyRR(ctx,PAD,PAD,72,72,16);ctx.strokeStyle='rgba(190,90,255,.8)';ctx.lineWidth=1.5;ctx.stroke()}
+      ctx.fillStyle=OV[2];font(800,28,UNB);ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.fillText(ovrNum,PAD+36,PAD+43);
+      font(800,11);spaced('OVR',PAD+36,PAD+62,1,'center');
+      // chips
+      let cx=PAD+72+14;const cy=PAD+4;
+      chips.forEach((c,i)=>{
+        font(800,11.5);const tw=ctx.measureText(c.t).width,fw=flagImgs[i]?24:0,w=tw+18+fw;
+        legacyRR(ctx,cx,cy,w,24,12);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=1.2;ctx.stroke();
+        let tx=cx+9;
+        if(flagImgs[i]){ctx.save();legacyRR(ctx,tx,cy+5,20,14,2);ctx.clip();legacyFit(ctx,flagImgs[i],tx,cy+5,20,14);ctx.restore();tx+=24}
+        ctx.fillStyle=C.ink;ctx.textAlign='left';font(800,11.5);ctx.fillText(c.t,tx,cy+16);cx+=w+6;
+      });
+      let ty=PAD+50;
+      if(name){ctx.fillStyle=C.ink;font(800,15);ctx.textAlign='left';ctx.fillText(name,PAD+86,ty+10);ty+=22}
+      ctx.fillStyle=C.mut;font(700,10.5);ctx.textAlign='left';ctx.fillText(years,PAD+86,ty+14);
+      // estatísticas
+      let y=PAD+hHead-6;
+      legacyRR(ctx,PAD-6,y,W-PAD*2+12,hStats-8,10);ctx.fillStyle='rgba(255,255,255,.05)';ctx.fill();ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.stroke();
+      const cw=(W-PAD*2+12)/4;
+      stats.forEach(([l,v],i)=>{const x=PAD-6+cw*i+cw/2;
+        ctx.fillStyle=C.mut;font(800,8.5);spaced(l.toUpperCase(),x,y+17,.8,'center');
+        ctx.fillStyle=C.ink;font(800,18);ctx.textAlign='center';ctx.fillText(v,x,y+40);
+        if(i){ctx.fillStyle=C.line;ctx.fillRect(PAD-6+cw*i,y+10,1,28)}});
+      y+=hStats+4;
+      // trajetória
+      ctx.fillStyle=C.mut;font(800,9);spaced('TRAJETÓRIA',W/2,y+8,1.4,'center');
+      const perR=Math.floor((W-PAD*2+GAP_R)/(RS+GAP_R));let yy=y+24;
+      for(let i=0;i<route.length;i+=perR){
+        const seg=route.slice(i,i+perR),rw=seg.length*(RS+GAP_R)-GAP_R;let x=(W-rw)/2;
+        seg.forEach((r,j)=>{const im=routeImgs[i+j];
+          if(im)legacyFit(ctx,im,x,yy,RS,RS);
+          else{ctx.beginPath();ctx.arc(x+RS/2,yy+RS/2,RS/2-1,0,7);ctx.fillStyle='rgba(255,255,255,.12)';ctx.fill();ctx.fillStyle=C.ink;font(800,11);ctx.textAlign='center';ctx.fillText(r.ini,x+RS/2,yy+RS/2+4)}
+          x+=RS+GAP_R});
+        yy+=RS+GAP_R;
+      }
+      y+=hRoute-6;
+      // títulos
+      ctx.fillStyle=C.mut;font(800,9);spaced('TÍTULOS',W/2,y+8,1.4,'center');
+      if(!trofs.length){ctx.fillStyle=C.mut;font(700,11);ctx.textAlign='center';ctx.fillText('Sem títulos na carreira',W/2,y+40)}
+      const TG=GAP_T+6,perT=Math.floor((W-PAD*2+TG)/(TS+TG));yy=y+24;
+      for(let i=0;i<trofs.length;i+=perT){
+        const seg=trofs.slice(i,i+perT),rw=seg.length*(TS+TG)-TG;let x=(W-rw)/2;
+        seg.forEach((t,j)=>{const im=trofImgs[i+j];
+          if(im)legacyFit(ctx,im,x,yy,TS,TS);
+          else{ctx.fillStyle='#f5b400';legacyRR(ctx,x+12,yy+6,22,22,6);ctx.fill();ctx.fillRect(x+20,yy+28,6,8);ctx.fillRect(x+14,yy+36,18,4)}
+          if(t.n>1){const bt='×'+t.n;font(800,10);const bw=ctx.measureText(bt).width+10;
+            legacyRR(ctx,x+TS-bw+4,yy+TS-14,bw,16,8);ctx.fillStyle=C.panel;ctx.fill();ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.stroke();
+            ctx.fillStyle=C.ink;ctx.textAlign='center';ctx.fillText(bt,x+TS-bw/2+4,yy+TS-3)}
+          x+=TS+TG});
+        yy+=TS+TG;
+      }
+      // rodapé
+      const fy=H-52;
+      ctx.fillStyle=C.line;ctx.fillRect(PAD,fy,W-PAD*2,1);
+      ctx.fillStyle=C.mut;font(800,10);ctx.textAlign='left';ctx.fillText('Quem é o Craque?',PAD,fy+22);
+      ctx.fillStyle=C.sun;font(800,10.5);ctx.fillText('craques.netlify.app',PAD,fy+38);
+      ctx.fillStyle=C.mut;font(800,10);ctx.textAlign='right';ctx.fillText(pts,W-PAD,fy+22);
+      return await new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error('toBlob')),'image/png'));
+    }
+    const legacyText=()=>{
+      const gk=CAR.pos==='GOL',tit=Object.values(CAR.titulos).reduce((a,b)=>a+b,0);
+      const stats=gk?`${(CAR.gc||0)+(CAR.selGS||0)} GS · ${(CAR.cs||0)+(CAR.selSG||0)} SG`:`${CAR.g+CAR.sel[1]} gols · ${(CAR.a||0)+(CAR.sel[3]||0)} assistências`;
+      return `Quem é o Craque? — Minha carreira\n${showName.checked?CAR.nome+' · ':''}${CAR.nac} · #${CAR.num} · ${CAR.pos}\nOVR máximo: ${CAR.peakOvr||CAR.ovr}\n${CAR.jg+CAR.sel[0]} jogos · ${stats} · ${tit} títulos\nJogue também: ${SITE_URL}`;
+    };
+    const legacyBusy=(btn,on)=>{if(btn)btn.disabled=on};
+    const bindAct=(n,fn)=>['car-act-','car-dact-'].forEach(pre=>{const el=c$(pre+n);if(el)el.onclick=()=>fn(el)});
+    bindAct('down',async aDown=>{
+      legacyBusy(aDown,true);legacyStatus('Gerando imagem…');
+      try{const blob=await legacyRenderPNG(),url=URL.createObjectURL(blob),a=document.createElement('a');
+        a.href=url;a.download='minha-carreira-craques.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+        legacyStatus('Imagem baixada!')}
+      catch(e){legacyStatus('Não foi possível gerar a imagem.')}
+      legacyBusy(aDown,false);
+    });
+    bindAct('share',async aShare=>{
+      legacyBusy(aShare,true);legacyStatus('');
+      try{
+        let file=null;try{file=new File([await legacyRenderPNG()],'minha-carreira-craques.png',{type:'image/png'})}catch(e){}
+        const text=legacyText();
+        if(navigator.share){
+          if(file&&navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],text});
+          else await navigator.share({title:'Minha carreira — Quem é o Craque?',text,url:SITE_URL});
+          legacyStatus('Compartilhado.');
+        }else{await navigator.clipboard.writeText(text);legacyStatus('Resumo copiado!')}
+      }catch(e){if(e&&e.name!=='AbortError')legacyStatus('Não foi possível compartilhar.')}
+      legacyBusy(aShare,false);
+    });
+    bindAct('copy',async aCopy=>{
+      legacyBusy(aCopy,true);
+      try{
+        if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+          const blob=await legacyRenderPNG();await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);legacyStatus('Imagem copiada!');
+        }else{await navigator.clipboard.writeText(legacyText());legacyStatus('Resumo copiado!')}
+      }catch(e){try{await navigator.clipboard.writeText(legacyText());legacyStatus('Resumo copiado!')}catch(_){legacyStatus('Não foi possível copiar.')}}
+      legacyBusy(aCopy,false);
+    });
+    bindAct('link',async()=>{
+      try{await navigator.clipboard.writeText(SITE_URL);legacyStatus('Link copiado!')}
+      catch(e){prompt('Copie o link:',SITE_URL)}
+    });
     const opAlb=c$('car-open-album');
     if(opAlb)opAlb.onclick=()=>{const tc=c$('tcol');if(tc)tc.click()};
 
@@ -6515,8 +6883,11 @@ main:has(.card.caron){max-width:1180px}
       shLeg.textContent='✓ Resumo copiado!';
     };
 
+    const novaCarr=()=>{CAR=null;saveCar();CREATE_STATE.passo='identidade';CREATE_STATE.clubs=rollStarterClubs(CREATE_STATE.nac);renderCar()};
     const nwAfter=c$('car-new-after');
-    if(nwAfter)nwAfter.onclick=()=>{CAR=null;saveCar();CREATE_STATE.passo='identidade';CREATE_STATE.clubs=rollStarterClubs(CREATE_STATE.nac);renderCar()};
+    if(nwAfter)nwAfter.onclick=novaCarr;
+    const nwMob=c$('car-mobile-again');
+    if(nwMob)nwMob.onclick=novaCarr;
   }
 
   // Comemoração ao conquistar um título: troféu surge e confete estoura
@@ -6567,9 +6938,11 @@ main:has(.card.caron){max-width:1180px}
       p.animate([
         {transform:'translate(-50%,-50%) rotate(0deg)',opacity:1},
         {transform:`translate(calc(-50% + ${Math.cos(ang)*dist}px),calc(-50% + ${Math.sin(ang)*dist+60}px)) rotate(${Math.random()*720}deg)`,opacity:0}
-      ],{duration:1600+Math.random()*700,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'});
+      ],{duration:850+Math.random()*450,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'});
     }
-    setTimeout(()=>ov.remove(),2000);
+    // some assim que o confete acaba (com um fade curto), em vez de ficar parado na tela
+    setTimeout(()=>{ov.animate([{opacity:1},{opacity:0}],{duration:250,fill:'forwards'}).onfinish=()=>ov.remove()},1350);
+    setTimeout(()=>ov.remove(),1700);
   }
 
   // Cor do card a partir do escudo: pega a cor mais presente e saturada da imagem
@@ -6627,7 +7000,7 @@ main:has(.card.caron){max-width:1180px}
   }
 
   // ---------- Animações do Modo Copero ----------
-  let OVR_SHOWN=null,CAR_LASTKEY='',CAR_BUSY=false;
+  let OVR_SHOWN=null,AGE_SHOWN=null,VAL_SHOWN=null,CAR_LASTKEY='',CAR_BUSY=false;
   const carRM=()=>window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function carToast(txt,k){
     if(carRM()||!txt)return;
@@ -6676,6 +7049,49 @@ main:has(.card.caron){max-width:1180px}
     const pill=root.querySelector('.car-row.now .car-ovr-s');
     if(pill)pill.animate([{transform:'scale(1)'},{transform:'scale(1.5)',background:up?'#2ee66b':'#ff6b6b'},{transform:'scale(1)'}],{duration:700,delay:500});
   }
+  // Idade e valor de mercado: ao virar a temporada os números rolam do valor antigo para o novo,
+  // como se tivessem sido recalculados (a idade sobe primeiro, o valor recalcula depois do OVR)
+  const fmtVal=v=>money(v>=10?Math.round(v):v>=1?Math.round(v*10)/10:Math.round(v*100)/100);
+  function rolaNumero(el,from,to,o){
+    const dur=o.dur,t0=performance.now()+o.delay,ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+    el.textContent=o.fmt(from);
+    const tick=now=>{
+      if(!el.isConnected)return;
+      const p=Math.max(0,Math.min(1,(now-t0)/dur));
+      if(now<t0){requestAnimationFrame(tick);return}
+      el.textContent=o.fmt(o.round?Math.round(from+(to-from)*ease(p)):from+(to-from)*ease(p));
+      if(p<1)requestAnimationFrame(tick);
+      else{el.textContent=o.fmt(to);if(o.end)o.end()}
+    };
+    requestAnimationFrame(tick);
+  }
+  function animaLado(root){
+    const pA=AGE_SHOWN,pV=VAL_SHOWN;AGE_SHOWN=CAR.idade;VAL_SHOWN=CAR.valor;
+    if(carRM())return;
+    const side=root.querySelector('.car-pl-side');
+    if(!side)return;
+    const ageEl=side.querySelector('[data-k="idade"]'),valEl=side.querySelector('[data-k="valor"]');
+    if(ageEl&&pA!=null&&pA!==CAR.idade){
+      ageEl.classList.add('recalc','up');
+      setTimeout(()=>{
+        ageEl.animate([{transform:'scale(1.5)'},{transform:'scale(1)'}],{duration:420,easing:'cubic-bezier(.2,1.4,.4,1)'});
+      },850);
+      rolaNumero(ageEl,pA,CAR.idade,{dur:600,delay:250,round:true,fmt:v=>String(v),end:()=>ageEl.classList.remove('recalc','up')});
+    }
+    if(valEl&&pV!=null&&pV!==CAR.valor){
+      const up=CAR.valor>pV,dif=CAR.valor-pV;
+      valEl.classList.add('recalc',up?'up':'dn');
+      const lab=document.createElement('span');
+      lab.className='pl-d '+(up?'up':'dn');
+      lab.textContent=(up?'+':'−')+money(Math.abs(Math.round(dif*100)/100));
+      valEl.appendChild(lab);
+      rolaNumero(valEl.firstChild?valEl.firstChild:valEl,pV,CAR.valor,{dur:600,delay:250,fmt:fmtVal,end:()=>{
+        valEl.classList.remove('recalc','up','dn');
+        valEl.animate([{transform:'scale(1.35)'},{transform:'scale(1)'}],{duration:380,easing:'cubic-bezier(.2,1.4,.4,1)'});
+        setTimeout(()=>lab.remove(),700);
+      }});
+    }
+  }
   function animaEntrada(root){
     if(carRM())return;
     const key=CAR.step+':'+(CAR.decIdx||0)+':'+CAR.ano;
@@ -6700,7 +7116,7 @@ main:has(.card.caron){max-width:1180px}
     renderSidePanel();
     const root=c$('car');
     if(!root)return;
-    if(!CAR){OVR_SHOWN=null;CAR_LASTKEY='';renderCreate();return}
+    if(!CAR){OVR_SHOWN=null;AGE_SHOWN=null;VAL_SHOWN=null;CAR_LASTKEY='';renderCreate();return}
 
     if(CAR.step==='decision'&&(!CAR.decisions||!CAR.decisions.length||typeof CAR.decisions[0].opts[0].outs[0].fn!=='function')){
       CAR.decisions=buildSeasonDecisions(CAR);
@@ -6717,14 +7133,16 @@ main:has(.card.caron){max-width:1180px}
     const soResumo=aposentado&&CAR.aposView==='resumo';
     const esquerda=aposentado?htmlJogador(CAR)+htmlFarewell(CAR):htmlJogador(CAR)+palco;
     root.innerHTML=`
-      <div class="car-top"><span class="car-badge">${aposentado?'Aposentado':`Temporada ${CAR.ano}/${String((CAR.ano+1)%100).padStart(2,'0')}`}</span></div>
+      <div class="car-top"><button type="button" class="car-top-new" id="car-top-new">↺ Nova Carreira</button><span class="car-badge">${aposentado?'Aposentado':`Temporada ${CAR.ano}/${String((CAR.ano+1)%100).padStart(2,'0')}`}</span></div>
       ${soResumo?'':`<div class="car-main">
         <div class="car-left">${esquerda}</div>
         <div class="car-box car-tl">${htmlLinhaTempo(CAR)}</div>
       </div>`}
       ${soResumo?`<div class="car-full">${palco}</div>`:''}`;
+    const topNew=c$('car-top-new');
+    if(topNew)topNew.onclick=()=>{if(!confirm('Iniciar uma nova carreira? O progresso atual será perdido.'))return;CAR=null;saveCar();CREATE_STATE.passo='identidade';CREATE_STATE.clubs=rollStarterClubs(CREATE_STATE.nac);renderCar()};
     bindStage();
-    animaOvr(root);animaEntrada(root);carFitTl();
+    animaOvr(root);animaLado(root);animaEntrada(root);carFitTl();
     autoCoresClubes(root);autoCoresBolinhas(root);
     if(CAR.celebrar){CAR.celebrar=false;const L=CAR.celebrarLista||[];CAR.celebrarLista=[];if(L.length)setTimeout(()=>celebraCentro(L),80)}
     const tl=root.querySelector('.car-tl'),nw=tl&&(tl.querySelector('.car-row.now')||Array.from(tl.querySelectorAll('.car-row:not(.ghost)')).pop());
@@ -6737,6 +7155,7 @@ main:has(.card.caron){max-width:1180px}
   async function carActivate(){
     if(CAR_ACTIVE)return;
     CAR_ACTIVE=true;
+    try{sessionStorage.setItem('qc:car_on','1')}catch(e){}
     const card=document.querySelector('section.card');
     card.classList.add('qon','caron');
     card.classList.remove('pmon');
@@ -6758,6 +7177,7 @@ main:has(.card.caron){max-width:1180px}
   function carDeactivate(){
     if(!CAR_ACTIVE)return;
     CAR_ACTIVE=false;
+    try{sessionStorage.removeItem('qc:car_on')}catch(e){}
     const card=document.querySelector('section.card');
     card.classList.remove('caron','qon');
     c$('m6').classList.remove('on');
@@ -6767,7 +7187,20 @@ main:has(.card.caron){max-width:1180px}
     c$('m2').classList.toggle('on',m==2);
   }
 
-  c$('m6').addEventListener('click',carActivate);
+  // PC: ao abrir o modo Copero com carreira em andamento, desce a tela para o card e o histórico do jogador
+  function carFocoPc(){
+    if(!(window.matchMedia&&matchMedia('(min-width:900px)').matches))return;
+    if(!CAR||!CAR.nome)return;
+    setTimeout(()=>{
+      const m=document.querySelector('#car .car-top')||document.querySelector('#car .car-main');
+      if(!m)return;
+      const y=m.getBoundingClientRect().top+scrollY-16;
+      scrollTo({top:Math.max(0,y),behavior:carRM()?'auto':'smooth'});
+    },80);
+  }
+  c$('m6').addEventListener('click',async()=>{await carActivate();carFocoPc()});
+  // Recarregou dentro do modo Copero: volta direto para ele (e não para o menu inicial)
+  try{if(sessionStorage.getItem('qc:car_on')==='1')setTimeout(()=>{if(!CAR_ACTIVE)carActivate()},0)}catch(e){}
   document.addEventListener('click',e=>{
     const b=e.target.closest&&e.target.closest('#m0,#m2,#m3,#m4,#m5,#t0,#t2,#twho');
     if(b)carDeactivate();
