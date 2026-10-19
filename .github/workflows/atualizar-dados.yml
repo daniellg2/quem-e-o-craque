@@ -8,10 +8,9 @@ name: Atualizar dados
 #   tudo      -> clubes + gols + historico + fama
 
 on:
-  schedule:
-    - cron: "0 6 * * 1"          # segundas 06:00 UTC  -> clubes + fama
-    - cron: "0 6 1 * *"          # dia 1 06:00 UTC     -> gols + fama
-    - cron: "0 7 15 1,4,7,10 *"  # 15 jan/abr/jul/out  -> historico
+  # Sem agendamento: o Transfermarkt bloqueia os IPs dos runners do GitHub
+  # (HTTP 202 com corpo vazio - ver diagnostico_tm.txt), então as atualizações
+  # são disparadas manualmente (workflow_dispatch) ou pela máquina local.
   workflow_dispatch:
     inputs:
       escopo:
