@@ -3782,6 +3782,26 @@ main:has(.card.caron){max-width:1180px}
   #car .car-opts.has-photos.n3 .car-opt{grid-template-columns:76px minmax(0,1fr);column-gap:8px}
   #car .car-opts.has-photos.n3 .car-opt-photo{width:76px;height:76px}
 }
+/* Painel local de prévia dos eventos do Copero. */
+#car .car-admin-overlay{position:fixed;inset:0;z-index:10020;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:16px}
+#car .car-admin-panel{width:min(1120px,100%);height:min(820px,100%);background:var(--bg);border:1px solid var(--ol);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 70px #0009;color:var(--ink)}
+#car .car-admin-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--ol)}
+#car .car-admin-head b{font-size:18px}#car .car-admin-head small{display:block;color:var(--mut);font-size:11px}
+#car .car-admin-close{margin-left:auto;border:1px solid var(--ol);border-radius:50%;background:var(--cell);color:var(--ink);width:34px;height:34px;cursor:pointer;font-size:20px}
+#car .car-admin-main{display:grid;grid-template-columns:290px minmax(0,1fr);min-height:0;flex:1}
+#car .car-admin-nav{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--ol);padding:12px;gap:9px}
+#car .car-admin-search{width:100%;box-sizing:border-box;padding:10px 12px;background:var(--cell);border:1px solid var(--ol);border-radius:9px;color:var(--ink);font:inherit}
+#car .car-admin-list{overflow:auto;min-height:0;display:flex;flex-direction:column;gap:4px}
+#car .car-admin-item{border:1px solid transparent;border-radius:9px;background:transparent;color:var(--ink);text-align:left;padding:8px 9px;cursor:pointer;font:inherit;font-size:12px}
+#car .car-admin-item:hover,#car .car-admin-item.on{background:var(--cell);border-color:var(--ol)}
+#car .car-admin-item small{display:block;color:var(--mut);font-size:10px;margin-top:2px}
+#car .car-admin-preview{overflow:auto;min-height:0;padding:16px 20px 30px}
+#car .car-admin-note{font-size:11px;color:var(--mut);margin:0 0 12px}
+#car .car-admin-result{margin-top:12px;padding:12px;border-radius:10px;background:var(--cell);border:1px solid var(--ol);font-size:12px}
+#car .car-admin-result b{display:block;margin-bottom:3px}
+#car .car-admin-preview .car-box{margin:0}
+#car .car-admin-preview [data-opt].admin-picked{outline:2px solid var(--sun);outline-offset:2px}
+@media (max-width:700px){#car .car-admin-overlay{padding:0}#car .car-admin-panel{height:100%;max-height:none;border-radius:0}#car .car-admin-main{grid-template-columns:1fr;grid-template-rows:160px minmax(0,1fr)}#car .car-admin-nav{border-right:0;border-bottom:1px solid var(--ol);padding:8px}#car .car-admin-list{display:flex;flex-direction:row;overflow:auto;gap:6px}#car .car-admin-item{min-width:150px}#car .car-admin-preview{padding:12px}}
 </style>
 
 <script>
@@ -6844,8 +6864,7 @@ main:has(.card.caron){max-width:1180px}
     enemy_barber:['assets/career-events/enemy-barber-accept.webp','assets/career-events/enemy-barber-sue.webp'],
     party_before_final:['assets/career-events/party-before-final-party.webp','assets/career-events/party-before-final-hotel.webp','assets/career-events/party-before-final-report.webp']
   };
-  function htmlDecisao(){
-    const d=CAR.decisions[CAR.decIdx];
+  function htmlDecisao(d=CAR.decisions[CAR.decIdx],eventKey=CAR.eventoAtual?.key,seasonLog=CAR.seasonLog){
     if(!d)return '';
     if(d.layout==='ira'){
       return `
@@ -6853,7 +6872,7 @@ main:has(.card.caron){max-width:1180px}
         <h3 class="car-dec-tt">${esc(d.titulo)}</h3>
         <p class="car-sub">${esc(d.desc)}</p>
         <div id="car-opts" class="car-ira ${d.opts.length<2?'one':''}">${d.opts.map((o,i)=>cardIra(o,i)).join('')}</div>
-        ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
+        ${seasonLog.length?`<div class="car-log">${seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
       </section>`;
     }
     if(d.layout==='invite'){
@@ -6877,7 +6896,7 @@ main:has(.card.caron){max-width:1180px}
             <span class="car-neutral-note">— Sem mudanças</span>
           </button>
         </div>
-        ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
+        ${seasonLog.length?`<div class="car-log">${seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
       </section>`;
     }
     const idx=d.opts.map((o,i)=>[o,i]);
@@ -6886,7 +6905,7 @@ main:has(.card.caron){max-width:1180px}
     const indiferente=o=>o.outs.length===1&&o.outs[0].t==='Sem efeito';
     if(varias)outros.sort((a,b)=>Number(indiferente(a[0]))-Number(indiferente(b[0])));
     const optBtn=([o,i])=>{
-      const img=CAR_EVENT_IMAGES[CAR.eventoAtual?.key]?.[i];
+      const img=CAR_EVENT_IMAGES[eventKey]?.[i];
       const neutro=(varias||!!img)&&indiferente(o);
       return `
             <button type="button" class="car-opt${varias?' car-opt-direct':''}${neutro?' car-opt-neutral':''}${img?' car-opt-with-photo':''}" data-opt="${i}">
@@ -6903,9 +6922,9 @@ main:has(.card.caron){max-width:1180px}
         <p class="car-sub">${esc(d.desc)}</p>
         <div id="car-opts">
           ${times.length?`<div class="car-teams">${times.map(([o,i])=>cardTime(o.time.cl,o.time.tipo,`data-opt="${i}"`)).join('')}</div>`:''}
-          ${outros.length?`<div class="car-opts ${(!times.length&&d.opts.length===2)?'n2':''} ${varias?'direct n3':''} ${CAR_EVENT_IMAGES[CAR.eventoAtual?.key]?'has-photos':''}">${outros.map(optBtn).join('')}</div>`:''}
+          ${outros.length?`<div class="car-opts ${(!times.length&&d.opts.length===2)?'n2':''} ${varias?'direct n3':''} ${CAR_EVENT_IMAGES[eventKey]?'has-photos':''}">${outros.map(optBtn).join('')}</div>`:''}
         </div>
-        ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
+        ${seasonLog.length?`<div class="car-log">${seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
       </section>`;
   }
 
@@ -7649,6 +7668,114 @@ main:has(.card.caron){max-width:1180px}
     if(lf&&window.ResizeObserver){if(window._carRO)window._carRO.disconnect();window._carRO=new ResizeObserver(()=>{const h=Math.max(minH,innerHeight-top-14,lf.offsetHeight);tl.style.setProperty('--tlh',h+'px')});window._carRO.observe(lf)}
   }
   window.addEventListener('resize',carFitTl);
+
+  // Prévia local: usa o mesmo construtor e os mesmos cartões das decisões, sem executar efeitos.
+  const CAR_ADMIN_CODE='COPERO-ADMIN';
+  function adminPreviewCar(){
+    const clubs=getClubs();
+    const atual=CAR?.clube||clubs.find(x=>x.l==='BRA1')||clubs[0];
+    const antigo=clubs.find(x=>x.l==='BRA1'&&x.c!==atual.c)||clubs.find(x=>x.c!==atual.c)||atual;
+    const base=CAR?{...CAR}:{};
+    return {...base,nome:base.nome||'Craque',nac:base.nac||'Brasil',pos:base.pos||'CA',idade:Math.max(34,base.idade||34),ano:base.ano||2038,
+      ovr:base.ovr||82,peakOvr:base.peakOvr||82,clube:atual,
+      passagens:[{c:antigo.c,l:antigo.l},{c:atual.c,l:atual.l}],
+      emprestimo:{origem:antigo,ate:2039},efeitos:[],diferido:[],
+      tempMod:{gols:0,jogos:0,dec:0,esp:0,titBonus:0,selJogos:0,selGols:0,wcBoost:0},seasonLog:[]};
+  }
+  function adminEventData(key,car){
+    const clubs=getClubs(),outros=clubs.filter(x=>x.c!==car.clube.c&&x.l);
+    const alvos=outros.slice(0,3).map(x=>({c:x.c,l:x.l}));
+    const ev={key};
+    if(key==='injury')ev.lesao='acl';
+    if(key==='recovery_home'){ev.alvo={c:car.passagens[0].c,l:car.passagens[0].l};ev.motivo='lesao'}
+    if(key==='loan_offer'||key==='post_loan'||key==='pick_club')ev.alvos=alvos;
+    if(key==='post_loan_retained'){ev.key='post_loan';ev.retido=true;ev.alvos=alvos}
+    if(key==='post_loan_released'){ev.key='post_loan';ev.liberado=true;ev.alvos=alvos}
+    if(key==='training_extra')ev.variante='acampamento';
+    if(key==='personal_coach')ev.variante='nutricao';
+    if(key==='season_load')ev.variante='dupla';
+    if(key==='controversial_post')ev.variante='tio';
+    if(key==='rival_offer')ev.alvo=outros[0]?.c;
+    if(key==='return_home'){ev.alvo=car.passagens[0].c;ev.alvoL=car.passagens[0].l}
+    if(key==='triumphant_return')ev.alvo=car.passagens[0].c;
+    if(key==='grandma_agent'||key==='change_agent'||key==='buy_football_club')ev.alvo=outros[0]?.c;
+    if(key==='wrong_player_offer'){ev.alvoS=outros[0]?.c;ev.alvoA=outros[1]?.c}
+    if(LIGAS_CONVITE[key]){const cl=conviteClube(key);ev.alvo=cl?.c;ev.alvoL=cl?.l}
+    if(key==='childhood_club_farewell')ev.alvos=[{c:car.passagens[0].c,l:car.passagens[0].l}];
+    return ev;
+  }
+  function openCarAdmin(){
+    if(!CAR_ACTIVE||document.querySelector('#car .car-admin-overlay'))return;
+    const root=c$('car'),previewCar=adminPreviewCar(),oldRng=CRNG;
+    let entries=[];
+    try{
+      if(MC)CRNG=MC.RNG.make('QC|ADMIN|PREVIEW');
+      const keys=[...EVENTOS_KEYS,'injury','recovery_home','loan_offer','post_loan','post_loan_retained','post_loan_released','pick_club'];
+      entries=keys.map(key=>{
+        try{const ev=adminEventData(key,previewCar),decision=montaEvento(previewCar,ev);
+          return {key,ev,decision,label:decision.titulo};
+        }catch(err){return {key,label:key,error:String(err)}}
+      });
+    }finally{CRNG=oldRng}
+    const panel=document.createElement('div');
+    panel.className='car-admin-overlay';
+    panel.innerHTML=`<div class="car-admin-panel" role="dialog" aria-modal="true" aria-label="Prévia dos eventos do Copero">
+      <div class="car-admin-head"><div><b>Eventos do Copero</b><small>${entries.length} telas · Prévia sem alterar a carreira</small></div><button type="button" class="car-admin-close" aria-label="Fechar">×</button></div>
+      <div class="car-admin-main"><nav class="car-admin-nav"><input class="car-admin-search" type="search" placeholder="Buscar evento" aria-label="Buscar evento"><div class="car-admin-list"></div></nav><div class="car-admin-preview"></div></div>
+    </div>`;
+    root.appendChild(panel);
+    const list=panel.querySelector('.car-admin-list'),preview=panel.querySelector('.car-admin-preview');
+    let current=null,simulating=false;
+    const renderList=()=>{
+      const q=panel.querySelector('.car-admin-search').value.trim().toLocaleLowerCase('pt-BR');
+      list.innerHTML=entries.map((e,i)=>({e,i})).filter(({e})=>(e.label+' '+e.key).toLocaleLowerCase('pt-BR').includes(q))
+        .map(({e,i})=>`<button type="button" class="car-admin-item${current===i?' on':''}" data-admin-event="${i}">${esc(e.label)}<small>${esc(e.key)}${e.decision?' · '+e.decision.opts.length+' opções':''}</small></button>`).join('');
+    };
+    const select=i=>{
+      current=i;simulating=false;const e=entries[i];renderList();
+      preview.innerHTML=e.error?`<p class="car-admin-note">Não foi possível montar a prévia: ${esc(e.error)}</p>`:
+        `<p class="car-admin-note">Clique em uma escolha para sortear um desfecho de exemplo. Nada será aplicado à carreira.</p>${htmlDecisao(e.decision,e.ev.key,[]).replace('id="car-opts"','id="car-admin-opts"')}<div class="car-admin-result" hidden></div>`;
+      preview.scrollTop=0;
+      autoCoresClubes(preview);autoCoresBolinhas(preview);
+    };
+    panel.querySelector('.car-admin-search').oninput=renderList;
+    list.onclick=ev=>{const b=ev.target.closest('[data-admin-event]');if(b)select(+b.dataset.adminEvent)};
+    preview.onclick=ev=>{
+      const b=ev.target.closest('[data-opt]');if(!b||simulating||current===null)return;
+      const op=entries[current].decision.opts[+b.dataset.opt];if(!op)return;
+      simulating=true;
+      preview.querySelectorAll('[data-opt]').forEach(x=>x.classList.toggle('admin-picked',x===b));
+      let n=Math.random(),out=op.outs[op.outs.length-1];
+      for(const o of op.outs){n-=o.p;if(n<=0){out=o;break}}
+      const done=()=>{
+        const result=preview.querySelector('.car-admin-result');
+        result.hidden=false;result.innerHTML=`<b>${esc(op.t)}</b>${esc(out.t)}${op.outs.length>1?` · ${Math.round(out.p*100)}%`:''}<br><small>Simulação visual: a carreira não foi modificada.</small>`;
+        simulating=false;
+      };
+      if(op.outs.length>1&&b.querySelectorAll('.car-fx-g').length>1&&!carRM())rolaSorteio(b,op.outs.indexOf(out),done);
+      else done();
+    };
+    const close=()=>{panel.remove();document.removeEventListener('keydown',onKey)};
+    const onKey=ev=>{if(ev.key==='Escape')close()};
+    document.addEventListener('keydown',onKey);
+    panel.querySelector('.car-admin-close').onclick=close;
+    panel.onclick=ev=>{if(ev.target===panel)close()};
+    select(0);panel.querySelector('.car-admin-search').focus();
+  }
+  let adminTaps=0,adminLastTap=0;
+  function requestCarAdmin(){
+    if(!CAR_ACTIVE)return;
+    const code=prompt('Código do painel de eventos:');
+    if(code&&code.trim().toUpperCase()===CAR_ADMIN_CODE)openCarAdmin();
+    else if(code!==null)alert('Código incorreto.');
+  }
+  document.addEventListener('click',ev=>{
+    if(!CAR_ACTIVE||!ev.target.closest('#car .car-hd > .car-badge, #car .car-top > .car-badge'))return;
+    const now=Date.now();adminTaps=now-adminLastTap<4000?adminTaps+1:1;adminLastTap=now;
+    if(adminTaps>=5){adminTaps=0;requestCarAdmin()}
+  });
+  document.addEventListener('keydown',ev=>{if(CAR_ACTIVE&&ev.ctrlKey&&ev.altKey&&ev.key.toLowerCase()==='a'){ev.preventDefault();requestCarAdmin()}});
+
   function renderCar(){
     renderSidePanel();
     const root=c$('car');
