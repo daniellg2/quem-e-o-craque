@@ -3764,6 +3764,24 @@ main:has(.card.caron){max-width:1180px}
   #car .car-invite-pressure .car-opt-d{font-size:10px}
   #car .car-invite-pressure .car-fx-p{font-size:10px;padding:6px 5px}
 }
+/* Fotos opcionais dos eventos: duas escolhas em colunas, três em linhas compactas. */
+#car .car-opts.has-photos.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
+#car .car-opts.has-photos .car-opt{gap:5px}
+#car .car-opt-photo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;border-radius:10px;background:var(--panel);margin:5px 0}
+#car .car-opts.has-photos.n3 .car-opt{display:grid;grid-template-columns:96px minmax(0,1fr);grid-template-areas:"photo title" "photo desc" "photo fx";column-gap:10px;align-content:center}
+#car .car-opts.has-photos.n3 .car-opt>b{grid-area:title}
+#car .car-opts.has-photos.n3 .car-opt-photo{grid-area:photo;width:96px;height:96px;aspect-ratio:1;margin:0;align-self:center}
+#car .car-opts.has-photos.n3 .car-opt-d{grid-area:desc}
+#car .car-opts.has-photos.n3 .car-outs,#car .car-opts.has-photos.n3 .car-neutral-note{grid-area:fx;margin-top:4px}
+@media (max-width:560px){
+  #car .car-opts.has-photos.n2{gap:7px}
+  #car .car-opts.has-photos.n2 .car-opt{padding:8px 7px}
+  #car .car-opts.has-photos.n2 .car-opt b{font-size:11px;line-height:1.2}
+  #car .car-opts.has-photos.n2 .car-opt-d{font-size:10px;line-height:1.25}
+  #car .car-opts.has-photos.n2 .car-fx-p{font-size:10px;padding:6px 5px}
+  #car .car-opts.has-photos.n3 .car-opt{grid-template-columns:76px minmax(0,1fr);column-gap:8px}
+  #car .car-opts.has-photos.n3 .car-opt-photo{width:76px;height:76px}
+}
 </style>
 
 <script>
@@ -6820,6 +6838,12 @@ main:has(.card.caron){max-width:1180px}
     step();
   }
 
+  const CAR_EVENT_IMAGES={
+    training_extra:['assets/career-events/training-extra-accept.webp','assets/career-events/training-extra-decline.webp'],
+    personal_coach:['assets/career-events/personal-coach-accept.webp','assets/career-events/personal-coach-decline.webp'],
+    enemy_barber:['assets/career-events/enemy-barber-accept.webp','assets/career-events/enemy-barber-sue.webp'],
+    party_before_final:['assets/career-events/party-before-final-party.webp','assets/career-events/party-before-final-hotel.webp','assets/career-events/party-before-final-report.webp']
+  };
   function htmlDecisao(){
     const d=CAR.decisions[CAR.decIdx];
     if(!d)return '';
@@ -6862,10 +6886,12 @@ main:has(.card.caron){max-width:1180px}
     const indiferente=o=>o.outs.length===1&&o.outs[0].t==='Sem efeito';
     if(varias)outros.sort((a,b)=>Number(indiferente(a[0]))-Number(indiferente(b[0])));
     const optBtn=([o,i])=>{
-      const neutro=varias&&indiferente(o);
+      const img=CAR_EVENT_IMAGES[CAR.eventoAtual?.key]?.[i];
+      const neutro=(varias||!!img)&&indiferente(o);
       return `
-            <button type="button" class="car-opt${varias?' car-opt-direct':''}${neutro?' car-opt-neutral':''}" data-opt="${i}">
+            <button type="button" class="car-opt${varias?' car-opt-direct':''}${neutro?' car-opt-neutral':''}${img?' car-opt-with-photo':''}" data-opt="${i}">
               <b>${esc(o.t)}</b>
+              ${img?`<img class="car-opt-photo" src="${img}" alt="" loading="lazy" decoding="async">`:''}
               ${o.d?`<span class="car-opt-d">${esc(o.d)}</span>`:''}
               ${fxHTML(o)|| (neutro?'<span class="car-neutral-note">— Sem mudanças</span>':'')}
             </button>`;
@@ -6877,7 +6903,7 @@ main:has(.card.caron){max-width:1180px}
         <p class="car-sub">${esc(d.desc)}</p>
         <div id="car-opts">
           ${times.length?`<div class="car-teams">${times.map(([o,i])=>cardTime(o.time.cl,o.time.tipo,`data-opt="${i}"`)).join('')}</div>`:''}
-          ${outros.length?`<div class="car-opts ${(!times.length&&d.opts.length===2)?'n2':''} ${varias?'direct':''}">${outros.map(optBtn).join('')}</div>`:''}
+          ${outros.length?`<div class="car-opts ${(!times.length&&d.opts.length===2)?'n2':''} ${varias?'direct n3':''} ${CAR_EVENT_IMAGES[CAR.eventoAtual?.key]?'has-photos':''}">${outros.map(optBtn).join('')}</div>`:''}
         </div>
         ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
       </section>`;
