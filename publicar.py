@@ -6,13 +6,14 @@ nao gastar deploy na Netlify (o Cloudflare Pages constroi normalmente).
 
 Uso (na pasta do jogo):
   python publicar.py                    # dados + scripts
-  python publicar.py --jogo             # inclui o index.html (o jogo)
+  python publicar.py --jogo             # inclui o index.html e as imagens dos eventos
   python publicar.py --seco             # so mostra o que mudaria
   python publicar.py -m "mensagem"      # mensagem do commit
   python publicar.py --alvo C:\\dev\\quem-e-o-craque
 """
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -27,6 +28,7 @@ SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py"
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py"]
 EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore"]
+PASTA_IMAGENS_JOGO = os.path.join("assets", "career-events")
 
 ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
                "copero-times.js", "historico.js", "historico.json",
@@ -51,6 +53,24 @@ def normalizar_lf():
             print("  (normalizado para LF: %s)" % arq)
 
 
+def imagens_do_jogo():
+    """Lista as imagens do jogo, preservando a estrutura de pastas."""
+    pasta = os.path.join(AQUI, PASTA_IMAGENS_JOGO)
+    if not os.path.isdir(pasta):
+        raise FileNotFoundError("pasta de imagens nao encontrada: %s" % pasta)
+    arquivos = []
+    for base, _, nomes in os.walk(pasta):
+        for nome in nomes:
+            arquivos.append(os.path.relpath(os.path.join(base, nome), AQUI))
+    arquivos.sort()
+    with open(os.path.join(AQUI, "index.html"), encoding="utf-8") as f:
+        referencias = set(re.findall(r"assets/career-events/[\w./-]+\.webp", f.read()))
+    faltando = [r for r in referencias if not os.path.isfile(os.path.join(AQUI, r))]
+    if faltando:
+        raise FileNotFoundError("imagens citadas no index.html nao encontradas: %s" % ", ".join(sorted(faltando)))
+    return arquivos
+
+
 def git(*args, alvo="."):
     exe = shutil.which("git") or r"C:\Program Files\Git\cmd\git.exe"
     return subprocess.run([exe, "-C", alvo] + list(args), text=True,
@@ -60,7 +80,7 @@ def git(*args, alvo="."):
 def main():
     ap = argparse.ArgumentParser(description="Publica os dados no repositorio do GitHub")
     ap.add_argument("--alvo", default=ALVO_PADRAO, help="pasta do clone do repositorio")
-    ap.add_argument("--jogo", action="store_true", help="inclui o index.html (o jogo)")
+    ap.add_argument("--jogo", action="store_true", help="inclui o index.html e as imagens dos eventos")
     ap.add_argument("-m", "--mensagem", default="dados atualizados", help="mensagem do commit")
     ap.add_argument("--incluir", default="",
                     help="arquivos extras para publicar (separados por virgula). Ex.: --incluir times.js")
@@ -76,9 +96,15 @@ def main():
     arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
     if a.jogo:
         arquivos.append("index.html")
+        try:
+            arquivos.extend(imagens_do_jogo())
+        except FileNotFoundError as e:
+            print("ERRO: %s" % e)
+            sys.exit(1)
     arquivos += [s.strip() for s in a.incluir.split(",") if s.strip()]
 
-    normalizar_lf()
+    if not a.seco:
+        normalizar_lf()
 
     copiados, faltando = [], []
     for f in arquivos:
@@ -92,6 +118,7 @@ def main():
                (open(dst, "rb").read() != open(src, "rb").read())
         if novo:
             if not a.seco:
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copy2(src, dst)
             copiados.append(dst_nome)
 
@@ -101,10 +128,12 @@ def main():
         print("Nada para publicar: os arquivos do repositorio ja estao iguais.")
         return
 
-    print("Copiados para o repositorio: %s" % ", ".join(copiados))
     if a.seco:
+        print("Alteracoes previstas: %s" % ", ".join(copiados))
         print("(--seco: nada foi copiado nem enviado)")
         return
+
+    print("Copiados para o repositorio: %s" % ", ".join(copiados))
 
     msg = a.mensagem
     if "[skip netlify]" not in msg and "[skip ci]" not in msg:

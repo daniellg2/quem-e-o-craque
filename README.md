@@ -14,7 +14,8 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 
 | Arquivo | Papel |
 |---|---|
-| `index.html` | o jogo inteiro (HTML + CSS + JS). A cópia local é o `index6.html` |
+| `index.html` | o jogo (HTML + CSS + JS) |
+| `assets/career-events/` | imagens das escolhas do modo carreira; devem ser publicadas junto com o jogo |
 | `dados.js` | jogadores: nome, clube atual, posição, idade, valor, liga, id e foto (Transfermarkt), nacionalidade, **fama** (campo 13) e famaBruta (14) |
 | `gols.js` / `gols.json` | gols, jogos em que marcou, gols decisivos/pênaltis/faltas, gols por clube e seleção |
 | `copas.js` / `copas.json` | histórico de Copas do Mundo |
@@ -55,7 +56,7 @@ python pipeline_dados.py --escopo reputacao  # razão/divisão dos clubes p/ os 
 python pipeline_dados.py --escopo tudo       # tudo, na ordem
 
 python publicar.py                            # publica os dados no repositório
-python publicar.py --jogo                     # + o index6.html (vira index.html)
+python publicar.py --jogo                     # + index.html e assets/career-events/
 ```
 
 ### No servidor (grátis, sem PC ligado)
@@ -75,13 +76,13 @@ O robô roda o pipeline e commita sozinho. O commit sai com `[skip netlify]` —
 
 ## Como publicar uma mudança no jogo
 
-1. Edite o `index6.html` (é um arquivo só: HTML + CSS + JS num lugar).
-2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`).
+1. Edite o `index.html` e, se houver novas imagens, coloque-as em `assets/career-events/`.
+2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui automaticamente as imagens e confere se as usadas pelo jogo existem.
 3. O Cloudflare reconstrói em ~30 s e o site já está atualizado para todo mundo.
 
 > Alternativa: subir o arquivo pelo GitHub (Add file → Upload files). Funciona,
 > mas aí rode `git -C C:\dev\quem-e-o-craque pull` depois para a cópia local
-> não ficar para trás — e lembre de nomear como `index.html`.
+> não ficar para trás. Se enviar `index.html`, envie também a pasta `assets/career-events/`.
 
 ## Cuidados
 

@@ -77,10 +77,10 @@ function MostrarMenu {
   Item '6' 'Reputação' 'notas e divisão dos clubes (títulos fiéis)'
   LinhaFina 'PUBLICAR  (GitHub → Cloudflare Pages)'
   Item '7' 'Dados'     'sobe dados, scripts e reputações'
-  Item '8' 'Jogo'      'sobe o index.html + tudo dos dados'
+  Item '8' 'Jogo'      'sobe o index.html, imagens e dados'
   Item '9' 'Tudo'      'jogo + dados numa mensagem só'
   Write-Host ''
-  Item 'T' 'Conferir'  'mostra o que mudaria (não envia nada)'
+  Item 'T' 'Conferir'  'mostra jogo, imagens e dados sem enviar nada'
   Item 'S' 'Status'    'tamanhos, datas e o repositório'
   Item 'Q' 'Sair'
   Write-Host ''
@@ -190,7 +190,7 @@ while (-not $sair) {
     '7' { Rodar 'Publicando os dados no GitHub...' @('publicar.py');        if ($script:ultimoOk) { Pausar } }
     '8' { Rodar 'Publicando o jogo + dados no GitHub...' @('publicar.py', '--jogo'); if ($script:ultimoOk) { Pausar } }
     '9' { Rodar 'Publicando tudo (jogo + dados)...' @('publicar.py', '--jogo', '-m', 'atualização completa (jogo + dados)'); if ($script:ultimoOk) { Pausar } }
-    'T' { Rodar 'Conferindo o que mudaria (sem enviar)...' @('publicar.py', '--seco'); if ($script:ultimoOk) { Pausar } }
+    'T' { Rodar 'Conferindo o que mudaria (sem enviar)...' @('publicar.py', '--jogo', '--seco'); if ($script:ultimoOk) { Pausar } }
     'S' { MostrarStatus }
     'Q' { $sair = $true }
     default {
