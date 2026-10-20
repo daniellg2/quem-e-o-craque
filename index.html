@@ -3465,7 +3465,7 @@ main:has(.card.caron){max-width:1180px}
 .car-box{box-shadow:none}
 .car-left{gap:12px}
 .car-opts{gap:8px;margin-top:10px}
-.car-opt{padding:11px 12px;gap:5px;box-shadow:none;border-width:2px;border-radius:14px}
+.car-opt{padding:11px 12px;gap:0;box-shadow:none;border-width:2px;border-radius:14px}
 .car-opt:hover,.car-opt:active{transform:none;box-shadow:none}
 .car-opt b{font-size:13.5px}
 .car-outs{flex-direction:row;flex-wrap:wrap;gap:6px;padding-top:2px;margin-top:0;border-top:0}
@@ -3514,6 +3514,7 @@ main:has(.card.caron){max-width:1180px}
 #car .car-season-trophies .car-troph-ico{width:14px;height:18px;padding:0}
 .car-season-trophies:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
 .car-season-club{display:flex;align-items:center;flex-wrap:nowrap;gap:2px 6px;min-width:0}
+.car-loan-mark{flex:none;color:var(--mut);font:800 17px/1 'DM Sans',sans-serif}
 .car-season-club>.car-rc{flex:0 1 auto;min-width:48px}
 #car .car-season-trophies img,#car .car-season-trophies svg{width:12px!important;height:16px!important;object-fit:contain}
 /* Escolha de time (layout Copero) */
@@ -3565,6 +3566,11 @@ main:has(.card.caron){max-width:1180px}
 #car .car-opt,#car .car-team,#car .car-offer{border-width:1.5px;border-color:var(--line);background:var(--cell);box-shadow:none}
 #car .car-opt:hover,#car .car-team:hover,#car .car-offer:hover{border-color:var(--ol)}
 #car .car-opt-d,#car .car-team small,#car .car-team-meta{font-size:12.5px}
+#car .car-opts.direct .car-opt{gap:4px;padding:12px 13px}
+#car .car-opts.direct .car-opt .car-outs{margin-top:6px;width:100%}
+#car .car-opt.car-opt-neutral{background:color-mix(in srgb,var(--cell) 66%,#758086 34%);border-color:color-mix(in srgb,var(--line) 45%,#9aa3a9 55%)}
+#car .car-opt.car-opt-neutral:hover{border-color:#b4bec2}
+.car-neutral-note{display:block;width:100%;margin-top:5px;padding:8px 10px;border:1px solid rgba(148,163,184,.35);border-radius:10px;background:rgba(148,163,184,.12);color:var(--mut);font:700 12.5px/1.25 'DM Sans',sans-serif}
 #car .car-sb{border-width:1.5px;border-color:var(--line);background:var(--cell);box-shadow:none}
 #car .car-sb small{font-size:11px}
 #car .car-log-i{border-width:1.5px;border-color:var(--line);background:var(--cell)}
@@ -3740,6 +3746,23 @@ main:has(.card.caron){max-width:1180px}
   body:has(.card.caron) #tipos{min-width:0;grid-template-columns:repeat(2,minmax(0,1fr))}
   body:has(.card.caron) #tipos button{min-width:0;gap:4px;padding:10px 4px;font-size:16px}
   body:has(.card.caron) #tcol{padding:0 8px}
+}
+/* Convites de fim de carreira: proposta e negociação lado a lado, recusa abaixo. */
+#car .car-invite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+#car .car-invite-grid .car-team{width:100%;min-width:0;min-height:210px;flex:none;aspect-ratio:auto;align-self:stretch;justify-content:center}
+#car .car-invite-pressure{min-width:0;justify-content:flex-start}
+#car .car-invite-pressure b{overflow-wrap:anywhere}
+#car .car-invite-pressure .car-outs{width:100%;margin-top:auto}
+#car .car-invite-refuse{grid-column:1/-1;min-width:0}
+#car .car-invite-refuse .car-neutral-note{background:rgba(148,163,184,.1)}
+@media (max-width:560px){
+  #car .car-invite-grid{gap:7px}
+  #car .car-invite-grid .car-team{min-height:180px;padding:9px 5px}
+  #car .car-invite-grid .car-team b{min-height:0}
+  #car .car-invite-pressure{padding:9px 8px}
+  #car .car-invite-pressure b{font-size:11px;line-height:1.2}
+  #car .car-invite-pressure .car-opt-d{font-size:10px}
+  #car .car-invite-pressure .car-fx-p{font-size:10px;padding:6px 5px}
 }
 </style>
 
@@ -4398,7 +4421,8 @@ main:has(.card.caron){max-width:1180px}
     const awards = [];
     const confed = (club.confederation || '').toUpperCase();
     const gk = isGk(player.position);
-    const chance = isStarterish(role) ? awardChance(player.overall, trophies) * (gk ? 1 : roleAwardMult(player.roleGroup)) : 0;
+    const chance = isStarterish(role) && (gk || confed === 'UEFA')
+      ? awardChance(player.overall, trophies) * (gk ? 1 : roleAwardMult(player.roleGroup)) : 0;
     const r = RNG.chance(rng, chance);
     let c = r.rng;
     if (r.success) awards.push(gk ? 'golden_glove' : 'ballon_dor');
@@ -4508,7 +4532,7 @@ main:has(.card.caron){max-width:1180px}
     }
     return { rng: c, teams: picks };
   }
-  // Empréstimo: clubes mais fracos, mesmo país/confederação
+  // Empréstimo: esgota primeiro os clubes elegíveis do mesmo país.
   function generateLoanOffers(rng, player, currentClub, clubPool, count) {
     count = count || 3;
     const used = new Set([currentClub.id]);
@@ -4518,13 +4542,13 @@ main:has(.card.caron){max-width:1180px}
     const sameCountry = clubPool.filter(x => x.countryFifaCode === currentClub.countryFifaCode && !used.has(x.id) && x.internationalReputation <= target);
     const sameConfed = clubPool.filter(x => x.countryFifaCode !== currentClub.countryFifaCode && x.confederation === currentClub.confederation && !used.has(x.id) && x.internationalReputation <= target);
     if (!sameCountry.length && !sameConfed.length) return { rng: c, teams: [] };
-    while (out.length < count) {
-      const choose = RNG.weighted(c, [{ item: sameCountry, weight: sameCountry.length ? 90 : 0 }, { item: sameConfed, weight: sameConfed.length ? 10 : 0 }]);
-      c = choose.rng;
-      const list = choose.item.filter(x => !used.has(x.id));
-      if (!list.length) break;
-      const r = RNG.pick(c, list); c = r.rng;
-      out.push(r.item); used.add(r.item.id);
+    for (const group of [sameCountry, sameConfed]) {
+      while (out.length < count) {
+        const list = group.filter(x => !used.has(x.id));
+        if (!list.length) break;
+        const r = RNG.pick(c, list); c = r.rng;
+        out.push(r.item); used.add(r.item.id);
+      }
     }
     return { rng: c, teams: out };
   }
@@ -5032,8 +5056,10 @@ main:has(.card.caron){max-width:1180px}
   }
 
   // ---------- Eventos de carreira (catálogo e regras do Copero) ----------
-  const EV_PESO={giant_tattoo:35,finish_high_school:35,fan_backlash:80,rival_offer:80,club_crisis:45,unexpected_prospect:45,return_home:45,controversial_statement:45,tax_trouble:25,foreign_grandfather:25,mysterious_substance:20,honesty_test:20,indecent_proposal:20,controversial_post:35,club_national_team_conflict:20,injury_at_peak:20,decisive_penalty:20,triumphant_return:50};
-  const EVENTOS_KEYS=['training_extra','personal_coach','mysterious_substance','honesty_test','indecent_proposal','controversial_post','season_load','position_change','position_competition','unexpected_prospect','club_priority','rival_offer','club_crisis','fan_backlash','return_home','giant_tattoo','tax_trouble','foreign_grandfather','finish_high_school','controversial_statement','triumphant_return','club_national_team_conflict','injury_at_peak','decisive_penalty'];
+  const EV_PESO={giant_tattoo:35,finish_high_school:35,fan_backlash:80,rival_offer:80,club_crisis:45,unexpected_prospect:45,return_home:45,controversial_statement:45,tax_trouble:25,foreign_grandfather:25,mysterious_substance:20,honesty_test:20,indecent_proposal:20,controversial_post:35,club_national_team_conflict:20,injury_at_peak:20,decisive_penalty:20,triumphant_return:50,
+    grandma_agent:35,bet_against_team:15,buy_football_club:25,dog_ate_contract:30,wedding_on_final:35,wrong_player_offer:35,fake_identity:10,enemy_barber:55,stolen_popsicle:5,change_agent:75,cheating_scandal:45,party_before_final:50,coach_argument:75,career_ending_injury:15,captain_offer:65,saudi_offer:180,qatar_offer:180,turkey_offer:180,mls_offer:180,last_champions_chance:35,childhood_club_farewell:210,betting_scandal:10};
+  const EVENTOS_KEYS=['training_extra','personal_coach','mysterious_substance','honesty_test','indecent_proposal','controversial_post','season_load','position_change','position_competition','unexpected_prospect','club_priority','rival_offer','club_crisis','fan_backlash','return_home','giant_tattoo','tax_trouble','foreign_grandfather','finish_high_school','controversial_statement','triumphant_return','club_national_team_conflict','injury_at_peak','decisive_penalty',
+    'grandma_agent','bet_against_team','buy_football_club','dog_ate_contract','wedding_on_final','wrong_player_offer','fake_identity','enemy_barber','stolen_popsicle','change_agent','cheating_scandal','party_before_final','coach_argument','career_ending_injury','captain_offer','saudi_offer','qatar_offer','turkey_offer','mls_offer','last_champions_chance','childhood_club_farewell','betting_scandal'];
   const LESOES=[
     {type:'hamstring',label:'Lesão na coxa',w:24,d:-3},
     {type:'meniscus',label:'Lesão no menisco',w:18,d:-2},
@@ -5088,6 +5114,23 @@ main:has(.card.caron){max-width:1180px}
   function trocaClube(c,ch){
     c.clube={c:ch.c,l:ch.l,k:ch.k,tier:ch.tier,div:ch.div!=null?ch.div:divisaoClube(ch),baseOvr:ch.baseOvr,rep:ch.rep,repDom:ch.repDom,repCont:ch.repCont,isSA:ch.isSA,isEU:ch.isEU};
   }
+  function iniciaEmprestimo(c,cl,origem){
+    c.emprestimosTotal=(c.emprestimosTotal||0)+1;
+    c.emprestimo={origem:{...origem},ate:c.ano+1,liberado:c.emprestimosTotal>3};
+    c.jaEmprestado=true;
+    trocaClube(c,cl);
+    efeito(c,'papel','starter',1);
+    c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);
+    return c.emprestimo.liberado;
+  }
+  function emprestimosDeSaveAntigo(c){
+    if(!c.emprestimo)return c.jaEmprestado?1:0;
+    const origem=c.emprestimo.origem;
+    const i=(c.passagens||[]).findLastIndex(p=>p.c===origem.c&&p.l===origem.l);
+    const posteriores=(c.passagens||[]).slice(i+1);
+    const atualJaRegistrado=posteriores.some(p=>p.c===c.clube.c&&p.l===c.clube.l);
+    return Math.max(1,posteriores.length+(atualJaRegistrado?0:1));
+  }
   // Clube de destino do "Sair do clube" (Ira da torcida): reputação parecida ou um degrau abaixo, de preferência de outra liga.
   // Escolha estável (hash do nome/ano), sem gastar o RNG da carreira.
   function saidaClube(car){
@@ -5103,6 +5146,73 @@ main:has(.card.caron){max-width:1180px}
     return pool[h%pool.length];
   }
   function rivais(car){return getClubs().filter(x=>x.c!==car.clube.c&&(x.tier==='S'||x.tier==='A'))}
+
+  // ---- Apoio aos eventos novos (níveis de clube, empréstimo, situação) ----
+  const LIGAS_CONVITE={saudi_offer:{fifa:'KSA',titulo:'Convite para jogar na Arábia Saudita',desc:'Um clube da Arábia Saudita apresenta uma proposta milionária. A mudança pode garantir seu futuro financeiro.'},qatar_offer:{fifa:'QAT',titulo:'Convite para jogar no Catar',desc:'Um clube do Catar apresenta uma proposta para a reta final da sua carreira.'},turkey_offer:{fifa:'TUR',titulo:'Convite para jogar na Turquia',desc:'Um clube da Turquia apresenta uma proposta para a reta final da sua carreira.'},mls_offer:{fifa:'USA',titulo:'Convite para jogar na MLS',desc:'Um clube da MLS oferece um contrato para a reta final da sua carreira nos Estados Unidos.'}};
+  const clubeDaLiga=(cl,key)=>!!cl&&FIFA_LIGA[cl.l]===LIGAS_CONVITE[key].fifa;
+  const clubesDaLiga=key=>clubesOk().filter(cl=>clubeDaLiga(cl,key));
+  const conviteClube=key=>{const pool=clubesDaLiga(key);return pool.length?rPick(pool):null};
+  const anosNoClube=car=>{const p=car.passagens[car.passagens.length-1];return p?(p.anos||0):0};
+  // "Clube disputando uma final": elite nacional ou campanha continental forte
+  const disputaFinal=car=>['S','A'].includes(car.clube.tier)||(car.clube.rep||0)>=3||(car.clube.repCont||0)>=3;
+  // Europa + 1ª divisão + força continental: candidato a disputar a Champions
+  const brigaChampions=car=>confDaClube(car.clube)==='UEFA'&&divisaoClube(car.clube)===1&&(car.clube.repCont||0)>=2;
+  const clubesOk=()=>getClubs().filter(cl=>cl.c&&cl.l&&crest(cl.l,cl.c));
+  const existeSuperior=car=>clubesOk().some(cl=>cl.c!==car.clube.c&&(cl.rep||0)>(car.clube.rep||0));
+  const existeNivel=(t,car)=>clubesOk().some(cl=>cl.tier===t&&cl.c!==car.clube.c);
+  const existeEuropeuSA=car=>clubesOk().some(cl=>cl.c!==car.clube.c&&cl.isEU&&(cl.tier==='S'||cl.tier==='A'));
+  const clubeSuperior=car=>{const pool=clubesOk().filter(cl=>cl.c!==car.clube.c&&(cl.rep||0)>(car.clube.rep||0));return pool.length?rPick(pool):null};
+  const clubeNivel=(t,car)=>{let pool=clubesOk().filter(cl=>cl.tier===t&&cl.c!==car.clube.c);if(!pool.length)pool=clubesOk().filter(cl=>cl.tier===t);return pool.length?rPick(pool):null};
+  const clubesDoPaisNatal=(car,permitirMesmoPais=false)=>{
+    const pais=fifaNac(car.nac);
+    if(!permitirMesmoPais&&FIFA_LIGA[car.clube.l]===pais)return [];
+    return clubesOk().filter(cl=>FIFA_LIGA[cl.l]===pais&&CLID(cl)!==CLID(car.clube));
+  };
+  const clubeDeRetorno=(car,permitirMesmoPais=false)=>{
+    const pool=clubesDoPaisNatal(car,permitirMesmoPais);
+    if(!pool.length)return null;
+    const reputacao=Math.max(...pool.map(cl=>cl.rep||0));
+    return rPick(pool.filter(cl=>(cl.rep||0)===reputacao));
+  };
+  const clubesEuropeusSA=(qtd,car)=>{const ex=new Set([car.clube.c]);let pool=clubesOk().filter(cl=>!ex.has(cl.c)&&cl.isEU&&(cl.tier==='S'||cl.tier==='A'));if(pool.length<qtd)pool=pool.concat(clubesOk().filter(cl=>!ex.has(cl.c)&&cl.isEU));return pool.slice().sort(()=>rnd()-.5).slice(0,qtd)};
+  // Completa propostas sem favorecer os primeiros clubes da base mundial.
+  // Prioriza reputação compatível e proximidade com o clube/jogador; só abre
+  // o raio da busca quando não há clubes suficientes.
+  function completaOfertas(car,picks,qtd,ovrOf){
+    const usados=new Set([CLID(car.clube),...(car.emprestimo?[CLID(car.emprestimo.origem)]:[]),...picks.map(CLID)]);
+    const alvo=MC.offerReputation(ovrOf);
+    const paisClube=FIFA_LIGA[car.clube.l]||fifaNac(LI(car.clube.l)[2]);
+    const paisJogador=fifaNac(car.nac),confClube=confDaClube(car.clube),confJogador=confNac(car.nac);
+    const faixa=cl=>{const p=FIFA_LIGA[cl.l]||fifaNac(LI(cl.l)[2]),conf=confDaClube(cl);
+      return p===paisClube?0:p===paisJogador?1:conf===confClube?2:conf===confJogador?3:4};
+    while(picks.length<qtd){
+      const disponiveis=clubesOk().filter(cl=>!usados.has(CLID(cl)));
+      if(!disponiveis.length)break;
+      const proximos=disponiveis.filter(cl=>Math.abs((cl.rep??0)-alvo)<=1);
+      const pool=proximos.length?proximos:disponiveis;
+      const melhorFaixa=Math.min(...pool.map(faixa));
+      const regionais=pool.filter(cl=>faixa(cl)===melhorFaixa);
+      const melhorRep=Math.min(...regionais.map(cl=>Math.abs((cl.rep??0)-alvo)));
+      const cl=rPick(regionais.filter(cl=>Math.abs((cl.rep??0)-alvo)===melhorRep));
+      picks.push(cl);usados.add(CLID(cl));
+    }
+    return picks;
+  }
+  // Sempre devolve o número pedido de propostas (garante que a carreira não trave)
+  const ofertasGarantidas=(car,qtd)=>completaOfertas(car,buildTransferOffers(car,qtd),qtd,car.ovrProx!=null?car.ovrProx:car.ovr).slice(0,qtd);
+  const primeirosClubes=car=>{
+    const vistos=new Set();
+    return (car.passagens||[]).slice(0,3).map(p=>getClubs().find(cl=>cl.c===p.c&&cl.l===p.l)||getClubs().find(cl=>cl.c===p.c)).filter(cl=>{
+      if(!cl||cl.c===car.clube.c||vistos.has(CLID(cl)))return false;
+      vistos.add(CLID(cl));return true;
+    });
+  };
+  const primeiroClubeDaCarreira=car=>{
+    const p=car.passagens&&car.passagens[0];
+    if(!p)return null;
+    const cl=getClubs().find(x=>x.c===p.c&&x.l===p.l)||null;
+    return cl&&CLID(cl)!==CLID(car.clube)?cl:null;
+  };
 
   // Plano de carreira no modo INTENSO do Copero (long): 6 ou 7 eventos entre 22 e 37,
   // com 2 anos de intervalo. O plano vem do motor (porte fiel de fi/ui/hi do original).
@@ -5123,7 +5233,7 @@ main:has(.card.caron){max-width:1180px}
       case 'rival_offer':return titular&&forte&&rivais(car).length>0;
       case 'club_crisis':return tier!=='C';
       case 'fan_backlash':return idade>22;
-      case 'return_home':return idade>24;
+      case 'return_home':return idade>24&&clubesDoPaisNatal(car).length>0;
       case 'tax_trouble':return car.clube.isSA===true;
       case 'foreign_grandfather':return !!ALT_NAC[car.nac];
       case 'triumphant_return':return idade>=32&&car.passagens.length>=2;
@@ -5131,6 +5241,26 @@ main:has(.card.caron){max-width:1180px}
       case 'injury_at_peak':return titular;
       case 'decisive_penalty':return titOuRod;
       case 'position_change':return car.pos!=='GOL';
+      case 'grandma_agent':return idade>=18&&idade<=30;
+      case 'bet_against_team':return idade>=21;
+      case 'buy_football_club':return idade>=28&&car.ovr>=75&&existeNivel('C',car);
+      case 'dog_ate_contract':return idade>=18&&idade<=34;
+      case 'wedding_on_final':return idade>=23&&idade<=35&&titOuRod&&disputaFinal(car);
+      case 'wrong_player_offer':return idade>=18&&idade<=32&&car.clube.tier!=='S'&&existeNivel('S',car)&&existeNivel('A',car);
+      case 'fake_identity':return idade>=24&&idade<=31;
+      case 'enemy_barber':return true;
+      case 'stolen_popsicle':return idade>=33;
+      case 'change_agent':return idade>=18&&idade<=32&&existeSuperior(car);
+      case 'cheating_scandal':return idade>=20;
+      case 'party_before_final':return idade>=18&&idade<=32&&titOuRod&&disputaFinal(car);
+      case 'coach_argument':return idade>=20;
+      case 'career_ending_injury':return idade>=30;
+      case 'captain_offer':return idade>=25&&titular&&anosNoClube(car)>=2;
+      case 'saudi_offer':case 'qatar_offer':case 'turkey_offer':case 'mls_offer':
+        return idade>32&&!Object.keys(LIGAS_CONVITE).some(chave=>(car.plano?.feitos||[]).includes(chave))&&!clubeDaLiga(car.clube,k)&&clubesDaLiga(k).length>0;
+      case 'last_champions_chance':return idade>=32&&brigaChampions(car)&&(car.titulos.champions||0)===0&&existeEuropeuSA(car);
+      case 'childhood_club_farewell':return idade>32&&primeirosClubes(car).length>0;
+      case 'betting_scandal':return idade>=27&&titOuRod;
       default:return true;
     }
   }
@@ -5141,11 +5271,14 @@ main:has(.card.caron){max-width:1180px}
     // Pós-empréstimo (Copero): retido se o OVR dá papel de titular/rodízio alto no clube de origem
     if(car.emprestimo&&car.ano>=car.emprestimo.ate){
       const og=car.emprestimo.origem;
-      const retido=['starter','high_rotation'].includes(papelParaClube(og,car.ovr,car.pos));
-      if(retido){
-        car.eventoAtual={key:'post_loan',retido:true,alvos:buildTransferOffers(car,2).map(x=>x.c)};
+      const liberado=car.emprestimo.liberado||(car.emprestimosTotal||0)>3;
+      const retido=!liberado&&['starter','high_rotation'].includes(papelParaClube(og,car.ovr,car.pos));
+      if(liberado){
+        car.eventoAtual={key:'post_loan',liberado:true,alvos:buildTransferOffers(car,2).map(x=>({c:x.c,l:x.l}))};
+      }else if(retido){
+        car.eventoAtual={key:'post_loan',retido:true,alvos:buildTransferOffers(car,2).map(x=>({c:x.c,l:x.l}))};
       }else{
-        car.eventoAtual={key:'post_loan',retido:false,alvos:ofertasEmprestimo(car,2).map(x=>x.c)};
+        car.eventoAtual={key:'post_loan',retido:false,alvos:ofertasEmprestimo(car,2).map(x=>({c:x.c,l:x.l}))};
       }
       return;
     }
@@ -5155,7 +5288,18 @@ main:has(.card.caron){max-width:1180px}
       const ch=pb==='substitute'?0.7:pb==='low_rotation'?0.3:0;
       if(ch&&rnd()<ch){
         const al=ofertasEmprestimo(car,3);
-        if(al.length){car.eventoAtual={key:'loan_offer',alvos:al.map(x=>x.c)};return}
+        if(al.length){car.eventoAtual={key:'loan_offer',alvos:al.map(x=>({c:x.c,l:x.l}))};return}
+      }
+    }
+    // O primeiro clube pode oferecer abrigo no ano seguinte a uma lesão grave
+    // ou a uma sequência ruim. O convite é único por carreira.
+    if(car.reencontroPendente&&car.ano>=car.reencontroPendente.ano&&!car.reencontroFeito){
+      const motivo=car.reencontroPendente.motivo,cl=primeiroClubeDaCarreira(car);
+      car.reencontroPendente=null;
+      if(cl&&rnd()<(motivo==='lesao'?.65:.35)){
+        car.reencontroFeito=true;
+        car.eventoAtual={key:'recovery_home',alvo:{c:cl.c,l:cl.l},motivo};
+        return;
       }
     }
     const p=car.plano;
@@ -5171,14 +5315,23 @@ main:has(.card.caron){max-width:1180px}
     }
     const el=EVENTOS_KEYS.filter(k=>!p.feitos.includes(k)&&eventoElegivel(car,k));
     if(!el.length)return;
-    const k=pesoPick(el.map(x=>({item:x,weight:EV_PESO[x]??100}))).item;
+    // Na reta final, convites internacionais e retorno às origens aparecem com frequência.
+    const tardios=car.idade>32?el.filter(k=>LIGAS_CONVITE[k]||k==='childhood_club_farewell'):[];
+    const pool=tardios.length&&rnd()<.7?tardios:el;
+    const k=pesoPick(pool.map(x=>({item:x,weight:EV_PESO[x]??100}))).item;
     const ev={key:k};
     if(k==='training_extra')ev.variante='acampamento';
     if(k==='personal_coach')ev.variante='nutricao';
     if(k==='season_load')ev.variante='dupla';
     if(k==='controversial_post')ev.variante=rPick(Object.keys(PARENTES));
     if(k==='rival_offer')ev.alvo=rPick(rivais(car)).c;
+    if(k==='return_home'){const cl=clubeDeRetorno(car);ev.alvo=cl?cl.c:null;ev.alvoL=cl?cl.l:null}
     if(k==='triumphant_return')ev.alvo=car.passagens[car.passagens.length-2].c;
+    if(k==='grandma_agent'||k==='change_agent'){const cl=clubeSuperior(car);ev.alvo=cl?cl.c:null}
+    if(k==='buy_football_club'){const cl=clubeNivel('C',car);ev.alvo=cl?cl.c:null}
+    if(k==='wrong_player_offer'){const s=clubeNivel('S',car),a=clubeNivel('A',car);ev.alvoS=s?s.c:null;ev.alvoA=a?a.c:null}
+    if(LIGAS_CONVITE[k]){const cl=conviteClube(k);ev.alvo=cl?cl.c:null;ev.alvoL=cl?cl.l:null}
+    if(k==='childhood_club_farewell')ev.alvos=primeirosClubes(car).map(cl=>({c:cl.c,l:cl.l}));
     p.feitos.push(k);p.feitosIdade.push(pend);p.ultimo=car.idade;
     car.eventoAtual=ev;
   }
@@ -5193,8 +5346,21 @@ main:has(.card.caron){max-width:1180px}
         const l=LESOES.find(x=>x.type===ev.lesao);
         return d('Lesão',l.label,`O departamento médico identificou: ${l.label.toLowerCase()}. Você pode seguir jogando mesmo lesionado.`,[
           op('Continuar jogando','O clube insiste, e você aceita o risco.',[
-            {p:1,t:`${sg(l.d)} OVR e vira reserva por 2 temporadas`,k:'dn',fn:c=>{ovrMais(c,l.d);efeito(c,'papel','substitute',2);return `${l.label}: você perdeu ${-l.d} de OVR e ficou na reserva.`}}
+            {p:1,t:`${sg(l.d)} OVR e vira reserva por 2 temporadas`,k:'dn',fn:c=>{ovrMais(c,l.d);efeito(c,'papel','substitute',2);if(l.d<=-5)c.reencontroPendente={motivo:'lesao',ano:c.ano+1};return `${l.label}: você perdeu ${-l.d} de OVR e ficou na reserva.`}}
           ])
+        ]);
+      }
+      case 'recovery_home':{
+        const cl=ev.alvo&&getClubs().find(x=>x.c===ev.alvo.c&&x.l===ev.alvo.l);
+        const nome=cl?cl.c:'seu primeiro clube';
+        const desc=ev.motivo==='lesao'
+          ?`Depois da lesão grave, ${nome} oferece um lugar para você se recuperar e voltar a jogar.`
+          :`Depois de uma fase ruim, ${nome} quer ajudar você a recuperar a confiança.`;
+        return d('Recomeço','O primeiro clube quer você de volta',desc,[
+          op(`Voltar ao ${nome}`,'Recomeçar com o apoio de quem acreditou primeiro.',[
+            {p:1,t:'+2 OVR e titular por 1 temporada',k:'up',fn:c=>{if(cl)trocaClube(c,cl);ovrMais(c,2);efeito(c,'papel','starter',1);c.contrato=CONTRATO_ANOS;return `Você voltou ao ${nome} para recuperar a boa fase.`}}
+          ]),
+          op('Ficar no clube atual','Você prefere tentar a recuperação aqui.',[semEfeito('Você decidiu permanecer no clube atual.')])
         ]);
       }
       case 'training_extra':
@@ -5324,12 +5490,22 @@ main:has(.card.caron){max-width:1180px}
         dec.layout='ira';
         return dec;
       }
-      case 'return_home':
-        return d('Mercado','Um clube do seu país quer você','Um grande clube do seu país quer você de volta.',[
-          op('Ficar no exterior','Você escolhe continuar lá fora.',[
+      case 'return_home':{
+        let cl=ev.alvo?getClubs().find(x=>x.c===ev.alvo&&(!ev.alvoL||x.l===ev.alvoL)):null;
+        if(!cl){cl=clubeDeRetorno(car,true);if(cl){ev.alvo=cl.c;ev.alvoL=cl.l}}
+        if(!cl)return d('Mercado','Proposta não confirmada','O clube retirou a proposta antes da negociação.',[
+          op('Continuar no clube atual','Você segue a carreira normalmente.',[semEfeito('A proposta não avançou e você permaneceu no clube.')])
+        ]);
+        const noExterior=FIFA_LIGA[car.clube.l]!==fifaNac(car.nac);
+        return d('Mercado','Um clube do seu país quer você',`${cl.c} quer contratar você.${noExterior?' A proposta permite voltar ao seu país.':''}`,[
+          op(`${noExterior?'Voltar ao':'Assinar com o'} ${cl.c}`,'Você aceita a proposta.',[
+            {p:1,t:`Transferência para o ${cl.c}`,k:'up',fn:c=>{trocaClube(c,cl);c.contrato=CONTRATO_ANOS;return `Você assinou com o ${cl.c}.`}}
+          ],{cl,tipo:'Assinar com'}),
+          op(noExterior?'Ficar no exterior':'Ficar no clube atual','Você escolhe continuar onde está.',[
             {p:1,t:'−5 OVR agora e +5 na próxima temporada',k:'dn',fn:c=>{ovrMais(c,-5);adiado(c,5);return 'A decisão pesou no moral. Mas o retorno chega depois.'}}
           ])
         ]);
+      }
       case 'giant_tattoo':
         return d('Imagem','Tatuagem gigante','Você quer fazer uma tatuagem gigante, bem visível, durante a temporada.',[
           op('Fazer a tatuagem','Uma marca pessoal, com risco de polêmica.',[
@@ -5409,16 +5585,27 @@ main:has(.card.caron){max-width:1180px}
       // O empréstimo dura 1 temporada: o contrato é esticado (+1) para a decisão
       // pós-empréstimo acontecer antes da tela de renovação.
       case 'loan_offer':{
-        const clubs=ev.alvos.map(n=>getClubs().find(x=>x.c===n)).filter(Boolean);
+        const clubs=ev.alvos.map(n=>getClubs().find(x=>x.c===(n.c||n)&&(!n.l||x.l===n.l))).filter(Boolean);
         return d('Empréstimo','Oferta de empréstimo','Ganhe minutos em outro time. Escolha o destino.',[
           ...clubs.map(cl=>op(cl.c,'',[
-            {p:1,t:'Vira titular por 1 temporada',k:'up',fn:c=>{c.emprestimo={origem:{...c.clube},ate:c.ano+1};c.jaEmprestado=true;trocaClube(c,cl);efeito(c,'papel','starter',1);c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);return `Você foi emprestado ao ${cl.c} para ganhar minutos.`}}
+            {p:1,t:'Vira titular por 1 temporada',k:'up',fn:c=>{iniciaEmprestimo(c,cl,c.clube);return `Você foi emprestado ao ${cl.c} para ganhar minutos.`}}
           ],{cl,tipo:'Ir por empréstimo para'}))
         ]);
       }
       case 'post_loan':{
-        const og=CAR.emprestimo?CAR.emprestimo.origem:null;
-        const clubs=(ev.alvos||[]).map(n=>getClubs().find(x=>x.c===n)).filter(Boolean);
+        const og=car.emprestimo?car.emprestimo.origem:null;
+        const clubs=(ev.alvos||[]).map(n=>getClubs().find(x=>x.c===(n.c||n)&&(!n.l||x.l===n.l))).filter(Boolean);
+        const aqui=car.clube;
+        if(ev.liberado){
+          return d('Fim do empréstimo','Contrato com o clube de origem encerrado',`${og?og.c:'O clube de origem'} encerrou seu contrato após mais de três empréstimos. Assine em definitivo com um clube.`,[
+            op(aqui.c,'',[
+              {p:1,t:`Assina em definitivo com o ${aqui.c}`,k:'nt',fn:c=>{c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você ficou em definitivo no ${aqui.c}.`}}
+            ],{cl:aqui,tipo:'Ficar no'}),
+            ...clubs.map(cl=>op(cl.c,'',[
+              {p:1,t:`Assina com o ${cl.c}`,k:'nt',fn:c=>{trocaClube(c,cl);c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você assinou com o ${cl.c}.`}}
+            ],{cl,tipo:'Assinar com'}))
+          ]);
+        }
         if(ev.retido&&og){
           return d('Fim do empréstimo','Você convenceu o clube',`${og.c} quer você de volta.`,[
             op(og.c,'',[
@@ -5429,14 +5616,275 @@ main:has(.card.caron){max-width:1180px}
             ],{cl,tipo:'Transferência para'}))
           ]);
         }
-        const aqui=CAR.clube;
         return d('Fim do empréstimo','Você não foi aproveitado',`${og?og.c:'O clube de origem'} não conta com você. Escolha o próximo passo.`,[
           ...clubs.map(cl=>op(cl.c,'',[
-            {p:1,t:'Vira titular por 1 temporada',k:'up',fn:c=>{c.emprestimo={origem:c.emprestimo.origem,ate:c.ano+1};trocaClube(c,cl);efeito(c,'papel','starter',1);c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);return `Novo empréstimo ao ${cl.c}.`}}
+            {p:1,t:'Vira titular por 1 temporada',k:'up',fn:c=>{const liberado=iniciaEmprestimo(c,cl,c.emprestimo.origem);return `Novo empréstimo ao ${cl.c}.${liberado?' O clube de origem encerrou seu contrato.':''}`}}
           ],{cl,tipo:'Ir por empréstimo para'})),
           op(aqui.c,'',[
             {p:1,t:'Fica de vez no clube',k:'nt',fn:c=>{c.emprestimo=null;c.contrato=CONTRATO_ANOS;return `Você assinou em definitivo com o ${aqui.c}.`}}
           ],{cl:aqui,tipo:'Ficar de vez no'})
+        ]);
+      }
+      // ---- Eventos novos (absurdos, realistas e decisivos) ----
+      case 'grandma_agent':{
+        const gcl=ev.alvo?getClubs().find(x=>x.c===ev.alvo):null;
+        return d('Humor','Sua avó virou sua empresária','Depois de uma discussão com seu empresário, sua avó diz que ninguém conhece seu talento melhor do que ela e se oferece para cuidar da sua carreira.',[
+          op('Contratar sua avó','Uma aposta no instinto da família.',[
+            {p:.3,t:gcl?`Transferência para o ${gcl.c}`:'Grande negociação',k:'up',fn:c=>{if(gcl)trocaClube(c,gcl);return gcl?`Sua avó fechou uma transferência incrível: você foi para o ${gcl.c}.`:'Sua avó quase fechou um grande acordo.'}},
+            {p:.4,t:'+3 OVR',k:'up',fn:c=>{ovrMais(c,3);return 'Os conselhos da sua avó te deixaram mais confiante.'}},
+            {p:.3,t:'Vira reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'Ela brigou com os dirigentes e você pagou o preço.'}}
+          ]),
+          op('Continuar com o empresário atual','Você mantém a estrutura atual.',[semEfeito('Você decidiu continuar com o seu empresário.')])
+        ]);
+      }
+      case 'bet_against_team':
+        return d('Escândalo','Aposta contra o próprio time','Você apostou numa derrota do próprio clube. Dias depois, a investigação chegou até você.',[
+          op('Confessar e colaborar','Você admite tudo e colabora.',[
+            {p:.7,t:'Suspenso por 2 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,2);return 'Você colaborou, mas cumpriu 2 temporadas de suspensão.'}},
+            {p:.3,t:'Suspenso por 3 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,3);return 'Mesmo colaborando, a pena foi de 3 temporadas.'}}
+          ]),
+          op('Negar envolvimento','Você jura inocência.',[
+            {p:.6,t:'Sem efeito',k:'nt',fn:()=>'A investigação não conseguiu provar sua participação.'},
+            {p:.4,t:'Suspenso por 4 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,4);return 'Novas provas apareceram: 4 temporadas de suspensão.'}}
+          ]),
+          op('Encerrar a carreira antes da punição','Você se antecipa à decisão.',[
+            {p:1,t:'Aposentadoria imediata',k:'dn',fn:c=>{c.fimCarreira=true;c.fimMotivo='Encurralado pela investigação de apostas contra o próprio clube, você encerrou a carreira antes que a punição saísse.';return 'Você anunciou a aposentadoria antes da punição.'}}
+          ])
+        ]);
+      case 'buy_football_club':{
+        const ccl=ev.alvo?getClubs().find(x=>x.c===ev.alvo):null;
+        return d('Finanças','Comprou um clube de futebol','Numa madrugada você comprou um pequeno clube pela internet. Agora precisa decidir o que fazer com a sua nova aquisição.',[
+          op('Virar jogador e dono do clube','Você assume o time em campo.',[
+            {p:1,t:ccl?`Joga no ${ccl.c} por 2 temporadas`:'Assume o clube',k:'nt',fn:c=>{if(ccl)trocaClube(c,ccl);efeito(c,'papel','starter',2);return ccl?`Você virou jogador e dono: titular do ${ccl.c} por 2 temporadas.`:'Você assumiu o clube.'}}
+          ]),
+          op('Contratar uma diretoria e continuar jogando','Você delega a gestão.',[
+            {p:.65,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'O investimento deu certo e a sua confiança subiu.'}},
+            {p:.35,t:'−3 OVR',k:'dn',fn:c=>{ovrMais(c,-3);return 'O clube entrou em crise financeira e a pressão te afetou.'}}
+          ]),
+          op('Vender o clube imediatamente','Você desfaz o negócio.',[semEfeito('Você vendeu o clube e voltou a focar na carreira.')])
+        ]);
+      }
+      case 'dog_ate_contract':
+        return d('Mercado','Seu cachorro comeu seu contrato','Seu cachorro destruiu o único documento da sua renovação. O clube afirma que você está sem contrato e precisa achar outra equipe.',[
+          op('Procurar um novo clube imediatamente','Você entra no mercado.',[
+            {p:1,t:'Escolha entre 3 propostas',k:'nt',fn:c=>{c.proximoEvento={key:'pick_club',fase:'Mercado',titulo:'Escolha seu novo clube',desc:'Três clubes apareceram. Escolha o seu destino.',tipo:'Transferência para',alvos:ofertasGarantidas(c,3).map(x=>x.c)};return 'Você abriu conversas: três propostas na mesa.'}}
+          ]),
+          op('Tentar recuperar o contrato','Você aposta no departamento jurídico.',[
+            {p:.3,t:'Permanece no clube',k:'up',fn:()=>'O jurídico aceitou os pedaços do documento: você permanece no clube.'},
+            {p:.7,t:'Escolha entre 2 propostas',k:'dn',fn:c=>{c.proximoEvento={key:'pick_club',fase:'Mercado',titulo:'Escolha seu novo clube',desc:'O contrato foi considerado inválido. Escolha entre as propostas.',tipo:'Transferência para',alvos:ofertasGarantidas(c,2).map(x=>x.c)};return 'O contrato foi invalidado: você precisa escolher um clube.'}}
+          ])
+        ]);
+      case 'wedding_on_final':
+        return d('Vida pessoal','Casamento no dia da final','Seu casamento foi marcado no mesmo dia da maior final da temporada. Sua noiva se recusa a mudar a data.',[
+          op('Jogar a final','Você escolhe o campo.',[
+            {p:.7,t:'+2 OVR e +20% de chance de título',k:'up',fn:c=>{ovrMais(c,2);c.tempMod.titBonus+=0.2;return 'Você fez uma grande partida e ainda brilhou na final.'}},
+            {p:.3,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'A cabeça não estava no jogo: você foi mal.'}}
+          ]),
+          op('Ir ao casamento','Você escolhe a família.',[
+            {p:1,t:'Fora dos jogos, +2 OVR na próxima temporada',k:'nt',fn:c=>{efeito(c,'semJogos',true,1);adiado(c,2);return 'Você perdeu a final e a temporada, mas ganhou estabilidade pessoal.'}}
+          ]),
+          op('Tentar fazer os dois no mesmo dia','Você aposta no impossível.',[
+            {p:.4,t:'+3 OVR',k:'up',fn:c=>{ovrMais(c,3);return 'Você conseguiu chegar ao estádio e ainda jogou muito.'}},
+            {p:.6,t:'Vira reserva por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','substitute',1);return 'Você chegou atrasado e o treinador não perdoou.'}}
+          ])
+        ]);
+      case 'wrong_player_offer':{
+        const scl=ev.alvoS?getClubs().find(x=>x.c===ev.alvoS):null;
+        const acl=ev.alvoA?getClubs().find(x=>x.c===ev.alvoA):null;
+        return d('Mercado','Confundido com outro jogador','Um gigante europeu confundiu você com outro jogador de nome parecido e enviou uma proposta milionária.',[
+          op('Aceitar sem explicar a confusão','Você embarca no erro.',[
+            {p:.5,t:scl?`Transferência para o ${scl.c}`:'Chance no gigante',k:'nt',fn:c=>{if(scl)trocaClube(c,scl);efeito(c,'papel','low_rotation',2);return scl?`O clube percebeu o erro, mas te deu uma chance: ${scl.c}, rodízio baixo por 2 temporadas.`:'A negociação quase saiu.'}},
+            {p:.5,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'Descobriram a confusão e cancelaram a negociação.'}}
+          ]),
+          op('Explicar o engano','Você é honesto desde o início.',[
+            {p:.3,t:acl?`Transferência para o ${acl.c}`:'Contrato de verdade',k:'up',fn:c=>{if(acl)trocaClube(c,acl);return acl?`O clube admirou sua honestidade e te contratou de verdade: ${acl.c}.`:'O clube admirou sua honestidade.'}},
+            {p:.7,t:'Sem efeito',k:'nt',fn:()=>'A proposta foi cancelada e você seguiu onde estava.'}
+          ])
+        ]);
+      }
+      case 'fake_identity':
+        return d('Documentos','Escândalo da identidade falsa','Uma investigação aponta que sua certidão de nascimento foi falsificada: na verdade, você nasceu sete anos antes.',[
+          op('Confessar tudo','Você assume a verdade.',[
+            {p:1,t:'Sua idade aumenta em 7 anos',k:'dn',fn:c=>{c.idade+=7;return 'Você admitiu: na verdade é 7 anos mais velho.'}}
+          ]),
+          op('Negar as acusações','Você mantém a sua versão.',[
+            {p:.7,t:'Sem efeito',k:'nt',fn:()=>'A investigação foi arquivada.'},
+            {p:.3,t:'+7 anos e 2 temporadas suspenso',k:'dn',fn:c=>{c.idade+=7;efeito(c,'suspenso',true,2);return 'A fraude foi comprovada: +7 anos e suspensão de 2 temporadas.'}}
+          ])
+        ]);
+      case 'enemy_barber':
+        return d('Imagem','O cabeleireiro inimigo','Você vai a um barbeiro famoso antes de um jogo importante e descobre o pior corte de cabelo da história.',[
+          op('Assumir o novo visual','Você confia no estilo.',[
+            {p:.5,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'O corte virou tendência mundial e sua confiança subiu.'}},
+            {p:.5,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'Você virou motivo de piada e sentiu o golpe.'}}
+          ]),
+          op('Processar o barbeiro','Você vai à justiça.',[
+            {p:.3,t:'+1 OVR',k:'up',fn:c=>{ovrMais(c,1);return 'Você venceu o processo e recuperou a confiança.'}},
+            {p:.7,t:'−1 OVR',k:'dn',fn:c=>{ovrMais(c,-1);return 'A história virou meme e afetou seu rendimento.'}}
+          ])
+        ]);
+      case 'stolen_popsicle':
+        return d('Crime','O roubo do picolé','Você foi flagrado roubando o picolé de morango de uma criança de seis anos. A polícia foi acionada e o caso virou crise nacional.',[
+          op('Devolver o picolé e pedir desculpas','Você assume o erro.',[
+            {p:.9,t:'Sem efeito',k:'nt',fn:()=>'A confusão terminou depois dos pedidos de desculpas.'},
+            {p:.1,t:'Suspenso por 1 temporada',k:'dn',fn:c=>{efeito(c,'suspenso',true,1);return 'O escândalo prejudicou sua imagem: 1 temporada de suspensão.'}}
+          ]),
+          op('Fugir da polícia','Você tenta escapar.',[
+            {p:.8,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'Você escapou, mas a imagem ficou manchada.'}},
+            {p:.2,t:'Preso: fim de carreira',k:'dn',fn:c=>{c.fimCarreira=true;c.fimMotivo='Pego após fugir da polícia pelo roubo de um picolé de morango, você encerrou a carreira atrás das grades.';return 'Você foi preso: sua carreira terminou.'}}
+          ]),
+          op('Comer o picolé na frente dos policiais','Provocação em rede nacional.',[
+            {p:1,t:'Preso: aposentadoria imediata',k:'dn',fn:c=>{c.fimCarreira=true;c.fimMotivo='Depois de uma carreira repleta de títulos, gols e momentos históricos, você foi condenado a encerrar sua carreira atrás das grades. O motivo? Um picolé de morango roubado de uma criança.';return 'Você foi preso e se aposentou na cadeia.'}}
+          ])
+        ]);
+      case 'change_agent':{
+        const gcl=ev.alvo?getClubs().find(x=>x.c===ev.alvo):null;
+        return d('Mercado','Troca de empresário','Uma agência renomada oferece seus serviços, prometendo melhores contratos e oportunidades em clubes maiores.',[
+          op('Assinar com a agência famosa','Mais portas, menos controle.',[
+            {p:.6,t:gcl?`Transferência para o ${gcl.c}`:'Grande transferência',k:'up',fn:c=>{if(gcl)trocaClube(c,gcl);return gcl?`A agência te levou para o ${gcl.c}.`:'A agência quase fechou um grande acordo.'}},
+            {p:.4,t:'Vira reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'A agência não cumpriu as promessas e você perdeu espaço.'}}
+          ]),
+          op('Contratar um empresário independente','Atendimento personalizado.',[
+            {p:.6,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'O cuidado individual melhorou o seu rendimento.'}},
+            {p:.4,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'A falta de contatos prejudicou sua carreira.'}}
+          ]),
+          op('Continuar com o empresário atual','Você mantém tudo como está.',[semEfeito('Você continuou com o mesmo empresário.')])
+        ]);
+      }
+      case 'cheating_scandal':
+        return d('Vida pessoal','Escândalo de traição','Fotografias suas com outra pessoa apareceram na imprensa. O escândalo domina os jornais.',[
+          op('Assumir publicamente a traição','Você encara a polêmica.',[
+            {p:.7,t:'−1 OVR',k:'dn',fn:c=>{ovrMais(c,-1);return 'A poeira baixou, mas o desgaste cobrou seu preço.'}},
+            {p:.3,t:'−3 OVR',k:'dn',fn:c=>{ovrMais(c,-3);return 'A repercussão foi enorme e afetou seu rendimento.'}}
+          ]),
+          op('Negar tudo','Você nega as fotos.',[
+            {p:.6,t:'Sem efeito',k:'nt',fn:()=>'A história perdeu força e tudo se acalmou.'},
+            {p:.4,t:'Reserva por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','substitute',1);return 'Novas provas apareceram e você perdeu a titularidade.'}}
+          ])
+        ]);
+      case 'party_before_final':
+        return d('Disciplina','Festa antes da final','Um companheiro marcou uma festa na véspera da final. O treinador exige concentração absoluta.',[
+          op('Participar da festa','Você vai à festa.',[
+            {p:.4,t:'Sem efeito',k:'nt',fn:()=>'Ninguém descobriu a festa.'},
+            {p:.4,t:'Reserva por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','substitute',1);return 'O treinador descobriu e você perdeu a vaga.'}},
+            {p:.2,t:'−3 OVR',k:'dn',fn:c=>{ovrMais(c,-3);return 'Você chegou sem condições de jogar.'}}
+          ]),
+          op('Ficar no hotel','Você descansa e foca na final.',[
+            {p:1,t:'+1 OVR',k:'up',fn:c=>{ovrMais(c,1);return 'Sua disciplina melhorou a preparação.'}}
+          ]),
+          op('Denunciar os companheiros','Você conta tudo ao treinador.',[
+            {p:.5,t:'Titular por 2 temporadas',k:'up',fn:c=>{efeito(c,'papel','starter',2);return 'O treinador recompensou sua atitude.'}},
+            {p:.5,t:'Rodízio baixo por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','low_rotation',2);return 'O elenco se revoltou contra você.'}}
+          ])
+        ]);
+      case 'coach_argument':
+        return d('Vestiário','Briga com o treinador','Após uma derrota, o treinador criticou seu desempenho na frente de todos. A discussão esquentou.',[
+          op('Pedir desculpas','Você recua e tenta resolver.',[
+            {p:.8,t:'Titular por 1 temporada',k:'up',fn:c=>{efeito(c,'papel','starter',1);return 'O treinador aceitou as desculpas e te manteve entre os titulares.'}},
+            {p:.2,t:'Reserva por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','substitute',1);return 'O clima continuou ruim e você foi para o banco.'}}
+          ]),
+          op('Responder publicamente','Você expõe a discussão na imprensa.',[
+            {p:.5,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'Você usou a polêmica como motivação.'}},
+            {p:.5,t:'Reserva por 2 temporadas',k:'dn',fn:c=>{efeito(c,'papel','substitute',2);return 'O treinador perdeu a confiança em você.'}}
+          ]),
+          op('Pedir transferência','Você quer sair.',[
+            {p:1,t:'Escolha entre 2 clubes',k:'nt',fn:c=>{c.proximoEvento={key:'pick_club',fase:'Vestiário',titulo:'Escolha seu novo clube',desc:'Dois clubes te querem. Escolha o destino.',tipo:'Transferência para',alvos:ofertasGarantidas(c,2).map(x=>x.c)};return 'Você pediu para sair: duas propostas chegaram.'}}
+          ])
+        ]);
+      case 'career_ending_injury':
+        return d('Departamento médico','Aposentadoria por lesão','Após uma lesão gravíssima, os médicos avisam que continuar jogando pode causar danos permanentes à sua saúde.',[
+          op('Tentar continuar jogando','Você arrisca o corpo.',[
+            {p:.5,t:'−5 OVR',k:'dn',fn:c=>{ovrMais(c,-5);c.reencontroPendente={motivo:'lesao',ano:c.ano+1};return 'Você se recuperou, mas perdeu 5 de OVR.'}},
+            {p:.3,t:'−8 OVR e reserva por 2 temporadas',k:'dn',fn:c=>{ovrMais(c,-8);efeito(c,'papel','substitute',2);c.reencontroPendente={motivo:'lesao',ano:c.ano+1};return 'A recuperação foi difícil e você perdeu espaço.'}},
+            {p:.2,t:'Aposentadoria imediata',k:'dn',fn:c=>{c.fimCarreira=true;c.fimMotivo='Seu corpo não aguentou a lesão gravíssima e você teve de encerrar a carreira.';return 'Seu corpo não aguentou: fim de carreira.'}}
+          ]),
+          op('Realizar uma cirurgia arriscada','Você aposta na intervenção.',[
+            {p:.4,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);c.reencontroPendente={motivo:'lesao',ano:c.ano+1};return 'A cirurgia foi um sucesso.'}},
+            {p:.4,t:'−5 OVR',k:'dn',fn:c=>{ovrMais(c,-5);c.reencontroPendente={motivo:'lesao',ano:c.ano+1};return 'A recuperação foi parcial.'}},
+            {p:.2,t:'Aposentadoria imediata',k:'dn',fn:c=>{c.fimCarreira=true;c.fimMotivo='Complicações na cirurgia encerraram a sua carreira.';return 'Houve complicações: fim de carreira.'}}
+          ]),
+          op('Aceitar a aposentadoria','Você escuta os médicos.',[
+            {p:1,t:'Aposentadoria imediata',k:'nt',fn:c=>{c.fimCarreira=true;c.fimMotivo='Avisado pelos médicos, você escolheu encerrar a carreira para proteger a saúde.';return 'Você decidiu pendurar as chuteiras.'}}
+          ])
+        ]);
+      case 'captain_offer':
+        return d('Liderança','Convite para ser capitão','O capitão do clube está saindo e o treinador acredita que você é o nome ideal para a braçadeira.',[
+          op('Aceitar a braçadeira','A responsabilidade é sua.',[
+            {p:.7,t:'+3 OVR',k:'up',fn:c=>{ovrMais(c,3);return 'Você cresceu como líder e como jogador.'}},
+            {p:.3,t:'−2 OVR',k:'dn',fn:c=>{ovrMais(c,-2);return 'A pressão de ser capitão atrapalhou seu futebol.'}}
+          ]),
+          op('Recusar a responsabilidade','Você prefere não assumir.',[semEfeito('Você recusou a braçadeira.')])
+        ]);
+      case 'saudi_offer':case 'qatar_offer':case 'turkey_offer':case 'mls_offer':{
+        const info=LIGAS_CONVITE[ev.key];
+        const scl=(ev.alvo?getClubs().find(x=>x.c===ev.alvo&&(!ev.alvoL||x.l===ev.alvoL)):null)||conviteClube(ev.key);
+        if(!scl)return d('Mercado','Proposta não confirmada','O clube retirou a proposta antes da negociação.',[
+          op('Continuar no clube atual','Você segue a carreira normalmente.',[semEfeito('A proposta não avançou e você permaneceu no clube.')])
+        ]);
+        ev.alvo=scl.c;ev.alvoL=scl.l;
+        const dec=d('Mercado',info.titulo,info.desc,[
+          op('Aceitar a proposta','Você aceita o desafio.',[
+            {p:1,t:`Transferência para o ${scl.c} · titular por 2 temporadas`,k:'up',fn:c=>{trocaClube(c,scl);efeito(c,'papel','starter',2);return `Você assinou com o ${scl.c}, com titularidade garantida por 2 temporadas.`}}
+          ],{cl:scl,tipo:'Assinar com'}),
+          op('Recusar e continuar no clube','Você fica onde está.',[semEfeito('Você recusou a proposta e continuou no clube.')]),
+          op('Usar a proposta para pressionar seu clube','Você joga duro na renovação.',[
+            {p:.5,t:'+2 OVR',k:'up',fn:c=>{ovrMais(c,2);return 'A diretoria valorizou a sua importância e você cresceu.'}},
+            {p:.5,t:'Rodízio baixo por 1 temporada',k:'dn',fn:c=>{efeito(c,'papel','low_rotation',1);return 'O clube não gostou da pressão e te colocou de escanteio.'}}
+          ])
+        ]);
+        dec.layout='invite';
+        return dec;
+      }
+      case 'last_champions_chance':
+        return d('Competição','Última chance de ganhar a Champions','Sua carreira está na reta final e você nunca venceu a Champions League. O treinador propõe um plano especial.',[
+          op('Dedicar tudo à Champions','Foco total na competição.',[
+            {p:.6,t:'Chance de título continental ×3 por 1 temporada',k:'up',fn:c=>{efeito(c,'trofeu',{liga:1,copa:1,cont:3},1);return 'A preparação especial funcionou: o time chega forte à Champions.'}},
+            {p:.4,t:'−3 OVR',k:'dn',fn:c=>{ovrMais(c,-3);return 'O excesso de pressão prejudicou o seu desempenho.'}}
+          ]),
+          op('Manter o foco em todas as competições','Equilíbrio é a chave.',[semEfeito('Você optou por manter o foco em todas as competições.')]),
+          op('Pedir transferência para um favorito','Você quer um time que brigue pelo título.',[
+            {p:1,t:'Escolha entre 2 clubes europeus',k:'nt',fn:c=>{const alvos=clubesEuropeusSA(2,c).map(x=>x.c);c.proximoEvento={key:'pick_club',fase:'Competição',titulo:'Escolha seu novo clube',desc:'Dois gigantes europeus te querem. Escolha o destino.',tipo:'Transferência para',alvos};return 'Dois gigantes europeus apareceram na sua mesa.'}}
+          ])
+        ]);
+      case 'childhood_club_farewell':{
+        const alvos=(ev.alvos||[ev.alvo&&{c:ev.alvo}]).filter(Boolean);
+        const clubes=alvos.map(a=>getClubs().find(cl=>cl.c===a.c&&(!a.l||cl.l===a.l))).filter(Boolean);
+        return d('Mercado','Voltar aos primeiros clubes','Um dos clubes do início da sua carreira quer você de volta. O reencontro pode aumentar suas chances de conquistar títulos.',[
+          op('Voltar a um dos primeiros clubes','Escolha o destino e dispute mais títulos.',[
+            {p:1,t:clubes.length>1?'Escolher clube; mais chances de título por 2 temporadas':'Mais chances de título por 2 temporadas',k:'up',fn:c=>{
+              if(clubes.length>1){c.proximoEvento={key:'pick_club',fase:'Mercado',titulo:'Voltar às origens',desc:'Escolha o clube do início da sua carreira para disputar mais títulos.',tipo:'Voltar para',alvos:clubes.map(cl=>({c:cl.c,l:cl.l})),boostTrophies:true};return 'Seus antigos clubes querem você de volta. Escolha o destino.'}
+              if(clubes[0])trocaClube(c,clubes[0]);
+              efeito(c,'papel','starter',2);
+              efeito(c,'trofeu',{liga:2,copa:2,cont:2},2);
+              return clubes[0]?`Você voltou ao ${clubes[0].c} com mais chances de título por 2 temporadas.`:'Você voltou às origens.';
+            }}
+          ]),
+          op('Continuar no clube atual','Você fica onde está.',[semEfeito('Você decidiu continuar no clube atual.')])
+        ]);
+      }
+      case 'betting_scandal':
+        return d('Ética','Escândalo de apostas','Uma investigação revela indícios de que você participou de um esquema de manipulação de resultados.',[
+          op('Colaborar com a investigação','Você coopera.',[
+            {p:.5,t:'Suspenso por 3 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,3);return 'Você colaborou e pegou 3 temporadas de suspensão.'}},
+            {p:.3,t:'Suspenso por 5 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,5);return 'A pena foi de 5 temporadas.'}},
+            {p:.2,t:'Sem efeito',k:'nt',fn:()=>'A investigação não confirmou sua participação.'}
+          ]),
+          op('Negar todas as acusações','Você nega tudo.',[
+            {p:.4,t:'Sem efeito',k:'nt',fn:()=>'A falta de provas encerrou a investigação.'},
+            {p:.4,t:'Suspenso por 5 temporadas',k:'dn',fn:c=>{efeito(c,'suspenso',true,5);return 'Novas evidências surgiram: 5 temporadas de suspensão.'}},
+            {p:.2,t:'Banido: aposentadoria imediata',k:'dn',fn:c=>{c.fimCarreira=true;c.fimMotivo='Banido em definitivo do futebol por manipulação de resultados, você encerrou a carreira.';return 'Banimento permanente: sua carreira acabou.'}}
+          ]),
+          op('Anunciar aposentadoria','Você se antecipa.',[
+            {p:1,t:'Aposentadoria imediata',k:'nt',fn:c=>{c.fimCarreira=true;c.fimMotivo='Você anunciou a aposentadoria antes que a investigação de apostas chegasse ao fim.';return 'Você anunciou o fim da carreira.'}}
+          ])
+        ]);
+      // Etapa 2 genérica: escolher o clube entre propostas já garantidas (usada por eventos acima)
+      case 'pick_club':{
+        const clubs=(ev.alvos||[]).map(n=>getClubs().find(x=>x.c===(n.c||n)&&(!n.l||x.l===n.l))).filter(Boolean);
+        return d(ev.fase||'Mercado',ev.titulo||'Escolha o seu clube',ev.desc||'Escolha o próximo passo da sua carreira.',[
+          ...clubs.map(cl=>op(cl.c,'',[
+            {p:1,t:`Fechar com o ${cl.c}`,k:'nt',fn:c=>{trocaClube(c,cl);c.emprestimo=null;if(ev.boostTrophies){efeito(c,'papel','starter',2);efeito(c,'trofeu',{liga:2,copa:2,cont:2},2)}return `Você assinou com o ${cl.c}${ev.boostTrophies?' com mais chances de título por 2 temporadas':''}.`}}
+          ],{cl,tipo:ev.tipo||'Transferência para'}))
         ]);
       }
       default:
@@ -5600,6 +6048,10 @@ main:has(.card.caron){max-width:1180px}
     // Sequências de papel (base da não-renovação do Copero)
     car.rodBaixoSeq=papel==='low_rotation'?(car.rodBaixoSeq||0)+1:0;
     car.reservaSeq=(papel==='substitute'||papel==='third_keeper')?(car.reservaSeq||0)+1:0;
+    if(!car.reencontroFeito&&!car.reencontroPendente&&car.idade>=20&&primeiroClubeDaCarreira(car)&&
+      (car.rodBaixoSeq>=2||car.reservaSeq>=2||car.ovrProx<=car.ovr-3)){
+      car.reencontroPendente={motivo:'fase',ano:car.ano+1};
+    }
 
     const tempStr=`${String(car.ano%100).padStart(2,'0')}/${String((car.ano+1)%100).padStart(2,'0')}`;
     if(!car.best||goals>car.best[1])car.best=[tempStr,goals];
@@ -5611,7 +6063,7 @@ main:has(.card.caron){max-width:1180px}
     }
     pass.anos++;pass.jg+=baseGames;pass.g+=goals;pass.a=(pass.a||0)+assists;pass.gs=(pass.gs||0)+gkGC;pass.sg=(pass.sg||0)+gkCS;pass.tit+=won.length;pass.trof=(pass.trof||[]).concat(won.map((w,i)=>({k:wonK[i],n:w,img:wonImg[i]})));
 
-    car.hist.push({idade:car.idade,ano:car.ano,c:car.clube.c,l:car.clube.l,tier:car.clube.tier,ovr:car.ovr,jg:baseGames,g:goals,a:assists,gs:gkGC,sg:gkCS,tit:won.length,trof:won.map((n,i)=>({k:wonK[i],n,img:wonImg[i]})),papel});
+    car.hist.push({idade:car.idade,ano:car.ano,c:car.clube.c,l:car.clube.l,tier:car.clube.tier,emprestado:!!car.emprestimo,ovr:car.ovr,jg:baseGames,g:goals,a:assists,gs:gkGC,sg:gkCS,tit:won.length,trof:won.map((n,i)=>({k:wonK[i],n,img:wonImg[i]})),papel});
 
     // Registro por temporada (base das conquistas do Copero)
     car.seasonsLog=car.seasonsLog||[];
@@ -5682,7 +6134,7 @@ main:has(.card.caron){max-width:1180px}
       jg:0,g:0,a:0,dec:0,pen:0,fal:0,cl:0,cli:0,cs:0,gc:0,gkDef:0,gkPen:0,
       best:null,sel:[0,0,0],selGS:0,selSG:0,
       titulos:{liga:0,copaNac:0,libertadores:0,sudamericana:0,champions:0,europaLeague:0,aclElite:0,concacaf:0,mundial:0,euro:0,copaAmerica:0,afcon:0,asianCup:0,goldCup:0,copaMundo:0,bolaOuro:0,chuteiraOuro:0,luvaOuro:0,artilharias:0},
-      contrato:CONTRATO_ANOS,hist:[],plano:criaPlano(),efeitos:[],diferido:[],eventoAtual:null,
+      contrato:CONTRATO_ANOS,hist:[],plano:criaPlano(),efeitos:[],diferido:[],eventoAtual:null,emprestimosTotal:0,reencontroPendente:null,reencontroFeito:false,
       titulosLiga:{},titulosCopa:{},
       rodBaixoSeq:0,reservaSeq:0,lastWonMC:[],seasonsLog:[],conquistas:[],
       step:'decision',decIdx:0,
@@ -5713,12 +6165,7 @@ main:has(.card.caron){max-width:1180px}
     const res=MC.generateTransferOffers(CRNG,player,mcClube(car.clube),pool,qtd);
     CRNG=res.rng;
     let picks=res.teams.map(m=>m.ref);
-    // Garante o mínimo de propostas (clubes de reputação baixa) quando o motor não acha alvo
-    if(picks.length<qtd){
-      const used=new Set([CLID(car.clube),...res.teams.map(m=>m.id)]);
-      const extra=getClubs().filter(cl=>!used.has(CLID(cl))&&cl.rep<=(ovrOf>=55?1:0)).sort((a,b)=>a.rep-b.rep);
-      for(const cl of extra){if(picks.length>=qtd)break;picks.push(cl)}
-    }
+    if(picks.length<qtd)completaOfertas(car,picks,qtd,ovrOf);
     return picks.map(cl=>{
       const diff=ovrOf-cl.baseOvr;
       const role=diff>=3?'Estrela do Time':diff>=-2?'Titular':'Disputa Posição';
@@ -5735,7 +6182,16 @@ main:has(.card.caron){max-width:1180px}
     CRNG=res.rng;
     let picks=res.teams.map(m=>m.ref);
     if(!picks.length){
-      picks=getClubs().filter(c=>c.c!==car.clube.c&&c.rep<=1).slice().sort(()=>rnd()-.5).slice(0,qtd);
+      const pais=FIFA_LIGA[car.clube.l],conf=confDaClube(car.clube);
+      const disponiveis=clubesOk().filter(c=>CLID(c)!==CLID(car.clube)&&(!car.emprestimo||CLID(c)!==CLID(car.emprestimo.origem)));
+      const ordem=[disponiveis.filter(c=>FIFA_LIGA[c.l]===pais),disponiveis.filter(c=>FIFA_LIGA[c.l]!==pais&&confDaClube(c)===conf),disponiveis];
+      const usados=new Set();picks=[];
+      for(const grupo of ordem){
+        for(const cl of grupo.slice().sort(()=>rnd()-.5)){
+          if(picks.length>=qtd)break;
+          if(!usados.has(CLID(cl))){picks.push(cl);usados.add(CLID(cl))}
+        }
+      }
     }
     return picks;
   }
@@ -5765,7 +6221,7 @@ main:has(.card.caron){max-width:1180px}
   // Pesam, nesta ordem: títulos (historico.js), gols (clube/seleção/continental), clubes em comum
   // na trajetória (id do Transfermarkt) e posição. Clube atual e nacionalidade só como desempate leve.
   function findCareerTwin(car){
-    const G=window.GOLS_DATA&&window.GOLS_DATA.rows?window.GOLS_DATA.rows:(QT&&QT.G?QT.G:{});
+    const G=window.GOLS_DATA&&window.GOLS_DATA.rows?window.GOLS_DATA.rows:((window.QT_REF&&window.QT_REF.G)?window.QT_REF.G:{});
     const H=window.HIST_DATA&&window.HIST_DATA.rows?window.HIST_DATA.rows:{};
     const myClubs=new Set(car.passagens.map(p=>p.c));
     const myIds=new Set(car.passagens.map(p=>p.k).filter(Boolean));
@@ -6376,14 +6832,44 @@ main:has(.card.caron){max-width:1180px}
         ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
       </section>`;
     }
+    if(d.layout==='invite'){
+      const clube=d.opts[0].time;
+      const pressao=d.opts[2],recusa=d.opts[1];
+      return `
+      <section class="car-box car-invite">
+        <div class="car-hd-row"><span class="car-tag">${esc(d.fase)}</span></div>
+        <h3 class="car-dec-tt">${esc(d.titulo)}</h3>
+        <p class="car-sub">${esc(d.desc)}</p>
+        <div id="car-opts" class="car-invite-grid">
+          ${cardTime(clube.cl,clube.tipo,'data-opt="0"')}
+          <button type="button" class="car-opt car-opt-direct car-invite-pressure" data-opt="2">
+            <b>${esc(pressao.t)}</b>
+            <span class="car-opt-d">${esc(pressao.d)}</span>
+            ${fxHTML(pressao)}
+          </button>
+          <button type="button" class="car-opt car-opt-direct car-opt-neutral car-invite-refuse" data-opt="1">
+            <b>${esc(recusa.t)}</b>
+            <span class="car-opt-d">${esc(recusa.d)}</span>
+            <span class="car-neutral-note">— Sem mudanças</span>
+          </button>
+        </div>
+        ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
+      </section>`;
+    }
     const idx=d.opts.map((o,i)=>[o,i]);
     const times=idx.filter(([o])=>o.time),outros=idx.filter(([o])=>!o.time);
-    const optBtn=([o,i])=>`
-            <button type="button" class="car-opt" data-opt="${i}">
+    const varias=d.opts.length>=3;
+    const indiferente=o=>o.outs.length===1&&o.outs[0].t==='Sem efeito';
+    if(varias)outros.sort((a,b)=>Number(indiferente(a[0]))-Number(indiferente(b[0])));
+    const optBtn=([o,i])=>{
+      const neutro=varias&&indiferente(o);
+      return `
+            <button type="button" class="car-opt${varias?' car-opt-direct':''}${neutro?' car-opt-neutral':''}" data-opt="${i}">
               <b>${esc(o.t)}</b>
               ${o.d?`<span class="car-opt-d">${esc(o.d)}</span>`:''}
-              ${fxHTML(o)}
+              ${fxHTML(o)|| (neutro?'<span class="car-neutral-note">— Sem mudanças</span>':'')}
             </button>`;
+    };
     return `
       <section class="car-box">
         <div class="car-hd-row"><span class="car-tag">${esc(d.fase)}</span></div>
@@ -6391,7 +6877,7 @@ main:has(.card.caron){max-width:1180px}
         <p class="car-sub">${esc(d.desc)}</p>
         <div id="car-opts">
           ${times.length?`<div class="car-teams">${times.map(([o,i])=>cardTime(o.time.cl,o.time.tipo,`data-opt="${i}"`)).join('')}</div>`:''}
-          ${outros.length?`<div class="car-opts ${(!times.length&&d.opts.length===2)?'n2':''}">${outros.map(optBtn).join('')}</div>`:''}
+          ${outros.length?`<div class="car-opts ${(!times.length&&d.opts.length===2)?'n2':''} ${varias?'direct':''}">${outros.map(optBtn).join('')}</div>`:''}
         </div>
         ${CAR.seasonLog.length?`<div class="car-log">${CAR.seasonLog.map(l=>`<div class="car-log-i ${l.k}"><span>${esc(l.m)}</span><em>${esc(l.t)}</em></div>`).join('')}</div>`:''}
       </section>`;
@@ -6552,6 +7038,7 @@ main:has(.card.caron){max-width:1180px}
         <div class="car-desktop-legacy">
         <div class="car-hd-row"><span class="car-tag">Hall da Fama</span><span class="car-pill warn">${CAR.legacyPts} pts · ${esc(CAR.legacyRank)}</span></div>
         <h3 class="car-dec-tt">Legado de ${esc(CAR.nome)} (2026–${CAR.ano})</h3>
+        ${CAR.fimMotivo?`<div class="car-box" style="margin-top:10px;background:linear-gradient(135deg,color-mix(in srgb,var(--sun) 22%,var(--panel)),var(--panel))"><span class="car-tag">Fim de carreira</span><p class="car-sub" style="margin-top:8px">${esc(CAR.fimMotivo)}</p></div>`:''}
         <div class="car-sumgrid">
           <div class="car-sb"><b>${CAR.jg+CAR.sel[0]}</b><small>Jogos totais</small></div>
           ${gk?`
@@ -6607,7 +7094,7 @@ main:has(.card.caron){max-width:1180px}
     const linhas=car.hist.map((h,ix)=>`
       <div class="car-row${(h.idade===car.idade&&ix===car.hist.length-1)?' now':''}">
         <span class="car-age" ${ageAt(h.c,h.l)} style="${ageSt(h.c)}">${h.idade}</span>
-        <span class="car-season-club"><span class="car-rc">${av('cr',crest(h.l,h.c)||'',h.c,22)}<b>${esc(h.c)}</b></span>${htmlSeasonTrophies(h)}</span>
+        <span class="car-season-club">${h.emprestado||(!('emprestado' in h)&&car.emprestimo&&h.c===car.clube.c&&h.ano===car.emprestimo.ate-1)?'<span class="car-loan-mark" title="Emprestado" aria-label="Emprestado">↳</span>':''}<span class="car-rc">${av('cr',crest(h.l,h.c)||'',h.c,22)}<b>${esc(h.c)}</b></span>${htmlSeasonTrophies(h)}</span>
         <span class="car-ovr-s ${ovrCls(h.ovr)}">${h.ovr}</span>
         <span class="car-st"><i>${PITCH_SVG}</i>${h.jg}</span>${gk?`<span class="car-st" title="Gols sofridos"><i>🥅</i>${h.gs||0}</span><span class="car-st" title="Jogos sem sofrer gol"><i>🧤</i>${h.sg||0}</span>`:`<span class="car-st"><i>⚽</i>${h.g}</span><span class="car-st"><i>👟</i>${h.a||0}</span>`}
       </div>`).join('');
@@ -6617,7 +7104,7 @@ main:has(.card.caron){max-width:1180px}
       if(!jaNoHist)atual=`
         <div class="car-row now">
           <span class="car-age" ${ageAt(car.clube.c,car.clube.l)} style="${ageSt(car.clube.c)}">${car.idade}</span>
-          <span class="car-rc">${av('cr',crest(car.clube.l,car.clube.c)||'',car.clube.c,22)}<b>${esc(car.clube.c)}</b></span>
+          <span class="car-season-club">${car.emprestimo?'<span class="car-loan-mark" title="Emprestado" aria-label="Emprestado">↳</span>':''}<span class="car-rc">${av('cr',crest(car.clube.l,car.clube.c)||'',car.clube.c,22)}<b>${esc(car.clube.c)}</b></span></span>
           <span class="car-ovr-s ${ovrCls(car.ovr)}">${car.ovr}</span>
           <span>–</span><span>–</span><span>–</span>
         </div>`;
@@ -6640,36 +7127,56 @@ main:has(.card.caron){max-width:1180px}
 
   function bindStage(){
     const opts=c$('car-opts');
-    if(opts)opts.onclick=e=>{
-      const b=e.target.closest('button[data-opt]');
-      if(!b)return;
-      const d=CAR.decisions[CAR.decIdx];
-      const op=d&&d.opts[+b.dataset.opt];
-      if(!op)return;
-      if(CAR_BUSY)return;
-      const out=sorteia(op.outs);
-      const run=()=>{CAR_BUSY=false;
-      const msg=out.fn(CAR);
-      CAR.seasonLog.push({t:out.t,k:out.k,m:msg});
-      CAR.decIdx++;
-      if(CAR.decIdx>=CAR.decisions.length){
-        resolveSeasonStats(CAR);
-      }else{
-        fx('near');
-        saveCar();
-      }
-      renderCar();carToast(out.t,out.k);
+    if(opts){
+      // Todas as opções normais mostram os desfechos e executam no primeiro clique.
+      const decide=(b,op)=>{
+        if(CAR_BUSY)return;
+        const out=sorteia(op.outs);
+        const run=()=>{CAR_BUSY=false;
+        const msg=out.fn(CAR);
+        CAR.seasonLog.push({t:out.t,k:out.k,m:msg});
+        // Evento que encerra a carreira (aposentadoria, banimento, prisão...)
+        if(CAR.fimCarreira){retireCareer();carToast(out.t,out.k);return}
+        // Evento com segunda etapa (ex.: escolher o clube entre as propostas)
+        if(CAR.proximoEvento){
+          CAR.eventoAtual=CAR.proximoEvento;CAR.proximoEvento=null;
+          CAR.decisions=buildSeasonDecisions(CAR);CAR.decIdx=0;
+          saveCar();renderCar();carToast(out.t,out.k);
+          return;
+        }
+        CAR.decIdx++;
+        if(CAR.decIdx>=CAR.decisions.length){
+          resolveSeasonStats(CAR);
+        }else{
+          fx('near');
+          saveCar();
+        }
+        renderCar();carToast(out.t,out.k);
+        };
+        if(carRM()){run();return}
+        CAR_BUSY=true;b.classList.add('picked');opts.querySelectorAll('.car-opt,.car-team,button[data-opt]').forEach(x=>{if(x!==b)x.classList.add('dim')});
+        b.querySelectorAll('button').forEach(x=>{x.disabled=true});
+        if(b.querySelectorAll('.car-fx-g').length>1){
+          // evento de sorte (ex.: 50% / 50%): sorteio animado antes de aplicar a consequência
+          b.classList.add('rolling');
+          setTimeout(()=>rolaSorteio(b,op.outs.indexOf(out),run),420);
+          return;
+        }
+        setTimeout(run,380);
       };
-      if(carRM()){run();return}
-      CAR_BUSY=true;b.classList.add('picked');opts.querySelectorAll('button[data-opt]').forEach(x=>{if(x!==b)x.classList.add('dim')});
-      if(b.querySelectorAll('.car-fx-g').length>1){
-        // evento de sorte (ex.: 50% / 50%): sorteio animado antes de aplicar a consequência
-        b.classList.add('rolling');
-        setTimeout(()=>rolaSorteio(b,op.outs.indexOf(out),run),420);
-        return;
-      }
-      setTimeout(run,380);
-    };
+      const opcaoDe=el=>{
+        const d=CAR.decisions[CAR.decIdx];
+        return d&&el?d.opts[+el.dataset.opt]:null;
+      };
+      opts.onclick=e=>{
+        if(CAR_BUSY)return;
+        const card=e.target.closest('.car-opt');
+        if(card){const op=opcaoDe(card);if(op)decide(card,op);return}
+        // Cartões de clube/transferência e da ira da torcida: escolha direta (fluxo antigo)
+        const time=e.target.closest('button[data-opt]');
+        if(time){const op=opcaoDe(time);if(op)decide(time,op)}
+      };
+    }
 
     const nx=c$('car-next');
     if(nx)nx.onclick=()=>{
@@ -7173,7 +7680,7 @@ main:has(.card.caron){max-width:1180px}
     if(REP_OVERRIDE===null){REP_OVERRIDE={};try{const r=await fetch('reputacao_clubes.json?'+Date.now());if(r.ok){REP_OVERRIDE=await r.json();ALL_CLUBS=null}}catch(e){}}
     if(!CAR){
       const saved=ls.get(CAR_KEY);
-      if(saved&&saved.nome){CAR=saved;normClube(CAR.clube);if(CAR.emprestimo)normClube(CAR.emprestimo.origem);rngLoad(CAR)}
+      if(saved&&saved.nome){CAR=saved;normClube(CAR.clube);if(CAR.emprestimo)normClube(CAR.emprestimo.origem);if(CAR.emprestimosTotal==null)CAR.emprestimosTotal=emprestimosDeSaveAntigo(CAR);rngLoad(CAR)}
     }
     renderCar();
   }
