@@ -1299,20 +1299,28 @@ endX(w,silent);if(!silent){e.scrollIntoView({behavior:reduce()?'auto':'smooth',b
 
 const reduce=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
 const cv=$('confetti'),cx=cv.getContext('2d');let parts=[],raf=0;
-function sizeCv(){const r=devicePixelRatio||1;cv.width=innerWidth*r;cv.height=innerHeight*r;cx.setTransform(r,0,0,r,0,0)}
+function sizeCv(){const r=devicePixelRatio||1;cv.width=Math.round(innerWidth*r);cv.height=Math.round(innerHeight*r);cx.setTransform(r,0,0,r,0,0)}
 addEventListener('resize',()=>{if(parts.length)sizeCv()});
 const COLS=['#7c3aed','#c026d3','#f59e0b','#22c55e','#38bdf8','#f43f5e','#facc15'];
 function piece(x,y,vx,vy){return{x,y,vx,vy,w:6+Math.random()*7,h:4+Math.random()*6,a:Math.random()*6.28,va:(Math.random()-.5)*.35,c:COLS[Math.random()*COLS.length|0],f:Math.random()*6.28}}
 function burst(){const H=innerHeight,W=innerWidth;
+if(W<=600){
+  // No celular, evita os dois canhões nos cantos que cobriam as bordas da tela.
+  for(let i=0;i<75;i++){
+    const a=Math.random()*Math.PI*2,s=2+Math.random()*5;
+    parts.push(piece(W*(.35+Math.random()*.3),H*.28,Math.cos(a)*s,Math.sin(a)*s-2));
+  }
+  return;
+}
 for(let i=0;i<70;i++){const s=13+Math.random()*11,a=-Math.PI/2+.15+Math.random()*.75;parts.push(piece(0,H,Math.cos(a)*s,Math.sin(a)*s))}
 for(let i=0;i<70;i++){const s=13+Math.random()*11,a=-Math.PI/2-.15-Math.random()*.75;parts.push(piece(W,H,Math.cos(a)*s,Math.sin(a)*s))}
 for(let i=0;i<60;i++)parts.push(piece(Math.random()*W,-20-Math.random()*H*.4,(Math.random()-.5)*2,2+Math.random()*3))}
 function tick(){cx.clearRect(0,0,innerWidth,innerHeight);
-parts=parts.filter(p=>p.y<innerHeight+30);
+parts=parts.filter(p=>p.y<innerHeight+30&&p.x>-40&&p.x<innerWidth+40);
 for(const p of parts){p.vy+=.32;p.vx*=.985;p.vy*=.985;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.f+=.12;
 cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.cos(p.f))+1);cx.restore()}
 raf=parts.length?requestAnimationFrame(tick):0;if(!raf)cx.clearRect(0,0,innerWidth,innerHeight)}
-function confetti(){if(reduce())return;sizeCv();burst();setTimeout(burst,450);if(!raf)raf=requestAnimationFrame(tick)}
+function confetti(){if(reduce())return;sizeCv();parts=[];burst();setTimeout(burst,450);if(!raf)raf=requestAnimationFrame(tick)}
 
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 $('q').oninput=e=>{if(game=='c')return cInput(e);if(admOk(e.target.value)){e.target.value='';$('list').classList.add('hide');admOpen();return}const v=norm(e.target.value.trim());const L=$('list');
@@ -3271,7 +3279,7 @@ sync();setTimeout(sync,300)})();
 .car-of em{font:800 11px 'DM Sans',sans-serif;font-style:normal;padding:3px 9px;border-radius:99px;border:2px solid var(--ol);background:var(--cell);color:var(--ink);margin-top:2px}
 .car-of.on em{background:#12123a;color:#fff}
 .car-base-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
-@media(max-width:560px){.car-base-actions{width:100%;justify-content:flex-start}}
+@media(max-width:560px){.car-base-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:7px}.car-base-actions .car-btn{width:100%;min-width:0;padding:9px 5px;font:800 11px 'DM Sans',sans-serif;white-space:nowrap;box-shadow:none}}
 .car-dica{font:600 12px/1.35 'DM Sans',sans-serif;text-transform:none;letter-spacing:0;opacity:.85;max-width:190px}
 
 /* ---------- Jogo: jogador (esq.) + linha do tempo (dir.) ---------- */
@@ -3805,7 +3813,9 @@ main:has(.card.caron){max-width:1180px}
 #car .car-opts.has-photos.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
 #car .car-opts.has-photos .car-opt{gap:5px}
 #car .car-opt-photo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;border-radius:10px;background:var(--panel);margin:5px 0}
-#car .car-opts.photo-uncropped .car-opt-photo{object-fit:contain;background:#122319}
+#car .car-opt-photo-frame{position:relative;display:block;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:10px;background:#122319;margin:5px 0}
+#car .car-opt-photo-frame::before{content:"";position:absolute;inset:-14px;background-image:var(--photo);background-size:cover;background-position:center;filter:blur(14px) brightness(.55)}
+#car .car-opts.photo-uncropped .car-opt-photo-frame .car-opt-photo{position:relative;width:100%;height:100%;aspect-ratio:auto;object-fit:contain;border-radius:0;background:transparent;margin:0}
 #car .car-opts.has-photos.n3 .car-opt{display:grid;grid-template-columns:96px minmax(0,1fr);grid-template-areas:"photo title" "photo desc" "photo fx";column-gap:10px;align-content:center}
 #car .car-opts.has-photos.n3 .car-opt>b{grid-area:title}
 #car .car-opts.has-photos.n3 .car-opt-photo{grid-area:photo;width:96px;height:96px;aspect-ratio:1;margin:0;align-self:center}
@@ -7051,7 +7061,9 @@ main:has(.card.caron){max-width:1180px}
       return `
             <button type="button" class="car-opt${varias?' car-opt-direct':''}${neutro?' car-opt-neutral':''}${img?' car-opt-with-photo':''}" data-opt="${i}">
               <b>${esc(o.t)}</b>
-              ${img?`<img class="car-opt-photo" src="${img}" alt="" loading="lazy" decoding="async">`:''}
+              ${img?(['training_extra','personal_coach','enemy_barber'].includes(eventKey)
+                ?`<span class="car-opt-photo-frame" style="--photo:url('${img}')"><img class="car-opt-photo" src="${img}" alt="" loading="lazy" decoding="async"></span>`
+                :`<img class="car-opt-photo" src="${img}" alt="" loading="lazy" decoding="async">`):''}
               ${o.d?`<span class="car-opt-d">${esc(o.d)}</span>`:''}
               ${fxHTML(o)|| (neutro?'<span class="car-neutral-note">— Sem mudanças</span>':'')}
             </button>`;
