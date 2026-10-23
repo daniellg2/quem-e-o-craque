@@ -3536,7 +3536,7 @@ main:has(.card.caron){max-width:1180px}
 .car-cl-stats b{font-size:clamp(12px,3.4vw,16px);white-space:nowrap;overflow:hidden;text-overflow:clip}
 .car-cl-stats small{font-size:8.5px;white-space:nowrap}
 /* Botões de modo do painel lateral: mesmo tamanho, uma linha cada */
-.side>#modos button:not(#m0){height:54px!important;min-height:54px!important;white-space:nowrap;font-size:13px!important;padding:0 8px!important;gap:5px!important;overflow:hidden;letter-spacing:-.01em}
+.side>#modos button:not(#m0){height:auto;min-height:0;white-space:normal;letter-spacing:-.01em}
 .side>#modos button:not(#m0) svg{width:16px!important;height:16px!important;flex:none}
 .side>#modos button:not(#m0) svg[viewBox='0 0 24 24'][stroke-width='2']{width:18px!important}
 .side>#modos button:not(#m0) span[aria-hidden]{flex:none}
@@ -8057,5 +8057,133 @@ main:has(.card.caron){max-width:1180px}
   }
 })();
 </script>
-</body>
+<style id="navigation-refresh">
+/* Navegação compartilhada: os controles e estados continuam sendo os originais. */
+main{max-width:1440px}
+.card .side{position:relative;top:auto;padding:14px}
+.card .side>#modos{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}
+.card .side>#modos button{width:100%;min-width:0;min-height:0!important;height:auto;padding:12px 8px!important;flex-direction:column;white-space:normal;overflow-wrap:anywhere;transform:none!important}
+.card .side>#modos :is(#m0,#m6){grid-column:1/-1;position:relative;isolation:isolate;overflow:hidden;display:flex!important;align-items:flex-start;justify-content:center;gap:5px;text-align:left;padding:12px 16px!important;border-radius:18px;color:#fff!important;background:repeating-linear-gradient(125deg,transparent 0 36px,#ffffff05 37px 41px),linear-gradient(110deg,#008b48,#00512f)!important;border-color:#25bd79;box-shadow:0 3px 0 var(--sh)!important}
+.card .side>#modos #m6{background:repeating-linear-gradient(125deg,transparent 0 36px,#ffffff04 37px 41px),linear-gradient(110deg,#104a30,#052b1c)!important;border-color:#c5d86b}
+.card .side>#modos :is(#m0,#m6).on{outline:2px solid var(--sun);outline-offset:2px}
+.card .side>#modos #m0::before{display:none!important}
+.card .side>#modos :is(#m0,#m6)::after{content:'⚽';display:block!important;position:absolute!important;left:auto;top:auto;width:auto;height:auto;background:none;right:12px;bottom:4px;font:80px/1 sans-serif;opacity:.12;z-index:-1;pointer-events:none;animation:none}
+.card .side>#modos #m6::after{content:'🏆'}
+.card .side>#modos :is(#m0,#m6) .mt{display:block!important;margin:0!important;font:800 clamp(18px,1.65vw,24px)/1.2 'Unbounded',sans-serif!important;white-space:normal}
+.card .side>#modos :is(#m0,#m6) small{display:block!important;font:500 13px/1.4 'DM Sans',sans-serif;opacity:1;max-width:36ch}
+.mode-tag{display:inline-block;background:var(--sun);color:#12123a;border-radius:99px;padding:4px 9px;font:800 9px/1.2 'DM Sans',sans-serif;letter-spacing:.04em}
+.mode-cta{display:inline-flex;align-items:center;gap:18px;margin-top:3px;padding:8px 16px;border-radius:12px;background:var(--sun);color:#12123a;box-shadow:3px 3px 0 #02100a;font:800 13px/1.2 'DM Sans',sans-serif}
+.mode-cta::after{content:'→';font-size:18px}
+#modos #m0{order:0}#modos #m6{order:1}
+#modos .modes-heading{order:2;grid-column:1/-1;margin:3px 0 0;font:800 16px 'Bricolage Grotesque',sans-serif}
+#modos :is(#m3,#m4,#m5){order:3;font-size:12px!important;gap:6px;align-self:stretch}
+#modos .mode-description{display:block;font:500 11px/1.4 'DM Sans',sans-serif;opacity:.8}
+#modos #m2{order:4;grid-column:1/-1}
+.settings-heading{margin:0 0 10px;font:800 16px 'Bricolage Grotesque',sans-serif;grid-column:1/-1}
+.side #diffwrap,.card.qon #qdif{padding:12px!important;border:1px solid var(--ol);border-radius:16px;gap:8px;background:var(--panel)}
+.side #diffwrap:not(.hide){display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.side #diffwrap button,.card.qon #qdif button{display:flex;flex-direction:column;gap:6px;white-space:normal;overflow-wrap:anywhere;padding:11px 6px!important;border:1px solid var(--line);background:var(--cell);font:800 12px/1.3 'DM Sans',sans-serif!important;min-width:0}
+.side #diffwrap button.on,.card.qon #qdif button.on{background:var(--acc);color:#fff;border-color:var(--sun);box-shadow:inset 0 0 0 1px var(--sun)}
+.side #diffwrap button:disabled{opacity:.75}
+.side #diffwrap .difficulty-note{font:500 10px/1.35 'DM Sans',sans-serif;display:block}
+.side #diffwrap button.rnd{grid-column:1/-1}
+.attempt-progress{display:flex;gap:5px;flex:1;min-width:100px}
+.attempt-progress i{height:9px;flex:1;border-radius:99px;background:color-mix(in srgb,var(--ink) 20%,var(--panel))}
+.attempt-progress i.used{background:var(--sun)}
+.attempt-heading{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.attempt-heading #tent{margin:0;flex:none}
+#rows:empty{display:grid;place-items:center;min-height:150px;border:1px dashed var(--line);border-radius:16px}
+#rows:empty::after{content:'Faça um palpite para começar!';padding:24px;text-align:center;color:var(--mut);font-size:14px}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+@media(min-width:1000px){
+ .card,.card.caron{grid-template-columns:minmax(0,1.35fr) minmax(365px,1fr);gap:20px;align-items:start}
+ .card .side,.card.caron .side{grid-column:2;grid-row:1;display:block}
+ .card .stage,.card.caron .stage{grid-column:1;grid-row:1;padding:24px}
+ #car .car-main{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:999px){
+ .card,.card.caron{grid-template-columns:minmax(0,1fr)}
+ .card .side,.card.caron .side{grid-column:1;grid-row:1}
+ .card .stage,.card.caron .stage{grid-column:1;grid-row:2}
+ .card .side>#modos{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .card .side>#modos :is(#m0,#m6){grid-column:span 3}
+ #modos :is(#m3,#m4,#m5){grid-column:span 2}
+}
+@media(max-width:540px){
+ main{padding:14px 12px 40px}.card .side,.card .stage{padding:12px;border-radius:20px}
+ .card .side>#modos :is(#m0,#m6){padding:14px!important;grid-column:1/-1}
+ .card .side>#modos :is(#m0,#m6) .mt{font-size:19px!important}
+ .card .side>#modos button{padding:10px 5px!important}
+ .attempt-heading{flex-wrap:wrap;gap:10px}.stage>.ask{position:relative;top:auto;bottom:auto}
+ .side #diffwrap{gap:5px}.side #diffwrap button{font-size:11px!important}
+}
+@media(max-width:360px){#modos :is(#m3,#m4,#m5){grid-column:1/-1;display:grid;grid-template-columns:24px 1fr;text-align:left}.mode-description{grid-column:2}.tabrow{gap:8px}#tipos{min-width:0}#tipos button{min-width:0;padding:10px 5px;font-size:12px;gap:5px}#tcol{padding:10px;min-width:0}}
+</style>
+<script>
+/* Camada de apresentação: não grava progresso nem substitui handlers dos modos. */
+(()=>{
+ const el=id=>document.getElementById(id),nav=el('modos');
+ const feature=(id,title,tag,description,cta)=>{
+  el(id).innerHTML=`<span class="mode-tag">${tag}</span><span class="mt">${title}</span><small>${description}</small><span class="mode-cta">${cta}</span>`;
+ };
+ feature('m0','Craque do Dia','PRINCIPAL · DIÁRIO','Um craque novo todo dia, igual para todos.','Jogar hoje');
+ feature('m6','Copero','MODO CARREIRA','Modo carreira e desafios do futebol.','Entrar no modo');
+ const dailyStatus=()=>{const tag=el('m0').querySelector('.mode-tag'),text=el('m0').classList.contains('dd')?'PRINCIPAL · DIÁRIO · ✓ CONCLUÍDO':'PRINCIPAL · DIÁRIO';if(tag.textContent!==text)tag.textContent=text};
+ new MutationObserver(dailyStatus).observe(el('m0'),{attributes:true,attributeFilter:['class']});dailyStatus();
+ const heading=document.createElement('h2');heading.className='modes-heading';heading.textContent='Outros modos';nav.append(heading);
+ 
+ const diff=el('diffwrap'),qdif=el('qdif');
+ function decorateSettings(root,title){
+  let h=root.querySelector('.settings-heading');
+  if(!h){h=document.createElement('div');h.className='settings-heading';root.prepend(h)}
+  if(h.textContent!==title)h.textContent=title;
+  root.querySelectorAll('button').forEach(b=>{
+   const selected=String(b.classList.contains('on'));if(b.getAttribute('aria-pressed')!==selected)b.setAttribute('aria-pressed',selected);
+   if(root!==diff)return;
+   let note=b.querySelector('.difficulty-note');
+   if(!note){note=document.createElement('small');note.className='difficulty-note';b.append(note)}
+   const text=b.title||'';if(note.textContent!==text)note.textContent=text;
+  });
+ }
+ const settings=()=>{decorateSettings(diff,document.querySelector('.bar').classList.contains('fc')?'Perfil dos jogadores':'Dificuldade');decorateSettings(qdif,'Meta de gols')};
+ const observer=new MutationObserver(settings);
+ for(const root of [diff,qdif])observer.observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['class','title','disabled']});
+ observer.observe(document.querySelector('.bar'),{attributes:true,attributeFilter:['class']});settings();
+ const tent=el('tent'),wrap=document.createElement('div'),progress=document.createElement('div');
+ wrap.className='attempt-heading';tent.before(wrap);wrap.append(tent,progress);progress.className='attempt-progress';progress.setAttribute('aria-hidden','true');
+ function attempts(){const match=tent.textContent.match(/(\d+)\/(\d+)/);if(!match)return;const max=Number(match[2]),used=Math.min(max,(game==='c'?CG.length:guesses.length)+hintN);progress.replaceChildren(...Array.from({length:max},(_,i)=>{const segment=document.createElement('i');segment.className=i<used?'used':'';return segment}))}
+ new MutationObserver(attempts).observe(tent,{childList:true,characterData:true,subtree:true});attempts();
+})();
+</script>
+<style id="compact-navigation">
+@media(max-width:999px){.card .side>#modos{grid-template-columns:repeat(2,minmax(0,1fr))}.card .side>#modos :is(#m0,#m6){grid-column:span 1;padding:11px!important}.card .side>#modos :is(#m0,#m6) .mt{font-size:clamp(13px,3.5vw,18px)!important}.card .side>#modos :is(#m0,#m6) small,.card .side>#modos :is(#m0,#m6)::after{display:none!important}.card .side>#modos .mode-tag{font-size:8px}.card .side>#modos .mode-cta{font-size:10px;padding:7px 8px}.card .side>#modos .modes-heading{grid-column:1/-1}.card .side>#modos :is(#m3,#m4,#m5){grid-column:auto}.card .side>#modos #m2{grid-column:1/-1}}
+.mode-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--cell);color:var(--ink);padding:10px 12px;font:800 14px DM Sans,sans-serif;cursor:pointer}.mode-toggle span:last-child{transition:transform .2s}.mode-toggle[aria-expanded=true] span:last-child{transform:rotate(180deg)}.side>#modos.collapsed :is(#m3,#m4,#m5,.modes-heading){display:none!important}.side>#modos .mode-toggle{order:2;grid-column:1/-1}.side>#modos:not(.collapsed) .mode-toggle{margin-bottom:2px}.side>#modos .modes-heading{display:block}.difficulty-toggle{margin:0 0 8px}.side .bar.difficulty-collapsed #diffwrap,.side .bar.difficulty-collapsed #qdif{display:none!important}.side .bar #score{display:flex!important;min-height:42px!important;gap:8px;justify-content:center!important}.side .bar #score .st{flex-direction:row;gap:3px}.side .bar #score .st small{display:none}.side .bar #score .st:not(:last-child)::after{content:"·";margin-left:8px}.side #qscore,.side #carscore{max-width:100%}
+.card.caron{grid-template-columns:minmax(0,1fr)!important}.card.caron .side{grid-column:1!important;grid-row:1!important;position:relative!important;top:auto!important}.card.caron .stage{grid-column:1!important;grid-row:2!important;width:100%;min-width:0}.card.caron .side>#modos{display:flex!important;flex-wrap:nowrap;overflow-x:auto!important;gap:6px;margin:0}.card.caron .side>#modos :is(#m0,#m6){display:flex!important;min-height:44px!important;flex:0 0 auto!important;width:auto;padding:8px 12px!important}.card.caron .side>#modos :is(#m0,#m6) :is(.mode-tag,small,.mode-cta){display:none!important}.card.caron .side>#modos :is(#m0,#m6) .mt{font:800 13px DM Sans,sans-serif!important}.card.caron .side>#modos :is(#m3,#m4,#m5,#m2){display:flex!important;flex:0 0 auto!important;width:auto;padding:8px 12px!important}.card.caron .side>#modos #m4[style*="display: none"]{display:none!important}.card.caron .side>#modos :is(.mode-toggle,.modes-heading){display:none!important}.card.caron .side>#modos .mode-description{display:none}.card.caron .side>:not(#modos){display:none!important}@media(min-width:1000px){main:has(.card.caron){max-width:1440px}.card.caron #car .car-main{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}@media(prefers-reduced-motion:reduce){.mode-toggle span:last-child{transition:none}}
+
+/* Copero: cada modo divide igualmente a barra disponível. */
+.card.caron .side>#modos{width:100%;overflow-x:auto!important}.card.caron .side>#modos :is(#m0,#m3,#m4,#m5,#m6,#m2){flex:1 1 0!important;min-width:105px!important;width:auto!important;justify-content:center!important;text-align:center!important}.card.caron .side>#modos button{min-height:54px!important}.card.caron .side>#modos .mode-toggle{display:none!important}
+@media(max-width:540px){.card.caron .side>#modos :is(#m0,#m3,#m4,#m5,#m6,#m2){min-width:100px!important}}
+
+/* Ajustes pontuais: pistas curtas e estado selecionado da carreira. */
+.side:has(#m3.on) #diffwrap .difficulty-note{font-size:9px;line-height:1.25;font-weight:400}.side:has(#m3.on) #diffwrap button{gap:4px;padding:8px 5px!important}
+.card.caron .side>#modos button.on,.card.caron .side>#modos :is(#m0,#m6).on{background:var(--acc)!important;color:#fff!important;border-color:var(--sun)!important;outline:none!important;box-shadow:inset 0 0 0 1px var(--sun),0 3px 0 var(--sh)!important;transform:none!important}.card.caron .side>#modos :is(#m0,#m6)::after{display:none!important}
+
+@media(max-width:600px){.card.caron .side>#modos{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important}.card.caron .side>#modos :is(#m0,#m2,#m3,#m4,#m5,#m6){grid-column:auto!important;min-width:0!important;width:100%!important;min-height:54px!important;padding:8px 5px!important;align-items:center!important;justify-content:center!important;white-space:normal!important;overflow-wrap:anywhere;font-size:11px!important}.card.caron .side>#modos :is(#m0,#m6) .mt{font-size:11px!important;white-space:normal!important}.card.caron .side>#modos button svg{width:14px!important;height:14px!important}}
+
+/* Textos de eventos do Copero devem se ajustar à largura do cartão. */
+#car .car-opt,#car .car-opts,#car .car-outs.fx,#car .car-fx-g{min-width:0;max-width:100%}#car .car-outs.fx,#car .car-fx-g,#car .car-fx-p{width:100%;box-sizing:border-box}#car .car-fx-p{min-width:0;max-width:100%;gap:6px;padding:8px;flex-wrap:wrap}#car .car-fx-p .car-fx-t{flex:1 1 0;min-width:0;overflow-wrap:anywhere;word-break:normal}#car .car-opt b{max-width:100%;overflow-wrap:anywhere}#car .car-toast{white-space:normal;overflow-wrap:anywhere;text-overflow:clip;text-align:center}
+@media(max-width:560px){#car .car-opt b{font-size:clamp(11px,3.3vw,14px);line-height:1.25}#car .car-fx-p{font-size:11px;line-height:1.3}#car .car-fx-pc{margin-left:auto}#car .car-opts.direct{grid-template-columns:minmax(0,1fr)}#car .car-opt-direct{width:100%}}
+
+/* Resumo de temporada: mensagem e efeito em linhas separadas no celular. */
+#car .car-log-i{min-width:0}#car .car-log-i>span{min-width:0;overflow-wrap:break-word}#car .car-log-i>em{max-width:100%;min-width:0;white-space:normal;overflow-wrap:break-word;text-align:left}
+@media(max-width:600px){#car .car-log-i{display:grid;grid-template-columns:minmax(0,1fr);justify-content:stretch;align-items:start;gap:7px;padding:10px}#car .car-log-i>span{width:100%;font-size:12px;line-height:1.4}#car .car-log-i>em{display:block;width:fit-content;justify-self:start;font-size:10px;line-height:1.35;padding:5px 8px;border-radius:9px}}
+
+/* Escolhas entre dois clubes mantêm a comparação lado a lado no celular. */
+@media(max-width:600px){#car .car-ira:not(.one){grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}#car .car-ira-card{min-width:0;padding:10px 6px;gap:6px;border-radius:14px}#car .car-ira-card>b{font:800 clamp(10px,3.1vw,14px)/1.2 'DM Sans',sans-serif;max-width:100%;overflow-wrap:anywhere}#car .car-ira-card small{font-size:10px;line-height:1.2}#car .car-ira-art{width:min(100%,104px);max-width:104px;aspect-ratio:1;margin:2px auto;border-radius:10px}#car .car-ira-art .av{width:min(64px,72%)!important;height:min(64px,72%)!important}#car .car-ira-card .car-team-meta{max-width:100%;font-size:9px;overflow-wrap:anywhere}#car .car-ira-card .car-fx-p{padding:6px 4px;font-size:9px}#car .car-ira-card .car-fx-i{display:none}#car .car-teams:has(>.car-team:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Três modos na mesma linha; dificuldade aberta no desktop e compacta no celular. */
+@media(max-width:600px){.card:not(.caron) .side>#modos{grid-template-columns:repeat(6,minmax(0,1fr))!important}.card:not(.caron) .side>#modos :is(#m0,#m6){grid-column:span 3!important}.card:not(.caron) .side>#modos .modes-heading{grid-column:1/-1!important}.card:not(.caron) .side>#modos :is(#m3,#m4,#m5){grid-column:span 2!important;min-width:0!important;width:100%!important;padding:9px 3px!important;gap:4px;font-size:clamp(9px,2.6vw,12px)!important;overflow-wrap:anywhere;text-align:center}.card:not(.caron) .side>#modos :is(#m3,#m4,#m5) svg{width:16px;height:16px}.card:not(.caron) .side>#modos #m2{grid-column:1/-1}}
+@media(min-width:601px){.side .difficulty-toggle{display:none!important}.side .bar.difficulty-collapsed #diffwrap:not(.hide){display:grid!important}.side .bar.difficulty-collapsed #qdif:not(.hide){display:grid!important}}
+.side #diffwrap:not(.hide){gap:7px;padding:8px!important;background:var(--panel)}.side #diffwrap button{position:relative;align-items:flex-start;text-align:left;padding:10px 9px!important;min-height:68px;border:1px solid color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:12px}.side #diffwrap button.on{background:linear-gradient(135deg,#009b54,#00783d);color:#fff;border-color:var(--sun)}.side #diffwrap button:disabled{opacity:.82}.side #diffwrap button[data-d]:not(.rnd)::after{content:"○";position:absolute;right:6px;top:8px;font-size:18px;line-height:1}.side #diffwrap button.on::after{content:"●"}.side #diffwrap button:disabled::after{content:"🔒";font-size:12px}.side #diffwrap .difficulty-note{max-width:100%;font-size:10px;line-height:1.3}.side #diffwrap button .dm{display:none}.side #diffwrap .settings-heading{display:block;grid-column:1/-1;margin:0 0 2px;font-size:15px}
+</style><script id="compact-navigation-script">(()=>{const nav=document.getElementById("modos"),side=document.querySelector(".side"),bar=side.querySelector(".bar"),diff=document.getElementById("diffwrap"),qdif=document.getElementById("qdif");const difficulty=document.createElement("button");difficulty.type="button";difficulty.className="mode-toggle difficulty-toggle";difficulty.setAttribute("aria-controls","diffwrap qdif");side.insertBefore(difficulty,bar);const update=()=>{const source=!qdif.classList.contains("hide")&&document.querySelector(".card").classList.contains("qon")?qdif:diff;const chosen=source.querySelector("button.on");const title=source===qdif?"Meta de gols":"Dificuldade";difficulty.innerHTML="<span>"+title+" · "+(chosen?((chosen.querySelector("span")?.textContent||chosen.childNodes[0]?.textContent||"Fácil").trim()+" · "+(chosen.title?.match(/\d+ chutes/)?.[0]||"Ver opções")):"Ver opções")+"</span><span aria-hidden=\"true\">⌄</span>";difficulty.hidden=document.querySelector(".card").classList.contains("caron")||document.querySelector(".card").classList.contains("pmon")||source.classList.contains("hide")};const setDifficulty=open=>{bar.classList.toggle("difficulty-collapsed",!open);difficulty.setAttribute("aria-expanded",String(open))};difficulty.onclick=()=>setDifficulty(bar.classList.contains("difficulty-collapsed"));setDifficulty(false);new MutationObserver(update).observe(diff,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});new MutationObserver(update).observe(qdif,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});new MutationObserver(update).observe(document.querySelector(".card"),{attributes:true,attributeFilter:["class"]});update()})();</script></body>
 </html>
