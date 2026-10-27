@@ -56,7 +56,7 @@ python pipeline_dados.py --escopo reputacao  # razão/divisão dos clubes p/ os 
 python pipeline_dados.py --escopo tudo       # tudo, na ordem
 
 python publicar.py                            # publica os dados no repositório
-python publicar.py --jogo                     # + index.html e assets/career-events/
+python publicar.py --jogo                     # + index.html, JS da carreira e assets/ inteiro
 ```
 
 ### No servidor (grátis, sem PC ligado)
@@ -76,13 +76,13 @@ O robô roda o pipeline e commita sozinho. O commit sai com `[skip netlify]` —
 
 ## Como publicar uma mudança no jogo
 
-1. Edite o `index.html` e, se houver novas imagens, coloque-as em `assets/career-events/`.
-2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui automaticamente as imagens e confere se as usadas pelo jogo existem.
+1. Edite o `index.html` e coloque novas imagens nas subpastas de `assets/`.
+2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui o `index.html`, o JavaScript da carreira e toda a pasta `assets/`, inclusive taças e escudos.
 3. O Cloudflare reconstrói em ~30 s e o site já está atualizado para todo mundo.
 
 > Alternativa: subir o arquivo pelo GitHub (Add file → Upload files). Funciona,
 > mas aí rode `git -C C:\dev\quem-e-o-craque pull` depois para a cópia local
-> não ficar para trás. Se enviar `index.html`, envie também a pasta `assets/career-events/`.
+> não ficar para trás. Se enviar `index.html`, envie também os arquivos necessários de `assets/` e `career-divisions.js`.
 
 ## Cuidados
 

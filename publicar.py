@@ -6,7 +6,7 @@ nao gastar deploy na Netlify (o Cloudflare Pages constroi normalmente).
 
 Uso (na pasta do jogo):
   python publicar.py                    # dados + scripts
-  python publicar.py --jogo             # inclui o index.html e as imagens dos eventos
+  python publicar.py --jogo             # inclui index.html, JS do jogo e todos os assets
   python publicar.py --seco             # so mostra o que mudaria
   python publicar.py -m "mensagem"      # mensagem do commit
   python publicar.py --alvo C:\\dev\\quem-e-o-craque
@@ -28,7 +28,8 @@ SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py"
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py"]
 EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore"]
-PASTA_IMAGENS_JOGO = os.path.join("assets", "career-events")
+PASTA_ASSETS = "assets"
+ARQUIVOS_JOGO = ["index.html", "career-divisions.js", "motor-copero.js"]
 
 ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
                "copero-times.js", "historico.js", "historico.json",
@@ -53,21 +54,21 @@ def normalizar_lf():
             print("  (normalizado para LF: %s)" % arq)
 
 
-def imagens_do_jogo():
-    """Lista as imagens do jogo, preservando a estrutura de pastas."""
-    pasta = os.path.join(AQUI, PASTA_IMAGENS_JOGO)
+def assets_do_jogo():
+    """Lista todos os assets locais, preservando a estrutura de pastas."""
+    pasta = os.path.join(AQUI, PASTA_ASSETS)
     if not os.path.isdir(pasta):
-        raise FileNotFoundError("pasta de imagens nao encontrada: %s" % pasta)
+        raise FileNotFoundError("pasta de assets nao encontrada: %s" % pasta)
     arquivos = []
     for base, _, nomes in os.walk(pasta):
         for nome in nomes:
             arquivos.append(os.path.relpath(os.path.join(base, nome), AQUI))
     arquivos.sort()
     with open(os.path.join(AQUI, "index.html"), encoding="utf-8") as f:
-        referencias = set(re.findall(r"assets/career-events/[\w./-]+\.webp", f.read()))
-    faltando = [r for r in referencias if not os.path.isfile(os.path.join(AQUI, r))]
+        referencias = set(re.findall(r"assets/[\w./-]+\.(?:webp|png|jpg|jpeg|svg|gif)", f.read(), re.I))
+    faltando = [r for r in referencias if not os.path.isfile(os.path.join(AQUI, *r.split("/")))]
     if faltando:
-        raise FileNotFoundError("imagens citadas no index.html nao encontradas: %s" % ", ".join(sorted(faltando)))
+        raise FileNotFoundError("assets citados no index.html nao encontrados: %s" % ", ".join(sorted(faltando)))
     return arquivos
 
 
@@ -80,7 +81,7 @@ def git(*args, alvo="."):
 def main():
     ap = argparse.ArgumentParser(description="Publica os dados no repositorio do GitHub")
     ap.add_argument("--alvo", default=ALVO_PADRAO, help="pasta do clone do repositorio")
-    ap.add_argument("--jogo", action="store_true", help="inclui o index.html e as imagens dos eventos")
+    ap.add_argument("--jogo", action="store_true", help="inclui index.html, JS do jogo e todos os assets")
     ap.add_argument("-m", "--mensagem", default="dados atualizados", help="mensagem do commit")
     ap.add_argument("--incluir", default="",
                     help="arquivos extras para publicar (separados por virgula). Ex.: --incluir times.js")
@@ -95,9 +96,9 @@ def main():
 
     arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
     if a.jogo:
-        arquivos.append("index.html")
+        arquivos.extend(ARQUIVOS_JOGO)
         try:
-            arquivos.extend(imagens_do_jogo())
+            arquivos.extend(assets_do_jogo())
         except FileNotFoundError as e:
             print("ERRO: %s" % e)
             sys.exit(1)
