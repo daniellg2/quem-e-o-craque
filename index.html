@@ -5118,7 +5118,7 @@ main:has(.card.caron){max-width:1180px}
   function rngSave(c){if(c&&MC){c.rngSeed=CRNG.seed;c.rngState=CRNG.state}}
   function rngLoad(c){
     if(!MC)return;
-    if(c&&c.rngState!=null)CRNG={seed:c.rngSeed||'QC',state:c.rngState};
+    if(c&&Number.isFinite(c.rngState)&&c.rngState!==0)CRNG={seed:c.rngSeed||c.seed||'QC',state:c.rngState>>>0};
     else if(c&&c.nome)CRNG=MC.RNG.make(c.rngSeed||c.seed||rngSeedFrom(c.nome,c.nac,c.pos,c.num));
     else CRNG=MC.RNG.make('QC');
   }
@@ -5292,71 +5292,9 @@ main:has(.card.caron){max-width:1180px}
     else{try{localStorage.removeItem(CAR_KEY)}catch(e){}}
   }
 
-  // Recarregar a página (F5, Ctrl+R, botão do navegador, puxar para atualizar) reinicia a carreira
-  const CAR_RESET_MSG='Iniciar uma nova carreira? O progresso atual será perdido.';
-  try{
-    const nav=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
-    if(nav&&nav.type==='reload')localStorage.removeItem(CAR_KEY);
-  }catch(e){}
-  document.addEventListener('keydown',e=>{
-    const k=(e.key||'').toLowerCase();
-    if(!(k==='f5'||((e.ctrlKey||e.metaKey)&&k==='r')))return;
-    if(!(CAR&&CAR.nome))return;
-    e.preventDefault();
-    if(!confirm(CAR_RESET_MSG))return;
-    CAR=null;try{localStorage.removeItem(CAR_KEY)}catch(_){}
-    location.reload();
-  },true);
+  // Recarregar a página não apaga a carreira. O progresso salvo é restaurado.
+  // Reiniciar continua sendo uma ação explícita do jogador.
 
-  function getHof(){return ls.get(HOF_KEY)||[]}
-  function addHof(entry){
-    const h=getHof();
-    h.unshift(entry);
-    ls.set(HOF_KEY,h.slice(0,12));
-  }
-
-  // ---------- Eventos de carreira (catálogo e regras do Copero) ----------
-  const EV_PESO={giant_tattoo:35,finish_high_school:35,fan_backlash:80,rival_offer:80,club_crisis:45,unexpected_prospect:45,return_home:45,controversial_statement:45,tax_trouble:25,foreign_grandfather:25,mysterious_substance:20,honesty_test:20,indecent_proposal:20,controversial_post:35,club_national_team_conflict:20,injury_at_peak:20,decisive_penalty:20,triumphant_return:50,
-    grandma_agent:35,bet_against_team:15,buy_football_club:25,dog_ate_contract:30,wedding_on_final:35,wrong_player_offer:35,fake_identity:10,enemy_barber:55,stolen_popsicle:5,change_agent:75,cheating_scandal:45,party_before_final:50,coach_argument:75,career_ending_injury:15,captain_offer:65,saudi_offer:180,qatar_offer:180,turkey_offer:180,mls_offer:180,last_champions_chance:35,childhood_club_farewell:210,betting_scandal:10};
-  const EVENTOS_KEYS=['training_extra','personal_coach','mysterious_substance','honesty_test','indecent_proposal','controversial_post','season_load','position_change','position_competition','unexpected_prospect','club_priority','rival_offer','club_crisis','fan_backlash','return_home','giant_tattoo','tax_trouble','foreign_grandfather','finish_high_school','controversial_statement','triumphant_return','club_national_team_conflict','injury_at_peak','decisive_penalty',
-    'grandma_agent','bet_against_team','buy_football_club','dog_ate_contract','wedding_on_final','wrong_player_offer','fake_identity','enemy_barber','stolen_popsicle','change_agent','cheating_scandal','party_before_final','coach_argument','career_ending_injury','captain_offer','saudi_offer','qatar_offer','turkey_offer','mls_offer','last_champions_chance','childhood_club_farewell','betting_scandal'];
-  const LESOES=[
-    {type:'hamstring',label:'Lesão na coxa',w:24,d:-3},
-    {type:'meniscus',label:'Lesão no menisco',w:18,d:-2},
-    {type:'acl',label:'Ruptura do ligamento cruzado',w:14,d:-5},
-    {type:'tibia_fibula',label:'Fratura na tíbia',w:8,d:-8},
-    {type:'achilles',label:'Ruptura do tendão de Aquiles',w:4,d:-10},
-    {type:'ankle_sprain',label:'Entorse de tornozelo',w:14,d:-1},
-    {type:'calf_tear',label:'Estiramento na panturrilha',w:8,d:-2},
-    {type:'metatarsal_fracture',label:'Fratura no metatarso',w:5,d:-4},
-    {type:'shoulder_dislocation',label:'Luxação no ombro',w:3,d:-4},
-    {type:'disc_hernia',label:'Hérnia de disco',w:2,d:-5}
-  ];
-  const ALT_NAC={'Brasil':'Itália','Argentina':'Espanha','Uruguai':'Itália','Colômbia':'Espanha','Croácia':'Itália'};
-  const PARENTES={tio:'seu tio',tia:'sua tia',primo:'seu primo',prima:'sua prima',irmao:'seu irmão',irma:'sua irmã'};
-  const JOGOS_PAPEL={starter:[34,38],high_rotation:[22,33],low_rotation:[12,21],substitute:[4,11]};
-  const PAPEL_LABEL={starter:'Titular',high_rotation:'Rodízio alto',low_rotation:'Rodízio baixo',substitute:'Reserva',third_keeper:'Terceiro goleiro'};
-  const BASE_CLUBE={S:88,A:84,B:68,C:52};
-  const ORDEM_PAPEL=['substitute','low_rotation','high_rotation','starter'];
-
-  const ovrMais=(c,n)=>{c.ovr=clamp(c.ovr+n,40,99);c.peakOvr=Math.max(c.peakOvr,c.ovr)};
-  const efeito=(c,tipo,valor,restam)=>{c.efeitos.push({tipo,valor,restam})};
-  const adiado=(c,delta)=>{c.diferido.push({delta,ano:c.ano+1})};
-  const semEfeito=t=>({p:1,t:'Sem efeito',k:'nt',fn:()=>t});
-  const pesoPick=lista=>{
-    const tot=lista.reduce((a,x)=>a+x.weight,0);
-    let r=rnd()*tot;
-    for(const x of lista){r-=x.weight;if(r<0)return x}
-    return lista[lista.length-1];
-  };
-
-  // Papel no elenco: vem do OVR contra a força do clube (regra do Copero), com efeitos por cima
-  function papelParaClube(cl,ovr,pos){
-    const base=((cl&&cl.rep!=null)?REP_OVR_MAP[cl.rep]:undefined)??(BASE_CLUBE[cl&&cl.tier]||68);
-    // Copero: goleiro tem lista própria (titular / reserva / terceiro goleiro)
-    return MC.roleFromDiff(ovr-base,pos==='GOL');
-  }
-  function papelBase(car){return papelParaClube(car.clube,car.ovr,car.pos)}
   function papelEfetivo(car){
     const gk=car.pos==='GOL';
     const ov=[...car.efeitos].reverse().find(e=>e.tipo==='papel');
@@ -5373,13 +5311,17 @@ main:has(.card.caron){max-width:1180px}
   }
   function trocaClube(c,ch){
     ch=clubWithCareerDivision(c,ch);
+    // Uma transferência definitiva encerra o empréstimo anterior.
+    // Sem isso, o evento pós-empréstimo pode devolver o jogador ao clube antigo.
+    if(c.emprestimo&&!c._iniciandoEmprestimo)c.emprestimo=null;
     c.clube={c:ch.c,l:ch.l,k:ch.k,tier:ch.tier,div:ch.div!=null?ch.div:divisaoClube(ch),baseOvr:ch.baseOvr,rep:ch.rep,repDom:ch.repDom,repCont:ch.repCont,isSA:ch.isSA,isEU:ch.isEU};
   }
   function iniciaEmprestimo(c,cl,origem){
     c.emprestimosTotal=(c.emprestimosTotal||0)+1;
-    c.emprestimo={origem:{...origem},ate:c.ano+1,liberado:c.emprestimosTotal>3};
+    c.emprestimo={origem:{...origem},destino:{c:cl.c,l:cl.l},ate:c.ano+1,liberado:c.emprestimosTotal>3};
     c.jaEmprestado=true;
-    trocaClube(c,cl);
+    c._iniciandoEmprestimo=true;
+    try{trocaClube(c,cl)}finally{delete c._iniciandoEmprestimo}
     efeito(c,'papel','starter',1);
     c.contrato=Math.max(c.contrato,CONTRATO_ANOS+1);
     return c.emprestimo.liberado;
@@ -5402,7 +5344,7 @@ main:has(.card.caron){max-width:1180px}
     const out=pool.filter(x=>x.l!==cur.l);
     if(out.length)pool=out;
     if(!pool.length)return null;
-    let h=0;const s=`${car.nome}|${car.ano}|ira`;
+    let h=0;const s=`${car.rngSeed||car.seed||car.nome}|${car.ano}|ira`;
     for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;
     return pool[h%pool.length];
   }
@@ -5530,6 +5472,10 @@ main:has(.card.caron){max-width:1180px}
   function rolaEvento(car){
     car.eventoAtual=null;
     // Pós-empréstimo (Copero): retido se o OVR dá papel de titular/rodízio alto no clube de origem
+    if(car.emprestimo&&car.ano>=car.emprestimo.ate){
+      // Empréstimo só é válido enquanto o jogador ainda está no clube emprestado.
+      if(car.emprestimo.destino&&CLID(car.clube)!==CLID(car.emprestimo.destino)){car.emprestimo=null;}
+    }
     if(car.emprestimo&&car.ano>=car.emprestimo.ate){
       const og=car.emprestimo.origem;
       const liberado=car.emprestimo.liberado||(car.emprestimosTotal||0)>3;
@@ -8418,7 +8364,7 @@ main:has(.card.caron){max-width:1180px}
     if(REP_OVERRIDE===null){REP_OVERRIDE={};try{const r=await fetch('reputacao_clubes.json?'+Date.now());if(r.ok){REP_OVERRIDE=await r.json();ALL_CLUBS=null}}catch(e){}}
     if(!CAR){
       const saved=ls.get(CAR_KEY);
-      if(saved&&saved.nome){CAR=saved;normClube(CAR.clube);if(CAR.emprestimo)normClube(CAR.emprestimo.origem);if(CAR.emprestimosTotal==null)CAR.emprestimosTotal=emprestimosDeSaveAntigo(CAR);rngLoad(CAR)}
+      if(saved&&saved.nome){CAR=saved;if(!CAR.rngSeed&&!CAR.seed){CAR.seed=rngNewCareerSeed();CAR.rngSeed=CAR.seed;CAR.rngState=null;}if(!CAR.rngSeed)CAR.rngSeed=CAR.seed||rngNewCareerSeed();normClube(CAR.clube);if(CAR.emprestimo){normClube(CAR.emprestimo.origem);if(CAR.emprestimo.destino&&CLID(CAR.clube)!==CLID(CAR.emprestimo.destino))CAR.emprestimo=null;}if(CAR.emprestimosTotal==null)CAR.emprestimosTotal=emprestimosDeSaveAntigo(CAR);rngLoad(CAR)}
     }
     renderCar();
   }
