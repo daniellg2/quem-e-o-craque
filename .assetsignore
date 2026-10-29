@@ -1,0 +1,12 @@
+.git/
+.github/
+.wrangler/
+.gitignore
+.assetsignore
+wrangler.jsonc
+README.md
+*.py
+*.cmd
+*.ps1
+*.txt
+netlify.toml

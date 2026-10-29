@@ -6,7 +6,7 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 
 | | |
 |---|---|
-| **Site (principal)** | https://quem-e-o-craque.danielsoqalt.workers.dev/ |
+| **Site (principal)** | https://quem-e-o.craque.workers.dev/ |
 | Link antigo (Netlify) | https://craques.netlify.app/ — só redireciona (301) para o endereço novo, via `netlify.toml` |
 | Repositório | https://github.com/daniellg2/quem-e-o-craque |
 

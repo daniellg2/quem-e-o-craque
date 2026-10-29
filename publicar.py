@@ -27,7 +27,8 @@ DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
            "pegar_historico.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py"]
-EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore"]
+EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore",
+          "wrangler.jsonc", ".assetsignore"]
 PASTA_ASSETS = "assets"
 ARQUIVOS_JOGO = ["index.html", "career-divisions.js", "motor-copero.js"]
 
