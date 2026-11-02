@@ -1138,8 +1138,17 @@ to{transform:translateX(calc(var(--s)*140%)) translateY(24px) rotate(calc(var(--
 <div id="who" class="hide"></div>
 <div id="end" class="hide" role="status" aria-live="polite"></div>
 <div class="att"><h3 id="tent">Chutes 1/8</h3>
-<div id="hd" class="hd"><span id="hn" class="hide">Nac.</span><span id="hl" class="hide">Liga</span><span>Clube</span><span data-tip="Amarelo: mesma linha (ex.: zagueiro e lateral)">Posição</span><span data-tip="Amarelo: ±2 anos">Idade</span><span data-tip="Amarelo: ±5 números">Número</span><span data-tip="Amarelo: 60% a 160% do valor">Valor</span></div>
+<div id="hd" class="hd"><span id="hn" class="hide">Nac.</span><span id="hl" class="hide">Liga</span><span>Clube</span><span>Posição</span><span>Idade</span><span>Número</span><span>Valor</span></div>
+<div class="home-empty-view" aria-hidden="true">
+  <span class="home-empty-emblem"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="11"/><path d="M28 28l9 9M17.5 17a3 3 0 0 1 5.7 1.3c0 2.4-3.1 3-3.1 5M20.1 27h.01"/></svg></span>
+  <strong>Quem é o jogador misterioso?</strong>
+  <span>Faça seu primeiro palpite. Cada tentativa revela novas pistas.</span>
+</div>
 <div id="rows"></div></div>
+<section class="home-progress" aria-label="Seu desempenho no jogo">
+  <div class="home-progress-heading"><span class="home-progress-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V12M10 20V7M16 20V4M22 20H2"/></svg></span><div><strong>Seu desempenho</strong><small>Resultados no modo e dificuldade selecionados</small></div></div>
+  <div class="home-progress-numbers"><div><small>Sequência</small><b id="home-perf-streak">0</b></div><div><small>Vitórias</small><b id="home-perf-wins">0</b></div><div><small>Derrotas</small><b id="home-perf-losses">0</b></div></div>
+</section>
 <p class="note">Dados e fotos: Transfermarkt e ogol.com.br. Os valores podem estar desatualizados.</p>
 </div></section>
 <div class="extras"><button type="button" class="tile" id="tshare"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span><b>Desafie um amigo</b><small>Escolha um craque e mande o link.</small></span></button><button type="button" class="tile" id="twho"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span><b>Quem sou eu?</b><small>Adivinhe pela foto que vai clareando.</small></span></button></div>
@@ -1498,7 +1507,7 @@ function recordDaily(w){const a=ls.get('qc:stats')||{};const s=a[diff]||{p:0,w:0
 if(w){s.w++;s.s=(s.lw&&s.lw==prevDay(DAY))?s.s+1:1;s.ms=Math.max(s.ms,s.s);s.lw=DAY}else s.s=0;a[diff]=s;ls.set('qc:stats',a)}
 function updScore(){const s=stat();sc3(s.s,s.w,s.p-s.w)}
 const DK_BARS='<svg class="dk-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 20h3.5v-5H4zM10.250 20h3.500V10h-3.500zM16.500 20H20V4h-3.500z"/></svg>',DK_LOCK='<svg class="dk-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" d="M8 10.500V8a4 4 0 0 1 8 0v2.500"/><rect x="5" y="10" width="14" height="10.500" rx="2.500" fill="currentColor"/></svg>',DK_ALL='<svg class="dk-ic" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="7" cy="7" r="2.800"/><circle cx="17" cy="7" r="2.800"/><circle cx="7" cy="17" r="2.800"/><circle cx="17" cy="17" r="2.800"/></g></svg>',DK_CHECK='<svg class="dk-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 12.500l4.500 4.500L19 7.500"/></svg>';
-const DK_SH={facil:'Foto mais clara · craques famosos',medio:'Foto menos clara · nomes conhecidos',craque:'Foto borrada · pistas limitadas'};
+const DK_SH={facil:'Foto mais clara',medio:'Revelação gradual',craque:'Pistas limitadas'};
 function dkIc(lk,dn){return lk?DK_LOCK:dn?DK_CHECK:DK_BARS}
 function dkTxt(lk,dn,prev){const p=(prev||'').toLowerCase();return `<em class="dk-sub">${lk?'Desbloqueie após completar o modo '+p:dn?'Concluído':'Disponível'}</em><em class="dk-sm">${lk?'Após o '+(prev||''):dn?'Concluído':'Disponível'}</em>`}
 function renderDiffs(){$('diffwrap').classList.add('dc');$('diffwrap').classList.remove('nl');$('diffwrap').innerHTML=DORD.map(d=>{const s=dailyState(d);
@@ -1698,7 +1707,7 @@ $('hd').innerHTML=HD0;$('hd').style.cssText='';setMode(mode);return}
 ['ligawrap','clubwrap'].forEach(i=>$(i).classList.add('hide'));
 $('m0').classList.remove('on');$('m2').classList.add('on');
 $('rows').innerHTML='';$('end').classList.add('hide');
-$('hd').innerHTML='<span data-tip="Amarelo: mesmo continente">Seleção</span><span data-tip="Amarelo: ±4 anos">Copa</span><span data-tip="Amarelo: mesma linha (ex.: zagueiro e lateral)">Posição</span><span data-tip="Amarelo: ±2 anos">Idade</span><span data-tip="Amarelo: ±5 números">Número</span><span>Clube</span>';$('hd').style.cssText='--n:6;--m:3';
+$('hd').innerHTML='<span>Seleção</span><span>Copa</span><span>Posição</span><span>Idade</span><span>Número</span><span>Clube</span>';$('hd').style.cssText='--n:6;--m:3';
 if(!(await loadCopa())){const e=$('end');e.classList.remove('hide');$('q').disabled=true;
 e.innerHTML='<div class="endcard lose"><div><div class="tag">Modo Copa</div><h2>Dados não encontrados</h2><p>Coloque o arquivo <b>copas.js</b> (gerado por pegar_copas.py) na mesma pasta do index.html. No Netlify, arraste a pasta inteira.</p></div></div>';return}
 if(game!='c')return;
@@ -1716,7 +1725,19 @@ const cheer=(w,n)=>w?(n==1?pick(['GOLAÇO! De primeira! 🎯','É craque, é cra
 function endX(w,silent){const c=game=='c',e=$('end'),n=(c?CG:guesses).length;
 const W3=c?cmode==3:mode==3;if(W3)renderWho();
 let wx='';if(W3&&w){const wd=wD(),pc=wCfg().c[Math.min(n-1,5)],bk=c?'qc:wbestc':'qc:wbest',bb=ls.get(bk)||{},rc=!(bb[wd]<=pc);if(rc){bb[wd]=pc;ls.set(bk,bb)}wx=` Você descobriu com ${pc}% da imagem revelada.`+(rc?' Novo recorde!':` Seu recorde: ${bb[wd]}%.`)}
-const bs=e.querySelector('.badge span');if(bs)bs.textContent=cheer(w,n)+' '+bs.textContent+wx;
+// Resultado compacto: sem frases aleatórias como 'Garra de campeão'.
+// A quantidade de chutes já aparece no texto principal; o selo só fica
+// quando existe uma conquista adicional relevante.
+const badge=e.querySelector('.badge'),bs=badge?.querySelector('span');
+if(bs){
+  const original=bs.textContent;
+  const highlights=original.match(/Sequência de \d+ acertos\.|Novo recorde!/g)||[];
+  if(w){
+    const summary=[...highlights,wx.trim()].filter(Boolean).join(' ');
+    if(summary){bs.textContent=summary;badge.querySelector('svg')?.remove()}
+    else badge.remove();
+  }else{bs.textContent=original+wx;badge.querySelector('svg')?.remove()}
+}
 if(!c){const ea=e.querySelector('.ea');if(ea){const b=document.createElement('button');b.className='btn sec';b.textContent='🤝 Desafiar amigo';b.onclick=()=>challenge(w,b);ea.appendChild(b)}}
 if(!silent)fx(w?'win':'lose')}
 
@@ -1916,7 +1937,7 @@ $('cgrid').onclick=e=>{const b=e.target.closest('button[data-day]');if(!b||b.dis
 $('cdetail').onclick=e=>{const b=e.target.closest('button[data-g]');if(b)goPlay(b.dataset.g,b.dataset.d)};
 $('bcal').onclick=()=>showCal(0);
 
-const TUT=['<b>Veja as cores</b> para descobrir como seu palpite se compara ao jogador secreto.<br>🟢 Verde = igual · 🟡 Amarelo = próximo · 🔴 Vermelho = diferente','<b>A seta</b> mostra se o jogador secreto está acima (↑) ou abaixo (↓) desse valor.','<b>Posição amarela</b> = posições próximas. Toque nos títulos das colunas (ⓘ) para ver a regra de cada uma.'];let tutI=0;
+const TUT=['<b>Veja as cores</b> para descobrir como seu palpite se compara ao jogador secreto.<br>🟢 Verde = igual · 🟡 Amarelo = próximo · 🔴 Vermelho = diferente','<b>A seta</b> mostra se o jogador secreto está acima (↑) ou abaixo (↓) desse valor.','<b>Posição amarela</b> = posições próximas. As setas indicam se o valor procurado é maior ou menor.'];let tutI=0;
 function tutShow(){if(ls.get('qc:tut'))return;if(game!='c'&&mode==3)return;let t=$('tut');if(!t){t=document.createElement('div');t.id='tut';t.setAttribute('role','status');$('hd').before(t);t.addEventListener('click',e=>{if(!e.target.closest('button'))return;if(++tutI>=TUT.length){ls.set('qc:tut',1);t.remove()}else tutDraw()})}tutDraw()}
 function tutDraw(){const t=$('tut');if(t)t.innerHTML=`<p>${TUT[tutI]}</p><button type="button">${tutI<TUT.length-1?'Próximo':'Entendi'}</button>`}
 (function(){const q=$('q'),sw=q.closest('.sw');if(!q||!sw)return;
@@ -9773,6 +9794,162 @@ to{transform:translateX(calc(var(--d)*70%)) translateY(36px) rotate(calc(var(--d
 #car .car-arrow-ico{display:inline-flex;align-items:center;justify-content:center;flex:none;width:14px;height:14px;opacity:.96}
 #car .car-arrow-ico svg{display:block;width:100%;height:100%}
 @media(max-width:600px){#car .car-arrow-ico{width:13px;height:13px}}
+</style>
+
+<style id="qc-home-desktop-v22">
+/* Atualização da tela inicial: apenas desktop; outras telas e mecânicas preservadas. */
+.home-empty-view,.home-progress{display:none}
+@media(min-width:1000px){
+  /* Cada coluna tem sua própria altura; o painel dos modos não aumenta
+     quando a lista de palpites cresce. */
+  .card:not(.caron):not(.qon):not(.pmon){align-items:start!important}
+  .card:not(.caron):not(.qon):not(.pmon)>.side{
+    align-self:start!important;height:max-content!important;min-height:0!important;
+  }
+  .card:not(.caron):not(.qon):not(.pmon)>.stage{align-self:start!important;height:auto!important;min-height:0!important}
+  .card:not(.caron):not(.qon):not(.pmon)>.stage{display:flex;flex-direction:column;min-width:0}
+  .card:not(.caron):not(.qon):not(.pmon) .stage .home-progress{display:block;margin-top:auto;padding:15px 16px 14px;border:1px solid color-mix(in srgb,var(--ol) 55%,transparent);background:linear-gradient(125deg,color-mix(in srgb,var(--cell) 65%,var(--panel)),var(--panel));border-radius:16px}
+  .home-progress-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+  .home-progress-ico{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:11px;background:color-mix(in srgb,var(--acc) 13%,var(--panel));color:var(--acc)}
+  .home-progress-heading strong{display:block;font:800 14px/1.2 'Bricolage Grotesque',sans-serif;color:var(--ink)}
+  .home-progress-heading small{display:block;font:500 11px/1.4 'DM Sans',sans-serif;color:var(--mut);margin-top:2px}
+  .home-progress-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .home-progress-numbers>div{display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;min-width:0;padding:11px 6px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .home-progress-numbers small{font:700 10px/1.3 'DM Sans',sans-serif;color:var(--mut)}
+  .home-progress-numbers b{font:800 clamp(19px,2.3vw,27px)/1 'Unbounded',sans-serif;letter-spacing:-.035em;color:var(--ink);font-variant-numeric:tabular-nums}
+  .home-progress-numbers>div:nth-child(2) b{color:var(--ok)}
+  /* A contagem continua existindo no DOM para as rotinas do jogo, mas é exibida na coluna principal. */
+  .card:not(.caron):not(.qon):not(.pmon) .side .bar #score{display:none!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side .bar:not(.fc) #pool{grid-column:1/-1!important;width:100%!important;max-width:none}
+  /* Os três modos secundários continuam clicáveis e recebem um feedback discreto. */
+  .card:not(.caron):not(.qon):not(.pmon) .side>#modos :is(#m3,#m4,#m5){transition:transform .16s ease,background-color .16s ease,border-color .16s ease,box-shadow .16s ease;border-radius:14px!important;min-height:65px!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side>#modos :is(#m3,#m4,#m5):hover{transform:translateY(-2px)!important;border-color:var(--sun)!important;background:color-mix(in srgb,var(--acc) 11%,var(--cell))!important;box-shadow:0 4px 0 var(--sh)!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side>#modos :is(#m3,#m4,#m5) svg{width:18px!important;height:18px!important}
+  /* Dificuldade compacta, preservando os estados selecionado / bloqueado. */
+  .card:not(.caron):not(.qon):not(.pmon) .side #diffwrap:not(.hide){padding:9px 10px!important;gap:6px!important;border-radius:15px!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side #diffwrap .settings-heading{font-size:14px!important;margin-bottom:5px!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side #diffwrap button{padding:8px 7px!important;min-height:65px!important;gap:4px!important;border-radius:11px!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side #diffwrap button span{font-size:12px!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side #diffwrap button :is(.dk-sub,.dk-sm){font-size:9px!important;line-height:1.3!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side #diffwrap button .dk-ic{width:16px!important;height:16px!important}
+  .card:not(.caron):not(.qon):not(.pmon) .side .bar:not(.fc){row-gap:8px!important}
+  /* Estado vazio: apresentado só na tela de palpites, nunca durante os outros modos. */
+  .card:not(.caron):not(.qon):not(.pmon) .stage:has(#rows:empty):has(#who.hide):has(#end.hide) .home-empty-view{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-height:160px;border:1px dashed color-mix(in srgb,var(--ol) 45%,var(--line));border-radius:15px;background:radial-gradient(ellipse at center,color-mix(in srgb,var(--acc) 8%,var(--panel)) 0%,var(--panel) 75%);text-align:center;padding:18px}
+  .card:not(.caron):not(.qon):not(.pmon) .stage:has(#rows:empty):has(#who.hide):has(#end.hide) #rows:empty{display:none!important}
+  .home-empty-emblem{display:grid;place-items:center;width:43px;height:43px;border:1px solid color-mix(in srgb,var(--acc) 42%,var(--line));border-radius:50%;background:color-mix(in srgb,var(--acc) 13%,var(--panel));color:var(--acc)}
+  .home-empty-emblem svg{width:27px;height:27px}
+  .home-empty-view strong{font:800 clamp(13px,1.4vw,17px)/1.25 'Bricolage Grotesque',sans-serif;color:var(--ink)}
+  .home-empty-view>span:last-child{font:500 12px/1.4 'DM Sans',sans-serif;color:var(--mut);max-width:40ch}
+  .card:not(.caron):not(.qon):not(.pmon) .stage>.note{margin-top:14px}
+}
+@media(prefers-reduced-motion:reduce){.card .side>#modos :is(#m3,#m4,#m5){transition:none!important}}
+</style>
+<script id="qc-home-desktop-v21-script">
+/* Espelha exclusivamente os números oficiais do placar; não modifica pontuações ou saves. */
+(()=>{
+  const original=document.getElementById('score');
+  const targets=['home-perf-streak','home-perf-wins','home-perf-losses'].map(x=>document.getElementById(x));
+  if(!original||targets.some(x=>!x))return;
+  let pending=false;
+  const update=()=>{
+    pending=false;
+    const nums=[...original.querySelectorAll('.st .sv b')].map(n=>n.textContent.trim());
+    if(nums.length!==3){const m=original.textContent.match(/(\d+)\D+(\d+)\D+(\d+)/);if(m)nums.splice(0,nums.length,...m.slice(1,4));}
+    nums.slice(0,3).forEach((num,i)=>{if(targets[i].textContent!==num)targets[i].textContent=num});
+  };
+  new MutationObserver(()=>{if(!pending){pending=true;requestAnimationFrame(update)}}).observe(original,{childList:true,characterData:true,subtree:true});
+  update();
+})();
+</script>
+
+<style id="qc-mode-hover-and-header-tips-v23">
+/* Restaura o amarelo no hover dos três modos secundários, com alto contraste. */
+@media (hover:hover){
+  .card:not(.caron) .side>#modos :is(#m3,#m4,#m5):hover{
+    background:var(--sun)!important;
+    color:#121b15!important;
+    border-color:var(--sun)!important;
+    box-shadow:0 4px 0 var(--sh)!important;
+    transform:translateY(-2px)!important;
+  }
+  .card:not(.caron) .side>#modos :is(#m3,#m4,#m5):hover :is(svg,.vs-ic){
+    color:#121b15!important;
+    stroke:currentColor;
+  }
+}
+/* Os títulos de colunas não oferecem mais pop-ups de aproximação. */
+#hd span{cursor:default}
+#hd span::after{content:none!important}
+</style>
+
+<style id="qc-who-mode-layout-fix-v24">
+/* O painel extra de desempenho foi pensado para os palpites clássicos.
+   Não deve aparecer em Quem sou eu? (Clubes e Copa). */
+.card:has(.side #m3.on) .stage .home-progress,
+.card:has(.side #m3.on) .stage .home-empty-view{
+  display:none!important;
+}
+/* Mantém os níveis de dificuldade do Quem sou eu? fáceis de ler,
+   com explicações curtas e sem aumentar os três cartões. */
+.card:has(.side #m3.on) .side #diffwrap.dc.nl:not(.hide){
+  gap:6px!important;padding:8px!important;
+}
+.card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d]{
+  min-height:58px!important;
+  padding:8px 7px!important;
+  gap:4px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:flex-start!important;
+  text-align:left!important;
+}
+.card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d] span{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  font:800 11px/1.18 'DM Sans',sans-serif!important;
+}
+.card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d] .dk-sub{
+  display:block!important;
+  margin:0!important;
+  font:500 9px/1.18 'DM Sans',sans-serif!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+}
+.card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d] .dk-ic{display:none!important}
+@media(max-width:600px){
+  .card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d]{
+    min-height:53px!important;padding:7px 5px!important;
+  }
+  .card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d] span{font-size:10.5px!important}
+  .card:has(.side #m3.on) .side #diffwrap.dc.nl button[data-d] .dk-sub{font-size:8.5px!important}
+}
+</style>
+<style id="qc-hover-priority-fix-v25">
+/* Regra com a mesma especificidade do hover antigo da V21: amarelo sólido,
+   sem variação de fundo verde, para os três modos menores. */
+@media(hover:hover){
+ .card:not(.caron):not(.qon):not(.pmon) .side>#modos :is(#m3,#m4,#m5):hover{
+   background:var(--sun)!important;
+   background-color:var(--sun)!important;
+   background-image:none!important;
+   border-color:var(--sun)!important;
+   color:#12123a!important;
+   box-shadow:0 3px 0 var(--sh)!important;
+   transform:translateY(-2px)!important;
+ }
+ .card:not(.caron):not(.qon):not(.pmon) .side>#modos :is(#m3,#m4,#m5):hover :is(svg,.vs-ic){
+   color:#12123a!important;
+   stroke:currentColor;
+ }
+}
+</style>
+
+<style id="qc-who-hide-classic-rows-v26">
+/* No modo Quem sou eu?, não mostrar a área clássica de palpites
+   (Revelação/Chutes + caixa vazia + lista de palpites). */
+.card:has(.side #m3.on) .stage .att{display:none!important;}
 </style>
 </body>
 </html>
