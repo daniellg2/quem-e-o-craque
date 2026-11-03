@@ -37,6 +37,8 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 | `pegar_dados.py` | baixa as ligas, gera `dados.txt` e atualiza o `dados.js` (também recalcula a fama com `--so-fama`) |
 | `pegar_gols.py` | gera `gols.json`/`gols.js` (retoma de onde parou) |
 | `pegar_historico.py` | gera `historico.json`/`historico.js` (retoma de onde parou) |
+| `pegar_gemeos.py` | coletor independente de aposentados no Wikidata, com fotos/créditos do Commons, consultas em lote e retomada |
+| `revisar_gemeos.py` | confere fichas e tabelas com a Wikipédia, separa escopos e gera a base revisada e o relatório |
 | `pegar_copas.py` / `pegar_copas2.py` | copas (fonte: oGol) — só quando muda |
 | `cruzar_copas.py` | gera `copas_tm.json` |
 | `fama_copas.py` | grava a fama de Copa no `copas.js` |
@@ -75,7 +77,50 @@ python publicar.py --jogo                     # + index.html, JS da carreira e a
 
 O robô roda o pipeline e commita sozinho. O commit sai com `[skip netlify]` — a Netlify ignora, o Cloudflare constrói. **Não use `[skip ci]`**: o Cloudflare pularia a construção.
 
-## Como publicar uma mudança no jogo
+## Coletar novos candidatos ao Gêmeo de Carreira
+
+```bash
+python pegar_gemeos.py                       # 50 aposentados iniciais
+python pegar_gemeos.py --ids Q12897 Q47526   # Pelé e Zico
+python pegar_gemeos.py --lista jogadores.txt # um ID do Wikidata por linha
+python pegar_gemeos.py --atualizar           # atualiza dados já coletados
+python pegar_gemeos.py --offline             # usa somente cache local
+```
+
+O script usa apenas `requests`, já utilizado pelos coletores existentes. Os caminhos
+padrão ficam ao lado do script, mesmo quando ele é executado de outra pasta.
+Ele grava `gemeos.json`, `gemeos.js` e `gemeos_relatorio.json`, reaproveitando
+`cache/gemeos/`. Não consulta o Transfermarkt. Respostas temporariamente indisponíveis
+têm tentativas limitadas; um HTTP 403 é relatado sem insistir. Os registros anteriores
+permanecem disponíveis se uma atualização falhar. Execute novamente para retomar
+coletas incompletas. Para insistir numa atualização de um registro anterior completo,
+use `--atualizar` novamente.
+
+**Esta base ainda não é carregada pelo jogo.** Primeiro confira o relatório e os
+dados coletados. Números por passagem podem representar apenas certas competições;
+o script não soma esses números como se fossem toda a carreira. `totaisCarreira` e
+`titulos` ficam `null` até conferência: prêmios individuais não equivalem a títulos
+coletivos. As fotos guardam URL, página de origem, autor e licença para uso com os
+créditos necessários. Uma resposta da API não garante que os dados estejam completos.
+
+### Revisão dos registros coletados
+
+```bash
+python revisar_gemeos.py             # confere os jogadores, com cache das fontes
+python revisar_gemeos.py --offline   # reproduz a revisão já coletada, sem rede
+```
+
+O revisor usa `requests` e `beautifulsoup4`, já presentes nos outros coletores.
+Ele preserva os dados brutos e gera `gemeos_revisados.json`, `gemeos_revisados.js`
+e `REVISAO_GEMEOS.md`. A base revisada separa clubes, reservas, base e seleções,
+guarda as revisões consultadas da Wikipédia e distingue estatísticas de liga das
+competições incluídas nas tabelas de clubes. Campos em branco não viram zero;
+totais inconsistentes, com clubes ausentes ou com critérios conflitantes ficam
+pendentes. Algumas conferências adicionais em clubes, federações e RSSSF estão
+registradas com seu escopo e fonte. Títulos coletivos não são inferidos de prêmios.
+As duas bases ainda não são carregadas automaticamente pelo jogo.
+
+## Publicar uma mudança no jogo
 
 1. Edite o `index.html` e coloque novas imagens nas subpastas de `assets/`.
 2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui o `index.html`, os JavaScripts da carreira e toda a pasta `assets/`, inclusive taças e escudos.

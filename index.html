@@ -6804,96 +6804,79 @@ main:has(.card.caron){max-width:1180px}
     return {offers:of,info};
   }
 
-  // Encontra o jogador real em P + gols.js/historico.js com a carreira mais parecida ("Gêmeo de Carreira").
-  // Pesam, nesta ordem: títulos (historico.js), gols (clube/seleção/continental), clubes em comum
-  // na trajetória (id do Transfermarkt) e posição. Clube atual e nacionalidade só como desempate leve.
+  // Índice de semelhança (não probabilidade): dados ausentes não contam como zero.
   function findCareerTwin(car){
-    const G=window.GOLS_DATA&&window.GOLS_DATA.rows?window.GOLS_DATA.rows:((window.QT_REF&&window.QT_REF.G)?window.QT_REF.G:{});
-    const H=window.HIST_DATA&&window.HIST_DATA.rows?window.HIST_DATA.rows:{};
-    const myClubs=new Set(car.passagens.map(p=>p.c));
-    const myIds=new Set(car.passagens.map(p=>p.k).filter(Boolean));
-    const myGrp=GRP[car.pos]||car.pos;
-    const myCL=(car.cl||0)+(car.cli||0);
-    const myGoals=car.g||0;
-    const mySel=car.sel[1]||0;
-    const myTit=car.titulos||{};
-    // Peso de cada título no "jeito" do jogador (Bola de Ouro e Copa do Mundo pesam mais)
-    const TW={copaMundo:26,bolaOuro:22,champions:9,libertadores:9,euro:8,copaAmerica:8,afcon:8,asianCup:8,goldCup:8,chuteiraOuro:7,luvaOuro:6,artilharias:5,euroLeague:4,sudamericana:4,aclElite:4,concacaf:4,mundial:3,liga:2,copaNac:1};
-    let myTitPts=0;
-    for(const k in TW)myTitPts+=(myTit[k]||0)*TW[k];
-    const normCl=n=>semAcento(n).replace(/[^a-z0-9 ]/g,' ').replace(/\b(cr|fc|ec|sc|ac|se|ss|sv|cf|cd|cs|ca|clube|club|futebol|de|do|da|the)\b/g,' ').replace(/\s+/g,' ').trim();
-    let bestP=null,bestScore=-1e9,bestComuns=0,bestTit=null;
-
-    const pool=P.filter(p=>p.f);
-    const candidates=pool.length?pool:P;
-
-    candidates.forEach(p=>{
-      const gr=G&&p.i?G[p.i]:null;
-      const ht=H&&p.i?H[p.i]:null;
-      let dist=0;
-      // Posição exata ou mesmo setor
-      if(p.p===car.pos)dist+=0;
-      else if((GRP[p.p]||p.p)===myGrp)dist+=20;
-      else dist+=70;
-
-      // Nacionalidade e clube atual: desempate leve (3º clube igual não basta)
-      if(p.z===car.nac)dist-=12;
-      if(myClubs.has(p.c))dist-=12;
-
-      if(gr){
-        const pG=gr.g||0;
-        const pSel=(gr.sel&&gr.sel[1])||0;
-        const pCL=(gr.cl||0)+(gr.cli||0);
-        dist+=Math.abs(pG-myGoals)*0.5;   // gols em clubes (artilheiro / Bola de Ouro)
-        dist+=Math.abs(pSel-mySel)*0.6;   // gols pela seleção
-        dist+=Math.abs(pCL-myCL)*0.5;     // gols em Champions/Libertadores
-        const estOvr=clamp(Math.round(68+Math.log1p(p.v||5)*6),65,94);
-        dist+=Math.abs(estOvr-car.peakOvr)*0.12;
-      }else{
-        // Sem estatísticas: conta como 0 gol => só vence carreiras modestas
-        dist+=myGoals*0.5+mySel*0.3+myCL*0.3;
-        dist+=Math.abs(78-car.peakOvr)*1.5+45;
+    const G=window.GOLS_DATA?.rows||window.QT_REF?.G||{};
+    const H=window.HIST_DATA?.rows||{};
+    const group=GRP[car.pos]||car.pos,gk=car.pos==='GOL';
+    const norm=n=>semAcento(n||'').replace(/[^a-z0-9 ]/g,' ').replace(/\b(cr|fc|ec|sc|ac|se|ss|sv|cf|cd|cs|ca|clube|club|futebol|de|do|da|the)\b/g,' ').replace(/\s+/g,' ').trim();
+    const junior=/\b(u-?\d{2}|sub-?\d+|jgd|youth|academy|juv|juvenis|juven|form)\b/i;
+    const passages=(car.passagens||[]).filter(p=>(p.anos||0)>0);
+    const myClubs=new Set(passages.map(p=>norm(p.c)));
+    const myIds=new Set(passages.map(p=>String(p.k||'')).filter(Boolean));
+    const myReturns=passages.length-myClubs.size;
+    const similar=(a,b,scale)=> (Math.min(a,b)+scale)/(Math.max(a,b)+scale);
+    const sum=(t,keys)=>keys.reduce((n,k)=>n+(Number(t?.[k])||0),0);
+    const titleGroups=[
+      [['liga'],4],[['copaNac'],3],[['champions','libertadores','aclElite','concacaf'],5],
+      [['euroLeague','europaLeague','sudamericana'],2],[['copaMundo'],4],
+      [['euro','copaAmerica','afcon','asianCup','goldCup'],2],
+      [['bolaOuro','chuteiraOuro','luvaOuro','artilharias'],5]
+    ];
+    const samePosition=P.filter(p=>p.p===car.pos);
+    const sameGroup=P.filter(p=>(GRP[p.p]||p.p)===group);
+    const hasData=p=>G[p.i]||H[p.i];
+    const candidates=samePosition.some(hasData)?samePosition:sameGroup.length?sameGroup:P;
+    let best=null;
+    for(const p of candidates){
+      const gr=G[p.i],ht=H[p.i];
+      let points=p.p===car.pos?5:(GRP[p.p]||p.p)===group?3:0;
+      let covered=5,possible=gk?50:100,comuns=0;
+      // Não há total de partidas, assistências ou OVR de auge confiáveis na base real.
+      if(!gk){
+        for(const [a,b,w,scale] of [
+          [car.g,gr?.g,30,30],
+          [(car.cl||0)+(car.cli||0),gr&&Number.isFinite(gr.cl)&&Number.isFinite(gr.cli)?gr.cl+gr.cli:null,10,10],
+          [car.sel?.[1],gr?(gr.sel?.[1]??0):null,10,5]
+        ])if(Number.isFinite(b)){points+=w*similar(a||0,b,scale);covered+=w}
       }
-
-      // Trajetória: clubes em comum (id do Transfermarkt no gols.js/historico.js;
-      // nome normalizado como reserva para clubes antigos sem id)
-      let comuns=0;
-      {
-        const cids=new Set(),cnames=new Set();
-        if(gr&&gr.clubes)for(const id in gr.clubes){cids.add(String(id));cnames.add(normCl(gr.clubes[id][0]))}
-        if(ht&&ht.clubes)ht.clubes.forEach(a=>{if(a&&a[0]){cids.add(String(a[0]));cnames.add(normCl(a[1]||''))}});
-        myIds.forEach(id=>{if(cids.has(id))comuns++});
-        if(cnames.size)car.passagens.forEach(pg=>{
-          if(pg.k)return;                       // clube com id já foi contado acima
-          const nc=normCl(pg.c);
-          if(nc&&cnames.has(nc))comuns++;
-        });
+      if(gr&&(!gr.sel||Number.isFinite(gr.sel[0]))){
+        points+=5*similar(car.sel?.[0]||0,gr.sel?.[0]||0,15);covered+=5;
       }
-      if(comuns)dist-=Math.min(comuns,4)*10;    // até −40 pela trajetória em comum
-
-      // Títulos: carreira parecida tem quadro de conquistas parecido.
-      // Sem dados no historico.js, o candidato conta como se tivesse zero título.
-      let td=myTitPts,titTot=null;
-      if(ht&&ht.t){
-        td=0;
-        let tot=0;
-        for(const k in TW){const a=myTit[k]||0,b=ht.t[k]||0;if(a||b)td+=Math.abs(a-b)*TW[k];tot+=(b||0)}
-        titTot=tot;
+      let tit=null;
+      if(ht?.t){
+        for(const [keys,w] of titleGroups)points+=w*similar(sum(car.titulos,keys),sum(ht.t,keys),1);
+        covered+=25;tit=Object.values(ht.t).reduce((n,v)=>n+(Number(v)||0),0);
       }
-      dist+=td;
-
-      const score=-dist;
-      if(score>bestScore){
-        bestScore=score;
-        bestP=p;
-        bestComuns=comuns;
-        bestTit=titTot;
+      const clubs=(ht?.clubes||[]).filter(c=>c?.[0]&&c[1]&&!junior.test(c[1]));
+      if(clubs.length&&myClubs.size){
+        const ids=new Set(clubs.map(c=>String(c[0])));
+        // Uma promoção não cria outro clube; retornos são comparados separadamente.
+        const route=clubs.filter((c,i)=>i===0||String(c[0])!==String(clubs[i-1][0]));
+        points+=10*similar(myClubs.size,ids.size,1);
+        points+=2*similar(myReturns,route.length-ids.size,1);
+        const matched=new Set();
+        for(const c of clubs)if(myIds.has(String(c[0]))||myClubs.has(norm(c[1])))matched.add(String(c[0]));
+        comuns=matched.size;
+        points+=3*(2*comuns/(myClubs.size+ids.size));covered+=15;
       }
-    });
+      const coverage=covered/possible;
+      let sim=Math.round(100*points/possible);
+      // Goleiros não têm defesas/GS/SG reais; cobertura parcial não sustenta 90%+.
+      sim=Math.min(sim,coverage<.8?69:gk?79:99);
+      if(!best||sim>best.sim||(sim===best.sim&&coverage>best.coverage)){
+        best={player:p,sim,coverage,comuns,tit,stats:gr||null};
+      }
+    }
+    return best||{player:P[0],sim:0,comuns:0,tit:null,stats:null};
+  }
 
-    if(!bestP)bestP=P[0];
-    const sim=clamp(Math.round(99-Math.max(0,-bestScore)*0.06),70,99);
-    return {player:bestP,sim,comuns:bestComuns,tit:bestTit,stats:(G&&bestP&&G[bestP.i])||null};
+  function atualizaGemeoCarreira(car){
+    const twin=findCareerTwin(car),p=twin.player;
+    car.twin={n:p.n,c:p.c,l:p.l,p:p.p,z:p.z,b:p.b,f:p.f,k:p.k,i:p.i,
+      sim:twin.sim,g:twin.stats?.g??null,selG:twin.stats?.sel?.[1]??null,
+      tit:twin.tit,com:twin.comuns,version:2};
+    return twin;
   }
 
   function retireCareer(){
@@ -6902,15 +6885,8 @@ main:has(.card.caron){max-width:1180px}
     if(CAR.ovrProx!=null){CAR.ovr=clamp(CAR.ovrProx,40,99);CAR.ovrProx=null;CAR.peakOvr=Math.max(CAR.peakOvr,CAR.ovr)}
     CAR.step='retired';
     CAR.aposView='fw';
-    const twin=findCareerTwin(CAR);
-    CAR.twin={
-      n:twin.player.n,c:twin.player.c,l:twin.player.l,p:twin.player.p,
-      z:twin.player.z,b:twin.player.b,f:twin.player.f,k:twin.player.k,i:twin.player.i,
-      sim:twin.sim,
-      g:twin.stats?twin.stats.g:null,
-      selG:twin.stats&&twin.stats.sel?twin.stats.sel[1]:null,
-      tit:twin.tit,com:twin.comuns
-    };
+    const twin=atualizaGemeoCarreira(CAR);
+
 
     const totTit=Object.values(CAR.titulos).reduce((a,b)=>a+b,0);
     const pts=Math.round(CAR.g*1.1+CAR.sel[1]*3.2+totTit*28+CAR.titulos.copaMundo*160+CAR.titulos.champions*85+CAR.titulos.libertadores*80+CAR.titulos.bolaOuro*95+(CAR.titulos.luvaOuro||0)*60+(CAR.titulos.chuteiraOuro||0)*55+CAR.peakOvr*3);
@@ -7819,8 +7795,8 @@ main:has(.card.caron){max-width:1180px}
         ${tw?`
           <div class="car-legacy">
             <div class="car-box" style="background:linear-gradient(135deg,color-mix(in srgb,var(--sun) 30%,var(--panel)),var(--panel))">
-              <span class="car-tag">Gêmeo de Carreira · ${tw.sim}%</span>
-              <h4 style="margin:10px 0 4px;font:800 17px 'Unbounded',sans-serif;color:var(--ink)">Sua carreira lembra a de ${esc(tw.n)}!</h4>
+              <span class="car-tag">Semelhança de carreira · ${tw.sim}%</span>
+              <h4 style="margin:10px 0 4px;font:800 17px 'Unbounded',sans-serif;color:var(--ink)">${tw.sim>=80?'Sua carreira lembra a de':'A carreira mais próxima é a de'} ${esc(tw.n)}!</h4>
               <p class="car-sub">Você desbloqueou a figurinha de <b>${esc(tw.n)}</b> no Álbum.</p>
               <div style="display:flex;align-items:center;gap:12px;margin-top:10px">${av('pl',twPh,tw.n,56,74)}<div><b style="font:800 14px 'Unbounded',sans-serif;color:var(--ink)">${esc(tw.n)}</b><div class="car-sub" style="margin-top:2px">${esc(tw.c)} · ${tw.p}</div></div><button type="button" class="car-btn pri" id="car-open-album" style="margin-left:auto">📖 Álbum</button></div>
             </div>
@@ -9141,6 +9117,7 @@ main:has(.card.caron){max-width:1180px}
       const saved=ls.get(CAR_KEY);
       if(saved&&saved.nome){CAR=saved;normClube(CAR.clube);if(CAR.emprestimo)normClube(CAR.emprestimo.origem);if(CAR.emprestimosTotal==null)CAR.emprestimosTotal=emprestimosDeSaveAntigo(CAR);rngLoad(CAR)}
     }
+    if(CAR?.step==='retired'&&CAR.twin?.version!==2){atualizaGemeoCarreira(CAR);saveCar()}
     renderCar();
   }
 
