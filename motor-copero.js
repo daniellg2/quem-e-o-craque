@@ -78,7 +78,7 @@
     normal:  { periodLengthSeasons: 2, personalEventCount: [3, 4], substituteBeforeNonRenewal: 1, lowRotationBeforeNonRenewal: 2 },
     express: { periodLengthSeasons: 3, personalEventCount: [2, 3], substituteBeforeNonRenewal: 1, lowRotationBeforeNonRenewal: 2 }
   };
-  const RETIRE_AGE = 40;
+  const RETIRE_AGE = 50;
   const REP_LEVELS = 5;         // 0..5 (com -1 tratado à parte)
 
   // OVR de referência do clube por reputação internacional (-1 = clube fraco)
@@ -504,9 +504,9 @@
      4 · DESENVOLVIMENTO / CICLO DE OVR
      ============================================================ */
   function devRange(profile, gk, age) {
-    // Como no Copero a tabela só cobre 18..38: fora disso não existe faixa (nem desenvolvimento)
+    // Após os 38, mantém a última faixa de declínio no ciclo de dois anos.
     const t = gk ? DEV_GK : (DEV[profile] || DEV.normal);
-    return t[age];
+    return t[Math.min(age, 38)];
   }
   function devDelta(rng, ctx, targetAge, role, mode) {
     // ctx: { age, position(GK?), profile }
@@ -585,7 +585,11 @@
 
   // club: { internationalReputation, domesticReputation, continentalReputation, confederation, tier }
   // prevSeason, lastSeason — para regra da secundária
+  function canWinDomesticCup(club) {
+    return club.countryFifaCode !== 'BRA' || (club.tier !== 4 && club.tier !== 0);
+  }
   function simulateTrophies(rng, player, club, modifiers, prevSeasonSameClub, forced) {
+    if(club.countryFifaCode==='BRA'&&club.tier===0)return {rng,trophies:[]};
     modifiers = modifiers || neutralModifiers();
     const diff = player.overall - baseOvrOf(club.internationalReputation);
     const p = luckMult(diff);
@@ -597,7 +601,7 @@
     const leagueProb = PROB.league[CLAMP(dom, 0, 5)] * modifiers.leagueTrophyProbabilityMultiplier;
     const cupProb = PROB.cup[CLAMP(dom, 0, 5)] * modifiers.domesticCupTrophyProbabilityMultiplier;
     if (!club.tier || club.tier === 1) list.push(['league', leagueProb]);
-    if (cupProb > 0) list.push(['cup', cupProb]);
+    if (cupProb > 0 && canWinDomesticCup(club)) list.push(['cup', cupProb]);
     if (club.tier === 1) {
       list.push(['continental_primary', PROB.continentalPrimary[CLAMP(cont, 0, 5)] * modifiers.continentalPrimaryTrophyProbabilityMultiplier]);
       if (CONFEDS_WITH_SECONDARY.has(confed)) list.push(['continental_secondary', PROB.continentalSecondary[CLAMP(cont, 0, 5)] * modifiers.continentalSecondaryTrophyProbabilityMultiplier]);
@@ -905,7 +909,7 @@
     effectiveRep, clubWorldCupYear, injuryOvr,
     neutralModifiers, applyEventEffects, buildPlan, eligibleEvents, rollEvent, commitEvent,
     devRange, devDelta, newCycle, advanceOverall,
-    seasonStats, simulateTrophies, simulateAwards, awardChance, goldenBootChance, roleAwardMult,
+    seasonStats, canWinDomesticCup, simulateTrophies, simulateAwards, awardChance, goldenBootChance, roleAwardMult,
     scheduleTournaments, nationalTournamentResult, everyFour,
     offerWeights, reputationJitter, generateTransferOffers, generateLoanOffers, generateNonRenewalOffers,
     lowRoleStreakNeeded, benchStreakNeeded,

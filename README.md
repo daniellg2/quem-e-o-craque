@@ -20,6 +20,7 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 | `gols.js` / `gols.json` | gols, jogos em que marcou, gols decisivos/pênaltis/faltas, gols por clube e seleção |
 | `copas.js` / `copas.json` | histórico de Copas do Mundo |
 | `copero-times.js` | ligas e clubes do "Modo Copero" (base extraída do site copero.com.ar) |
+| `copero-serie-d.js` | clubes da Série D e convidados sem divisão do modo Copero |
 | `reputacao_clubes.json` | reputação real e divisão de cada clube (chave `nome do jogo\|liga`), casadas com a base do Copero — é o que deixa os títulos fiéis (clube fraco não ganha continental). Gerado pelo `gerar_reputacao.py` |
 | `historico.js` / `historico.json` | títulos oficiais por competição + trajetória de clubes (usado pelo "Gêmeo de Carreira") |
 | `famosos.txt` | IDs do Transfermarkt de jogadores "estrela" (entrada do cálculo da fama) |
@@ -77,7 +78,7 @@ O robô roda o pipeline e commita sozinho. O commit sai com `[skip netlify]` —
 ## Como publicar uma mudança no jogo
 
 1. Edite o `index.html` e coloque novas imagens nas subpastas de `assets/`.
-2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui o `index.html`, o JavaScript da carreira e toda a pasta `assets/`, inclusive taças e escudos.
+2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui o `index.html`, os JavaScripts da carreira e toda a pasta `assets/`, inclusive taças e escudos.
 3. O Cloudflare reconstrói em ~30 s e o site já está atualizado para todo mundo.
 
 > Alternativa: subir o arquivo pelo GitHub (Add file → Upload files). Funciona,

@@ -4,6 +4,7 @@
   // Tabelas de acesso/rebaixamento do simulador Copero, por OVR e reputação.
   const PROMOTION_2 = [[64,.03],[69,.04],[74,.06],[79,.09],[84,.13],[87,.18],[89,.25],[99,.30]];
   const PROMOTION_3 = [[64,.04],[69,.05],[74,.07],[79,.11],[84,.15],[87,.21],[89,.28],[99,.35]];
+  const PROMOTION_D = [[64,.12],[69,.16],[74,.22],[79,.30],[84,.40],[87,.50],[89,.60],[99,.70]];
   const RELEGATION_2 = [[64,.20],[69,.16],[74,.12],[79,.09],[84,.06],[87,.03],[89,.01],[99,0]];
   const PROMOTION_REP = [1,1.1,1.2,1.3,1.5,1.75,2];
   const RELEGATION_REP = [1,.9,.8,.7,.6,.5,.4];
@@ -29,13 +30,17 @@
     return result;
   }
 
-  function resolve({league,overall,internationalReputation=0,domesticReputation=0,suspended=false,trophies=[]},link,draw) {
+  function resolve({league,overall,internationalReputation=0,domesticReputation=0,suspended=false,trophies=[],promotedFromB=false},link,draw) {
+    if (league==='BRA0') return {kind:'promotion',from:'BRA0',to:'BRA4',fromTier:0,toTier:4};
     if (!link || (!link.upper && !link.lower)) return null;
     const tier=link.tier,rep=clamp(Math.round(internationalReputation),-1,5)+1;
     const wonLeague=trophies.includes('league');
     let kind=null;
     if (wonLeague && link.upper && !suspended) kind='promotion';
     else if (tier===1 && link.lower && !wonLeague) {
+      if (promotedFromB) {
+        if (draw()<.70) kind='relegation';
+      } else {
       // Copero: clubes fortes domesticamente não são rebaixados pela rolagem.
       let boost=0;
       if (overall>=90) boost=internationalReputation===3?1:internationalReputation<=2?2:0;
@@ -46,6 +51,7 @@
         const chance=clamp(.05+.1*((1.1-factor)/.5),.05,.15);
         if (draw()<chance) kind='relegation';
       }
+      }
     } else if (tier===2) {
       const promotion=link.upper&&!suspended?Math.min(.9,band(overall,PROMOTION_2)*PROMOTION_REP[rep]):0;
       const relegation=link.lower?band(overall,RELEGATION_2)*RELEGATION_REP[rep]:0;
@@ -53,7 +59,8 @@
       if (value<promotion) kind='promotion';
       else if (value<promotion+relegation) kind='relegation';
     } else if (tier>=3 && link.upper && !suspended) {
-      if (draw()<Math.min(.9,band(overall,PROMOTION_3)*PROMOTION_REP[rep])) kind='promotion';
+      const table=league==='BRA4'?PROMOTION_D:PROMOTION_3;
+      if (draw()<Math.min(.9,band(overall,table)*PROMOTION_REP[rep])) kind='promotion';
     }
     const to=kind==='promotion'?link.upper:kind==='relegation'?link.lower:null;
     if (!to) return null;
@@ -62,6 +69,7 @@
 
   function trophiesAfterMovement(trophies,movement) {
     if (!movement) return trophies.slice();
+    if (movement.from==='BRA0') return trophies.slice();
     if (movement.kind==='relegation') return trophies.filter(t=>!CLUB_TROPHIES.has(t));
     return trophies.includes('league')?trophies.slice():[...trophies,'league'];
   }
