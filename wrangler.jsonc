@@ -1,7 +1,9 @@
 {
   "name": "quem-e-o",
+  "main": "worker.js",
   "compatibility_date": "2026-10-28",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   }
 }

@@ -4,6 +4,7 @@
 .gitignore
 .assetsignore
 wrangler.jsonc
+worker.js
 README.md
 *.py
 *.cmd

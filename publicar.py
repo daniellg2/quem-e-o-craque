@@ -25,12 +25,12 @@ DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
          "copero-times.js", "historico.js", "historico.json", "famosos.txt", "copas_tm.json",
          "reputacao_clubes.json", "netlify.toml"]
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
-           "pegar_historico.py", "pegar_gemeos.py", "revisar_gemeos.py", "pegar_copas.py", "pegar_copas2.py",
-           "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py"]
+           "pegar_historico.py", "pegar_gemeos.py", "gemeos_transfermarkt.py", "revisar_gemeos.py", "pegar_copas.py", "pegar_copas2.py",
+           "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py", "testar_sportdb.py", "testar_gemeo_gemini.py"]
 EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore",
           "wrangler.jsonc", ".assetsignore"]
 PASTA_ASSETS = "assets"
-ARQUIVOS_JOGO = ["index.html", "career-divisions.js", "motor-copero.js", "copero-serie-d.js"]
+ARQUIVOS_JOGO = ["index.html", "career-divisions.js", "motor-copero.js", "copero-serie-d.js", "worker.js"]
 
 ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
                "copero-times.js", "historico.js", "historico.json",
