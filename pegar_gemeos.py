@@ -1,6 +1,6 @@
-"""Coletor independente dos Gemeos de Carreira: Wikidata + fotos do Commons.
+"""Coletor dos Gemeos de Carreira: Wikidata, Commons e Transfermarkt.
 
-Nao acessa o Transfermarkt e nao modifica dados.js, gols.json ou historico.json.
+Nao modifica dados.js, gols.json, historico.json nem a revisao existente.
 Usa requests (ja usado pelos outros coletores). Execute de qualquer pasta:
 
   python pegar_gemeos.py                       # selecao inicial de 50 aposentados
@@ -8,6 +8,9 @@ Usa requests (ja usado pelos outros coletores). Execute de qualquer pasta:
   python pegar_gemeos.py --lista jogadores.txt # um QID por linha
   python pegar_gemeos.py --atualizar           # atualiza inclusive os ja coletados
   python pegar_gemeos.py --offline             # reconstroi usando apenas o cache
+  python pegar_gemeos.py --tm-ids 17121 28003 # IDs do Transfermarkt, inclusive fora do Wikidata
+  python pegar_gemeos.py --ligas BRA1 --temporadas 2010 --limite 10
+  python pegar_gemeos.py --sem-transfermarkt   # somente coleta original do Wikidata
 
 Saidas: gemeos.json, gemeos.js e gemeos_relatorio.json, ao lado deste script.
 Os arquivos ainda precisam ser integrados ao jogo; nao alteram o album.
@@ -332,16 +335,37 @@ def main(argv=None):
     ap.add_argument("--atualizar", action="store_true", help="consulta novamente inclusive registros existentes")
     ap.add_argument("--offline", action="store_true", help="usa apenas os arquivos locais, sem rede")
     ap.add_argument("--sem-fotos", action="store_true", help="pula a consulta dos metadados das fotos")
+    ap.add_argument("--tm-ids", nargs="+", help="IDs numericos do Transfermarkt, inclusive fora da base atual")
+    ap.add_argument("--ligas", nargs="+", help="codigos de ligas da database para descobrir jogadores em elencos antigos")
+    ap.add_argument("--temporadas", nargs="+", type=int, help="anos iniciais das temporadas; exige --ligas")
+    ap.add_argument("--revisados", type=Path, default=AQUI / "gemeos_revisados.json", help="referencia revisada, nunca sobrescrita")
+    ap.add_argument("--sem-transfermarkt", action="store_true", help="pula enriquecimento e validacao automatica")
     args = ap.parse_args(argv)
     if args.saida.suffix.lower() != ".json":
         ap.error("--saida precisa terminar em .json")
+    if args.revisados.resolve() in (args.saida.resolve(), args.saida.with_name(args.saida.stem + '_validados.json').resolve()):
+        ap.error("A saida nao pode sobrescrever a referencia revisada")
     if args.limite is not None and args.limite < 1:
         ap.error("--limite precisa ser maior que zero")
+    if args.tm_ids and any(not re.fullmatch(r"[1-9]\d*", p) for p in args.tm_ids):
+        ap.error("--tm-ids aceita apenas IDs numericos positivos")
+    if bool(args.ligas) != bool(args.temporadas):
+        ap.error("Use --ligas e --temporadas juntos")
+    if args.temporadas and any(y < 1850 or y > datetime.now().year for y in args.temporadas):
+        ap.error("Temporada fora do intervalo valido")
+    if args.sem_transfermarkt and (args.tm_ids or args.ligas):
+        ap.error("--sem-transfermarkt nao pode ser combinado com --tm-ids ou --ligas")
+    if args.ligas:
+        import pegar_dados as pd
+        presentes = {line.split(',')[6] for line in pd.ler_linhas_dados(AQUI / 'dados.js')}
+        invalidas = set(args.ligas) - (presentes & pd.LIGAS.keys())
+        if invalidas:
+            ap.error("Ligas ausentes da database ou sem coletor: " + ', '.join(sorted(invalidas)))
     ids = list(args.ids or [])
     if args.lista:
         ids.extend(line.split("#", 1)[0].strip() for line in args.lista.read_text(encoding="utf-8-sig").splitlines())
-    ids = list(dict.fromkeys(q.strip().upper() for q in ids if q.strip())) if args.ids or args.lista else list(INICIAIS)
-    if not ids or any(not re.fullmatch(r"Q[1-9]\d*", q) for q in ids):
+    ids = list(dict.fromkeys(q.strip().upper() for q in ids if q.strip())) if args.ids or args.lista else ([] if args.tm_ids or args.ligas else list(INICIAIS))
+    if ((args.ids or args.lista) and not ids) or any(not re.fullmatch(r"Q[1-9]\d*", q) for q in ids):
         ap.error("Informe QIDs validos do Wikidata, por exemplo --ids Q12897 Q47526")
     if args.limite:
         ids = ids[:args.limite]
@@ -395,7 +419,11 @@ def main(argv=None):
     salvar_json(args.saida.with_name(args.saida.stem + "_relatorio.json"), report)
     print(f"\nSalvos: {len(rows)} | pendentes de coleta: {len(faltantes)} | {api.requisicoes} requisicoes | {report['segundos']}s")
     print(f"Saida: {args.saida}\nO jogo ainda nao carrega esta base automaticamente.")
-    return 130 if interrupted else 1 if faltantes or api.falhas else 0
+    validacao = 0
+    if not args.sem_transfermarkt and not interrupted:
+        from gemeos_transfermarkt import incorporar
+        validacao = incorporar(args, rows, ids)
+    return 130 if interrupted or validacao == 130 else 1 if faltantes or api.falhas or validacao else 0
 
 
 if __name__ == "__main__":
