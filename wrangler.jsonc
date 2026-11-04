@@ -2,6 +2,11 @@
   "name": "quem-e-o",
   "main": "worker.js",
   "compatibility_date": "2026-10-28",
+  "ratelimits": [{
+    "name": "TWIN_LIMITER",
+    "namespace_id": "74102611",
+    "simple": { "limit": 5, "period": 60 }
+  }],
   "assets": {
     "directory": ".",
     "binding": "ASSETS"

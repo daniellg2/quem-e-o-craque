@@ -80,6 +80,20 @@ O robô roda o pipeline e commita sozinho. O commit sai com `[skip netlify]` —
 
 ## Coletar novos candidatos ao Gêmeo de Carreira
 
+### Comparação no jogo
+
+Ao encerrar a carreira, o jogo envia um resumo e até 12 jogadores que já têm
+figurinha para `/api/gemeo`. O Worker usa `gemini-3.5-flash-lite` para escolher
+três finalistas e um vencedor; o navegador aceita apenas o índice de um candidato
+enviado e concede a figurinha correspondente. Se a consulta falhar ou demorar,
+o gêmeo calculado localmente continua valendo. A pontuação mostrada no jogo é
+o índice local de semelhança, não uma probabilidade da IA.
+
+Configure `GEMINI_API_KEY` como Secret do Worker `quem-e-o` em Production.
+Publique mudanças no jogo com `python publicar.py --jogo`; a publicação padrão
+inclui `worker.js` e `wrangler.jsonc`, mas não inclui `index.html`.
+O Worker limita cada IP a cinco comparações por minuto em cada local da Cloudflare.
+
 ### Experimento de comparação com Gemini
 
 O teste usa exemplos fictícios e o conhecimento do modelo; não treina a IA, não
