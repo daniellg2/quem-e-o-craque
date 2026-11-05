@@ -82,11 +82,11 @@ O robô roda o pipeline e commita sozinho. O commit sai com `[skip netlify]` —
 
 ### Comparação no jogo
 
-Ao encerrar a carreira, o jogo envia um resumo e até 12 jogadores que já têm
+Ao encerrar a carreira, o jogo envia um resumo e três jogadores que já têm
 figurinha para `/api/gemeo`. O Worker usa `gemini-3.5-flash-lite` para escolher
-três finalistas e um vencedor; o navegador aceita apenas o índice de um candidato
+o mais parecido; o navegador aceita apenas o índice de um candidato
 enviado e concede a figurinha correspondente. Se a consulta falhar ou demorar,
-o gêmeo calculado localmente continua valendo. A pontuação mostrada no jogo é
+o gêmeo calculado localmente continua valendo em até 10 segundos. A pontuação mostrada no jogo é
 o índice local de semelhança, não uma probabilidade da IA.
 
 Configure `GEMINI_API_KEY` como Secret do Worker `quem-e-o` em Production.

@@ -6872,10 +6872,10 @@ main:has(.card.caron){max-width:1180px}
     if(limit===1)return unique[0]||{player:P[0],sim:0,comuns:0,tit:null,stats:null};
     const low=(car.passagens||[]).reduce((n,p)=>n+(['BRA2','BRA3','BRA4'].includes(p.l)?p.anos||0:0),0);
     const years=(car.passagens||[]).reduce((n,p)=>n+(p.anos||0),0);
-    if(limit>=5&&years&&low/years>=.5){
-      const top=unique.slice(0,limit-4),ids=new Set(top.map(x=>x.player.i));
-      const menores=unique.filter(x=>x.player.l==='BRA3'&&!ids.has(x.player.i)).slice(0,4);
-      return [...top,...menores].slice(0,limit);
+    if(limit>=3&&years&&low/years>=.5){
+      const top=unique.slice(0,limit-1),ids=new Set(top.map(x=>x.player.i));
+      const menor=unique.find(x=>x.player.l==='BRA3'&&!ids.has(x.player.i));
+      return menor?[...top,menor]:unique.slice(0,limit);
     }
     return unique.slice(0,limit);
   }
@@ -6889,19 +6889,20 @@ main:has(.card.caron){max-width:1180px}
   }
 
   async function compararGemeoIA(car,candidatos){
-    if(candidatos.length<3)return null;
+    if(candidatos.length!==3)return null;
     const H=window.HIST_DATA?.rows||{};
     const dados={carreira:{pos:car.pos,nacionalidade:car.nac,temporadas:car.passagens.reduce((n,p)=>n+(p.anos||0),0),
       jogos:car.jg,gols:car.g,assistencias:car.a||0,selecao:{jogos:car.sel?.[0]||0,gols:car.sel?.[1]||0},
-      titulos:car.titulos,clubes:car.passagens.slice(0,30).map(p=>({nome:p.c,liga:p.l,temporadas:p.anos||0,jogos:p.jg||0,gols:p.g||0}))},
+      titulos:Object.fromEntries(Object.entries(car.titulos).filter(([,v])=>v>0)),
+      clubes:car.passagens.slice(0,30).map(p=>[p.c,p.l,p.anos||0])},
       candidatos:candidatos.map(({player:p,stats})=>{
         const clubes=(H[p.i]?.clubes||[]).filter(c=>c?.[1]&&!/\b(u-?\d{2}|sub-?\d+|youth|academy|juv|juvenis|juven|form)\b/i.test(c[1]));
         return {nome:p.n,pos:p.p,nacionalidade:p.z,clubeAtual:p.c,ligaAtual:p.l,
           golsRegistrados:stats?.g??null,golsSelecao:stats?.sel?.[1]??null,
           jogosSelecao:stats?.sel?.[0]??null,titulosRegistrados:H[p.i]?.t||{},
-          clubesHistoricos:[...new Set(clubes.map(c=>c[1]))].slice(0,10)};
+          clubesHistoricos:[...new Set(clubes.map(c=>c[1]))].slice(0,6)};
       })};
-    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),18000);
+    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
     try{
       const response=await fetch('/api/gemeo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados),signal:controller.signal});
       if(!response.ok)return null;
@@ -6919,7 +6920,7 @@ main:has(.card.caron){max-width:1180px}
     const car=CAR,root=c$('car'),side=c$('carscore');
     // Evolução pendente da última temporada conta no legado (como no Copero)
     if(CAR.ovrProx!=null){CAR.ovr=clamp(CAR.ovrProx,40,99);CAR.ovrProx=null;CAR.peakOvr=Math.max(CAR.peakOvr,CAR.ovr)}
-    const candidatos=findCareerTwin(car,12);
+    const candidatos=findCareerTwin(car,3);
     let escolha=null;
     root.inert=true;if(side)side.inert=true;
     const status=document.createElement('div');status.className='car-twin-wait';status.setAttribute('role','status');status.textContent='Comparando seu gêmeo de carreira...';document.body.appendChild(status);
