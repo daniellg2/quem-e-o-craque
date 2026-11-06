@@ -17,20 +17,21 @@ import re
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 ALVO_PADRAO = r"C:\dev\quem-e-o-craque"
 
 DADOS = ["dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
          "copero-times.js", "historico.js", "historico.json", "famosos.txt", "copas_tm.json",
-         "reputacao_clubes.json", "netlify.toml"]
+         "reputacao_clubes.json", "reputacao_clubes.js", "netlify.toml"]
 SCRIPTS = ["pipeline_dados.py", "publicar.py", "pegar_dados.py", "pegar_gols.py",
            "pegar_historico.py", "pegar_gemeos.py", "gemeos_transfermarkt.py", "revisar_gemeos.py", "pegar_copas.py", "pegar_copas2.py",
            "cruzar_copas.py", "fama_copas.py", "gerar_reputacao.py", "testar_sportdb.py", "testar_gemeo_gemini.py"]
 EXTRAS = ["README.md", "publicar.cmd", "atualizar_dados.cmd", "atualizar_dados.ps1", ".gitignore",
-          "wrangler.jsonc", ".assetsignore", "worker.js"]
+          "wrangler.jsonc", ".assetsignore", "_headers", "worker.js"]
 PASTA_ASSETS = "assets"
-ARQUIVOS_JOGO = ["index.html", "career-divisions.js", "motor-copero.js", "copero-serie-d.js"]
+ARQUIVOS_JOGO = ["index.html", "privacidade.html", "termos.html", "legal.css", "career-divisions.js", "motor-copero.js", "copero-serie-d.js", "copero-angola-tahiti.js"]
 
 ARQUIVOS_LF = ("dados.js", "gols.js", "gols.json", "copas.js", "copas.json",
                "copero-times.js", "historico.js", "historico.json",
@@ -73,10 +74,44 @@ def assets_do_jogo():
     return arquivos
 
 
-def git(*args, alvo="."):
+def git(*args, alvo=".", entrada=None):
     exe = shutil.which("git") or r"C:\Program Files\Git\cmd\git.exe"
-    return subprocess.run([exe, "-C", alvo] + list(args), text=True,
-                          capture_output=True, encoding="utf-8", errors="replace")
+    return subprocess.run([exe, "-C", alvo, "--literal-pathspecs"] + list(args), text=True,
+                          input=entrada, capture_output=True, encoding="utf-8", errors="replace")
+
+
+def git_ok(*args, alvo, entrada=None):
+    resultado = git(*args, alvo=alvo, entrada=entrada)
+    if resultado.returncode != 0:
+        raise RuntimeError("git %s falhou:\n%s" % (args[0], resultado.stderr.strip() or resultado.stdout.strip()))
+    return resultado.stdout.strip()
+
+
+def assets_dos_dados():
+    """As imagens referenciadas pela base precisam acompanhar ate publicacoes sem --jogo."""
+    texto = Path(AQUI, "dados.js").read_text(encoding="utf-8")
+    refs = sorted(set(re.findall(r"assets/database/[\w/-]+\.(?:png|jpg|webp|gif|svg)", texto)))
+    faltando = [r for r in refs if not Path(AQUI, r).is_file()]
+    if faltando:
+        raise FileNotFoundError("imagens da base ausentes: " + ", ".join(faltando))
+    if refs:
+        if not Path(AQUI, "imagens-offline.js").is_file():
+            raise FileNotFoundError("imagens-offline.js ausente; gere a versao offline antes de publicar.")
+        refs.append("imagens-offline.js")
+    return refs
+
+
+def commits_da_publicacao(alvo, permitidos):
+    """Valida o historico de um SHA fixo, inclusive se outro processo mover a branch."""
+    head = git_ok("rev-parse", "HEAD", alvo=alvo)
+    pendentes = git_ok("rev-list", "origin/main.." + head, alvo=alvo).splitlines()
+    for commit in pendentes:
+        mensagem = git_ok("show", "-s", "--format=%s", commit, alvo=alvo)
+        caminhos = [p for p in git_ok("diff-tree", "--no-commit-id", "--name-only", "-z", "-r", "--root", commit, alvo=alvo).split("\0") if p]
+        pais = git_ok("show", "-s", "--format=%P", commit, alvo=alvo).split()
+        if len(pais) > 1 or "[skip netlify]" not in mensagem or not caminhos or not set(caminhos) <= permitidos:
+            raise RuntimeError("Ha commit pendente fora desta publicacao: %s. Revise-o antes de enviar." % commit)
+    return head, pendentes
 
 
 def main():
@@ -90,12 +125,16 @@ def main():
     a = ap.parse_args()
 
     alvo = os.path.abspath(a.alvo)
-    if not os.path.isdir(os.path.join(alvo, ".git")):
-        print("ERRO: %s nao parece um clone do repositorio (.git nao encontrado)." % alvo)
-        print("Clone uma vez com:  git clone https://github.com/daniellg2/quem-e-o-craque.git \"%s\"" % alvo)
-        sys.exit(1)
+    raiz = git_ok("rev-parse", "--show-toplevel", alvo=alvo)
+    if Path(raiz).resolve() != Path(alvo).resolve():
+        raise RuntimeError("--alvo precisa apontar para a raiz do clone.")
+    if git_ok("branch", "--show-current", alvo=alvo) != "main":
+        raise RuntimeError("O clone precisa estar na branch main; nenhuma troca foi feita.")
+    estado = git_ok("status", "--porcelain", "--untracked-files=all", alvo=alvo)
+    if estado:
+        raise RuntimeError("O clone tem alteracoes locais. Revise ou guarde-as antes de publicar; nada foi copiado.\n" + estado)
 
-    arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS)
+    arquivos = list(DADOS) + list(SCRIPTS) + list(EXTRAS) + assets_dos_dados()
     if a.jogo:
         arquivos.extend(ARQUIVOS_JOGO)
         try:
@@ -104,6 +143,19 @@ def main():
             print("ERRO: %s" % e)
             sys.exit(1)
     arquivos += [s.strip() for s in a.incluir.split(",") if s.strip()]
+    arquivos = list(dict.fromkeys(f.replace("\\", "/") for f in arquivos))
+    for f in arquivos:
+        if (Path(f).is_absolute() or not Path(AQUI, f).resolve().is_relative_to(Path(AQUI).resolve())
+                or not Path(alvo, f).resolve().is_relative_to(Path(alvo).resolve())):
+            raise ValueError("Caminho fora da pasta de origem ou destino: " + f)
+        if Path(AQUI, f).exists() and not Path(AQUI, f).is_file():
+            raise ValueError("A publicacao aceita apenas arquivos: " + f)
+        if Path(alvo, f).is_symlink():
+            raise ValueError("O destino nao pode ser um link simbolico: " + f)
+
+    # Um push que falhou pode ser retomado, mas commits alheios nao sao enviados junto.
+    permitidos = set(arquivos)
+    head_inicial, pendentes = commits_da_publicacao(alvo, permitidos)
 
     if not a.seco:
         normalizar_lf()
@@ -116,43 +168,46 @@ def main():
             continue
         dst_nome = f
         dst = os.path.join(alvo, dst_nome)
-        novo = (not os.path.exists(dst)) or (os.path.getsize(dst) != os.path.getsize(src)) or \
-               (open(dst, "rb").read() != open(src, "rb").read())
+        novo = not os.path.exists(dst) or Path(dst).read_bytes() != Path(src).read_bytes()
         if novo:
             if not a.seco:
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
-                shutil.copy2(src, dst)
+                shutil.copyfile(src, dst)
             copiados.append(dst_nome)
 
     if faltando:
         print("aviso: nao encontrei na pasta do jogo: %s" % ", ".join(faltando))
-    if not copiados:
+    if not copiados and not pendentes:
         print("Nada para publicar: os arquivos do repositorio ja estao iguais.")
         return
 
     if a.seco:
         print("Alteracoes previstas: %s" % ", ".join(copiados))
+        print("Commits pendentes para enviar: %d" % len(pendentes))
         print("(--seco: nada foi copiado nem enviado)")
         return
 
     print("Copiados para o repositorio: %s" % ", ".join(copiados))
 
     msg = a.mensagem
-    if "[skip netlify]" not in msg and "[skip ci]" not in msg:
+    if "[skip netlify]" not in msg:
         msg += " [skip netlify]"
 
-    git("add", "-A", alvo=alvo)
-    st = git("status", "--porcelain", alvo=alvo)
-    print("\n--- git status ---\n%s" % (st.stdout.strip() or "(vazio)"))
-    r = git("commit", "-m", msg, alvo=alvo)
-    print("\n--- git commit ---\n%s" % (r.stdout.strip() or r.stderr.strip()))
-    if r.returncode != 0:
-        print("nada para commitar?")
-        return
-    p = git("push", "origin", "main", alvo=alvo)
-    print("\n--- git push ---\n%s%s" % (p.stdout.strip(), p.stderr.strip()))
-    print("\nPublicado (a Cloudflare Pages deve construir em ~1 minuto).")
+    if copiados:
+        if (git_ok("rev-parse", "HEAD", alvo=alvo) != head_inicial
+                or git_ok("branch", "--show-current", alvo=alvo) != "main"):
+            raise RuntimeError("A branch mudou durante a copia. Os arquivos foram preservados; revise o clone.")
+        caminhos = "\0".join(copiados) + "\0"
+        git_ok("add", "--pathspec-from-file=-", "--pathspec-file-nul", alvo=alvo, entrada=caminhos)
+        print(git_ok("commit", "--only", "-m", msg, "--pathspec-from-file=-", "--pathspec-file-nul", alvo=alvo, entrada=caminhos))
+    head, _ = commits_da_publicacao(alvo, permitidos)
+    print(git_ok("push", "origin", head + ":refs/heads/main", alvo=alvo))
+    print("\nEnviado ao GitHub. Confira o resultado do deploy na Cloudflare.")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (OSError, ValueError, RuntimeError) as exc:
+        print("ERRO: %s" % exc, file=sys.stderr)
+        sys.exit(1)

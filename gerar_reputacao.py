@@ -1,4 +1,4 @@
-"""Gera o reputacao_clubes.json: reputacoes reais dos clubes para o jogo.
+"""Gera reputacao_clubes.json e .js: reputacoes reais dos clubes para o jogo.
 
 Le os clubes do dados.js (nomes e ligas vindos do Transfermarkt via pegar_dados.py)
 e casa com a base extraida do site do Copero (copero-times.json). Os nomes passam
@@ -8,7 +8,7 @@ casado grava (chave = nome|liga, porque ha homonimos em divisoes diferentes):
 
     "Nome do clube|LIGA": [internacional, domestica, continental, divisao]
 
-O jogo (index.html) carrega esse arquivo no inicio (REP_OVERRIDE) e usa essas
+O jogo (index.html) carrega JSON via HTTP ou JS via file:// (REP_OVERRIDE) e usa essas
 reputacoes no lugar das estimativas; clube fora da lista continua na estimativa.
 Sem elas o jogo dava reputacao continental alta demais para clubes medios
 (ex.: Stade Rennais e Troyes ganhando Champions League).
@@ -278,6 +278,8 @@ def main():
                         for k in ordenado)
     with open(ARQ_SAIDA, "w", encoding="utf-8", newline="\n") as f:
         f.write("{\n" + linhas + "\n}\n")
+    with open(os.path.splitext(ARQ_SAIDA)[0] + ".js", "w", encoding="utf-8", newline="\n") as f:
+        f.write("window.REPUTACAO_CLUBES=" + json.dumps(ordenado, ensure_ascii=False, separators=(",", ":")) + ";\n")
     print("\ngravado: %s (%d clubes)" % (os.path.basename(ARQ_SAIDA), len(casados)))
 
 

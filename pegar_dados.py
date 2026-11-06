@@ -14,7 +14,7 @@ ajustes_fama.json (opcional, mesma pasta do script): correções pontuais por jo
 
 Fotos dos jogadores: o jogo monta a URL e o navegador carrega direto do Transfermarkt.
 Escudos e bandeiras: com --embutir-imagens o script baixa cada imagem uma vez e grava
-dentro do HTML (base64), então o jogo mostra escudos/bandeiras sem depender da internet.
+arquivos em assets/database, então o jogo mostra escudos/bandeiras também offline.
 
 Uso:
   pip install requests beautifulsoup4
@@ -354,7 +354,8 @@ def baixar_imagens(linhas):
     campos = [l.split(",") for l in linhas]
     ids_clube = sorted({c[9] for c in campos if len(c) > 9 and c[9]}, key=int)
     ids_flag = sorted({c[11] for c in campos if len(c) > 11 and c[11]}, key=int)
-    cods_liga = sorted({c[6] for c in campos if len(c) > 6 and c[6]})
+    # A Serie D pertence apenas ao Copero e nao aparece nas linhas de jogadores.
+    cods_liga = sorted({c[6] for c in campos if len(c) > 6 and c[6]} | {"BRA4"})
     escudos, bandeiras, logos = {}, {}, {}
     print(f"\nBaixando {len(ids_clube)} escudos, {len(ids_flag)} bandeiras e {len(cods_liga)} logos de liga...")
     for i in ids_clube:
@@ -373,10 +374,69 @@ def baixar_imagens(linhas):
     return escudos, bandeiras, logos
 
 
-def trocar_bloco(html, nome, dados):
+def imagens_locais(dados, nome, arquivo):
+    """Guarda imagens fora do JS; o hash no nome permite cache sem servir uma versao antiga."""
+    if nome not in ("CRESTS", "FLAGS", "LOGOS"):
+        raise ValueError("Bloco de imagens desconhecido: " + nome)
+    tipos = {"png": "png", "jpeg": "jpg", "webp": "webp", "gif": "gif", "svg+xml": "svg"}
+    saida = dict(dados)
+    raiz = os.path.dirname(os.path.abspath(arquivo))
+    for chave, uri in dados.items():
+        if not isinstance(uri, str) or not uri.startswith("data:"):
+            continue
+        m = re.fullmatch(r"data:image/([a-z+]+);base64,([A-Za-z0-9+/=\s]+)", uri)
+        if not m or m[1] not in tipos or not re.fullmatch(r"[A-Za-z0-9_-]+", str(chave)):
+            raise ValueError("Imagem ou identificador invalido em " + nome)
+        conteudo = base64.b64decode(re.sub(r"\s", "", m[2]), validate=True)
+        if not conteudo:
+            raise ValueError("Imagem vazia em " + nome)
+        digest = hashlib.sha256(conteudo).hexdigest()[:16]
+        relativo = "assets/database/%s/%s-%s.%s" % (nome.lower(), chave, digest, tipos[m[1]])
+        destino = os.path.join(raiz, *relativo.split("/"))
+        os.makedirs(os.path.dirname(destino), exist_ok=True)
+        if not os.path.exists(destino):
+            with open(destino + ".tmp", "wb") as f:
+                f.write(conteudo)
+            os.replace(destino + ".tmp", destino)
+        else:
+            with open(destino, "rb") as f:
+                if f.read() != conteudo:
+                    raise ValueError("Imagem local difere do hash esperado: " + relativo)
+        saida[chave] = relativo
+    return saida
+
+
+def trocar_bloco(html, nome, dados, arquivo=None):
     """Troca 'const NOME={...};' pelo JSON novo. Devolve (html, achou)."""
+    if arquivo:
+        dados = imagens_locais(dados, nome, arquivo)
     js = json.dumps(dados, separators=(",", ":"), ensure_ascii=False)
     return re.subn(rf"const {nome}=\{{.*?\}};", lambda _: f"const {nome}={js};", html, count=1, flags=re.S)
+
+
+def gravar_imagens_offline(texto, arquivo):
+    """Canvas em file:// precisa de data URIs para extrair cores e exportar PNGs."""
+    raiz = os.path.dirname(os.path.abspath(arquivo))
+    tipos = {"png": "png", "jpg": "jpeg", "webp": "webp", "gif": "gif", "svg": "svg+xml"}
+    blocos = []
+    for nome in ("CRESTS", "FLAGS", "LOGOS"):
+        m = re.search(r"const " + nome + r"=(\{.*?\});", texto, re.S)
+        if not m:
+            raise ValueError("Bloco ausente para imagens offline: " + nome)
+        dados = json.loads(m[1])
+        for chave, src in dados.items():
+            if not src.startswith("assets/database/"):
+                continue
+            if not re.fullmatch(r"assets/database/[\w/-]+\.(?:png|jpg|webp|gif|svg)", src):
+                raise ValueError("Caminho de imagem offline invalido: " + src)
+            with open(os.path.join(raiz, *src.split("/")), "rb") as f:
+                dados[chave] = "data:image/%s;base64,%s" % (tipos[src.rsplit(".", 1)[1]], base64.b64encode(f.read()).decode())
+        blocos.append("Object.assign(%s,%s);" % (nome, json.dumps(dados, separators=(",", ":"), ensure_ascii=False)))
+    conteudo = "if(location.protocol==='file:'){\n" + "\n".join(blocos) + "\n}\n"
+    destino = os.path.join(raiz, "imagens-offline.js")
+    with open(destino + ".tmp", "w", encoding="utf-8", newline="\n") as f:
+        f.write(conteudo)
+    os.replace(destino + ".tmp", destino)
 
 
 # ======================================================================
@@ -921,8 +981,9 @@ def escudos_copas(args):
         m = re.search(r"const CRESTS=(\{.*?\});", html, re.S)
         atuais = json.loads(m.group(1)) if m else {}
         atuais.update(escudos)
-        novo, achou = trocar_bloco(html, "CRESTS", atuais)
+        novo, achou = trocar_bloco(html, "CRESTS", atuais, args.html)
         if achou:
+            gravar_imagens_offline(novo, args.html)
             with open(args.html, "w", encoding="utf-8") as f:
                 f.write(novo)
             print(f"  bloco CRESTS de {args.html} atualizado: {len(atuais)} escudos no total.")
@@ -945,7 +1006,7 @@ def main():
     ap.add_argument("--min-valor", type=float, default=0.0, help="em milhões de euros")
     ap.add_argument("--html", help="arquivo HTML do jogo para atualizar o bloco DATA")
     ap.add_argument("--embutir-imagens", action="store_true",
-                    help="com --html: baixa escudos e bandeiras e grava dentro do HTML (funciona offline)")
+                    help="com --html: baixa escudos e bandeiras para assets/database (funciona offline)")
     ap.add_argument("--sem-cache", action="store_true", help="ignora a pasta cache/ e baixa tudo de novo")
     ap.add_argument("--acrescentar", action="store_true",
                     help="mantém os jogadores das outras ligas que já estão no --html (ou dados.txt) e só troca/adiciona as ligas de --ligas")
@@ -1064,11 +1125,13 @@ def gravar(linhas, args):
             sys.exit(f"Nao encontrei 'const DATA=`...`;' em {args.html}")
         if args.embutir_imagens:
             escudos, bandeiras, logos = baixar_imagens(linhas)
-            novo, a = trocar_bloco(novo, "CRESTS", escudos)
-            novo, b = trocar_bloco(novo, "FLAGS", bandeiras)
-            novo, c = trocar_bloco(novo, "LOGOS", logos)
+            novo, a = trocar_bloco(novo, "CRESTS", escudos, args.html)
+            novo, b = trocar_bloco(novo, "FLAGS", bandeiras, args.html)
+            novo, c = trocar_bloco(novo, "LOGOS", logos, args.html)
             if not (a and b and c):
                 print("  ! nao achei 'const CRESTS={};' / 'const FLAGS={};' / 'const LOGOS={};' no HTML (use o HTML mais novo)")
+        if args.embutir_imagens:
+            gravar_imagens_offline(novo, args.html)
         with open(args.html, "w", encoding="utf-8") as f:
             f.write(novo)
         print(f"{args.html} atualizado")

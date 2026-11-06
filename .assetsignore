@@ -6,6 +6,8 @@
 wrangler.jsonc
 worker.js
 README.md
+AUDITORIA.md
+_arquivo/
 *.py
 *.cmd
 *.ps1

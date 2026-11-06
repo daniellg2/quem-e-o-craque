@@ -17,11 +17,15 @@ Jogo de adivinhação de futebol em um único HTML, com dados raspados do Transf
 | `index.html` | o jogo (HTML + CSS + JS) |
 | `assets/career-events/` | imagens das escolhas do modo carreira; devem ser publicadas junto com o jogo |
 | `dados.js` | jogadores: nome, clube atual, posição, idade, valor, liga, id e foto (Transfermarkt), nacionalidade, **fama** (campo 13) e famaBruta (14) |
+| `assets/database/` | escudos, bandeiras e logos extraídos de `dados.js`, mais os escudos especiais em `crests/`; mantenha a árvore de pastas ao copiar |
+| `imagens-offline.js` | compatibilidade das imagens com canvas ao abrir por `file://`; não é solicitado na navegação HTTP/HTTPS |
+| `_headers` | revalidação do jogo e escudos; cache longo das bandeiras e logos com hash na Cloudflare |
 | `gols.js` / `gols.json` | gols, jogos em que marcou, gols decisivos/pênaltis/faltas, gols por clube e seleção |
 | `copas.js` / `copas.json` | histórico de Copas do Mundo |
 | `copero-times.js` | ligas e clubes do "Modo Copero" (base extraída do site copero.com.ar) |
 | `copero-serie-d.js` | clubes da Série D e convidados sem divisão do modo Copero |
-| `reputacao_clubes.json` | reputação real e divisão de cada clube (chave `nome do jogo\|liga`), casadas com a base do Copero — é o que deixa os títulos fiéis (clube fraco não ganha continental). Gerado pelo `gerar_reputacao.py` |
+| `copero-angola-tahiti.js` | Girabola 2025/26 (16 clubes) e Tahiti 2026/27 (16 equipes, incluindo 3 reservas; AS Mira mantido como legado). Reputações do simulador, escudos locais e paletas calculadas com `corDoEscudo` para os cards funcionarem também ao abrir o jogo como arquivo local. |
+| `reputacao_clubes.json` / `reputacao_clubes.js` | reputação real e divisão por `nome do jogo\|liga`; JSON no site e JS ao abrir por arquivo local. Ambos são gerados por `gerar_reputacao.py` e incluídos na publicação |
 | `historico.js` / `historico.json` | títulos oficiais por competição + trajetória de clubes (usado pelo "Gêmeo de Carreira") |
 | `famosos.txt` | IDs do Transfermarkt de jogadores "estrela" (entrada do cálculo da fama) |
 | `copas_tm.json` | cruzamento Copas × Transfermarkt (entrada do bônus de fama por Copa) |
@@ -248,15 +252,64 @@ Esta etapa prepara os dados; `gemeos_validados.js` ainda não é carregado pelo 
 
 ## Publicar uma mudança no jogo
 
+O publicador exige a raiz de um clone na branch `main`, com árvore de trabalho limpa (sem alterações preparadas ou arquivos não rastreados). Se houver trabalho local no clone, ele para antes de copiar; revise e guarde esse trabalho antes de tentar novamente. Ele prepara e commita somente os arquivos previstos, sem `git add -A`. Falhas de add, commit ou push encerram com erro; “Enviado ao GitHub” só aparece após push bem-sucedido e não confirma a conclusão do deploy.
+
+Se apenas o push falhar, repita o mesmo comando: o commit de publicação pode ser reenviado sem criar outro commit, desde que contenha apenas caminhos autorizados e a marca `[skip netlify]`. Commits alheios ou merges pendentes exigem revisão manual. Se add/commit falharem, os arquivos copiados ficam preservados no clone; revise seu estado antes de repetir. O script não descarta alterações nem executa reset, stash ou force push.
+
+`--seco` verifica o plano e os commits pendentes sem copiar, normalizar arquivos, commitar ou enviar. `--incluir` aceita apenas caminhos dentro das pastas de origem e destino.
+
 1. Edite o `index.html` e coloque novas imagens nas subpastas de `assets/`.
 2. Dê dois cliques no **`publicar.cmd`** (ou rode `python publicar.py --jogo`). O script inclui o `index.html`, os JavaScripts da carreira e toda a pasta `assets/`, inclusive taças e escudos.
-3. O Cloudflare reconstrói em ~30 s e o site já está atualizado para todo mundo.
+3. Aguarde e confirme o sucesso do deploy na Cloudflare antes de tratar a versão como publicada.
+
+O publicador confirma o envio ao GitHub; ele não consulta o status do deploy na Cloudflare.
+
+### Carregamento e imagens
+
+A tela inicial fica oculta nas aberturas rápidas. Ela só aparece se o jogo ainda estiver inicializando aos 2,5 segundos desde o início da navegação, e desaparece quando a inicialização termina. A espera por desafios compartilhados continua respeitada, com liberação de segurança após 20 segundos.
+
+O conteúdo só é revelado depois que todos os estilos e ajustes finais do layout foram aplicados, no próximo quadro de renderização. Isso evita mostrar no desktop os ícones ampliados e os controles desalinhados de uma versão ainda incompleta da página.
+
+Os troféus ficam em `assets/database/trophies/`, preservando as subpastas `national/` e `international/`. Foram transferidos 72 arquivos sem alteração de conteúdo; os caminhos de exibição, exportação e testes foram atualizados. A publicação com `--jogo` continua incluindo a pasta inteira de assets.
+
+O `dados.js` passou de 9.765.597 para 1.444.554 bytes, mantendo o mesmo bloco de jogadores. Seus 1.125 escudos, bandeiras e logos foram extraídos sem alteração dos bytes para `assets/database/`; no site, o navegador baixa cada imagem conforme ela é usada. `publicar.py` inclui as imagens referenciadas até na publicação só de dados e interrompe se alguma estiver faltando. Em envio manual, não envie apenas `dados.js`: envie também seus arquivos de `assets/database/` e `imagens-offline.js`.
+
+Ao abrir por `file://`, o HTML carrega `imagens-offline.js` antes do restante do jogo. Esse arquivo mantém os dados embutidos necessários para extrair cores dos escudos e exportar imagens em canvas sem bloqueio de origem do navegador. Ele ocupa aproximadamente 8,39 MB e preserva a compatibilidade offline; não há esse download no site HTTP/HTTPS. Os coletores regeneram o arquivo quando atualizam as imagens.
+
+A opção histórica `pegar_dados.py --embutir-imagens` agora salva imagens locais com hash no nome, preservando a abertura por arquivo local e evitando recriar um JavaScript gigante. O cache em `cache/img` continua sendo reaproveitado pelos coletores.
+
+Gols, Copas, histórico e reputações usam URLs estáveis, requisições compartilhadas na mesma página e limite de espera de oito segundos por recurso. A carreira carrega as bases em paralelo; em falha, oferece nova tentativa e permite jogar com os dados disponíveis. A comparação pode ser menos completa enquanto faltarem dados. Reputações usam `reputacao_clubes.js` por `file://`, pois o navegador bloqueia a leitura do JSON por `fetch` nesse modo. `_headers` configura revalidação para escudos e cache longo para bandeiras e logos com hash; valide os cabeçalhos no ambiente publicado após o deploy.
+
+Os 140 escudos de Ypiranga, São Bernardo, Série D e Angola/Taiti foram reunidos em `assets/database/crests/`, preservando subpastas `serie-d-2026/` e `angola-tahiti/` para evitar colisões. As referências do jogo, cadastros e testes foram atualizadas. `assets/database/flags/` continua necessário: `flag()` usa essas imagens como alternativa quando o país não tem SVG mapeado. Na base verificada, esse é o caso de China e Tailândia (409 jogadores); remover a pasta quebraria essa alternativa.
+
+Sete imagens grandes foram convertidas para WebP, mantendo as dimensões, com qualidade 90: 13.099.513 → 1.124.748 bytes. Os originais e o `dados.js` anterior ficam em `_arquivo/otimizacao-2026-11-05/`, com `manifest.json` para identificar os caminhos anteriores e novos. Essa pasta não é enviada pelo publicador e está excluída dos assets da Cloudflare. Versões antigas do HTML que referenciem os nomes anteriores precisam das respectivas imagens originais; os arquivos antigos já existentes no clone de publicação não são apagados automaticamente.
+
+Verificações desta alteração:
+
+```powershell
+python -B -m unittest discover -s tests -p 'test_publicar.py'
+python -B -m unittest discover -s tests -p 'test_imagens_locais.py'
+node tests/data-loading.cjs
+node tests/boot-loading.cjs
+node tests/performance-browser.cjs
+```
+
+Os testes de publicação usam repositórios temporários e remotes locais, sem acesso ao GitHub. O teste de navegador usa o Edge instalado e bloqueia conexões externas.
 
 > Alternativa: subir o arquivo pelo GitHub (Add file → Upload files). Funciona,
 > mas aí rode `git -C C:\dev\quem-e-o-craque pull` depois para a cópia local
-> não ficar para trás. Se enviar `index.html`, envie também os arquivos necessários de `assets/` e `career-divisions.js`.
+> não ficar para trás. Se enviar `index.html`, envie também `career-divisions.js`, `motor-copero.js`, `copero-serie-d.js`, `copero-angola-tahiti.js`, `reputacao_clubes.js` e toda a pasta `assets/`, preservando as subpastas.
+
+As mudanças de Angola e Taiti estão incluídas em `publicar.cmd`: ligas, clubes,
+escudos e cores, nomes e ordem das ligas, bandeiras e troféus. As imagens novas
+ficam em `assets/database/crests/angola-tahiti/`, `assets/database/trophies/national/ANG/`,
+`assets/database/trophies/national/TAH/` e `assets/database/trophies/international/CAF/`.
+No Taiti, `liga.png` usa a arte dourada aprovada e `copa-polinesia.png` usa a nova
+arte prateada. Para conferir o envio sem publicar: `python publicar.py --jogo --seco`.
 
 ## Cuidados
+
+- `privacidade.html` e `termos.html` são minutas acessíveis pelo rodapé do jogo, com estilo em `legal.css`. Estão incluídas em `publicar.py --jogo`. Antes de publicar, preencha nome/razão social e e-mail nos dois documentos, confirme condições de retenção, transferência internacional e modalidade da API Gemini, valide as bases legais e os direitos sobre materiais de terceiros. Remova o aviso de minuta e o `noindex` somente após essa revisão. `AUDITORIA.md` registra os problemas encontrados e não deve ser publicado como página do site.
 
 - Arquivo novo (ex.: `modo7.js`) só entra no repositório se estiver na lista do `publicar.py` — publique com `python publicar.py --incluir modo7.js` ou peça para eu adicionar de vez.
 - O `pegar_dados.py` tem trava de segurança: se a raspagem voltar vazia (site bloqueando, layout novo) ele **falha sem gravar nada** — o site nunca fica sem jogadores.

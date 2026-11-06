@@ -16,7 +16,7 @@
     "sourceName": "ABC",
     "group": "A8",
     "rep": 0,
-    "logo": "assets/serie-d-2026/abc.png",
+    "logo": "assets/database/crests/serie-d-2026/abc.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/abc/abc.webp",
     "palette": {
       "top": "rgb(43,43,43)",
@@ -30,7 +30,7 @@
     "sourceName": "ABECAT Ouvidorense",
     "group": "A11",
     "rep": -1,
-    "logo": "assets/serie-d-2026/abecat.png",
+    "logo": "assets/database/crests/serie-d-2026/abecat.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/abecat/abecat.webp",
     "palette": {
       "top": "rgb(205,79,27)",
@@ -44,7 +44,7 @@
     "sourceName": "Água Santa",
     "group": "A13",
     "rep": -1,
-    "logo": "assets/serie-d-2026/agua-santa.png",
+    "logo": "assets/database/crests/serie-d-2026/agua-santa.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/agua-santa/agua-santa.webp",
     "palette": {
       "top": "rgb(14,33,71)",
@@ -58,7 +58,7 @@
     "sourceName": "Águia de Marabá",
     "group": "A5",
     "rep": -1,
-    "logo": "assets/serie-d-2026/aguia-de-maraba.png",
+    "logo": "assets/database/crests/serie-d-2026/aguia-de-maraba.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/aguia-de-maraba/aguia-de-maraba.webp",
     "palette": {
       "top": "rgb(185,48,57)",
@@ -72,7 +72,7 @@
     "sourceName": "Altos",
     "group": "A7",
     "rep": -1,
-    "logo": "assets/serie-d-2026/altos.png",
+    "logo": "assets/database/crests/serie-d-2026/altos.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/altos/altos.webp",
     "palette": {
       "top": "rgb(14,140,80)",
@@ -86,7 +86,7 @@
     "sourceName": "America-RJ",
     "group": "A13",
     "rep": -1,
-    "logo": "assets/serie-d-2026/america-rj.png",
+    "logo": "assets/database/crests/serie-d-2026/america-rj.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/america-rj/america-rj.webp",
     "palette": {
       "top": "rgb(194,37,79)",
@@ -100,7 +100,7 @@
     "sourceName": "América-RN",
     "group": "A8",
     "rep": 0,
-    "logo": "assets/serie-d-2026/america-rn.png",
+    "logo": "assets/database/crests/serie-d-2026/america-rn.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/america-rn/america-rn.webp",
     "palette": {
       "top": "rgb(242,55,43)",
@@ -114,7 +114,7 @@
     "sourceName": "Aparecidense",
     "group": "A3",
     "rep": -1,
-    "logo": "assets/serie-d-2026/aparecidense.png",
+    "logo": "assets/database/crests/serie-d-2026/aparecidense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/aparecidense/aparecidense.webp",
     "palette": {
       "top": "rgb(167,160,62)",
@@ -128,7 +128,7 @@
     "sourceName": "Araguaína",
     "group": "A2",
     "rep": -1,
-    "logo": "assets/serie-d-2026/araguaina.png",
+    "logo": "assets/database/crests/serie-d-2026/araguaina.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/araguaina/araguaina.webp",
     "palette": {
       "top": "rgb(14,137,200)",
@@ -142,7 +142,7 @@
     "sourceName": "ASA",
     "group": "A10",
     "rep": -1,
-    "logo": "assets/serie-d-2026/asa-arapiraca.png",
+    "logo": "assets/database/crests/serie-d-2026/asa-arapiraca.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/asa-arapiraca/asa-arapiraca.webp",
     "palette": {
       "top": "rgb(43,43,43)",
@@ -156,7 +156,7 @@
     "sourceName": "Atlético Cearense",
     "group": "A7",
     "rep": -1,
-    "logo": "assets/serie-d-2026/atletico-ce.png",
+    "logo": "assets/database/crests/serie-d-2026/atletico-ce.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/atletico-ce/atletico-ce.webp",
     "palette": {
       "top": "rgb(158,67,65)",
@@ -170,7 +170,7 @@
     "sourceName": "Atlético de Alagoinhas",
     "group": "A10",
     "rep": -1,
-    "logo": "assets/serie-d-2026/atletico-de-alagoinhas.png",
+    "logo": "assets/database/crests/serie-d-2026/atletico-de-alagoinhas.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/atletico-de-alagoinhas/atletico-de-alagoinhas.webp",
     "palette": {
       "top": "rgb(242,33,32)",
@@ -184,7 +184,7 @@
     "sourceName": "Azuriz",
     "group": "A16",
     "rep": -1,
-    "logo": "assets/serie-d-2026/azuriz.png",
+    "logo": "assets/database/crests/serie-d-2026/azuriz.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/azuriz/azuriz.webp",
     "palette": {
       "top": "rgb(42,95,138)",
@@ -198,7 +198,7 @@
     "sourceName": "Betim",
     "group": "A11",
     "rep": -1,
-    "logo": "assets/serie-d-2026/betim.png",
+    "logo": "assets/database/crests/serie-d-2026/betim.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/betim/betim.webp",
     "palette": {
       "top": "rgb(122,29,31)",
@@ -212,7 +212,7 @@
     "sourceName": "Blumenau",
     "group": "A16",
     "rep": -1,
-    "logo": "assets/serie-d-2026/blumenau.png",
+    "logo": "assets/database/crests/serie-d-2026/blumenau.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/blumenau/blumenau.webp",
     "palette": {
       "top": "rgb(111,18,42)",
@@ -226,7 +226,7 @@
     "sourceName": "Brasil de Pelotas",
     "group": "A16",
     "rep": 0,
-    "logo": "assets/serie-d-2026/brasil-de-pelotas.png",
+    "logo": "assets/database/crests/serie-d-2026/brasil-de-pelotas.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/brasil-de-pelotas/brasil-de-pelotas.webp",
     "palette": {
       "top": "rgb(166,8,33)",
@@ -240,7 +240,7 @@
     "sourceName": "Brasiliense S.A.F",
     "group": "A3",
     "rep": 0,
-    "logo": "assets/serie-d-2026/brasiliense.png",
+    "logo": "assets/database/crests/serie-d-2026/brasiliense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/brasiliense/Brasiliense-2010-01-02_current.webp",
     "palette": {
       "top": "rgb(184,167,9)",
@@ -254,7 +254,7 @@
     "sourceName": "Capital SAF",
     "group": "A4",
     "rep": -1,
-    "logo": "assets/serie-d-2026/capital.png",
+    "logo": "assets/database/crests/serie-d-2026/capital.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/capital/Capital-2024-02-14_current.webp",
     "palette": {
       "top": "rgb(13,142,190)",
@@ -268,7 +268,7 @@
     "sourceName": "Cascavel",
     "group": "A15",
     "rep": -1,
-    "logo": "assets/serie-d-2026/cascavel.png",
+    "logo": "assets/database/crests/serie-d-2026/cascavel.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/cascavel/cascavel.webp",
     "palette": {
       "top": "rgb(189,180,7)",
@@ -282,7 +282,7 @@
     "sourceName": "Ceilândia",
     "group": "A4",
     "rep": -1,
-    "logo": "assets/serie-d-2026/ceilandia.png",
+    "logo": "assets/database/crests/serie-d-2026/ceilandia.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/ceilandia/Ceilandia-2022-01-01_current.webp",
     "palette": {
       "top": "rgb(149,127,91)",
@@ -296,7 +296,7 @@
     "sourceName": "Central",
     "group": "A8",
     "rep": -1,
-    "logo": "assets/serie-d-2026/central-sc.png",
+    "logo": "assets/database/crests/serie-d-2026/central-sc.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/central-sc/central-sc.webp",
     "palette": {
       "top": "rgb(133,133,133)",
@@ -310,7 +310,7 @@
     "sourceName": "Cianorte",
     "group": "A15",
     "rep": -1,
-    "logo": "assets/serie-d-2026/cianorte.png",
+    "logo": "assets/database/crests/serie-d-2026/cianorte.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/cianorte/cianorte.webp",
     "palette": {
       "top": "rgb(43,47,92)",
@@ -324,7 +324,7 @@
     "sourceName": "CRAC",
     "group": "A11",
     "rep": -1,
-    "logo": "assets/serie-d-2026/crac.png",
+    "logo": "assets/database/crests/serie-d-2026/crac.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/crac/crac.webp",
     "palette": {
       "top": "rgb(56,171,217)",
@@ -338,7 +338,7 @@
     "sourceName": "CSA",
     "group": "A10",
     "rep": 0,
-    "logo": "assets/serie-d-2026/csa.png",
+    "logo": "assets/database/crests/serie-d-2026/csa.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/csa/csa.webp",
     "palette": {
       "top": "rgb(14,37,94)",
@@ -352,7 +352,7 @@
     "sourceName": "CSE",
     "group": "A10",
     "rep": -1,
-    "logo": "assets/serie-d-2026/cse.png",
+    "logo": "assets/database/crests/serie-d-2026/cse.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/cse/cse.webp",
     "palette": {
       "top": "rgb(213,66,47)",
@@ -366,7 +366,7 @@
     "sourceName": "Decisão Goiana",
     "group": "A9",
     "rep": -1,
-    "logo": "assets/serie-d-2026/decisao.png",
+    "logo": "assets/database/crests/serie-d-2026/decisao.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/decisao/decisao.webp",
     "palette": {
       "top": "rgb(26,72,121)",
@@ -380,7 +380,7 @@
     "sourceName": "Democrata GV",
     "group": "A12",
     "rep": -1,
-    "logo": "assets/serie-d-2026/democrata-gv.png",
+    "logo": "assets/database/crests/serie-d-2026/democrata-gv.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/democrata-gv/democrata-gv.webp",
     "palette": {
       "top": "rgb(43,43,43)",
@@ -394,7 +394,7 @@
     "sourceName": "Ferroviário",
     "group": "A7",
     "rep": 0,
-    "logo": "assets/serie-d-2026/ferroviario.png",
+    "logo": "assets/database/crests/serie-d-2026/ferroviario.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/ferroviario/ferroviario.webp",
     "palette": {
       "top": "rgb(242,8,7)",
@@ -408,7 +408,7 @@
     "sourceName": "Fluminense-PI",
     "group": "A7",
     "rep": -1,
-    "logo": "assets/serie-d-2026/fluminense-pi.png",
+    "logo": "assets/database/crests/serie-d-2026/fluminense-pi.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/fluminense-pi/fluminense-pi.webp",
     "palette": {
       "top": "rgb(136,35,57)",
@@ -422,7 +422,7 @@
     "sourceName": "Galvez",
     "group": "A2",
     "rep": -1,
-    "logo": "assets/serie-d-2026/galvez.png",
+    "logo": "assets/database/crests/serie-d-2026/galvez.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/galvez/galvez.webp",
     "palette": {
       "top": "rgb(203,192,2)",
@@ -436,7 +436,7 @@
     "sourceName": "Gama",
     "group": "A3",
     "rep": 0,
-    "logo": "assets/serie-d-2026/gama.png",
+    "logo": "assets/database/crests/serie-d-2026/gama.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/gama/Gama-2003_current.webp",
     "palette": {
       "top": "rgb(25,113,87)",
@@ -450,7 +450,7 @@
     "sourceName": "Grêmio Atlético Sampaio",
     "group": "A1",
     "rep": -1,
-    "logo": "assets/serie-d-2026/gas.png",
+    "logo": "assets/database/crests/serie-d-2026/gas.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/gas/gas.webp",
     "palette": {
       "top": "rgb(238,22,2)",
@@ -464,7 +464,7 @@
     "sourceName": "Goiatuba",
     "group": "A4",
     "rep": -1,
-    "logo": "assets/serie-d-2026/goiatuba.png",
+    "logo": "assets/database/crests/serie-d-2026/goiatuba.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/goiatuba/goiatuba.webp",
     "palette": {
       "top": "rgb(54,56,149)",
@@ -478,7 +478,7 @@
     "sourceName": "Guaporé",
     "group": "A2",
     "rep": -1,
-    "logo": "assets/serie-d-2026/guapore.png",
+    "logo": "assets/database/crests/serie-d-2026/guapore.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/guapore/guapore.webp",
     "palette": {
       "top": "rgb(223,123,25)",
@@ -492,7 +492,7 @@
     "sourceName": "Guarany de Bagé",
     "group": "A15",
     "rep": -1,
-    "logo": "assets/serie-d-2026/guarany-de-bage.png",
+    "logo": "assets/database/crests/serie-d-2026/guarany-de-bage.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/guarany-de-bage/guarany-de-bage.webp",
     "palette": {
       "top": "rgb(223,35,42)",
@@ -506,7 +506,7 @@
     "sourceName": "Humaitá",
     "group": "A2",
     "rep": -1,
-    "logo": "assets/serie-d-2026/humaita.png",
+    "logo": "assets/database/crests/serie-d-2026/humaita.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/humaita/humaita.webp",
     "palette": {
       "top": "rgb(233,6,17)",
@@ -520,7 +520,7 @@
     "sourceName": "IAPE",
     "group": "A6",
     "rep": -1,
-    "logo": "assets/serie-d-2026/iape.png",
+    "logo": "assets/database/crests/serie-d-2026/iape.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/iape/iape.webp",
     "palette": {
       "top": "rgb(176,168,24)",
@@ -534,7 +534,7 @@
     "sourceName": "Iguatu",
     "group": "A6",
     "rep": -1,
-    "logo": "assets/serie-d-2026/iguatu.png",
+    "logo": "assets/database/crests/serie-d-2026/iguatu.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/iguatu/iguatu.webp",
     "palette": {
       "top": "rgb(35,52,190)",
@@ -548,7 +548,7 @@
     "sourceName": "Imperatriz",
     "group": "A5",
     "rep": -1,
-    "logo": "assets/serie-d-2026/imperatriz.png",
+    "logo": "assets/database/crests/serie-d-2026/imperatriz.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/imperatriz/imperatriz.webp",
     "palette": {
       "top": "rgb(230,46,60)",
@@ -562,7 +562,7 @@
     "sourceName": "Independência-AC",
     "group": "A2",
     "rep": -1,
-    "logo": "assets/serie-d-2026/independencia-ac.png",
+    "logo": "assets/database/crests/serie-d-2026/independencia-ac.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/independencia-ac/independencia-ac.webp",
     "palette": {
       "top": "rgb(210,54,47)",
@@ -576,7 +576,7 @@
     "sourceName": "Inhumas",
     "group": "A3",
     "rep": -1,
-    "logo": "assets/serie-d-2026/inhumas.png",
+    "logo": "assets/database/crests/serie-d-2026/inhumas.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/inhumas/inhumas.webp",
     "palette": {
       "top": "rgb(145,18,15)",
@@ -590,7 +590,7 @@
     "sourceName": "Ivinhema",
     "group": "A11",
     "rep": -1,
-    "logo": "assets/serie-d-2026/ivinhema.png",
+    "logo": "assets/database/crests/serie-d-2026/ivinhema.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/ivinhema/ivinhema.webp",
     "palette": {
       "top": "rgb(15,137,201)",
@@ -604,7 +604,7 @@
     "sourceName": "Jacuipense",
     "group": "A10",
     "rep": -1,
-    "logo": "assets/serie-d-2026/jacuipense.png",
+    "logo": "assets/database/crests/serie-d-2026/jacuipense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/jacuipense/jacuipense.webp",
     "palette": {
       "top": "rgb(114,34,43)",
@@ -618,7 +618,7 @@
     "sourceName": "Joinville",
     "group": "A15",
     "rep": 0,
-    "logo": "assets/serie-d-2026/joinville.png",
+    "logo": "assets/database/crests/serie-d-2026/joinville.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/joinville/joinville.webp",
     "palette": {
       "top": "rgb(222,67,64)",
@@ -632,7 +632,7 @@
     "sourceName": "Juazeirense",
     "group": "A10",
     "rep": -1,
-    "logo": "assets/serie-d-2026/juazeirense.png",
+    "logo": "assets/database/crests/serie-d-2026/juazeirense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/juazeirense/juazeirense.webp",
     "palette": {
       "top": "rgb(242,44,54)",
@@ -646,7 +646,7 @@
     "sourceName": "Lagarto",
     "group": "A9",
     "rep": -1,
-    "logo": "assets/serie-d-2026/lagarto.png",
+    "logo": "assets/database/crests/serie-d-2026/lagarto.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/lagarto/lagarto.webp",
     "palette": {
       "top": "rgb(239,17,18)",
@@ -660,7 +660,7 @@
     "sourceName": "Laguna",
     "group": "A8",
     "rep": -1,
-    "logo": "assets/serie-d-2026/laguna.png",
+    "logo": "assets/database/crests/serie-d-2026/laguna.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/laguna/laguna.webp",
     "palette": {
       "top": "rgb(3,32,88)",
@@ -674,7 +674,7 @@
     "sourceName": "Luverdense",
     "group": "A3",
     "rep": -1,
-    "logo": "assets/serie-d-2026/luverdense.png",
+    "logo": "assets/database/crests/serie-d-2026/luverdense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/luverdense/luverdense.webp",
     "palette": {
       "top": "rgb(61,86,40)",
@@ -688,7 +688,7 @@
     "sourceName": "Madureira",
     "group": "A13",
     "rep": -1,
-    "logo": "assets/serie-d-2026/madureira.png",
+    "logo": "assets/database/crests/serie-d-2026/madureira.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/madureira/madureira.webp",
     "palette": {
       "top": "rgb(22,4,117)",
@@ -702,7 +702,7 @@
     "sourceName": "Maguary",
     "group": "A8",
     "rep": -1,
-    "logo": "assets/serie-d-2026/maguary.png",
+    "logo": "assets/database/crests/serie-d-2026/maguary.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/maguary/maguary.webp",
     "palette": {
       "top": "rgb(16,87,150)",
@@ -716,7 +716,7 @@
     "sourceName": "Manauara",
     "group": "A1",
     "rep": -1,
-    "logo": "assets/serie-d-2026/manauara.png",
+    "logo": "assets/database/crests/serie-d-2026/manauara.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/manauara/manauara.webp",
     "palette": {
       "top": "rgb(202,81,55)",
@@ -730,7 +730,7 @@
     "sourceName": "Manaus",
     "group": "A1",
     "rep": -1,
-    "logo": "assets/serie-d-2026/manaus.png",
+    "logo": "assets/database/crests/serie-d-2026/manaus.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/manaus/manaus.webp",
     "palette": {
       "top": "rgb(8,135,62)",
@@ -744,7 +744,7 @@
     "sourceName": "Maracanã",
     "group": "A6",
     "rep": -1,
-    "logo": "assets/serie-d-2026/maracana.png",
+    "logo": "assets/database/crests/serie-d-2026/maracana.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/maracana/maracana.webp",
     "palette": {
       "top": "rgb(10,129,182)",
@@ -758,7 +758,7 @@
     "sourceName": "Marcílio Dias",
     "group": "A16",
     "rep": -1,
-    "logo": "assets/serie-d-2026/marcilio-dias.png",
+    "logo": "assets/database/crests/serie-d-2026/marcilio-dias.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/marcilio-dias/marcilio-dias.webp",
     "palette": {
       "top": "rgb(40,39,113)",
@@ -772,7 +772,7 @@
     "sourceName": "Maricá",
     "group": "A14",
     "rep": -1,
-    "logo": "assets/serie-d-2026/marica.png",
+    "logo": "assets/database/crests/serie-d-2026/marica.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/marica/marica.webp",
     "palette": {
       "top": "rgb(0,53,94)",
@@ -786,7 +786,7 @@
     "sourceName": "Mixto",
     "group": "A4",
     "rep": -1,
-    "logo": "assets/serie-d-2026/mixto.png",
+    "logo": "assets/database/crests/serie-d-2026/mixto.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/mixto/mixto.webp",
     "palette": {
       "top": "rgb(43,43,43)",
@@ -800,7 +800,7 @@
     "sourceName": "Monte Roraima",
     "group": "A1",
     "rep": -1,
-    "logo": "assets/serie-d-2026/monte-roraima.png",
+    "logo": "assets/database/crests/serie-d-2026/monte-roraima.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/monte-roraima/monte-roraima.webp",
     "palette": {
       "top": "rgb(16,69,30)",
@@ -814,7 +814,7 @@
     "sourceName": "Moto Club",
     "group": "A6",
     "rep": -1,
-    "logo": "assets/serie-d-2026/moto-club.png",
+    "logo": "assets/database/crests/serie-d-2026/moto-club.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/moto-club/moto-club.webp",
     "palette": {
       "top": "rgb(195,2,1)",
@@ -828,7 +828,7 @@
     "sourceName": "Nacional",
     "group": "A1",
     "rep": -1,
-    "logo": "assets/serie-d-2026/nacional.png",
+    "logo": "assets/database/crests/serie-d-2026/nacional.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/nacional/nacional.webp",
     "palette": {
       "top": "rgb(196,173,20)",
@@ -842,7 +842,7 @@
     "sourceName": "Noroeste",
     "group": "A14",
     "rep": -1,
-    "logo": "assets/serie-d-2026/noroeste.png",
+    "logo": "assets/database/crests/serie-d-2026/noroeste.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/noroeste/noroeste.webp",
     "palette": {
       "top": "rgb(230,28,29)",
@@ -856,7 +856,7 @@
     "sourceName": "Nova iguaçu",
     "group": "A14",
     "rep": -1,
-    "logo": "assets/serie-d-2026/nova-iguacu.png",
+    "logo": "assets/database/crests/serie-d-2026/nova-iguacu.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/nova-iguacu/nova-iguacu.webp",
     "palette": {
       "top": "rgb(212,131,34)",
@@ -870,7 +870,7 @@
     "sourceName": "Operário-MS",
     "group": "A11",
     "rep": -1,
-    "logo": "assets/serie-d-2026/operario-ms.png",
+    "logo": "assets/database/crests/serie-d-2026/operario-ms.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/operario-ms/operario-ms.webp",
     "palette": {
       "top": "rgb(133,133,133)",
@@ -884,7 +884,7 @@
     "sourceName": "Operario",
     "group": "A4",
     "rep": -1,
-    "logo": "assets/serie-d-2026/operario-vg.png",
+    "logo": "assets/database/crests/serie-d-2026/operario-vg.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/operario-vg/operario-vg.webp",
     "palette": {
       "top": "rgb(12,101,56)",
@@ -898,7 +898,7 @@
     "sourceName": "Oratório",
     "group": "A5",
     "rep": -1,
-    "logo": "assets/serie-d-2026/oratorio.png",
+    "logo": "assets/database/crests/serie-d-2026/oratorio.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/oratorio/oratorio.webp",
     "palette": {
       "top": "rgb(35,75,114)",
@@ -912,7 +912,7 @@
     "sourceName": "Parnahyba",
     "group": "A6",
     "rep": -1,
-    "logo": "assets/serie-d-2026/parnahyba.png",
+    "logo": "assets/database/crests/serie-d-2026/parnahyba.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/parnahyba/parnahyba.webp",
     "palette": {
       "top": "rgb(35,50,96)",
@@ -926,7 +926,7 @@
     "sourceName": "Piauí",
     "group": "A7",
     "rep": -1,
-    "logo": "assets/serie-d-2026/piaui.png",
+    "logo": "assets/database/crests/serie-d-2026/piaui.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/piaui/piaui.webp",
     "palette": {
       "top": "rgb(45,69,129)",
@@ -940,7 +940,7 @@
     "sourceName": "Porto Velho",
     "group": "A2",
     "rep": -1,
-    "logo": "assets/serie-d-2026/porto-velho.png",
+    "logo": "assets/database/crests/serie-d-2026/porto-velho.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/porto-velho/porto-velho.webp",
     "palette": {
       "top": "rgb(33,46,106)",
@@ -954,7 +954,7 @@
     "sourceName": "Porto-BA",
     "group": "A12",
     "rep": -1,
-    "logo": "assets/serie-d-2026/porto-ba.png",
+    "logo": "assets/database/crests/serie-d-2026/porto-ba.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/porto-ba/porto-ba.webp",
     "palette": {
       "top": "rgb(179,116,8)",
@@ -968,7 +968,7 @@
     "sourceName": "Portuguesa-RJ",
     "group": "A13",
     "rep": -1,
-    "logo": "assets/serie-d-2026/portuguesa-rj.png",
+    "logo": "assets/database/crests/serie-d-2026/portuguesa-rj.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/portuguesa-rj/portuguesa-rj.webp",
     "palette": {
       "top": "rgb(15,151,60)",
@@ -982,7 +982,7 @@
     "sourceName": "Portuguesa-SP",
     "group": "A13",
     "rep": 0,
-    "logo": "assets/serie-d-2026/portuguesa-sp.png",
+    "logo": "assets/database/crests/serie-d-2026/portuguesa-sp.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/portuguesa-sp/portuguesa-sp.webp",
     "palette": {
       "top": "rgb(227,49,44)",
@@ -996,7 +996,7 @@
     "sourceName": "Pouso Alegre",
     "group": "A13",
     "rep": -1,
-    "logo": "assets/serie-d-2026/pouso-alegre.png",
+    "logo": "assets/database/crests/serie-d-2026/pouso-alegre.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/pouso-alegre/pouso-alegre.webp",
     "palette": {
       "top": "rgb(167,28,37)",
@@ -1010,7 +1010,7 @@
     "sourceName": "Primavera",
     "group": "A3",
     "rep": -1,
-    "logo": "assets/serie-d-2026/primavera-mt.png",
+    "logo": "assets/database/crests/serie-d-2026/primavera-mt.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/primavera-mt/primavera-mt.webp",
     "palette": {
       "top": "rgb(100,52,154)",
@@ -1024,7 +1024,7 @@
     "sourceName": "Real Noroeste",
     "group": "A12",
     "rep": -1,
-    "logo": "assets/serie-d-2026/real-noroeste.png",
+    "logo": "assets/database/crests/serie-d-2026/real-noroeste.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/real-noroeste/real-noroeste.webp",
     "palette": {
       "top": "rgb(220,39,30)",
@@ -1038,7 +1038,7 @@
     "sourceName": "Retrô",
     "group": "A9",
     "rep": 0,
-    "logo": "assets/serie-d-2026/retro.png",
+    "logo": "assets/database/crests/serie-d-2026/retro.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/retro/retro.webp",
     "palette": {
       "top": "rgb(38,37,79)",
@@ -1052,7 +1052,7 @@
     "sourceName": "Rio Branco",
     "group": "A12",
     "rep": -1,
-    "logo": "assets/serie-d-2026/rio-branco-es.png",
+    "logo": "assets/database/crests/serie-d-2026/rio-branco-es.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/rio-branco-es/rio-branco-es.webp",
     "palette": {
       "top": "rgb(43,43,43)",
@@ -1066,7 +1066,7 @@
     "sourceName": "Sampaio Corrêa",
     "group": "A6",
     "rep": 0,
-    "logo": "assets/serie-d-2026/sampaio-correa.png",
+    "logo": "assets/database/crests/serie-d-2026/sampaio-correa.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sampaio-correa/sampaio-correa.webp",
     "palette": {
       "top": "rgb(230,186,15)",
@@ -1080,7 +1080,7 @@
     "sourceName": "Sampaio Corrêa-RJ",
     "group": "A14",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sampaio-correa-rj.png",
+    "logo": "assets/database/crests/serie-d-2026/sampaio-correa-rj.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sampaio-correa-rj/sampaio-correa-rj.webp",
     "palette": {
       "top": "rgb(220,176,30)",
@@ -1094,7 +1094,7 @@
     "sourceName": "Santa Catarina",
     "group": "A15",
     "rep": -1,
-    "logo": "assets/serie-d-2026/santa-catarina.png",
+    "logo": "assets/database/crests/serie-d-2026/santa-catarina.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/santa-catarina/santa-catarina.webp",
     "palette": {
       "top": "rgb(211,99,9)",
@@ -1108,7 +1108,7 @@
     "sourceName": "São José-RS",
     "group": "A16",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sao-jose-rs.png",
+    "logo": "assets/database/crests/serie-d-2026/sao-jose-rs.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sao-jose-rs/sao-jose-rs.webp",
     "palette": {
       "top": "rgb(41,45,93)",
@@ -1122,7 +1122,7 @@
     "sourceName": "São Joseense",
     "group": "A16",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sao-joseense.png",
+    "logo": "assets/database/crests/serie-d-2026/sao-joseense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sao-joseense/sao-joseense.webp",
     "palette": {
       "top": "rgb(44,80,152)",
@@ -1136,7 +1136,7 @@
     "sourceName": "São Luiz",
     "group": "A15",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sao-luiz-ijui.png",
+    "logo": "assets/database/crests/serie-d-2026/sao-luiz-ijui.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sao-luiz-ijui/sao-luiz-ijui.webp",
     "palette": {
       "top": "rgb(228,57,63)",
@@ -1150,7 +1150,7 @@
     "sourceName": "São Raimundo",
     "group": "A1",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sao-raimundo-rr.png",
+    "logo": "assets/database/crests/serie-d-2026/sao-raimundo-rr.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sao-raimundo-rr/sao-raimundo-rr.webp",
     "palette": {
       "top": "rgb(24,76,168)",
@@ -1164,7 +1164,7 @@
     "sourceName": "Sergipe",
     "group": "A9",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sergipe.png",
+    "logo": "assets/database/crests/serie-d-2026/sergipe.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sergipe/sergipe.webp",
     "palette": {
       "top": "rgb(240,39,39)",
@@ -1178,7 +1178,7 @@
     "sourceName": "Serra Branca",
     "group": "A9",
     "rep": -1,
-    "logo": "assets/serie-d-2026/serra-branca.png",
+    "logo": "assets/database/crests/serie-d-2026/serra-branca.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/serra-branca/serra-branca.webp",
     "palette": {
       "top": "rgb(21,66,113)",
@@ -1192,7 +1192,7 @@
     "sourceName": "Sousa",
     "group": "A8",
     "rep": -1,
-    "logo": "assets/serie-d-2026/sousa.png",
+    "logo": "assets/database/crests/serie-d-2026/sousa.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/sousa/sousa.webp",
     "palette": {
       "top": "rgb(15,102,43)",
@@ -1206,7 +1206,7 @@
     "sourceName": "Tirol",
     "group": "A7",
     "rep": -1,
-    "logo": "assets/serie-d-2026/tirol.png",
+    "logo": "assets/database/crests/serie-d-2026/tirol.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/tirol/tirol.webp",
     "palette": {
       "top": "rgb(15,51,134)",
@@ -1220,7 +1220,7 @@
     "sourceName": "Tocantinópolis",
     "group": "A5",
     "rep": -1,
-    "logo": "assets/serie-d-2026/tocantinopolis.png",
+    "logo": "assets/database/crests/serie-d-2026/tocantinopolis.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/tocantinopolis/tocantinopolis.webp",
     "palette": {
       "top": "rgb(35,145,79)",
@@ -1234,7 +1234,7 @@
     "sourceName": "Tombense",
     "group": "A12",
     "rep": 0,
-    "logo": "assets/serie-d-2026/tombense.png",
+    "logo": "assets/database/crests/serie-d-2026/tombense.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/tombense/tombense.webp",
     "palette": {
       "top": "rgb(223,56,63)",
@@ -1248,7 +1248,7 @@
     "sourceName": "Trem",
     "group": "A5",
     "rep": -1,
-    "logo": "assets/serie-d-2026/trem.png",
+    "logo": "assets/database/crests/serie-d-2026/trem.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/trem/trem.webp",
     "palette": {
       "top": "rgb(200,14,12)",
@@ -1262,7 +1262,7 @@
     "sourceName": "Treze",
     "group": "A9",
     "rep": -1,
-    "logo": "assets/serie-d-2026/treze.png",
+    "logo": "assets/database/crests/serie-d-2026/treze.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/treze/treze.webp",
     "palette": {
       "top": "rgb(133,133,133)",
@@ -1276,7 +1276,7 @@
     "sourceName": "Tuna Luso",
     "group": "A5",
     "rep": -1,
-    "logo": "assets/serie-d-2026/tuna-luso.png",
+    "logo": "assets/database/crests/serie-d-2026/tuna-luso.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/tuna-luso/tuna-luso.webp",
     "palette": {
       "top": "rgb(25,147,76)",
@@ -1290,7 +1290,7 @@
     "sourceName": "Uberlândia",
     "group": "A11",
     "rep": -1,
-    "logo": "assets/serie-d-2026/uberlandia.png",
+    "logo": "assets/database/crests/serie-d-2026/uberlandia.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/uberlandia/uberlandia.webp",
     "palette": {
       "top": "rgb(23,134,48)",
@@ -1304,7 +1304,7 @@
     "sourceName": "União Rondonópolis",
     "group": "A4",
     "rep": -1,
-    "logo": "assets/serie-d-2026/uniao-rondonopolis.png",
+    "logo": "assets/database/crests/serie-d-2026/uniao-rondonopolis.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/uniao-rondonopolis/uniao-rondonopolis.webp",
     "palette": {
       "top": "rgb(211,40,46)",
@@ -1318,7 +1318,7 @@
     "sourceName": "Velo Clube",
     "group": "A14",
     "rep": -1,
-    "logo": "assets/serie-d-2026/velo-clube.png",
+    "logo": "assets/database/crests/serie-d-2026/velo-clube.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/velo-clube/velo-clube.webp",
     "palette": {
       "top": "rgb(17,166,89)",
@@ -1332,7 +1332,7 @@
     "sourceName": "Vitória",
     "group": "A12",
     "rep": -1,
-    "logo": "assets/serie-d-2026/vitoria-es.png",
+    "logo": "assets/database/crests/serie-d-2026/vitoria-es.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/vitoria-es/vitoria-es.webp",
     "palette": {
       "top": "rgb(38,55,162)",
@@ -1346,7 +1346,7 @@
     "sourceName": "XV de Piracicaba",
     "group": "A14",
     "rep": -1,
-    "logo": "assets/serie-d-2026/xv-de-piracicaba.png",
+    "logo": "assets/database/crests/serie-d-2026/xv-de-piracicaba.png",
     "sourceLogo": "https://assets.candangol.com.br/cdn-cgi/image/width=128,quality=78,format=auto/teams/xv-de-piracicaba/xv-de-piracicaba.webp",
     "palette": {
       "top": "rgb(133,133,133)",
@@ -1361,7 +1361,7 @@
   {
     "c": "Futobeso-FC",
     "rep": -1,
-    "logo": "assets/serie-d-2026/futobeso-fc.png",
+    "logo": "assets/database/crests/serie-d-2026/futobeso-fc.png",
     "palette": {
       "top": "rgb(10,45,144)",
       "bot": "rgb(5,20,64)",
@@ -1371,7 +1371,7 @@
   {
     "c": "Feira-FC",
     "rep": -1,
-    "logo": "assets/serie-d-2026/feira-fc.png",
+    "logo": "assets/database/crests/serie-d-2026/feira-fc.png",
     "palette": {
       "top": "#148347",
       "bot": "#073a22",
@@ -1381,19 +1381,19 @@
   {
     "c": "Íbis",
     "rep": -1,
-    "logo": "assets/serie-d-2026/ibis.png",
+    "logo": "assets/database/crests/serie-d-2026/ibis.png",
     "palette": {"top":"rgb(220,29,37)","bot":"rgb(92,12,16)","txt":"#fff"}
   },
   {
     "c": "PQP",
     "rep": -1,
-    "logo": "assets/serie-d-2026/pqp.png",
+    "logo": "assets/database/crests/serie-d-2026/pqp.png",
     "palette": {"top":"rgb(8,31,74)","bot":"rgb(3,12,32)","txt":"#fff"}
   },
   {
     "c": "FC Gravidez",
     "rep": -1,
-    "logo": "assets/serie-d-2026/fc-gravidez.png",
+    "logo": "assets/database/crests/serie-d-2026/fc-gravidez.png",
     "palette": {"top":"rgb(53,25,87)","bot":"rgb(23,10,42)","txt":"#fff"}
   }
 ];

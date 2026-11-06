@@ -1,0 +1,200 @@
+[
+  {
+    "name": "Petro de Luanda",
+    "file": "assets/database/crests/angola-tahiti/petro.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/petro.png"
+  },
+  {
+    "name": "1º de Agosto",
+    "file": "assets/database/crests/angola-tahiti/dago.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/dago.png"
+  },
+  {
+    "name": "Sagrada Esperança",
+    "file": "assets/database/crests/angola-tahiti/sagrada.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/sagrada.jpg"
+  },
+  {
+    "name": "Wiliete SC",
+    "file": "assets/database/crests/angola-tahiti/wiliete.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/wiliete.png"
+  },
+  {
+    "name": "Interclube",
+    "file": "assets/database/crests/angola-tahiti/interclube.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/interclube.png"
+  },
+  {
+    "name": "Desportivo da Huíla",
+    "file": "assets/database/crests/angola-tahiti/desphuila.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/desphuila.png"
+  },
+  {
+    "name": "Kabuscorp",
+    "file": "assets/database/crests/angola-tahiti/kabuscorp.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/kabuscorp-official-20261007.png"
+  },
+  {
+    "name": "Bravos do Maquis",
+    "file": "assets/database/crests/angola-tahiti/bravos.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/bravos.png"
+  },
+  {
+    "name": "Desportivo da Lunda-Sul",
+    "file": "assets/database/crests/angola-tahiti/lundasul.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/lundasul-official-20260812.png"
+  },
+  {
+    "name": "Recreativo do Libolo",
+    "file": "assets/database/crests/angola-tahiti/libolo.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/libolo.png"
+  },
+  {
+    "name": "Académica do Lobito",
+    "file": "assets/database/crests/angola-tahiti/lobito.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/lobito.png"
+  },
+  {
+    "name": "São Salvador",
+    "file": "assets/database/crests/angola-tahiti/saosalvador.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/saosalvador.png"
+  },
+  {
+    "name": "1º de Maio de Benguela",
+    "file": "assets/database/crests/angola-tahiti/primeiromaio.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/primeiromaio.png"
+  },
+  {
+    "name": "Luanda City",
+    "file": "assets/database/crests/angola-tahiti/fcluanda.png",
+    "source": "https://www.ligaunitelgirabola.com/crests/fcluanda.png"
+  },
+  {
+    "name": "Redonda FC",
+    "file": "assets/database/crests/angola-tahiti/redonda.png",
+    "source": "https://www.theclubindex.com/clubes-emblemas/uploads/emblemas/7e6cc8603254c1f30e4ce024ba37973f.png"
+  },
+  {
+    "name": "RSD Guelson FC",
+    "file": "assets/database/crests/angola-tahiti/guelson.png",
+    "source": "https://www.theclubindex.com/clubes-emblemas/uploads/emblemas/3427d987b8594c0300efeb32cdaae0d9.png"
+  },
+  {
+    "name": "AS Pirae",
+    "file": "assets/database/crests/angola-tahiti/pirae.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/25740_imgbank.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Tefana",
+    "file": "assets/database/crests/angola-tahiti/tefana.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/33778_imgbank_1746811699.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Vénus",
+    "file": "assets/database/crests/angola-tahiti/venus.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/33781_imgbank_1746811443.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Dragon",
+    "file": "assets/database/crests/angola-tahiti/dragon.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/35077_imgbank_1746807869.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Mira",
+    "file": "assets/database/crests/angola-tahiti/mira-clean.png",
+    "source": "https://i0.wp.com/www.ftf.pf/cms/wp-content/uploads/2024/10/AS-MIRA.png",
+    "originalFile": "assets/database/crests/angola-tahiti/mira.png",
+    "processing": "ImageGen: limpeza das margens e do fundo externo; versão preparada para exibição no jogo, não novo arquivo oficial."
+  },
+  {
+    "name": "AS Tamarii Punaruu",
+    "file": "assets/database/crests/angola-tahiti/punaruu.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/57/64457_logo_as_tamarii_punaruu_20260930113105.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Central Sport",
+    "file": "assets/database/crests/angola-tahiti/central.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/32/27832_logo_central_sport.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Pueu",
+    "file": "assets/database/crests/angola-tahiti/pueu-clean.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/322381_simbolo.jpg",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "originalFile": "assets/database/crests/angola-tahiti/pueu.png",
+    "processing": "ImageGen: limpeza das margens e do fundo externo; versão preparada para exibição no jogo, não novo arquivo oficial."
+  },
+  {
+    "name": "AS Taiarapu FC",
+    "file": "assets/database/crests/angola-tahiti/taiarapu.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/99/98099_logo_as_taiarapu_pueu.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti"
+  },
+  {
+    "name": "AS Jeunes Tahitiens",
+    "file": "assets/database/crests/angola-tahiti/jeunes-tahitiens-clean.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/22/33722_logo_as_jeunes_tahitiens.gif",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "originalFile": "assets/database/crests/angola-tahiti/jeunes-tahitiens.png",
+    "processing": "ImageGen: remoção do fundo branco externo; versão para exibição no jogo, original preservado."
+  },
+  {
+    "name": "AS Arue",
+    "file": "assets/database/crests/angola-tahiti/arue-clean.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/55/64455_logo_20250509183809_as_arue.jpg",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "originalFile": "assets/database/crests/angola-tahiti/arue.png",
+    "processing": "ImageGen: remoção do fundo branco externo; versão para exibição no jogo, original preservado."
+  },
+  {
+    "name": "AS Excelsior",
+    "file": "assets/database/crests/angola-tahiti/excelsior-clean.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/53/64453_logo_as_excelsior.jpg",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "originalFile": "assets/database/crests/angola-tahiti/excelsior.png",
+    "processing": "ImageGen: remoção do fundo branco externo; versão para exibição no jogo, original preservado."
+  },
+  {
+    "name": "AS Mataiea",
+    "file": "assets/database/crests/angola-tahiti/mataiea-clean.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/09/98109_logo_20250509181739_as_mataiea.jpg",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "originalFile": "assets/database/crests/angola-tahiti/mataiea.png",
+    "processing": "ImageGen: remoção do fundo branco externo; versão para exibição no jogo, original preservado."
+  },
+  {
+    "name": "AS Manu Ura",
+    "file": "assets/database/crests/angola-tahiti/manu-ura-clean.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/08/25708_logo_as_manu_ura.gif",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "originalFile": "assets/database/crests/angola-tahiti/manu-ura.png",
+    "processing": "ImageGen: remoção do fundo branco externo; versão para exibição no jogo, original preservado."
+  },
+  {
+    "name": "AS Tefana B",
+    "file": "assets/database/crests/angola-tahiti/tefana.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/33778_imgbank_1746811699.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "note": "Equipe reserva: usa o escudo do mesmo clube."
+  },
+  {
+    "name": "AS Central Sport B",
+    "file": "assets/database/crests/angola-tahiti/central.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/32/27832_logo_central_sport.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "note": "Equipe reserva: usa o escudo do mesmo clube."
+  },
+  {
+    "name": "AS Tamarii Punaruu B",
+    "file": "assets/database/crests/angola-tahiti/punaruu.png",
+    "source": "https://www.ogol.com.br/img/logos/equipas/57/64457_logo_as_tamarii_punaruu_20260930113105.png",
+    "reference": "https://www.ogol.com.br/competicao/liga-taiti",
+    "note": "Equipe reserva: usa o escudo do mesmo clube."
+  }
+]

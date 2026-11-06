@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Como o Quem é o Craque? utiliza dados, armazenamento no navegador e serviços externos.">
+  <title>Política de Privacidade — Quem é o Craque?</title>
+  <link rel="stylesheet" href="legal.css">
+</head>
+<body class="legal-page">
+<main>
+  <nav aria-label="Navegação"><a href="index.html">Voltar ao jogo</a><a href="termos.html">Termos de Uso</a></nav>
+  <h1>Política de Privacidade</h1>
+  <p class="legal-date">Quem é o Craque? · Versão de 5 de novembro de 2026</p>
+  <aside class="legal-draft" aria-label="Documento em revisão"><strong>Minuta em revisão.</strong> A identificação do responsável, o canal de contato e as condições dos serviços externos precisam ser completados antes da publicação definitiva.</aside>
+
+  <h2>1. Quem cuida dos dados</h2>
+  <p>Esta política descreve o tratamento de dados no jogo Quem é o Craque?, disponível em <a href="https://quem-e-o.craque.workers.dev/">quem-e-o.craque.workers.dev</a>, e considera a Lei Geral de Proteção de Dados Pessoais (LGPD).</p>
+  <p><strong>Responsável pelo site e controlador dos dados:</strong> [NOME OU RAZÃO SOCIAL — PENDENTE].<br><strong>Contato para privacidade e exercício de direitos:</strong> [E-MAIL — PENDENTE].</p>
+
+  <h2>2. Dados usados no jogo</h2>
+  <p>A versão atual não exige cadastro, senha, CPF ou dados de pagamento e não inclui ferramentas próprias de publicidade comportamental ou medição de audiência. Isso não impede o tratamento técnico feito pelos serviços externos descritos abaixo.</p>
+  <dl>
+    <dt>Preferências e progresso no seu dispositivo</dt>
+    <dd>O navegador guarda tema, dificuldade, clube e ídolos favoritos, palpites, estatísticas, figurinhas, identidade do personagem, carreira e Hall da Fama. A identidade do personagem pode incluir o nome ou apelido que você digitar, nacionalidade escolhida, posição, perna e número da camisa. Use um apelido e evite inserir dados pessoais ou sensíveis.</dd>
+    <dt>Dados técnicos de acesso</dt>
+    <dd>Para entregar o site e proteger a API, a infraestrutura recebe informações como endereço IP, data e hora da requisição, endereço solicitado e cabeçalhos enviados pelo navegador. O Worker utiliza o IP para limitar a frequência de comparações de carreira.</dd>
+    <dt>Resumo fictício enviado para comparação</dt>
+    <dd>Ao finalizar uma carreira, o jogo pode enviar automaticamente para a API do site a posição, nacionalidade escolhida, temporadas, jogos, gols, assistências, seleção, títulos e passagens por clubes do personagem, junto com três candidatos reais. A API encaminha esses dados ao Google Gemini para escolher o jogador mais parecido. O código do navegador não inclui o nome ou apelido do personagem nesse resumo; também não envia o álbum completo ou o histórico completo de palpites. O Worker não inclui o seu IP no conteúdo enviado ao Gemini.</dd>
+  </dl>
+
+  <h2>3. Para que usamos os dados e bases legais</h2>
+  <ul>
+    <li><strong>Executar o jogo e manter suas escolhas:</strong> viabilizar as funcionalidades solicitadas pelo usuário, nos limites aplicáveis do art. 7º, V, da LGPD.</li>
+    <li><strong>Segurança e prevenção de abuso:</strong> limitar requisições e proteger a disponibilidade, com base no legítimo interesse, quando cabível, respeitando necessidade, proporcionalidade e os direitos do titular (art. 7º, IX).</li>
+    <li><strong>Atender deveres legais e solicitações:</strong> cumprir obrigações legais e regulatórias e exercer direitos, quando aplicável (art. 7º, II e VI).</li>
+  </ul>
+  <p>Dados de crianças e adolescentes exigem a observância do melhor interesse e dos requisitos específicos da LGPD. O responsável pelo site deve confirmar a base legal e as condições da comparação automática com IA antes da versão definitiva desta política. A leitura desta política não constitui consentimento genérico para outros tratamentos.</p>
+
+  <h2>4. Armazenamento local e cookies</h2>
+  <p>O jogo usa <code>localStorage</code> para guardar dados entre visitas e <code>sessionStorage</code> para lembrar a abertura do modo carreira na sessão. Na implementação atual, o código do jogo não grava cookies próprios. Os serviços de infraestrutura e os recursos externos possuem suas próprias práticas de tratamento.</p>
+  <p>Os dados locais permanecem até serem removidos por você, pelo navegador ou pelas rotinas do jogo. A carreira em andamento é removida ao recarregar a página; o Hall da Fama e outras preferências possuem armazenamento separado. Não existe sincronização de conta entre dispositivos nesta versão.</p>
+  <p>Você pode apagar os dados nas configurações do navegador, em dados do site/armazenamento, selecionando o endereço do jogo. Isso apaga também progresso, preferências e figurinhas desse endereço, sem recuperação pelo site. Em dispositivo compartilhado, outras pessoas com acesso ao mesmo perfil do navegador podem ver esses dados. Bloquear o armazenamento impede a persistência de parte das funcionalidades.</p>
+
+  <h2>5. Serviços externos e compartilhamento</h2>
+  <ul>
+    <li><strong>Cloudflare:</strong> entrega os arquivos e executa a API de comparação. Recebe os dados técnicos de conexão e o conteúdo enviado à API. <a href="https://www.cloudflare.com/privacypolicy/">Política da Cloudflare</a>.</li>
+    <li><strong>Google Gemini:</strong> processa o resumo da carreira e os candidatos para gerar a comparação. Retenção, revisão humana e eventual uso para melhoria de produtos dependem das condições e da modalidade da conta da API, que ainda precisam ser confirmadas pelo responsável. <a href="https://ai.google.dev/gemini-api/terms">Termos da API Gemini</a> e <a href="https://policies.google.com/privacy">Política do Google</a>.</li>
+    <li><strong>Google Fonts e provedores de imagens:</strong> o navegador solicita fontes e algumas imagens diretamente a serviços externos, incluindo Transfermarkt e seus CDNs, oGol, Copero, jsDelivr/Twemoji, FlagCDN e serviços do Google. Essas conexões revelam o IP e dados técnicos necessários à entrega; o envio do endereço de origem depende da política de referência aplicada ao recurso.</li>
+    <li><strong>Netlify:</strong> o endereço antigo encaminha para o endereço atual e, quando acessado, recebe a conexão. <a href="https://www.netlify.com/privacy/">Política da Netlify</a>.</li>
+  </ul>
+  <p>O código atual não implementa venda de dados dos visitantes ou um banco de dados próprio de contas. Isso não elimina os tratamentos realizados pelos provedores. Ao abrir links externos, aplicam-se também as políticas dos respectivos destinos.</p>
+
+  <h2>6. Retenção, segurança e transferência internacional</h2>
+  <p>O Worker não implementa armazenamento persistente próprio do resumo da carreira. Isso não significa ausência de registros técnicos ou de retenção pelos provedores. Os prazos de logs, as configurações da conta e as condições de retenção do Gemini ainda precisam ser confirmados pelo responsável; não há prazo único comprovado nesta minuta.</p>
+  <p>Serviços externos podem processar dados fora do Brasil. O responsável deve verificar e adotar os mecanismos de transferência internacional aplicáveis à LGPD e à regulamentação da ANPD antes da publicação definitiva.</p>
+  <p>O site publicado utiliza HTTPS e a API valida entradas e limita requisições. Nenhuma medida elimina todos os riscos. Evite informações pessoais no personagem; os dados salvos no navegador não são um cofre privado nem um backup.</p>
+
+  <h2>7. Seus direitos</h2>
+  <p>Nos casos previstos em lei, você pode solicitar confirmação de tratamento, acesso, correção, anonimização, bloqueio ou eliminação de dados desnecessários ou irregulares, informações sobre compartilhamento, oposição e revisão de decisões automatizadas que afetem seus interesses. Portabilidade, eliminação de dados tratados com consentimento e revogação do consentimento se aplicam quando presentes os requisitos legais. Você também pode apresentar petição à ANPD.</p>
+  <p>A comparação de carreira é recreativa e não deve ser usada para decisões sobre emprego, crédito, saúde ou avaliação de pessoas reais. Resultados gerados por IA podem conter erros.</p>
+  <p>Para solicitações, use o contato indicado na seção 1, assim que preenchido. Não envie senhas ou documentos sem necessidade. Poderão ser solicitadas apenas informações proporcionais para verificar sua identidade. Como o progresso fica no seu dispositivo e não há conta centralizada, sua exclusão local deve ser feita no próprio navegador.</p>
+
+  <h2>8. Crianças e adolescentes</h2>
+  <p>O jogo não solicita data de nascimento e não foi projetado para coletar deliberadamente dados sensíveis de menores. Crianças devem utilizá-lo com acompanhamento de responsável. Responsáveis devem orientar o uso de apelidos, evitar informações identificáveis e acompanhar a utilização de recursos externos. Qualquer tratamento de dados de menores deve respeitar seu melhor interesse e as exigências legais aplicáveis.</p>
+
+  <h2>9. Atualizações</h2>
+  <p>Esta política deve ser atualizada quando mudarem os dados utilizados ou as funcionalidades, com indicação da data da nova versão. Mudanças que exijam informação adicional ou consentimento específico devem ser apresentadas antes do novo tratamento.</p>
+  <nav aria-label="Links finais"><a href="index.html">Voltar ao jogo</a><a href="termos.html">Termos de Uso</a></nav>
+</main>
+</body>
+</html>
